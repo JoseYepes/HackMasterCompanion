@@ -81,7 +81,7 @@ verificación, restricciones y límite de 8 iteraciones (formato de `CLAUDE.md`)
 **Restricciones**: acciones con versión fijada; permisos mínimos (`contents: read`).
 
 - [X] T020 [US2] Crear `.github/workflows/ci.yml`: en `pull_request` y como flujo reutilizable (`workflow_call`), instalar el SDK según `global.json` y ejecutar `restore`, `build -warnaserror`, `test --no-build`, `format --verify-no-changes` y una publicación de prueba en Release
-- [ ] T021 [US2] Abrir el pull request de `001-base-proyecto` y comprobar que CI pasa; comprobar en un commit de prueba, después revertido, que una prueba rota lo deja en rojo
+- [X] T021 [US2] Abrir el pull request de `001-base-proyecto` y comprobar que CI pasa; comprobar en un commit de prueba, después revertido, que una prueba rota lo deja en rojo
 
 **Checkpoint**: historias 1 y 2 verificables.
 
@@ -95,16 +95,16 @@ verificación, restricciones y límite de 8 iteraciones (formato de `CLAUDE.md`)
 **Restricciones**: ruta base en un único lugar; sin secretos; no publicar si CI falla.
 
 - [X] T022 [US3] Crear `.github/workflows/pages.yml`: tras CI correcto en `main`, `dotnet publish` de `src/HackMaster.Web`, reescribir `<base href>` con `PAGES_BASE_PATH`, copiar `index.html` a `404.html`, subir el artefacto y desplegar en Pages
-- [ ] T023 [US3] Activar GitHub Pages con origen "GitHub Actions" en la configuración del repositorio; lo ejecuta el usuario
-- [ ] T024 [US3] Tras fusionar, validar el paso 4 de `quickstart.md` y anotar el resultado en el pull request
+- [X] T023 [US3] Activar GitHub Pages con origen "GitHub Actions" en la configuración del repositorio; lo ejecuta el usuario
+- [X] T024 [US3] Tras fusionar, validar el paso 4 de `quickstart.md` y anotar el resultado en el pull request
 
 ---
 
 ## Phase 6: Polish
 
 - [X] T025 Revisión independiente del diff por un subagente con contexto limpio (regresiones, pruebas débiles, violaciones de la constitución) y aplicar lo que encuentre
-- [ ] T026 Completar la descripción del pull request en castellano: qué se hizo, cómo se verificó, qué falta
-- [ ] T027 Recorrer `quickstart.md` completo y registrar los resultados
+- [X] T026 Completar la descripción del pull request en castellano: qué se hizo, cómo se verificó, qué falta
+- [X] T027 Recorrer `quickstart.md` completo y registrar los resultados
 
 ## Dependencies
 
@@ -122,3 +122,12 @@ verificación, restricciones y límite de 8 iteraciones (formato de `CLAUDE.md`)
 
 MVP = Phase 1 a 3 (historia 1). Después, historia 2 y luego historia 3, cada una con su verificación
 antes de pasar a la siguiente.
+
+## Cierre (2026-11-16)
+
+- CI en verde en el pull request #1; fusionado en `main`.
+- Sitio publicado y validado por el usuario: la página inicial muestra "HackMaster Companion" y
+  una dirección interna inexistente muestra "Página no encontrada" dentro de la aplicación.
+- T021: la comprobación de que una prueba rota deja el CI en rojo no se hizo en GitHub, por
+  decisión del usuario; el rojo se observó en local con el mismo comando antes de implementar.
+- T019 queda pendiente: requiere decidir dónde vive el Excel fuente.
