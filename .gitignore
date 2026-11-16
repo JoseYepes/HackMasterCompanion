@@ -1,0 +1,32 @@
+# Salida de compilación de .NET
+bin/
+obj/
+publish/
+TestResults/
+*.binlog
+
+# Entornos de desarrollo
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Sistema
+Thumbs.db
+.DS_Store
+*.tmp
+
+# Secretos y configuración local
+.env
+.env.*
+appsettings.*.local.json
+secrets.json
+
+# Documentos fuente: los manuales y las hojas de cálculo no se versionan
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.xlsm

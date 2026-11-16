@@ -1,0 +1,7 @@
+# Finales de línea normalizados en el repositorio
+* text=auto
+*.sh text eol=lf
+*.png binary
+*.ico binary
+*.woff binary
+*.woff2 binary

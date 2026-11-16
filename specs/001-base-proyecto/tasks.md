@@ -22,12 +22,12 @@ verificación, restricciones y límite de 8 iteraciones (formato de `CLAUDE.md`)
 **Verificación**: `git status` limpio en la rama `001-base-proyecto`; `dotnet --version` muestra 10.x.
 **Restricciones**: no tocar `docs/`, `.specify/` ni `.claude/`.
 
-- [ ] T001 Commit inicial en `main` con documentación y Spec Kit (`CLAUDE.md`, `docs/`, `.specify/`, `.claude/`, `specs/`), sin código; lo ejecuta el usuario
+- [X] T001 Commit inicial en `main` con documentación y Spec Kit (`CLAUDE.md`, `docs/`, `.specify/`, `.claude/`, `specs/`), sin código; lo ejecuta el usuario
 - [ ] T002 Crear la rama `001-base-proyecto` desde `main`
-- [ ] T003 [P] Crear `.gitignore` (salida de .NET, IDE, secretos y documentos fuente: `*.pdf`, `*.doc`, `*.docx`, `*.xls`, `*.xlsx`)
-- [ ] T004 [P] Crear `global.json` fijando el SDK de .NET 10 con `rollForward: latestFeature`
+- [X] T003 [P] Crear `.gitignore` (salida de .NET, IDE, secretos y documentos fuente: `*.pdf`, `*.doc`, `*.docx`, `*.xls`, `*.xlsx`)
+- [X] T004 [P] Crear `global.json` fijando el SDK de .NET 10 con `rollForward: latestFeature`
 - [ ] T005 [P] Crear `Directory.Build.props` (`TreatWarningsAsErrors`, `Nullable`, `ImplicitUsings`) y `Directory.Packages.props` (gestión central de versiones)
-- [ ] T006 [P] Crear `.editorconfig` con las reglas de formato de C# que comprueba `dotnet format`
+- [X] T006 [P] Crear `.editorconfig` con las reglas de formato de C# que comprueba `dotnet format`
 
 ---
 
