@@ -1,0 +1,67 @@
+name: Publicar en GitHub Pages
+
+# Publica la aplicación cada vez que cambia main, solo si la verificación pasa.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  # Único lugar donde se define la ruta base del sitio público.
+  PAGES_BASE_PATH: /HackMasterCompanion/
+
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    name: Generar el sitio
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Instalar el SDK de .NET fijado en global.json
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: Publicar la aplicación
+        run: dotnet publish src/HackMaster.Web -c Release -o publish
+
+      - name: Aplicar la ruta base
+        run: |
+          sed -i "s|<base href=\"/\" />|<base href=\"${PAGES_BASE_PATH}\" />|" publish/wwwroot/index.html
+          grep -q "<base href=\"${PAGES_BASE_PATH}\" />" publish/wwwroot/index.html
+          # Las copias comprimidas se generaron antes del cambio y quedarían obsoletas.
+          rm -f publish/wwwroot/index.html.br publish/wwwroot/index.html.gz
+
+      - name: Hacer que las direcciones internas carguen la aplicación
+        run: cp publish/wwwroot/index.html publish/wwwroot/404.html
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: publish/wwwroot
+
+  deploy:
+    name: Desplegar
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

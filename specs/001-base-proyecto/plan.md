@@ -33,7 +33,7 @@ dependencia externa en `Domain`.
 lugar; versiones de SDK, paquetes y acciones fijadas; repositorio público sin secretos ni
 documentos fuente
 
-**Scale/Scope**: 5 proyectos, 1 página, 2 pruebas de ejemplo, 2 flujos de GitHub Actions
+**Scale/Scope**: 5 proyectos, 1 página inicial más la de "no encontrada", 3 pruebas, 2 flujos de GitHub Actions
 
 ## Constitution Check
 
@@ -86,8 +86,8 @@ tests/
 tools/
 └── DataImport/                 consola; Program.cs (esqueleto)
 .github/workflows/
-├── ci.yml                      build + test + format en pull request y main
-└── pages.yml                   publicación en GitHub Pages desde main
+├── ci.yml                      build + test + format + publicación de prueba; en pull request y reutilizable
+└── pages.yml                   llama a ci.yml y publica en GitHub Pages desde main
 ```
 
 **Structure Decision**: la estructura de la parte B2 de `docs/PRODUCTO.md`, sin añadidos. `data/`,

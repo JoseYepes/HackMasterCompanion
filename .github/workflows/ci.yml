@@ -1,0 +1,43 @@
+name: CI
+
+# Verifica cada cambio propuesto: construcción sin avisos, pruebas, formato y publicación de prueba.
+# pages.yml lo reutiliza antes de publicar, así que también se ejecuta en cada cambio de main.
+on:
+  pull_request:
+    branches: [main]
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Construir, probar y comprobar formato
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Instalar el SDK de .NET fijado en global.json
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: Restaurar
+        run: dotnet restore
+
+      - name: Construir sin avisos
+        run: dotnet build -warnaserror --no-restore
+
+      - name: Probar
+        run: dotnet test --no-build
+
+      - name: Comprobar formato
+        run: dotnet format --verify-no-changes --no-restore
+
+      - name: Comprobar que la aplicación se puede publicar
+        run: dotnet publish src/HackMaster.Web -c Release -o publish
