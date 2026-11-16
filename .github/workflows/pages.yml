@@ -18,46 +18,42 @@ env:
   PAGES_BASE_PATH: /HackMasterCompanion/
 
 jobs:
-  verificar:
+  verify:
     uses: ./.github/workflows/ci.yml
 
-  construir:
+  build:
     name: Generar el sitio
-    needs: verificar
+    needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Instalar el SDK de .NET fijado en global.json
-        uses: actions/setup-dotnet@v6
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with:
           global-json-file: global.json
 
       - name: Publicar la aplicación
-        run: dotnet publish src/HackMaster.Web -c Release -o salida
+        run: dotnet publish src/HackMaster.Web -c Release -o publish
 
       - name: Aplicar la ruta base
         run: |
-          sed -i "s|<base href=\"/\" />|<base href=\"${PAGES_BASE_PATH}\" />|" salida/wwwroot/index.html
-          grep -q "<base href=\"${PAGES_BASE_PATH}\" />" salida/wwwroot/index.html
+          sed -i "s|<base href=\"/\" />|<base href=\"${PAGES_BASE_PATH}\" />|" publish/wwwroot/index.html
+          grep -q "<base href=\"${PAGES_BASE_PATH}\" />" publish/wwwroot/index.html
+          # Las copias comprimidas se generaron antes del cambio y quedarían obsoletas.
+          rm -f publish/wwwroot/index.html.br publish/wwwroot/index.html.gz
 
-      - name: Preparar el sitio para GitHub Pages
-        run: |
-          # 404.html hace que las direcciones internas carguen la aplicación.
-          cp salida/wwwroot/index.html salida/wwwroot/404.html
-          # .nojekyll evita que Pages descarte la carpeta _framework.
-          touch salida/wwwroot/.nojekyll
+      - name: Hacer que las direcciones internas carguen la aplicación
+        run: cp publish/wwwroot/index.html publish/wwwroot/404.html
 
-      - uses: actions/configure-pages@v6
-
-      - uses: actions/upload-pages-artifact@v5
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          path: salida/wwwroot
+          path: publish/wwwroot
 
-  desplegar:
+  deploy:
     name: Desplegar
-    needs: construir
+    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -65,7 +61,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.despliegue.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: despliegue
-        uses: actions/deploy-pages@v5
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
