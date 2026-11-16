@@ -32,7 +32,7 @@ dotnet run --project tools/DataImport -- "$env:HACKMASTER_EXCEL" data/
 ```
 
 **Esperado**: "Importación correcta." con los recuentos anteriores y la lista de avisos; código de
-salida 0. Después, `git status` no muestra cambios en `data/` ni en `docs/dudas.md` si la hoja no
+salida 0, en menos de un minuto (SC-008). Después, `git status` no muestra cambios en `data/` ni en `docs/dudas.md` si la hoja no
 ha cambiado (importación repetible).
 
 Comprobación de errores, sobre una **copia** de la hoja: cambiar un requisito por un nombre que no
@@ -62,6 +62,7 @@ Abrir la dirección que indique la consola y, con el navegador a 390 px de ancho
 | Acción | Esperado |
 |---|---|
 | Entrar en "Habilidades" | 343 resultados |
+| Con un cronómetro, desde abrir la aplicación en el móvil hasta ver la ficha de una habilidad conocida | Menos de 10 segundos (SC-002) |
 | Escribir "botanica" | "Botánica" aparece la primera |
 | Escribir una palabra que solo esté en un resumen | La habilidad aparece con el fragmento del resumen |
 | Marcar los libros "MJ" y "CG" y un tipo | Solo habilidades de esos libros y ese tipo; el contador cambia |
@@ -71,6 +72,7 @@ Abrir la dirección que indique la consola y, con el navegador a 390 px de ancho
 | Abrir "Cerrajería" | Aviso con la duda abierta |
 | Entrar en "Conjuntos" y abrir "Alquimista" | 5 componentes enlazados; valores de la hoja |
 | Abrir un conjunto oficial | Componentes "pendiente de verificar" |
+| Abrir "Cartógrafo" desde cada una de las dos listas | Dos fichas distintas: la del conjunto de habilidades y la del oficial |
 | Entrar en "Estilos" | 5 estilos |
 | Entrar en "Dudas" | Las mismas dudas que `docs/dudas.md` |
 | Recargar una ficha | Carga la misma ficha |

@@ -22,7 +22,12 @@
 - **Tarea del usuario antes de la primera importación**: corregir en el Excel los requisitos que
   no coinciden con ninguna habilidad (el importador falla siempre y los lista) y pasar a la
   pestaña "Dudas" las dudas de `PRODUCTO.md` A5 que faltan. El Excel es la única fuente de dudas;
-  `docs/dudas.md` se genera.
+  `docs/dudas.md` se genera. Cada fila de "Dudas" nombra un solo elemento con su nombre exacto: la
+  duda de "granjero / mercader / noble" hay que dividirla en tres filas.
+- **`/speckit-analyze` pasado el 2026-11-16**: 9 hallazgos (2 altos), todos corregidos en los
+  documentos. El más relevante: "Cartógrafo" existe como conjunto de habilidades y como conjunto
+  oficial, así que los nombres son únicos por tipo y los oficiales tienen dirección propia
+  (`/conjuntos/oficiales/{slug}`).
 
 ## Decisiones tomadas el 2026-11-16
 

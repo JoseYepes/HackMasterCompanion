@@ -8,7 +8,7 @@ importador, que los escribe, y la aplicación, que los lee. Los nombres de campo
 
 | Tipo | Descripción |
 |---|---|
-| `Slug` (texto) | Identificador para direcciones: nombre normalizado, espacios y signos → "-". Único dentro de su tipo de elemento. |
+| `Slug` (texto) | Identificador para direcciones: nombre normalizado, espacios y signos → "-". Único dentro de su tipo de elemento (habilidad, conjunto de habilidades, conjunto oficial, estilo); dos nombres del mismo tipo con igual `slug` son un **error** de importación. |
 | `Ability` (enumeración) | `FUE`, `DES`, `CON`, `INT`, `SAB`, `CAR`. Un valor que no esté en la lista (la hoja contiene "ASP") no se descarta: va a `raw` y el campo a `pending`. |
 | `BookRef` | `acronym` (p. ej. `MJ`, `CG`, `GrG`, `HJ8`) y `page` (anulable). Una celda como "MJ 329 / GMG 71" da dos referencias. |
 | `Pending` | `pending`: lista de nombres de campo pendientes de verificar. `raw`: diccionario campo → texto original de la hoja. |
@@ -46,17 +46,17 @@ La columna D de "Descripciones" (texto de manual) **no existe** en el modelo ni 
 | Campo | Tipo | Reglas |
 |---|---|---|
 | `text` | texto | fragmento tal como está en la hoja |
-| `kind` | `Text`, `Skill`, `Suite`, `Style`, `Condition`, `Unverified` | `Text` para separadores ("," " o "); `Unverified` para "(sin verificar)" y "?" |
-| `target` | Slug anulable | obligatorio si `kind` es `Skill`, `Suite` o `Style`; debe existir |
+| `kind` | `Text`, `Skill`, `Suite`, `OfficialSuite`, `Condition`, `Unverified` | `Text` para separadores ("," " o "); `Unverified` para "(sin verificar)" y "?". Un nombre se busca en este orden: habilidad, conjunto de habilidades, conjunto oficial |
+| `target` | Slug anulable | obligatorio si `kind` es `Skill`, `Suite` u `OfficialSuite`; debe existir |
 
-Validación en la importación: una parte que no es habilidad, conjunto, estilo, condición
+Validación en la importación: una parte que no es habilidad, conjunto, condición
 reconocida ni anotación de duda es un **error** (FR-005).
 
 ## SkillSuite (conjunto)
 
 | Campo | Tipo | Origen (pestaña "Conjuntos de habilidades") | Reglas |
 |---|---|---|---|
-| `slug`, `name`, `searchName` | — | columna B de la fila de título del bloque | únicos entre todos los conjuntos |
+| `slug`, `name`, `searchName` | — | columna B de la fila de título del bloque | únicos dentro de cada `kind`; un `Custom` y un `Official` pueden compartir nombre ("Cartógrafo") |
 | `kind` | `Custom` u `Official` | bloque en el que aparece | 36 `Custom` (reglas de HJ 4.05), 23 `Official` |
 | `cost` | entero anulable | fila de título | tal como figura; no se recalcula en F001 |
 | `abilities` | lista de Ability | fila de título | — |
@@ -68,8 +68,9 @@ reconocida ni anotación de duda es un **error** (FR-005).
 | `prerequisite` | Prerequisite | columna de requisito de los `Official` | si es "Las de las habilidades que…" se guarda como `Text` |
 | `pending`, `raw` | Pending | — | — |
 
-`SuiteComponent`: `name` (texto de la hoja), `kind` (`Skill` o `Suite`) y `target` (Slug). Debe
-resolver a una habilidad o a otro conjunto; si no, **error**. Los valores por componente que
+`SuiteComponent`: `name` (texto de la hoja), `kind` (`Skill`, `Suite` u `OfficialSuite`) y `target`
+(Slug). Debe resolver a una habilidad o a otro conjunto, con el mismo orden de búsqueda que los
+requisitos; si no, **error**. Los valores por componente que
 repite la pestaña (PC, precio…) no se guardan: la referencia es la pestaña "Habilidades".
 
 Relación inversa calculada al cargar: para cada habilidad, los conjuntos que la contienen
@@ -88,7 +89,7 @@ de la pestaña de conjuntos.
 | `id` | texto | estable: origen + slug del elemento + campo |
 | `origin` | `Sheet` o `Import` | `Sheet`: escrita por el mantenedor en la pestaña "Dudas"; `Import`: detectada al importar |
 | `subject` | texto | nombre del elemento tal como está escrito |
-| `targets` | lista de {`kind`, `slug`} | elementos afectados; una duda de la hoja puede afectar a varios ("granjero / mercader / noble"). En `Sheet`, cada nombre debe existir (si no, error) |
+| `target` | {`kind`, `slug`} | elemento afectado; `kind` es `Skill`, `Suite`, `OfficialSuite` o `Style`. En `Sheet`, cada fila nombra un único elemento con su nombre exacto, que debe existir (si no, error); una duda sobre varios elementos ocupa una fila por elemento |
 | `source` | texto anulable | columna "Fuente" |
 | `question` | texto | la duda; en `Import`, generada ("Dado de maestría «5» no es un dado existente") |
 | `provisional` | texto anulable | columna "Qué he hecho" |

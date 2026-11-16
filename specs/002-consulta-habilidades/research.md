@@ -102,7 +102,8 @@ Las versiones citadas se consultaron en NuGet el 2026-11-16. Se fijan en
 - **Decision**: un requisito se guarda como una lista ordenada de segmentos que, concatenados,
   reproducen el texto de la hoja. Cada segmento es texto, una referencia a una habilidad o conjunto
   (con su `slug`), o una condición reconocida. El análisis separa por ",", " o ", " y ", ":" y
-  resuelve cada parte, en este orden: habilidad o conjunto existente → condición reconocida →
+  resuelve cada parte, en este orden: habilidad → conjunto de habilidades → conjunto oficial →
+  condición reconocida →
   anotación "(sin verificar)" o "?" → error.
 - **Condiciones reconocidas** (lista cerrada en el importador, con una prueba por patrón):
   característica mínima ("Sabiduría 14+"), competencia con arma ("Competencia …"), nivel de

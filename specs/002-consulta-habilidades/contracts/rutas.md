@@ -9,8 +9,9 @@ publicada) y deben cargar al abrirse directamente o al recargar.
 | `/habilidades` | Lista de habilidades | Búsqueda, filtros, orden y contador de resultados |
 | `/habilidades/{slug}` | Ficha de habilidad | Datos, resumen, requisitos, conjuntos y dudas |
 | `/conjuntos` | Lista de conjuntos | 36 conjuntos de habilidades y 23 oficiales, distinguidos; búsqueda por nombre |
-| `/conjuntos/{slug}` | Ficha de conjunto | Valores, componentes y dudas |
-| `/estilos` | Estilos de combate | Los 5 estilos |
+| `/conjuntos/{slug}` | Ficha de conjunto de habilidades | Valores, componentes y dudas |
+| `/conjuntos/oficiales/{slug}` | Ficha de conjunto oficial | Valores, componentes si la fuente los detalla, y dudas |
+| `/estilos` | Estilos de combate | Los 5 estilos, sin buscador |
 | `/estilos/{slug}` | Ficha de estilo | Valores, requisitos y dudas |
 | `/dudas` | Dudas abiertas | Todas las dudas, enlazadas con las fichas afectadas |
 

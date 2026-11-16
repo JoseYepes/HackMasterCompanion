@@ -59,10 +59,10 @@ interfaces.
 - [ ] T007 [P] Escribir en `tests/HackMaster.Domain.Tests/TextNormalizerTests.cs` las pruebas de `Normalize` (quita tildes y diéresis, minúsculas, "ñ"→"n", compacta espacios, recorta extremos; "BOTÁNICA", "botanica" y " Botánica " dan lo mismo) y de `ToSlug` (espacios y signos → "-", sin guiones repetidos ni en los extremos; "Leer/Escribir" → "leer-escribir") y comprobar que fallan
 - [ ] T008 Implementar `TextNormalizer.Normalize` y `TextNormalizer.ToSlug` en `src/HackMaster.Domain/TextNormalizer.cs` (`NormalizationForm.FormD`, sin marcas diacríticas, minúsculas invariantes)
 - [ ] T009 [P] Crear `src/HackMaster.Domain/Ability.cs` (enumeración `FUE`, `DES`, `CON`, `INT`, `SAB`, `CAR`) y `src/HackMaster.Domain/BookRef.cs` (`Acronym`, `Page` anulable)
-- [ ] T010 [P] Crear `src/HackMaster.Domain/Prerequisite.cs`: `Prerequisite` (`Segments`), `PrerequisiteSegment` (`Text`, `Kind`, `Target` anulable) y `PrerequisiteSegmentKind` (`Text`, `Skill`, `Suite`, `Style`, `Condition`, `Unverified`)
+- [ ] T010 [P] Crear `src/HackMaster.Domain/Prerequisite.cs`: `Prerequisite` (`Segments`), `PrerequisiteSegment` (`Text`, `Kind`, `Target` anulable) y `PrerequisiteSegmentKind` (`Text`, `Skill`, `Suite`, `OfficialSuite`, `Condition`, `Unverified`)
 - [ ] T011 [P] Crear `src/HackMaster.Domain/Skill.cs` con los campos de `data-model.md` ("Skill"): `Cost`, `Price` y `Difficulty` enteros anulables; `MasteryDie` y `Summary` texto anulable; `Pending` (lista de nombres de campo) y `Raw` (diccionario campo → texto original)
-- [ ] T012 [P] Crear `src/HackMaster.Domain/SkillSuite.cs`: `SkillSuite`, `SuiteKind` (`Custom`, `Official`) y `SuiteComponent` (`Name`, `Kind`: `Skill` o `Suite`, `Target`), según `data-model.md`
-- [ ] T013 [P] Crear `src/HackMaster.Domain/CombatStyle.cs` (sin `Cost`) y `src/HackMaster.Domain/Doubt.cs` (`Id`, `Origin`: `Sheet` o `Import`, `Subject`, `Targets`, `Source`, `Question`, `Provisional`), según `data-model.md`
+- [ ] T012 [P] Crear `src/HackMaster.Domain/SkillSuite.cs`: `SkillSuite`, `SuiteKind` (`Custom`, `Official`) y `SuiteComponent` (`Name`, `Kind`: `Skill`, `Suite` u `OfficialSuite`, `Target`), según `data-model.md`; el nombre es único dentro de cada `SuiteKind`, no entre los dos
+- [ ] T013 [P] Crear `src/HackMaster.Domain/CombatStyle.cs` (sin `Cost`) y `src/HackMaster.Domain/Doubt.cs` (`Id`, `Origin`: `Sheet` o `Import`, `Subject`, `Target` con `Kind` y `Slug`, `Source`, `Question`, `Provisional`), según `data-model.md`
 - [ ] T014 Crear `src/HackMaster.Domain/GameDataFiles.cs` con los contenedores de archivo (`SkillsFile`, `SuitesFile`, `StylesFile`, `DoubtsFile`, cada uno con `SchemaVersion`), la constante `CurrentSchemaVersion = 1` y las opciones compartidas de `System.Text.Json` (camelCase, enumeraciones como texto, sangría de 2 espacios, sin escapar caracteres no ASCII)
 
 **Checkpoint**: modelo y normalización listos.
@@ -82,10 +82,10 @@ accede a la columna D de "Descripciones"; mensajes con el formato de
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T015 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/PrerequisiteParserTests.cs`: "N"/"n"/vacío → sin segmentos; una habilidad → segmento `Skill` con `Target`; "A, B", "A o B" y "A, B o C" → habilidades enlazadas con separadores `Text`; nombre que coincide sin tildes ni mayúsculas; referencia a conjunto → `Suite`; una prueba por condición reconocida ("Sabiduría 14+", "Competencia básica en el arma", "otra maniobra especial al 101%+", "2 más al 51%+", "Al menos dos de: …", "NA"); "X (sin verificar)" y "?" → `Unverified`; nombre inexistente → error; los segmentos concatenados reproducen el texto original
+- [ ] T015 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/PrerequisiteParserTests.cs`: "N"/"n"/vacío → sin segmentos; una habilidad → segmento `Skill` con `Target`; "A, B", "A o B" y "A, B o C" → habilidades enlazadas con separadores `Text`; nombre que coincide sin tildes ni mayúsculas; referencia a conjunto → `Suite`; referencia a conjunto oficial → `OfficialSuite`; nombre que existe como conjunto y como oficial ("Cartógrafo") → `Suite`; una prueba por condición reconocida ("Sabiduría 14+", "Competencia básica en el arma", "otra maniobra especial al 101%+", "2 más al 51%+", "Al menos dos de: …", "NA"); "X (sin verificar)" y "?" → `Unverified`; nombre inexistente → error; los segmentos concatenados reproducen el texto original
 - [ ] T016 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/ImporterSkillsTests.cs` con filas en memoria: normalización de dado ("8" y "d8" → `d8`; "NA", "na", "*"), dado "5" → nulo + `pending` + `raw` + aviso; precio "250 po" → 250; dificultad "0.1" → 10 y "-5" → −5; coste "1 R" y "NA" → nulo; características "INT, SAB" e "INT/SAB"; "ASP" → `raw` + `pending`; libro "MJ 329 / GMG 71" → dos `BookRef`; clases separadas por coma; resumen tomado de "Descripciones" y vacío → `pending`
-- [ ] T017 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/ImporterValidationTests.cs`: nombre duplicado sin distinguir tildes ni mayúsculas → error con ambas filas; requisito inexistente → error con pestaña, fila y nombre; componente de conjunto inexistente → error; habilidad de "Descripciones" que no está en "Habilidades" → error; duda de la hoja que nombra un elemento inexistente → error; varios errores se devuelven todos a la vez; con errores no hay modelo de salida
-- [ ] T018 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/ImporterSuitesTests.cs`: bloque de conjunto (fila de título, fila de cabecera, componentes, filas vacías) → `SkillSuite` `Custom` con componentes resueltos; componente que es otro conjunto → `SuiteComponent` `Suite`; bloque "Conjuntos de habilidades oficiales" → `Official` sin componentes y `components` en `pending`; "?" en requisito, precio o dificultad → nulo + `pending`; conjunto sin valores ("Jinete") → cargado con `pending`; bloque "Estilos de combate" → `CombatStyle` con requisitos analizados; dudas de la pestaña "Dudas" con varios elementos ("granjero / mercader / noble") → varios `Targets`; cada aviso genera una `Doubt` de origen `Import`
+- [ ] T017 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/ImporterValidationTests.cs`: nombre duplicado dentro de un mismo tipo, sin distinguir tildes ni mayúsculas → error con ambas filas; dos nombres distintos del mismo tipo con igual `slug` → error; el mismo nombre en un conjunto de habilidades y en uno oficial NO es error; requisito inexistente → error con pestaña, fila y nombre; componente de conjunto inexistente → error; habilidad de "Descripciones" que no está en "Habilidades" → error; duda de la hoja que nombra un elemento inexistente → error; varios errores se devuelven todos a la vez; con errores no hay modelo de salida
+- [ ] T018 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/ImporterSuitesTests.cs`: bloque de conjunto (fila de título, fila de cabecera, componentes, filas vacías) → `SkillSuite` `Custom` con componentes resueltos; componente que es otro conjunto → `SuiteComponent` `Suite`; bloque "Conjuntos de habilidades oficiales" → `Official` sin componentes y `components` en `pending`; "?" en requisito, precio o dificultad → nulo + `pending`; conjunto sin valores ("Jinete") → cargado con `pending`; bloque "Estilos de combate" → `CombatStyle` con requisitos analizados; cada fila de la pestaña "Dudas" → una `Doubt` con un único `Target` (habilidad, conjunto, oficial o estilo); cada aviso genera una `Doubt` de origen `Import`
 - [ ] T019 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/WorkbookReaderTests.cs` creando libros en memoria con ClosedXML: lee las cuatro pestañas con su número de fila real; celda con fórmula → valor calculado; falta una pestaña o una columna esperada → error de estructura; un texto centinela en la columna D de "Descripciones" no aparece en ninguna `RawRow`
 - [ ] T020 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/DataWriterTests.cs`: escribe los cuatro JSON y el archivo de dudas; dos escrituras del mismo modelo dan archivos idénticos byte a byte; orden por `searchName`; UTF-8 sin BOM y finales LF; `docs/dudas.md` lleva el aviso de archivo generado y separa dudas de la hoja y detectadas; si la escritura falla a medias, el destino no cambia
 - [ ] T021 [P] [US5] Escribir `tests/HackMaster.DataImport.Tests/CliTests.cs`: sin argumentos o con hoja inexistente → código 2 y mensaje de uso; errores de datos → código 1, todos los errores en la salida de error y ningún archivo modificado; correcto → código 0 y resumen con recuentos y avisos
@@ -95,8 +95,8 @@ accede a la columna D de "Descripciones"; mensajes con el formato de
 - [ ] T022 [US5] Crear `tools/DataImport/RawRow.cs` (`Sheet`, `RowNumber`, celdas por letra de columna) y `tools/DataImport/ImportMessage.cs` (pestaña, fila, elemento, mensaje, con el formato `[<pestaña>, fila <n>] «<elemento>»: <mensaje>`)
 - [ ] T023 [US5] Implementar `tools/DataImport/PrerequisiteParser.cs` según `research.md` §8 (orden de resolución: habilidad o conjunto → condición reconocida → anotación de duda → error)
 - [ ] T024 [US5] Implementar en `tools/DataImport/Importer.cs` la interpretación de "Habilidades" y "Descripciones" (reglas de `data-model.md`, "Skill") hasta pasar T016
-- [ ] T025 [US5] Implementar en `tools/DataImport/Importer.cs` los bloques de la pestaña "Conjuntos de habilidades" (36 conjuntos, oficiales, estilos) y la pestaña "Dudas" hasta pasar T018
-- [ ] T026 [US5] Implementar en `tools/DataImport/Importer.cs` las validaciones de FR-005 y FR-006 acumulando todos los errores, hasta pasar T017
+- [ ] T025 [US5] Implementar en `tools/DataImport/Importer.cs` los bloques de la pestaña "Conjuntos de habilidades" (36 conjuntos, oficiales, estilos) y la pestaña "Dudas" hasta pasar T018, con unicidad de nombre por tipo de conjunto
+- [ ] T026 [US5] Implementar en `tools/DataImport/Importer.cs` las validaciones de FR-005 y FR-006 (incluidos los `slug` repetidos dentro de un tipo) acumulando todos los errores, hasta pasar T017
 - [ ] T027 [P] [US5] Implementar `tools/DataImport/WorkbookReader.cs` con ClosedXML; la columna D de "Descripciones" no se lee
 - [ ] T028 [P] [US5] Implementar `tools/DataImport/DataWriter.cs`: JSON con las opciones de `GameDataFiles`, `docs/dudas.md`, escritura en carpeta temporal y movimiento final
 - [ ] T029 [US5] Reescribir `tools/DataImport/Program.cs` según `contracts/data-import-cli.md` (argumentos, códigos 0/1/2, resumen y errores en castellano)
@@ -115,10 +115,10 @@ accede a la columna D de "Descripciones"; mensajes con el formato de
 pase; cada patrón nuevo de la hoja se añade al importador con su prueba.
 
 - [ ] T031 [US5] Ejecutar `dotnet run --project tools/DataImport -- "$env:HACKMASTER_EXCEL" data/` y entregar al usuario la lista de errores con la corrección propuesta para cada fila (sesión local con el usuario)
-- [ ] T032 [US5] El usuario corrige en la hoja los nombres que no resuelven y añade a la pestaña "Dudas" las dudas de `docs/PRODUCTO.md` A5 que faltan (Pellizcar; estilos de artes marciales; Maniobra Ka-Bob y Desenfunde veloz), con el texto que le prepara el agente
+- [ ] T032 [US5] El usuario corrige en la hoja los nombres que no resuelven y añade a la pestaña "Dudas" las dudas de `docs/PRODUCTO.md` A5 que faltan (Pellizcar; estilos de artes marciales; Maniobra Ka-Bob y Desenfunde veloz), y divide la duda "granjero / mercader / noble" en tres filas con el nombre exacto de cada conjunto oficial; el agente le prepara el texto
 - [ ] T033 [US5] Repetir la importación hasta obtener código 0; revisar con el usuario la lista de avisos; versionar `data/*.json` y `docs/dudas.md`
 - [ ] T034 [US5] Escribir `tests/HackMaster.Domain.Tests/DataIntegrityTests.cs` leyendo `data/` (enlazado como contenido del proyecto de pruebas): 343 habilidades, 36 conjuntos `Custom`, 23 `Official`, 5 estilos; `slug` únicos por tipo; todo `Target` existe; ningún archivo contiene la propiedad `manualText` (SC-001, SC-009, SC-010)
-- [ ] T035 [US5] Medir el tamaño de `data/*.json` y anotarlo en `research.md` §5 (revisar la decisión si supera 1 MB); validar el paso 3 de `quickstart.md` con el usuario
+- [ ] T035 [US5] Medir el tamaño de `data/*.json` y anotarlo en `research.md` §5 (revisar la decisión si supera 1 MB); medir la duración de la importación completa y anotarla (SC-008: menos de 1 minuto); validar el paso 3 de `quickstart.md` con el usuario
 
 **Checkpoint**: datos reales en el repositorio. Las fases 5 a 8 pueden empezar antes de este punto
 usando los datos de prueba de T038.
@@ -140,7 +140,7 @@ librería de estilos; el estado de la consulta vive en la dirección (`contracts
 - [ ] T037 [P] [US1] Escribir `tests/HackMaster.Domain.Tests/SkillFacetsTests.cs`: las opciones de tipo, libro (acrónimos) y clase salen de los datos, sin duplicados y ordenadas (FR-017)
 - [ ] T038 [P] [US1] Crear `tests/HackMaster.Web.Tests/TestData.cs` con un `GameData` pequeño construido en código (unas 8 habilidades, 2 conjuntos, 1 oficial, 1 estilo, 2 dudas, con casos de requisito, `pending` y duda)
 - [ ] T039 [P] [US1] Escribir `tests/HackMaster.Web.Tests/GameDataTests.cs`: carga los recursos incrustados; índices por `slug`; habilidad → conjuntos que la contienen; elemento → dudas; `schemaVersion` distinto de 1 → error claro
-- [ ] T040 [P] [US1] Escribir `tests/HackMaster.Web.Tests/SkillsPageTests.cs` (bUnit, con `TestData`): muestra todas las habilidades y el contador (`result-count`); escribir en `search-input` filtra; marcar dos libros y un tipo combina; mensaje y botón `clear-filters` cuando no hay resultados; los parámetros de la dirección (`q`, `tipo`, `libro`, `clase`, `precioMax`, `difMin`, `orden`) restauran el estado; los parámetros no válidos se ignoran
+- [ ] T040 [P] [US1] Escribir `tests/HackMaster.Web.Tests/SkillsPageTests.cs` (bUnit, con `TestData`): muestra todas las habilidades y el contador (`result-count`); escribir en `search-input` filtra; marcar dos libros y un tipo combina; los filtros activos se ven sin desplegar el panel (FR-014); mensaje y botón `clear-filters` cuando no hay resultados; los parámetros de la dirección (`q`, `tipo`, `libro`, `clase`, `precioMax`, `difMin`, `orden`) restauran el estado; los parámetros no válidos se ignoran
 
 ### Implementation
 
@@ -167,7 +167,7 @@ separador de miles; libros como acrónimo y página.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T048 [P] [US2] Escribir `tests/HackMaster.Web.Tests/PrerequisiteViewTests.cs`: los segmentos `Skill`, `Suite` y `Style` son enlaces a `/habilidades/{slug}`, `/conjuntos/{slug}` y `/estilos/{slug}`; `Text` y `Condition` son texto; `Unverified` lleva `pending-mark`; sin segmentos muestra "Ninguno"
+- [ ] T048 [P] [US2] Escribir `tests/HackMaster.Web.Tests/PrerequisiteViewTests.cs`: los segmentos `Skill`, `Suite` y `OfficialSuite` son enlaces a `/habilidades/{slug}`, `/conjuntos/{slug}` y `/conjuntos/oficiales/{slug}`; `Text` y `Condition` son texto; `Unverified` lleva `pending-mark`; sin segmentos muestra "Ninguno"
 - [ ] T049 [P] [US2] Escribir `tests/HackMaster.Web.Tests/SkillDetailTests.cs`: muestra todos los campos de FR-003; precio 1403 se muestra "1403"; dificultad con "%"; libro "MJ 329"; resumen ausente → "pendiente de verificar"; campo en `pending` → `pending-mark` junto a su valor original de `raw`; lista los conjuntos que la contienen con enlace; `doubt-notice` con duda, fuente y decisión provisional; `slug` inexistente → página no encontrada
 
 ### Implementation
@@ -191,12 +191,12 @@ separador de miles; libros como acrónimo y página.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T054 [P] [US3] Escribir `tests/HackMaster.Web.Tests/SuitesPageTests.cs`: la lista separa conjuntos de habilidades y oficiales, con nombre, PC, precio, dificultad y libro; la búsqueda por nombre ignora tildes y mayúsculas; la ficha lista los componentes con enlace a habilidad o a conjunto; un oficial sin componentes muestra `pending-mark`; valores nulos → `pending-mark`; dudas del conjunto visibles
+- [ ] T054 [P] [US3] Escribir `tests/HackMaster.Web.Tests/SuitesPageTests.cs`: la lista separa conjuntos de habilidades y oficiales, con nombre, PC, precio, dificultad y libro; la búsqueda por nombre ignora tildes y mayúsculas; la ficha lista los componentes con enlace a habilidad, a conjunto o a conjunto oficial; "Cartógrafo" tiene dos fichas distintas, en `/conjuntos/{slug}` y en `/conjuntos/oficiales/{slug}`; un oficial sin componentes muestra `pending-mark`; valores nulos → `pending-mark`; dudas del conjunto visibles
 - [ ] T055 [P] [US3] Escribir `tests/HackMaster.Web.Tests/StylesPageTests.cs`: lista los estilos con características, dado, precio, dificultad y libro; la ficha muestra los requisitos con `PrerequisiteView`
 
 ### Implementation
 
-- [ ] T056 [P] [US3] Crear `src/HackMaster.Web/Pages/Suites.razor` en `/conjuntos` (admite `q` en la dirección) y `src/HackMaster.Web/Pages/SuiteDetail.razor` en `/conjuntos/{slug}`
+- [ ] T056 [P] [US3] Crear `src/HackMaster.Web/Pages/Suites.razor` en `/conjuntos` (admite `q` en la dirección) y `src/HackMaster.Web/Pages/SuiteDetail.razor` en `/conjuntos/{slug}` y `/conjuntos/oficiales/{slug}`
 - [ ] T057 [P] [US3] Crear `src/HackMaster.Web/Pages/Styles.razor` en `/estilos` y `src/HackMaster.Web/Pages/StyleDetail.razor` en `/estilos/{slug}`
 - [ ] T058 [US3] Añadir a `src/HackMaster.Web/wwwroot/css/app.css` los estilos de las listas y fichas de conjuntos y estilos a 390 px y 820 px
 
@@ -212,7 +212,7 @@ separador de miles; libros como acrónimo y página.
 **Verificación**: verificación común; `DoubtsPageTests` pasa.
 **Restricciones**: la página no añade ni omite dudas respecto a los datos.
 
-- [ ] T059 [P] [US4] Escribir `tests/HackMaster.Web.Tests/DoubtsPageTests.cs`: lista cada duda con elemento, fuente, duda y decisión provisional; separa las de la hoja de las detectadas; cada `Target` enlaza a su ficha; una duda con varios elementos muestra un enlace por cada uno
+- [ ] T059 [P] [US4] Escribir `tests/HackMaster.Web.Tests/DoubtsPageTests.cs`: lista cada duda con elemento, fuente, duda y decisión provisional; separa las de la hoja de las detectadas; el `Target` de cada duda enlaza a su ficha (habilidad, conjunto, conjunto oficial o estilo)
 - [ ] T060 [US4] Crear `src/HackMaster.Web/Pages/Doubts.razor` en `/dudas` y sus estilos en `src/HackMaster.Web/wwwroot/css/app.css`
 - [ ] T061 [US4] Añadir a `tests/HackMaster.Domain.Tests/DataIntegrityTests.cs` la comprobación de que `docs/dudas.md` contiene el `subject` de todas las dudas de `data/doubts.json` (requiere T033)
 
@@ -235,7 +235,7 @@ un equipo sin navegadores instalados.
 - [ ] T065 [P] Crear `tests/README.md` en castellano: instalar el navegador de Playwright, arrancar la aplicación, definir `HACKMASTER_E2E_URL` y ejecutar `dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=E2E"`
 - [ ] T066 Añadir a `.github/workflows/ci.yml` un trabajo que publica la aplicación, la sirve en local, instala Chromium y ejecuta las pruebas `E2E`; acciones fijadas por SHA; comprobar que el total queda por debajo de 10 minutos
 - [ ] T067 Medir SC-003 (resultados en menos de 0,5 s con 343 elementos) en el navegador y anotar el resultado en `research.md` §11; si no se cumple, adoptar `<Virtualize>` en `src/HackMaster.Web/Pages/Skills.razor`
-- [ ] T068 Recorrer `quickstart.md` completo con el usuario, incluida la comparación de 30 habilidades y 10 conjuntos al azar con la hoja (SC-005), y registrar los resultados
+- [ ] T068 Recorrer `quickstart.md` completo con el usuario, incluida la comparación de 30 habilidades y 10 conjuntos al azar con la hoja (SC-005), y registrar los resultados; anotar como dato informativo la cobertura de pruebas de `src/HackMaster.Domain` (orientativa: 90 %, principio IV)
 - [ ] T069 Revisión independiente del diff por un subagente con contexto limpio (regresiones, pruebas débiles, violaciones de la constitución, restos de texto de manual) y aplicar lo que encuentre
 - [ ] T070 Actualizar `docs/ESTADO.md` y `docs/PRODUCTO.md` (nombres actuales de los comandos `/speckit-…`, dudas A5 trasladadas a la hoja); abrir el pull request en castellano con qué se hizo, cómo se verificó y qué falta
 - [ ] T071 Tras fusionar, validar el paso 6 de `quickstart.md` en el sitio publicado y anotarlo en el pull request

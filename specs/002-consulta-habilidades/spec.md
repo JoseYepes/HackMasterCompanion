@@ -238,7 +238,10 @@ dónde.
   única salvedad es un requisito anotado en la hoja como "(sin verificar)" o "?", que se trata
   como duda (FR-009). La importación DEBE informar de todos los errores de una vez, no solo del
   primero.
-- **FR-006**: La importación DEBE fallar cuando hay nombres de habilidad o de conjunto duplicados,
+- **FR-006**: La importación DEBE fallar cuando hay nombres duplicados dentro de un mismo tipo de
+  elemento (habilidades, conjuntos de habilidades, conjuntos oficiales, estilos de combate) o dos
+  nombres de un mismo tipo que darían la misma dirección. Un conjunto de habilidades y un conjunto
+  oficial sí pueden compartir nombre (la hoja tiene "Cartógrafo" en ambos). También DEBE fallar
   cuando falta una pestaña o una columna esperada, o cuando una habilidad de la pestaña de
   descripciones no existe en la de habilidades.
 - **FR-007**: La comparación de nombres en la importación y en la búsqueda NO DEBE distinguir
@@ -290,12 +293,13 @@ dónde.
 - **FR-023**: La pestaña "Dudas" de la hoja es el único lugar donde el mantenedor escribe dudas.
   La importación DEBE generar `docs/dudas.md` y los datos de la página de dudas a partir de esa
   pestaña más las dudas que ella misma detecte (FR-009), distinguiendo unas de otras;
-  `docs/dudas.md` no se edita a mano. Una duda de la pestaña que nombra un elemento inexistente
-  es un error de referencia (FR-005).
+  `docs/dudas.md` no se edita a mano. Cada fila de la pestaña nombra un único elemento con su
+  nombre exacto; una duda que afecta a varios elementos se escribe en una fila por elemento. Una
+  fila que nombra un elemento inexistente es un error de referencia (FR-005).
 - **FR-024**: Los jugadores DEBEN poder consultar los 5 estilos de combate de la hoja como una
   sección propia, con sus valores, requisitos y libro tal como figuran en la fuente, y con las
-  mismas reglas de búsqueda, enlaces y marcas que los conjuntos. La importación los carga y valida
-  igual que el resto de elementos.
+  mismas reglas de enlaces y marcas que los conjuntos. No tienen buscador (son 5). La importación
+  los carga y valida igual que el resto de elementos.
 
 **Presentación**
 
@@ -365,6 +369,12 @@ dónde.
   requisito ("S"/"N"); el requisito concreto se toma de la pestaña de habilidades.
 - **Qué detiene la importación**: los errores de estructura y de referencias (FR-005, FR-006). Los
   valores dudosos o ausentes no la detienen: se marcan y se avisan (FR-009).
+- **Nombres compartidos**: cuando un requisito o un componente nombra algo que existe como
+  conjunto de habilidades y como conjunto oficial, se enlaza al conjunto de habilidades. El orden
+  de búsqueda es: habilidad, conjunto de habilidades, conjunto oficial.
+- **Duda de granjero, mercader y noble**: la fila actual de la pestaña "Dudas" nombra los tres
+  conjuntos a la vez y no coincide con ningún nombre; el mantenedor la divide en tres filas con el
+  nombre exacto de cada conjunto oficial antes de la primera importación.
 - **Dudas de `docs/PRODUCTO.md`**: las de la sección A5 que no están en la pestaña "Dudas"
   (Pellizcar; estilos de artes marciales; Maniobra Ka-Bob y Desenfunde veloz) las añade el
   mantenedor a la hoja una vez; el agente le prepara el texto.
