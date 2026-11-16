@@ -13,7 +13,12 @@
   https://joseyepes.github.io/HackMasterCompanion/
 - **En curso: F001 (Datos y consulta de habilidades).** Spec escrita y validada en
   `specs/002-consulta-habilidades/` (rama `002-consulta-habilidades`), con las aclaraciones de
-  `/speckit-clarify` incorporadas. Siguiente paso: `/speckit-plan`.
+  `/speckit-clarify` incorporadas, y plan técnico escrito (`plan.md`, `research.md`,
+  `data-model.md`, `contracts/`, `quickstart.md`) y 71 tareas en `tasks.md`. Siguiente paso:
+  `/speckit-analyze` y después `/speckit-implement` por fases.
+- **Decisiones del plan de F001** (detalle en `research.md`): ClosedXML para leer la hoja; JSON en
+  `data/` incrustado en la aplicación; modelo y búsqueda en `Domain`; proyecto de pruebas nuevo
+  `tests/HackMaster.DataImport.Tests`; Playwright dentro de `Web.Tests`; CSS propio sin librería.
 - **Tarea del usuario antes de la primera importación**: corregir en el Excel los requisitos que
   no coinciden con ninguna habilidad (el importador falla siempre y los lista) y pasar a la
   pestaña "Dudas" las dudas de `PRODUCTO.md` A5 que faltan. El Excel es la única fuente de dudas;
