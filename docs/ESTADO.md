@@ -11,8 +11,13 @@
 - **F000 (Base del proyecto): terminada.** 28 de 28 tareas cerradas (`specs/001-base-proyecto/`).
   Pull requests #1, #2 y #3 fusionados. Sitio publicado en
   https://joseyepes.github.io/HackMasterCompanion/
-- **Siguiente: F001 (Datos y consulta de habilidades).** Sin empezar. Arranca con
-  `/speckit-specify`.
+- **En curso: F001 (Datos y consulta de habilidades).** Spec escrita y validada en
+  `specs/002-consulta-habilidades/` (rama `002-consulta-habilidades`), con las aclaraciones de
+  `/speckit-clarify` incorporadas. Siguiente paso: `/speckit-plan`.
+- **Tarea del usuario antes de la primera importación**: corregir en el Excel los requisitos que
+  no coinciden con ninguna habilidad (el importador falla siempre y los lista) y pasar a la
+  pestaña "Dudas" las dudas de `PRODUCTO.md` A5 que faltan. El Excel es la única fuente de dudas;
+  `docs/dudas.md` se genera.
 
 ## Decisiones tomadas el 2026-11-16
 
@@ -35,7 +40,8 @@
 
 ## Alcance acordado para F001
 
-- Entran las 343 habilidades, los 36 conjuntos de habilidades **y los 23 conjuntos oficiales**.
+- Entran las 343 habilidades, los 36 conjuntos de habilidades, **los 23 conjuntos oficiales y los
+  5 estilos de combate** (estos últimos, decidido el 2026-11-16 al escribir la spec).
 - Los datos pueden cambiar en el futuro: el importador debe poder regenerarlos desde el Excel.
 
 ## El Excel fuente
@@ -49,15 +55,20 @@
   - `Dudas`: 3 dudas más cabecera. `PRODUCTO.md` (A5) lista 5: hay dos que no están en el Excel.
   - `Descripciones`: 343 filas más cabecera, con el resumen propio y el texto del manual
     (`ManualText`, que no debe salir del equipo).
-- Pendiente de verificar: dónde están en el Excel los 23 conjuntos oficiales y los 5 estilos de
-  combate que menciona `PRODUCTO.md`; no se identificaron pestañas con esos nombres.
+- Los 23 conjuntos oficiales y los 5 estilos de combate están en la pestaña
+  `Conjuntos de habilidades`, como bloques al final de los 36 conjuntos (cada bloque con su propia
+  fila de título y de cabecera); no hay pestañas separadas.
+- Anomalías observadas que el importador debe tratar (detalle en la spec de F001): 47 requisitos
+  compuestos o condicionales ("A o B", "Sabiduría 14+"…); dados de maestría "5", "3" y "2";
+  grafías mezcladas ("d8"/"8", "250 po", dificultad "0.1" por 10 %); el conjunto "Jinete" sin
+  coste, precio ni dificultad; dos conjuntos que incluyen otro conjunto como componente; los
+  conjuntos oficiales no detallan componentes.
 - Existe un `Hackhabilidades.xlsx` antiguo (2025, unas 259 habilidades). No usarlo.
 
 ## Pendiente menor
 
 - `docs/PRODUCTO.md` aún usa los nombres antiguos de los comandos (`/speckit.specify`,
   `/speckit.plan`) y menciona `.claude/commands`; lo actual es `/speckit-…` y `.claude/skills`.
-- Crear `docs/dudas.md` con las dudas abiertas de `PRODUCTO.md` A5 y las del Excel (F001).
 - T021 de F000: no se comprobó en GitHub que una prueba rota deja el CI en rojo, por decisión del
   usuario; se observó en local.
 
