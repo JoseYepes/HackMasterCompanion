@@ -1,0 +1,40 @@
+name: CI
+
+# Verifica cada cambio propuesto: construcción sin avisos, pruebas y formato.
+# pages.yml también lo llama antes de publicar.
+on:
+  pull_request:
+    branches: [main]
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Construir, probar y comprobar formato
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Instalar el SDK de .NET fijado en global.json
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Restaurar
+        run: dotnet restore
+
+      - name: Construir sin avisos
+        run: dotnet build -warnaserror --no-restore
+
+      - name: Probar
+        run: dotnet test --no-build
+
+      - name: Comprobar formato
+        run: dotnet format --verify-no-changes --no-restore
