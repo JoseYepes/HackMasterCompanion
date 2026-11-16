@@ -1,0 +1,71 @@
+name: Publicar en GitHub Pages
+
+# Publica la aplicación cada vez que cambia main, solo si la verificación pasa.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  # Único lugar donde se define la ruta base del sitio público.
+  PAGES_BASE_PATH: /HackMasterCompanion/
+
+jobs:
+  verificar:
+    uses: ./.github/workflows/ci.yml
+
+  construir:
+    name: Generar el sitio
+    needs: verificar
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Instalar el SDK de .NET fijado en global.json
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Publicar la aplicación
+        run: dotnet publish src/HackMaster.Web -c Release -o salida
+
+      - name: Aplicar la ruta base
+        run: |
+          sed -i "s|<base href=\"/\" />|<base href=\"${PAGES_BASE_PATH}\" />|" salida/wwwroot/index.html
+          grep -q "<base href=\"${PAGES_BASE_PATH}\" />" salida/wwwroot/index.html
+
+      - name: Preparar el sitio para GitHub Pages
+        run: |
+          # 404.html hace que las direcciones internas carguen la aplicación.
+          cp salida/wwwroot/index.html salida/wwwroot/404.html
+          # .nojekyll evita que Pages descarte la carpeta _framework.
+          touch salida/wwwroot/.nojekyll
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: salida/wwwroot
+
+  desplegar:
+    name: Desplegar
+    needs: construir
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v5
