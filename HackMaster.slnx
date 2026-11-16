@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/HackMaster.Domain/HackMaster.Domain.csproj" />
+    <Project Path="src/HackMaster.Web/HackMaster.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/HackMaster.Domain.Tests/HackMaster.Domain.Tests.csproj" />
+    <Project Path="tests/HackMaster.Web.Tests/HackMaster.Web.Tests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/DataImport/DataImport.csproj" />
+  </Folder>
+</Solution>
