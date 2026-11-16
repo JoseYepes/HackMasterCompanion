@@ -1,6 +1,6 @@
 # CLAUDE.md — HackMaster Companion
 
-Proyecto con **GitHub Spec Kit** y **Claude Code**. Antes de cualquier tarea lee `.specify/memory/constitution.md` (principios, prevalecen sobre todo lo demás) y `docs/PRODUCTO.md`. Si algo no está claro o se contradice, **pregunta**; no improvises.
+Proyecto con **GitHub Spec Kit** y **Claude Code**. Antes de cualquier tarea lee `.specify/memory/constitution.md` (principios, prevalecen sobre todo lo demás), `docs/PRODUCTO.md` y `docs/ESTADO.md` (dónde estamos y decisiones recientes; actualízalo al terminar cada sesión). Si algo no está claro o se contradice, **pregunta**; no improvises.
 
 ## Proyecto en una línea
 PWA en .NET (Blazor WebAssembly) para consultar habilidades de HackMaster 4e en castellano, crear conjuntos, tirar dados (2D/3D) y gestionar fichas de PJ. Local primero; backend en Azure solo en F006.
