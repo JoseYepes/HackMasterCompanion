@@ -40,10 +40,10 @@ los flujos. Ninguna se da aquí por sabida.
 ## 5. Publicación en GitHub Pages
 
 - **Decision**: flujo `pages.yml` con las acciones oficiales de Pages (subir artefacto y desplegar),
-  origen "GitHub Actions". En la publicación se reescribe `<base href>` a la ruta base, se copia
-  `index.html` a `404.html` y se añade `.nojekyll`.
+  origen "GitHub Actions". En la publicación se reescribe `<base href>` a la ruta base y se copia
+  `index.html` a `404.html`.
 - **Rationale**: `404.html` hace que las direcciones internas carguen la aplicación (escenario 3 de
-  la historia 3); `.nojekyll` evita que Pages ignore la carpeta `_framework`.
+  la historia 3). No hace falta `.nojekyll`: el despliegue por artefacto no pasa por Jekyll.
 - **Alternatives considered**: rama `gh-pages` (más piezas y un token con permiso de escritura).
 - **Acción manual del usuario**: activar Pages en el repositorio con origen "GitHub Actions".
 
@@ -56,9 +56,13 @@ los flujos. Ninguna se da aquí por sabida.
 
 ## 7. CI
 
-- **Decision**: `ci.yml` en `pull_request` y en `push` a `main`: `restore`, `build -warnaserror`,
-  `test --no-build`, `format --verify-no-changes`. `pages.yml` depende de que CI pase.
-- **Rationale**: los mismos comandos que `CLAUDE.md`, de modo que local y CI coinciden.
+- **Decision**: `ci.yml` se ejecuta en `pull_request` y es reutilizable (`workflow_call`):
+  `restore`, `build -warnaserror`, `test --no-build`, `format --verify-no-changes` y una publicación
+  de prueba en Release. `pages.yml` lo llama en cada `push` a `main` y solo publica si pasa. Las
+  acciones se fijan por SHA de commit, con la versión en un comentario.
+- **Rationale**: los mismos comandos que `CLAUDE.md`, de modo que local y CI coinciden; reutilizar
+  el flujo evita ejecutarlo dos veces en `main`; la publicación de prueba detecta fallos de
+  publicación antes de fusionar.
 - **Alternatives considered**: un solo flujo con todo (mezcla permisos de Pages con los de un
   pull request).
 
