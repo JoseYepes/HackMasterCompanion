@@ -17,18 +17,21 @@ dotnet restore
 dotnet build -warnaserror
 dotnet test --no-build
 dotnet format --verify-no-changes
-dotnet run --project tools/DataImport -- data/Hackhabilidades_completo.xlsx data/
+dotnet run --project tools/DataImport -- "%HACKMASTER_EXCEL%" data/
 dotnet run --project src/HackMaster.Web
 ```
-Los tests de interfaz (Playwright) se documentan en `tests/README.md`.
+El Excel fuente (`Hackhabilidades_completo.xlsx`) vive **fuera del repositorio** y nunca se versiona. Su ruta se indica en la variable de entorno `HACKMASTER_EXCEL` de cada equipo; no escribas rutas personales en el repositorio (es público). En PowerShell o bash usa `$env:HACKMASTER_EXCEL` o `"$HACKMASTER_EXCEL"`. El importador llega con F001.
+
+Los tests de interfaz (Playwright) se documentarán en `tests/README.md` cuando se incorporen.
 
 ## Flujo con Spec Kit (una funcionalidad = un ciclo)
-1. `/speckit.specify` con la funcionalidad de `docs/PRODUCTO.md` (qué y por qué, sin tecnología).
-2. `/speckit.clarify`: resuelve ambigüedades conmigo y actualiza la spec.
-3. `/speckit.plan`: decisiones técnicas según la parte B de `docs/PRODUCTO.md` y la constitución.
-4. `/speckit.tasks`: tareas pequeñas, con los tests **antes** del código.
-5. `/speckit.analyze`: comprueba coherencia spec ↔ plan ↔ tareas ↔ constitución. No sigas si hay incoherencias.
-6. `/speckit.implement` **en bucles**: por cada grupo de tareas define
+Los comandos son skills en `.claude/skills/` y se invocan con guion (`/speckit-…`).
+1. `/speckit-specify` con la funcionalidad de `docs/PRODUCTO.md` (qué y por qué, sin tecnología).
+2. `/speckit-clarify`: resuelve ambigüedades conmigo y actualiza la spec.
+3. `/speckit-plan`: decisiones técnicas según la parte B de `docs/PRODUCTO.md` y la constitución.
+4. `/speckit-tasks`: tareas pequeñas, con los tests **antes** del código.
+5. `/speckit-analyze`: comprueba coherencia spec ↔ plan ↔ tareas ↔ constitución. No sigas si hay incoherencias.
+6. `/speckit-implement` **en bucles**: por cada grupo de tareas define
    - *Objetivo*: estado final verificable,
    - *Verificación*: comandos exactos,
    - *Restricciones*: qué no se toca (datos fuente, tests existentes, versiones fijadas),

@@ -67,7 +67,7 @@ verificación, restricciones y límite de 8 iteraciones (formato de `CLAUDE.md`)
 - [X] T017 [US1] Implementar la página inicial en `src/HackMaster.Web/Pages/Home.razor`, que muestra `AppInfo.Name` en castellano y ningún contenido de juego; título e idioma `es` en `src/HackMaster.Web/wwwroot/index.html`
 - [X] T018 [US1] Crear `README.md` en castellano con requisitos y comandos de construcción, prueba, formato y ejecución local
 - [X] T028 [US1] Escribir `NotFound_Shows_Message_In_Spanish__F000` en `tests/HackMaster.Web.Tests/NotFoundPageTests.cs` para la página `src/HackMaster.Web/Pages/NotFound.razor` (añadida tras la revisión independiente)
-- [ ] T019 [US1] Actualizar `CLAUDE.md`: comandos de Spec Kit con guion (`/speckit-…`) y ruta del Excel fuera del repositorio; requiere confirmación del usuario
+- [X] T019 [US1] Actualizar `CLAUDE.md`: comandos de Spec Kit con guion (`/speckit-…`) y ruta del Excel fuera del repositorio; requiere confirmación del usuario
 
 **Checkpoint**: historia 1 verificable en local.
 
@@ -130,4 +130,4 @@ antes de pasar a la siguiente.
   una dirección interna inexistente muestra "Página no encontrada" dentro de la aplicación.
 - T021: la comprobación de que una prueba rota deja el CI en rojo no se hizo en GitHub, por
   decisión del usuario; el rojo se observó en local con el mismo comando antes de implementar.
-- T019 queda pendiente: requiere decidir dónde vive el Excel fuente.
+- T019: hecha el 2026-11-16; el Excel vive fuera del repositorio y su ruta va en `HACKMASTER_EXCEL`.
