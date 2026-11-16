@@ -22,6 +22,10 @@ Thumbs.db
 .env.*
 appsettings.*.local.json
 secrets.json
+*.pfx
+*.pem
+*.key
+.claude/settings.local.json
 
 # Documentos fuente: los manuales y las hojas de cálculo no se versionan
 *.pdf
@@ -30,3 +34,7 @@ secrets.json
 *.xls
 *.xlsx
 *.xlsm
+*.odt
+*.ods
+*.rtf
+*.epub
