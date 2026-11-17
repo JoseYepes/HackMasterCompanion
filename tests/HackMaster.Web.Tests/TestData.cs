@@ -149,7 +149,23 @@ internal static class TestData
         Raw = new SortedDictionary<string, string> { ["price"] = "?" },
     };
 
-    public static IReadOnlyList<SkillSuite> Suites { get; } = [Cartografo, Explorador, Herbalista];
+    /// <summary>Conjunto de habilidades con el mismo nombre que un conjunto oficial, como en la hoja.</summary>
+    public static readonly SkillSuite CartografoCustom = new()
+    {
+        Slug = "cartografo",
+        Name = "Cartógrafo",
+        SearchName = "cartografo",
+        Kind = SuiteKind.Custom,
+        Cost = 4,
+        Abilities = [Ability.INT, Ability.SAB],
+        Price = 350,
+        Difficulty = 15,
+        Books = [new BookRef("HJ", "4.05")],
+        Classes = ["Todas"],
+        Components = [new SuiteComponent("Zoología", ElementKind.Skill, "zoologia")],
+    };
+
+    public static IReadOnlyList<SkillSuite> Suites { get; } = [Cartografo, CartografoCustom, Explorador, Herbalista];
 
     public static readonly CombatStyle Yunque = new()
     {
@@ -193,6 +209,15 @@ internal static class TestData
             Subject = "Liderazgo básico",
             Target = new DoubtTarget(ElementKind.Skill, "liderazgo-basico"),
             Question = "Dado de maestría «5» no es un dado existente.",
+        },
+        new Doubt
+        {
+            Id = "sheet-officialsuite-cartografo-4",
+            Origin = DoubtOrigin.Sheet,
+            Subject = "Cartógrafo",
+            Target = new DoubtTarget(ElementKind.OfficialSuite, "cartografo"),
+            Source = "MJ 200",
+            Question = "Prueba: ¿qué habilidades incluye?",
         },
     ];
 

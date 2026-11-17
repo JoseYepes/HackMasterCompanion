@@ -32,7 +32,11 @@
   marca de pendiente junto al valor original, requisitos enlazados (`PrerequisiteView`), conjuntos
   que la incluyen y aviso de dudas (`DoubtNotice`); un `slug` inexistente muestra "Página no
   encontrada". Sin datos reales aún no se ha visto en el navegador: queda para cuando se importe
-  el Excel. 217 pruebas en verde. Siguiente: fase 7 (conjuntos y estilos).
+  el Excel.
+- **Fase 7 hecha (T054 a T058, 2026-11-17)**: `/conjuntos` (conjuntos de habilidades y oficiales
+  por separado, búsqueda por nombre en la dirección), fichas `/conjuntos/{slug}` y
+  `/conjuntos/oficiales/{slug}` (dos páginas que comparten `SuiteView`) con componentes enlazados,
+  `/estilos` y `/estilos/{slug}`. 232 pruebas en verde. Siguiente: fase 8 (página de dudas).
 - **Ensayo del importador con la hoja real (2026-11-17, sin escribir en el repositorio)**: lee las
   cuatro pestañas y falla con 15 errores, todos de datos: 11 requisitos de "Habilidades" (filas
   48, 49, 50, 117, 173, 215, 262 ×2, 278, 282, 293), 2 de "Conjuntos de habilidades" (fila 245) y

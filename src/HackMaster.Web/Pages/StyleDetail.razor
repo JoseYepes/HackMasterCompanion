@@ -1,0 +1,42 @@
+@page "/estilos/{Slug}"
+@inject GameData Data
+
+@if (_style is null)
+{
+    <NotFound />
+}
+else
+{
+    <PageTitle>@_style.Name · @AppInfo.Name</PageTitle>
+
+    <p class="back"><a href="estilos">← Estilos de combate</a></p>
+
+    <h1>@_style.Name</h1>
+
+    <DoubtNotice Doubts="@Data.DoubtsFor(ElementKind.Style, _style.Slug)" />
+
+    <dl class="fields">
+        <dt>Características</dt>
+        <dd><FieldValue Field="abilities" Text="@Display.List(_style.Abilities)" Pending="_style.Pending" Raw="_style.Raw" /></dd>
+        <dt>Dado de maestría</dt>
+        <dd><FieldValue Field="masteryDie" Text="@(_style.MasteryDie ?? Display.Missing)" Pending="_style.Pending" Raw="_style.Raw" /></dd>
+        <dt>Requisitos</dt>
+        <dd><PrerequisiteView Prerequisite="_style.Prerequisite" /></dd>
+        <dt>Precio (po)</dt>
+        <dd><FieldValue Field="price" Text="@Display.Number(_style.Price)" Pending="_style.Pending" Raw="_style.Raw" /></dd>
+        <dt>Dificultad</dt>
+        <dd><FieldValue Field="difficulty" Text="@Display.Percent(_style.Difficulty)" Pending="_style.Pending" Raw="_style.Raw" /></dd>
+        <dt>Libro</dt>
+        <dd><FieldValue Field="books" Text="@Display.Books(_style.Books)" Pending="_style.Pending" Raw="_style.Raw" /></dd>
+    </dl>
+}
+
+@code {
+    /// <summary>Identificador del estilo en la dirección.</summary>
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private CombatStyle? _style;
+
+    protected override void OnParametersSet() => _style = Data.FindStyle(Slug);
+}

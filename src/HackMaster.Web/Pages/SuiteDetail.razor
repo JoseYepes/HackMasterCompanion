@@ -1,0 +1,21 @@
+@page "/conjuntos/{Slug}"
+@inject GameData Data
+
+@if (_suite is null)
+{
+    <NotFound />
+}
+else
+{
+    <SuiteView Suite="_suite" />
+}
+
+@code {
+    /// <summary>Identificador del conjunto de habilidades en la dirección.</summary>
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private SkillSuite? _suite;
+
+    protected override void OnParametersSet() => _suite = Data.FindSuite(SuiteKind.Custom, Slug);
+}

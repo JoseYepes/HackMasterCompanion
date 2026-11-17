@@ -191,14 +191,14 @@ separador de miles; libros como acrónimo y página.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T054 [P] [US3] Escribir `tests/HackMaster.Web.Tests/SuitesPageTests.cs`: la lista separa conjuntos de habilidades y oficiales, con nombre, PC, precio, dificultad y libro; la búsqueda por nombre ignora tildes y mayúsculas; la ficha lista los componentes con enlace a habilidad, a conjunto o a conjunto oficial; "Cartógrafo" tiene dos fichas distintas, en `/conjuntos/{slug}` y en `/conjuntos/oficiales/{slug}`; un oficial sin componentes muestra `pending-mark`; valores nulos → `pending-mark`; dudas del conjunto visibles
-- [ ] T055 [P] [US3] Escribir `tests/HackMaster.Web.Tests/StylesPageTests.cs`: lista los estilos con características, dado, precio, dificultad y libro; la ficha muestra los requisitos con `PrerequisiteView`
+- [X] T054 [P] [US3] Escribir `tests/HackMaster.Web.Tests/SuitesPageTests.cs`: la lista separa conjuntos de habilidades y oficiales, con nombre, PC, precio, dificultad y libro; la búsqueda por nombre ignora tildes y mayúsculas; la ficha lista los componentes con enlace a habilidad, a conjunto o a conjunto oficial; "Cartógrafo" tiene dos fichas distintas, en `/conjuntos/{slug}` y en `/conjuntos/oficiales/{slug}`; un oficial sin componentes muestra `pending-mark`; valores nulos → `pending-mark`; dudas del conjunto visibles
+- [X] T055 [P] [US3] Escribir `tests/HackMaster.Web.Tests/StylesPageTests.cs`: lista los estilos con características, dado, precio, dificultad y libro; la ficha muestra los requisitos con `PrerequisiteView`
 
 ### Implementation
 
-- [ ] T056 [P] [US3] Crear `src/HackMaster.Web/Pages/Suites.razor` en `/conjuntos` (admite `q` en la dirección) y `src/HackMaster.Web/Pages/SuiteDetail.razor` en `/conjuntos/{slug}` y `/conjuntos/oficiales/{slug}`
-- [ ] T057 [P] [US3] Crear `src/HackMaster.Web/Pages/Styles.razor` en `/estilos` y `src/HackMaster.Web/Pages/StyleDetail.razor` en `/estilos/{slug}`
-- [ ] T058 [US3] Añadir a `src/HackMaster.Web/wwwroot/css/app.css` los estilos de las listas y fichas de conjuntos y estilos a 390 px y 820 px
+- [X] T056 [P] [US3] Crear `src/HackMaster.Web/Pages/Suites.razor` en `/conjuntos` (admite `q` en la dirección) y las fichas `src/HackMaster.Web/Pages/SuiteDetail.razor` (`/conjuntos/{slug}`) y `src/HackMaster.Web/Pages/OfficialSuiteDetail.razor` (`/conjuntos/oficiales/{slug}`), que comparten `Components/SuiteView.razor`
+- [X] T057 [P] [US3] Crear `src/HackMaster.Web/Pages/Styles.razor` en `/estilos` y `src/HackMaster.Web/Pages/StyleDetail.razor` en `/estilos/{slug}`
+- [X] T058 [US3] Añadir a `src/HackMaster.Web/wwwroot/css/app.css` los estilos de las listas y fichas de conjuntos y estilos a 390 px y 820 px
 
 **Checkpoint**: historias 1 a 3 funcionan.
 

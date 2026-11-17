@@ -21,7 +21,9 @@ public class GameDataTests
         Assert.Equal("Botánica", data.FindSkill("botanica")?.Name);
         Assert.Equal("Herbalista", data.FindSuite(SuiteKind.Custom, "herbalista")?.Name);
         Assert.Equal("Cartógrafo", data.FindSuite(SuiteKind.Official, "cartografo")?.Name);
-        Assert.Null(data.FindSuite(SuiteKind.Custom, "cartografo"));
+        Assert.Null(data.FindSuite(SuiteKind.Official, "herbalista"));
+        Assert.NotSame(data.FindSuite(SuiteKind.Custom, "cartografo"), data.FindSuite(SuiteKind.Official, "cartografo"));
+        Assert.Equal(SuiteKind.Custom, data.FindSuite(SuiteKind.Custom, "cartografo")?.Kind);
         Assert.Equal("Estilo del Yunque", data.FindStyle("estilo-del-yunque")?.Name);
         Assert.Null(data.FindSkill("no-existe"));
     }
@@ -66,7 +68,7 @@ public class GameDataTests
         Assert.Equal(TestData.Skills.Count, data.Skills.Count);
         Assert.Equal(TestData.Suites.Count, data.Suites.Count);
         Assert.Single(data.Styles);
-        Assert.Equal(3, data.Doubts.Count);
+        Assert.Equal(TestData.Doubts.Count, data.Doubts.Count);
     }
 
     [Fact]

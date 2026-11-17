@@ -399,3 +399,77 @@ a {
 .loading-progress-text:after {
   content: var(--blazor-load-percentage-text, "Cargando");
 }
+
+/* Listas de conjuntos y estilos: tarjetas en móvil, tabla a partir de 820 px */
+
+.item-list {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.item-head {
+  display: none;
+}
+
+.item-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 1rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+}
+
+.item-row > * {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.item-name {
+  flex-basis: 100%;
+  font-weight: 600;
+}
+
+.suite-kind {
+  margin-top: -0.5rem;
+  color: var(--muted);
+}
+
+.components ul {
+  padding-left: 1.25rem;
+}
+
+@media (min-width: 820px) {
+  .item-head,
+  .item-row {
+    display: grid;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.5rem 0.75rem;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+  }
+
+  .suite-list .item-head,
+  .suite-list .item-row {
+    grid-template-columns: minmax(0, 2fr) 4rem minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .style-list .item-head,
+  .style-list .item-row {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) 4rem minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .item-head {
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .item-row .field-label {
+    display: none;
+  }
+}
