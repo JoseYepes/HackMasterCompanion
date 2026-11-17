@@ -20,6 +20,9 @@ public enum Ability
 
     /// <summary>Carisma.</summary>
     CAR,
+
+    /// <summary>Aspecto.</summary>
+    ASP,
 }
 
 /// <summary>Tipos de elemento de juego a los que puede apuntar una referencia.</summary>

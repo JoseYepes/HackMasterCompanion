@@ -125,11 +125,34 @@ public class ImporterSkillsTests
     [Fact]
     public void Unknown_Ability_Is_Pending_And_Known_Ones_Are_Kept__FR009()
     {
-        var skill = Assert.Single(Import(Sheet.Skill(2, "Arte de la seducción, el", abilities: "CAR, ASP")).Model!.Skills);
+        // «XYZ» es inventado: ninguna característica se llama así.
+        var skill = Assert.Single(Import(Sheet.Skill(2, "Arte de la seducción, el", abilities: "CAR, XYZ")).Model!.Skills);
 
         Assert.Equal([Ability.CAR], skill.Abilities);
         Assert.Contains("abilities", skill.Pending);
-        Assert.Equal("CAR, ASP", skill.Raw["abilities"]);
+        Assert.Equal("CAR, XYZ", skill.Raw["abilities"]);
+    }
+
+    [Fact]
+    public void Aspect_Is_A_Known_Ability__MJ()
+    {
+        var skill = ImportOne(Sheet.Skill(2, "Arte de la seducción, el", abilities: "CAR, ASP"));
+
+        Assert.Equal([Ability.CAR, Ability.ASP], skill.Abilities);
+        Assert.DoesNotContain("abilities", skill.Pending);
+    }
+
+    [Theory]
+    [InlineData("NA")]
+    [InlineData("na")]
+    public void Not_Applicable_Ability_Gives_No_Abilities_And_Is_Not_Pending__FR008(string cell)
+    {
+        var result = Import(Sheet.Skill(2, "Maestría con arma (Weapon Mastery)", abilities: cell));
+        var skill = Assert.Single(result.Model!.Skills);
+
+        Assert.Empty(skill.Abilities);
+        Assert.DoesNotContain("abilities", skill.Pending);
+        Assert.Empty(result.Warnings);
     }
 
     [Fact]

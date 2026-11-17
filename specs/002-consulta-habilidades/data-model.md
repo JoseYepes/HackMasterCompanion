@@ -9,7 +9,7 @@ importador, que los escribe, y la aplicación, que los lee. Los nombres de campo
 | Tipo | Descripción |
 |---|---|
 | `Slug` (texto) | Identificador para direcciones: nombre normalizado, espacios y signos → "-". Único dentro de su tipo de elemento (habilidad, conjunto de habilidades, conjunto oficial, estilo); dos nombres del mismo tipo con igual `slug` son un **error** de importación. |
-| `Ability` (enumeración) | `FUE`, `DES`, `CON`, `INT`, `SAB`, `CAR`. Un valor que no esté en la lista (la hoja contiene "ASP") no se descarta: va a `raw` y el campo a `pending`. |
+| `Ability` (enumeración) | `FUE`, `DES`, `CON`, `INT`, `SAB`, `CAR`, `ASP` (Aspecto, característica del MJ; decidido el 2026-11-17). "NA" ("no aplica", habilidades de armas) da una lista vacía sin marca de pendiente. Cualquier otro valor no se descarta: va a `raw` y el campo a `pending`. |
 | `BookRef` | `acronym` (p. ej. `MJ`, `CG`, `GrG`, `HJ8`) y `page` (texto anulable: lo que sigue al acrónimo, tal como está en la fuente; "HJ 4.05" da `HJ` y `4.05`). Una celda como "MJ 329 / GMG 71" da dos referencias. |
 | `ElementKind` (enumeración) | `Skill`, `Suite`, `OfficialSuite`, `Style`. Tipo de elemento al que apunta un componente o una duda. |
 | `Pending` | `pending`: lista de nombres de campo pendientes de verificar. `raw`: diccionario campo → texto original de la hoja. |

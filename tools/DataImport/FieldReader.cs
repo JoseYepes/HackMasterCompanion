@@ -116,12 +116,20 @@ internal sealed partial class FieldReader(Action<string, string> onPending)
         return null;
     }
 
-    /// <summary>Características separadas por coma o barra. Las no reconocidas quedan pendientes.</summary>
+    /// <summary>
+    /// Características separadas por coma o barra. "NA" (no aplica, habilidades de armas) no tiene
+    /// ninguna. Las no reconocidas quedan pendientes.
+    /// </summary>
     public IReadOnlyList<Ability> Abilities(string text)
     {
         if (text.Length == 0)
         {
             MarkPending("abilities", string.Empty, "falta la característica relevante; queda pendiente de verificar.");
+            return [];
+        }
+
+        if (TextNormalizer.Normalize(text) == "na")
+        {
             return [];
         }
 
