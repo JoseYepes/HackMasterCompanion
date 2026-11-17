@@ -59,11 +59,27 @@
 - **Dudas generales (decidido el 2026-11-17)**: una fila con "General" en la columna A de la
   pestaña "Dudas" registra una duda sin elemento concreto; se muestra sin enlace. Sirve para la
   duda de `PRODUCTO.md` sobre los estilos de artes marciales.
-- **Tarea del usuario antes de la primera importación**: corregir en el Excel los requisitos que
-  no coinciden con ninguna habilidad (el importador falla siempre y los lista) y pasar a la
-  pestaña "Dudas" las dudas de `PRODUCTO.md` A5 que faltan. El Excel es la única fuente de dudas;
-  `docs/dudas.md` se genera. Cada fila de "Dudas" nombra un solo elemento con su nombre exacto: la
-  duda de "granjero / mercader / noble" hay que dividirla en tres filas.
+- **Corrección del Excel (T032), 2026-11-17**: a petición del usuario, el agente hizo los 12
+  cambios mecánicos (nombres exactos en requisitos, errata "Coserser", conjunto de primeros
+  auxilios, "Justa (Jousting)", la duda de granjero / mercader / noble dividida en tres filas y las
+  cuatro dudas de `PRODUCTO.md` A5, incluida la "General" de los estilos de artes marciales). Antes
+  guardó una copia de seguridad junto al original (`Hackhabilidades_completo.copia-2026-11-17.xlsx`).
+  Después el usuario pidió resolver con el Manual del Jugador los tres requisitos que quedaban:
+  - Filas 278 ("Religión (Especifica)") y 293 ("Saber divino"): "Religión" pasa a
+    `Religión (general)`. En el MJ la ficha de la habilidad general se titula "Religión" (p. 315)
+    y la tabla la llama "Religión (general)"; la específica amplía la general.
+  - Fila 282 ("Reparación de escudos de madera", MJ 331): "Trabajar la madera (Carpintería)" pasa a
+    `Carpintería`, la habilidad del MJ (p. 322) para trabajar la madera. **Interpretación del
+    agente**: el usuario puede revisarla.
+- **Fallo del importador corregido (2026-11-17)**: la hoja guarda el dado de maestría como número
+  con el formato `\dGeneral` (se ve "d6") y ClosedXML lo leía como fecha, lo que dejaba 337 dados
+  "pendientes de verificar". Ahora se lee el número.
+- **Importación de prueba (2026-11-17, a una carpeta temporal)**: código 0; 343 habilidades, 36
+  conjuntos, 23 oficiales, 5 estilos; 9 dudas de la hoja y 166 avisos (sobre todo conjuntos sin
+  coste, precio o dificultad, 16 características no reconocidas y 8 dados inexistentes). Falta
+  revisarlos con el usuario y escribir de verdad en `data/` (T033).
+- El Excel es la única fuente de dudas; `docs/dudas.md` se genera. Cada fila de "Dudas" nombra un
+  solo elemento con su nombre exacto, o dice "General".
 - **`/speckit-analyze` pasado el 2026-11-16**: 9 hallazgos (2 altos), todos corregidos en los
   documentos. El más relevante: "Cartógrafo" existe como conjunto de habilidades y como conjunto
   oficial, así que los nombres son únicos por tipo y los oficiales tienen dirección propia

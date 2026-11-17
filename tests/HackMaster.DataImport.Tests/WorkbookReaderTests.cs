@@ -57,6 +57,21 @@ public class WorkbookReaderTests
     }
 
     [Fact]
+    public void Number_Shown_As_Die_Is_Read_As_Its_Number_Not_As_A_Date__FR008()
+    {
+        // La hoja real guarda el dado como el número 6 con el formato «\dGeneral», que se ve «d6».
+        // Ese formato contiene una «d» y la librería lo toma por una fecha (6 de enero de 1900).
+        using var book = TestWorkbook.Valid();
+        var cell = book.Skills.Cell(2, 5);
+        cell.Value = 6;
+        cell.Style.NumberFormat.Format = @"\dGeneral";
+
+        var workbook = Read(book).Workbook!;
+
+        Assert.Equal("6", workbook.Skills[0]["E"]);
+    }
+
+    [Fact]
     public void Formula_Cell_Gives_Its_Calculated_Value__FR001()
     {
         using var book = TestWorkbook.Valid();

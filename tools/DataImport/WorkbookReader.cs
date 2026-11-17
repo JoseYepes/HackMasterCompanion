@@ -117,6 +117,16 @@ public static class WorkbookReader
         return rows.GetRange(1, rows.Count - 1);
     }
 
+    /// <summary>
+    /// Número que guarda la hoja para una fecha. Excel cuenta el 29 de febrero de 1900, que no existió,
+    /// así que antes del 1 de marzo de 1900 su número es uno menos que el de .NET.
+    /// </summary>
+    private static double ExcelSerial(DateTime date)
+    {
+        var serial = date.ToOADate();
+        return date < new DateTime(1900, 3, 1) ? serial - 1 : serial;
+    }
+
     /// <summary>Texto de una celda. De una fórmula se toma el valor guardado, sin recalcular.</summary>
     private static string CellText(IXLCell cell)
     {
@@ -130,6 +140,13 @@ public static class WorkbookReader
         if (value.IsText)
         {
             return value.GetText().Trim();
+        }
+
+        // La hoja no tiene fechas: un número con un formato que contiene «d» (como «\dGeneral», que
+        // muestra «d6») se lee como fecha. Se recupera el número que guarda la celda.
+        if (value.IsDateTime)
+        {
+            return ExcelSerial(value.GetDateTime()).ToString(CultureInfo.InvariantCulture);
         }
 
         return value.IsNumber
