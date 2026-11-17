@@ -473,3 +473,32 @@ a {
     display: none;
   }
 }
+
+/* Página de dudas */
+
+.doubt-list {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+
+.doubt-row {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--warning-ink);
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.doubt-row p {
+  margin: 0.25rem 0;
+}
+
+.doubt-subject {
+  font-weight: 600;
+}
+
+.section-note {
+  color: var(--muted);
+}

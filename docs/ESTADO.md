@@ -36,7 +36,13 @@
 - **Fase 7 hecha (T054 a T058, 2026-11-17)**: `/conjuntos` (conjuntos de habilidades y oficiales
   por separado, búsqueda por nombre en la dirección), fichas `/conjuntos/{slug}` y
   `/conjuntos/oficiales/{slug}` (dos páginas que comparten `SuiteView`) con componentes enlazados,
-  `/estilos` y `/estilos/{slug}`. 232 pruebas en verde. Siguiente: fase 8 (página de dudas).
+  `/estilos` y `/estilos/{slug}`.
+- **Fase 8 hecha (T059 y T060, 2026-11-17)**: `/dudas` separa las dudas de la hoja de las
+  detectadas al importar; cada una enlaza con su ficha y las generales salen como "General" sin
+  enlace. T061 espera a la primera importación real (T033). 239 pruebas en verde. Siguiente:
+  fase 9 (Playwright, CI y entrega), que necesita los datos reales para varias tareas.
+- **Botones en el móvil**: la pregunta con botones del final de cada turno solo se ve en la app de
+  escritorio; desde el móvil (control remoto activado el 2026-11-17) el usuario responde por texto.
 - **Ensayo del importador con la hoja real (2026-11-17, sin escribir en el repositorio)**: lee las
   cuatro pestañas y falla con 15 errores, todos de datos: 11 requisitos de "Habilidades" (filas
   48, 49, 50, 117, 173, 215, 262 ×2, 278, 282, 293), 2 de "Conjuntos de habilidades" (fila 245) y

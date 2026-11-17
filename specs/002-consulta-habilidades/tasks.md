@@ -212,8 +212,8 @@ separador de miles; libros como acrónimo y página.
 **Verificación**: verificación común; `DoubtsPageTests` pasa.
 **Restricciones**: la página no añade ni omite dudas respecto a los datos.
 
-- [ ] T059 [P] [US4] Escribir `tests/HackMaster.Web.Tests/DoubtsPageTests.cs`: lista cada duda con elemento, fuente, duda y decisión provisional; separa las de la hoja de las detectadas; el `Target` de cada duda enlaza a su ficha (habilidad, conjunto, conjunto oficial o estilo); una duda general se muestra como "General" sin enlace
-- [ ] T060 [US4] Crear `src/HackMaster.Web/Pages/Doubts.razor` en `/dudas` y sus estilos en `src/HackMaster.Web/wwwroot/css/app.css`
+- [X] T059 [P] [US4] Escribir `tests/HackMaster.Web.Tests/DoubtsPageTests.cs`: lista cada duda con elemento, fuente, duda y decisión provisional; separa las de la hoja de las detectadas; el `Target` de cada duda enlaza a su ficha (habilidad, conjunto, conjunto oficial o estilo); una duda general se muestra como "General" sin enlace
+- [X] T060 [US4] Crear `src/HackMaster.Web/Pages/Doubts.razor` en `/dudas` y sus estilos en `src/HackMaster.Web/wwwroot/css/app.css`
 - [ ] T061 [US4] Añadir a `tests/HackMaster.Domain.Tests/DataIntegrityTests.cs` la comprobación de que `docs/dudas.md` contiene el `subject` de todas las dudas de `data/doubts.json` (requiere T033)
 
 **Checkpoint**: todas las historias funcionan.
