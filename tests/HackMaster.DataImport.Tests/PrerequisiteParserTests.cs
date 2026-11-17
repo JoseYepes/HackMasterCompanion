@@ -183,6 +183,40 @@ public class PrerequisiteParserTests
         Assert.Empty(result.Unresolved);
     }
 
+    [Theory]
+    [InlineData("Trabajar el metal (hacha de mano)", " (hacha de mano)")]
+    [InlineData("Trabajar el metal 50%+", " 50%+")]
+    [InlineData("Tasación: gemas (solo rubíes)", " (solo rubíes)")]
+    public void Skill_Followed_By_A_Qualifier_Is_Linked_And_Keeps_The_Qualifier_As_Text__FR020(string text, string qualifier)
+    {
+        var result = Parse(text);
+
+        Assert.Collection(
+            result.Prerequisite.Segments,
+            skill => Assert.Equal(PrerequisiteSegmentKind.Skill, skill.Kind),
+            suffix => Assert.Equal(new PrerequisiteSegment(qualifier, PrerequisiteSegmentKind.Text), suffix));
+        Assert.Empty(result.Unresolved);
+        Assert.Equal(text, Rebuild(result));
+    }
+
+    [Fact]
+    public void Known_Skill_Marked_As_Unverified_Stays_Unverified__FR009()
+    {
+        var result = Parse("Botánica (sin verificar)");
+
+        var segment = Assert.Single(result.Prerequisite.Segments);
+        Assert.Equal(PrerequisiteSegmentKind.Unverified, segment.Kind);
+        Assert.True(result.HasUnverified);
+    }
+
+    [Fact]
+    public void Unknown_Name_Followed_By_A_Qualifier_Is_Still_Unresolved__FR005()
+    {
+        var result = Parse("Disfraz (de mendigo)");
+
+        Assert.Equal(["Disfraz (de mendigo)"], result.Unresolved);
+    }
+
     [Fact]
     public void Unknown_Name_Is_Reported_As_Unresolved__FR005()
     {

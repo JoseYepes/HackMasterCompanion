@@ -25,8 +25,8 @@ public sealed record Doubt
     /// <summary>Nombre del elemento afectado, tal como está escrito.</summary>
     public required string Subject { get; init; }
 
-    /// <summary>Elemento afectado.</summary>
-    public required DoubtTarget Target { get; init; }
+    /// <summary>Elemento afectado; nulo en una duda general, que no afecta a un elemento concreto.</summary>
+    public DoubtTarget? Target { get; init; }
 
     /// <summary>Fuente (libro y página) de la duda.</summary>
     public string? Source { get; init; }

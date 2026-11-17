@@ -106,6 +106,21 @@ public sealed class DataWriterTests : IDisposable
     }
 
     [Fact]
+    public void General_Doubt_Is_Written_Without_Target_And_Read_Back__FR023()
+    {
+        var result = Importer.Import(Sheet.Workbook(
+            [Sheet.Skill(2, "Botánica")],
+            doubts: [Sheet.Doubt(5, "General", source: "CG", question: "Falta la tabla 5D del CG.")]));
+        var files = DataWriter.Render(result.Model!);
+
+        var doubt = Assert.Single(JsonSerializer.Deserialize<DoubtsFile>(files[DataWriter.DoubtsFileName], GameDataJson.Options)!.Doubts);
+        Assert.Null(doubt.Target);
+        Assert.DoesNotContain("\"target\"", files[DataWriter.DoubtsFileName]);
+        Assert.Contains("### General", files[DataWriter.DoubtsDocument]);
+        Assert.Contains("Falta la tabla 5D del CG.", files[DataWriter.DoubtsDocument]);
+    }
+
+    [Fact]
     public void Doubts_Document_Names_Every_Doubt_Subject__FR023()
     {
         var model = Model();

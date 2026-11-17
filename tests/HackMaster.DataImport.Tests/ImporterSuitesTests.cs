@@ -212,7 +212,7 @@ public class ImporterSuitesTests
         Assert.Empty(result.Errors);
         var sheetDoubts = result.Model!.Doubts.Where(doubt => doubt.Origin == DoubtOrigin.Sheet).ToList();
         Assert.Equal(3, sheetDoubts.Count);
-        var locksmith = sheetDoubts.Single(doubt => doubt.Target.Kind == ElementKind.Skill);
+        var locksmith = sheetDoubts.Single(doubt => doubt.Target?.Kind == ElementKind.Skill);
         Assert.Equal(new DoubtTarget(ElementKind.Skill, "cerrajeria"), locksmith.Target);
         Assert.Equal("cerrajeria", locksmith.Subject);
         Assert.Equal("GrG 65 (tabla) / GrG 69 (texto)", locksmith.Source);
@@ -220,6 +220,38 @@ public class ImporterSuitesTests
         Assert.Equal("Tabla.", locksmith.Provisional);
         Assert.Contains(sheetDoubts, doubt => doubt.Target == new DoubtTarget(ElementKind.OfficialSuite, "conjunto-de-habilidades-de-granjero"));
         Assert.Contains(sheetDoubts, doubt => doubt.Target == new DoubtTarget(ElementKind.Style, "estilo-del-yunque"));
+    }
+
+    [Theory]
+    [InlineData("General")]
+    [InlineData("general")]
+    [InlineData(" GENERAL ")]
+    public void Row_With_General_Is_A_Doubt_Without_Target__FR023(string subject)
+    {
+        var result = Import(
+            [],
+            doubts: [Sheet.Doubt(5, subject, source: "CG", question: "Falta la tabla 5D del CG.", provisional: "Descripciones genéricas.")]);
+
+        Assert.Empty(result.Errors);
+        var doubt = Assert.Single(result.Model!.Doubts);
+        Assert.Equal(DoubtOrigin.Sheet, doubt.Origin);
+        Assert.Null(doubt.Target);
+        Assert.Equal("General", doubt.Subject);
+        Assert.Equal("CG", doubt.Source);
+        Assert.Equal("Falta la tabla 5D del CG.", doubt.Question);
+        Assert.Equal("Descripciones genéricas.", doubt.Provisional);
+    }
+
+    [Fact]
+    public void Several_General_Doubts_Get_Different_Stable_Ids__FR023()
+    {
+        RawRow[] doubts = [Sheet.Doubt(5, "General", question: "Una."), Sheet.Doubt(6, "General", question: "Otra.")];
+
+        var first = Import([], doubts).Model!.Doubts.Select(doubt => doubt.Id).ToList();
+        var second = Import([], doubts).Model!.Doubts.Select(doubt => doubt.Id).ToList();
+
+        Assert.Equal(2, first.Distinct().Count());
+        Assert.Equal(first, second);
     }
 
     [Fact]

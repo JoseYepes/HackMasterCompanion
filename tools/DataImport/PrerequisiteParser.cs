@@ -35,6 +35,10 @@ public static partial class PrerequisiteParser
     [GeneratedRegex(@"^al menos \w+ de$")]
     private static partial Regex AtLeast();
 
+    /// <summary>Nombre seguido de una aclaración entre paréntesis o de un nivel de maestría.</summary>
+    [GeneratedRegex(@"^(?<name>.+?)(?<qualifier>\s+(\([^()]*\)|\d+ ?%\+?))$")]
+    private static partial Regex Qualified();
+
     public static PrerequisiteParseResult Parse(string? text, Func<string, (ElementKind Kind, string Slug)?> resolve)
     {
         var trimmed = (text ?? string.Empty).Trim();
@@ -63,32 +67,27 @@ public static partial class PrerequisiteParser
         {
             // Un nombre puede contener separadores ("Tasación: gemas"): se prueba primero el tramo más largo.
             var end = index;
-            PrerequisiteSegment? segment = null;
-            for (var last = atomCount - 1; last >= index && segment is null; last--)
+            var linked = false;
+            for (var last = atomCount - 1; last >= index && !linked; last--)
             {
                 var candidate = string.Concat(parts[(index * 2)..((last * 2) + 1)]);
-                if (candidate.Length > 0 && resolve(candidate) is { } found)
+                linked = TryLink(candidate, resolve, segments);
+                if (linked)
                 {
-                    segment = new PrerequisiteSegment(candidate, ToSegmentKind(found.Kind), found.Slug);
                     end = last;
                 }
             }
 
             var atom = parts[index * 2];
-            if (segment is null && atom.Length > 0)
+            if (!linked && atom.Length > 0)
             {
                 var kind = Classify(atom);
-                segment = new PrerequisiteSegment(atom, kind ?? PrerequisiteSegmentKind.Text);
+                segments.Add(new PrerequisiteSegment(atom, kind ?? PrerequisiteSegmentKind.Text));
                 hasUnverified |= kind == PrerequisiteSegmentKind.Unverified;
                 if (kind is null)
                 {
                     unresolved.Add(atom);
                 }
-            }
-
-            if (segment is not null)
-            {
-                segments.Add(segment);
             }
 
             if (end < atomCount - 1)
@@ -100,6 +99,42 @@ public static partial class PrerequisiteParser
         }
 
         return new PrerequisiteParseResult(new Prerequisite { Segments = segments }, unresolved, hasUnverified);
+    }
+
+    /// <summary>
+    /// Enlaza el texto si es un nombre conocido, solo o seguido de una aclaración
+    /// ("Desenfundado rápido (hacha de mano)", "Zancadilla 50%+"), que se conserva como texto.
+    /// </summary>
+    private static bool TryLink(string candidate, Func<string, (ElementKind Kind, string Slug)?> resolve, List<PrerequisiteSegment> segments)
+    {
+        if (candidate.Length == 0)
+        {
+            return false;
+        }
+
+        if (resolve(candidate) is { } found)
+        {
+            segments.Add(new PrerequisiteSegment(candidate, ToSegmentKind(found.Kind), found.Slug));
+            return true;
+        }
+
+        var qualified = Qualified().Match(candidate);
+        if (!qualified.Success)
+        {
+            return false;
+        }
+
+        // "(sin verificar)" no es una aclaración: marca todo el requisito como dudoso.
+        var name = qualified.Groups["name"].Value;
+        var qualifier = qualified.Groups["qualifier"].Value;
+        if (Classify(candidate) == PrerequisiteSegmentKind.Unverified || resolve(name) is not { } named)
+        {
+            return false;
+        }
+
+        segments.Add(new PrerequisiteSegment(name, ToSegmentKind(named.Kind), named.Slug));
+        segments.Add(new PrerequisiteSegment(qualifier, PrerequisiteSegmentKind.Text));
+        return true;
     }
 
     /// <summary>Clasifica una parte que no es un nombre conocido; nulo si no se reconoce.</summary>

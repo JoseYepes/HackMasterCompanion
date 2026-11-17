@@ -23,6 +23,9 @@
   las coincidencias por nombre aparecen primero.
 - Q: ¿Se pueden marcar varios valores dentro de un mismo filtro (por ejemplo dos libros)? → A: Sí;
   dentro de un filtro basta con cumplir uno, y entre filtros distintos hay que cumplirlos todos.
+- Q: ¿Cómo se registra una duda que afecta a un grupo de elementos y no a uno concreto (por
+  ejemplo, los estilos de artes marciales)? → A: Como duda general: una fila con "General" en la
+  columna de elemento de la pestaña "Dudas". Se muestra sin enlace a ninguna ficha.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -147,6 +150,8 @@ enlaza con la habilidad o el conjunto afectado.
 
 1. **Given** la página de dudas, **When** se abre, **Then** lista cada duda con el elemento
    afectado, la fuente, la duda y la decisión provisional.
+4. **Given** una duda general, que no afecta a un elemento concreto, **When** se abre la página
+   de dudas, **Then** aparece como "General", con su fuente, duda y decisión, sin enlace.
 2. **Given** una duda sobre una habilidad o un conjunto existente, **When** el jugador la pulsa,
    **Then** llega a la ficha correspondiente.
 3. **Given** `docs/dudas.md`, **When** se compara con la página, **Then** contienen las mismas
@@ -289,13 +294,16 @@ dónde.
   conjuntos oficiales, distinguidos entre sí, con sus valores tal como figuran en la fuente y sus
   componentes cuando la fuente los detalla.
 - **FR-022**: Los jugadores DEBEN poder consultar todas las dudas abiertas, con el elemento
-  afectado, la fuente, la duda y la decisión provisional, enlazadas con las fichas afectadas.
+  afectado, la fuente, la duda y la decisión provisional. Las que afectan a un elemento enlazan con
+  su ficha; las dudas generales se muestran sin enlace.
 - **FR-023**: La pestaña "Dudas" de la hoja es el único lugar donde el mantenedor escribe dudas.
   La importación DEBE generar `docs/dudas.md` y los datos de la página de dudas a partir de esa
   pestaña más las dudas que ella misma detecte (FR-009), distinguiendo unas de otras;
   `docs/dudas.md` no se edita a mano. Cada fila de la pestaña nombra un único elemento con su
-  nombre exacto; una duda que afecta a varios elementos se escribe en una fila por elemento. Una
-  fila que nombra un elemento inexistente es un error de referencia (FR-005).
+  nombre exacto; una duda que afecta a varios elementos concretos se escribe en una fila por
+  elemento. Una duda que afecta a un grupo sin elemento concreto se escribe con "General" (sin
+  distinguir mayúsculas) en la columna de elemento y no se enlaza. Cualquier otra fila que nombra
+  un elemento inexistente es un error de referencia (FR-005).
 - **FR-024**: Los jugadores DEBEN poder consultar los 5 estilos de combate de la hoja como una
   sección propia, con sus valores, requisitos y libro tal como figuran en la fuente, y con las
   mismas reglas de enlaces y marcas que los conjuntos. No tienen buscador (son 5). La importación
@@ -326,8 +334,8 @@ dónde.
 - **Estilo de combate**: forma de luchar que se aprende como una habilidad; tiene características
   relevantes, dado de maestría, requisitos (habilidades y condiciones), precio, dificultad y
   libro. No tiene coste en PC en la fuente ("NA").
-- **Duda**: discrepancia o laguna en las fuentes. Elemento afectado, fuente, descripción y
-  decisión provisional.
+- **Duda**: discrepancia o laguna en las fuentes. Elemento afectado (ninguno si es general),
+  fuente, descripción y decisión provisional.
 - **Marca "pendiente de verificar"**: indica que un dato concreto falta o no es firme.
 
 ## Success Criteria *(mandatory)*

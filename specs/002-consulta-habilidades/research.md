@@ -108,6 +108,10 @@ Las versiones citadas se consultaron en NuGet el 2026-11-16. Se fijan en
 - **Condiciones reconocidas** (lista cerrada en el importador, con una prueba por patrón):
   característica mínima ("Sabiduría 14+"), competencia con arma ("Competencia …"), nivel de
   maestría ("… al 101%+", "N más al 51%+"), "Al menos N de", y "NA".
+- **Nombre con aclaración** (añadido en la fase 4, al verlo en la hoja real): un nombre conocido
+  seguido de una aclaración entre paréntesis o de un nivel de maestría ("Desenfundado rápido
+  (Quick Draw) (hacha de mano)", "Zancadilla (Trip Attack) 50%+") se enlaza y la aclaración se
+  conserva como texto. "(sin verificar)" no es una aclaración: marca el requisito como dudoso.
 - **Rationale**: muestra el requisito tal como lo escribe la fuente, con enlaces donde hay una
   habilidad, sin interpretar la lógica "y/o" (que F001 no necesita y sería inventar semántica).
   F005 podrá añadir esa lógica sobre los mismos segmentos.

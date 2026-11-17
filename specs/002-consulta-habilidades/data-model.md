@@ -90,7 +90,7 @@ de la pestaña de conjuntos.
 | `id` | texto | estable: origen + slug del elemento + campo |
 | `origin` | `Sheet` o `Import` | `Sheet`: escrita por el mantenedor en la pestaña "Dudas"; `Import`: detectada al importar |
 | `subject` | texto | nombre del elemento tal como está escrito |
-| `target` | {`kind`, `slug`} | elemento afectado; `kind` es `Skill`, `Suite`, `OfficialSuite` o `Style`. En `Sheet`, cada fila nombra un único elemento con su nombre exacto, que debe existir (si no, error); una duda sobre varios elementos ocupa una fila por elemento |
+| `target` | {`kind`, `slug`} anulable | elemento afectado; `kind` es `Skill`, `Suite`, `OfficialSuite` o `Style`. En `Sheet`, cada fila nombra un único elemento con su nombre exacto, que debe existir (si no, error); una duda sobre varios elementos ocupa una fila por elemento. Nulo en las dudas generales: fila con "General" en la columna A (`subject` = "General") |
 | `source` | texto anulable | columna "Fuente" |
 | `question` | texto | la duda; en `Import`, generada ("Dado de maestría «5» no es un dado existente") |
 | `provisional` | texto anulable | columna "Qué he hecho" |

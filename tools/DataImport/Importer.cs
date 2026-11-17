@@ -13,6 +13,9 @@ internal sealed class ImportRun(RawWorkbook workbook)
 {
     private const string SuiteRequirementPrefix = "las de las habilidades";
 
+    /// <summary>Valor de la columna A de "Dudas" que marca una duda sin elemento concreto.</summary>
+    private const string GeneralSubject = "general";
+
     private readonly List<ImportMessage> _errors = [];
     private readonly List<ImportMessage> _warnings = [];
     private readonly List<Doubt> _importDoubts = [];
@@ -319,6 +322,21 @@ internal sealed class ImportRun(RawWorkbook workbook)
         foreach (var row in workbook.Doubts.Where(row => row["A"].Length > 0))
         {
             var subject = row["A"];
+            if (TextNormalizer.Normalize(subject) == GeneralSubject)
+            {
+                var generalOrdinal = perTarget[GeneralSubject] = perTarget.GetValueOrDefault(GeneralSubject) + 1;
+                doubts.Add(new Doubt
+                {
+                    Id = $"sheet-general-{generalOrdinal}",
+                    Origin = DoubtOrigin.Sheet,
+                    Subject = "General",
+                    Source = NullIfEmpty(row["B"]),
+                    Question = row["C"],
+                    Provisional = NullIfEmpty(row["D"]),
+                });
+                continue;
+            }
+
             var target = ResolveAny(subject);
             if (target is null)
             {
@@ -326,7 +344,7 @@ internal sealed class ImportRun(RawWorkbook workbook)
                     row.Sheet,
                     row.RowNumber,
                     subject,
-                    "no coincide con ninguna habilidad, conjunto ni estilo; cada fila debe nombrar un único elemento con su nombre exacto."));
+                    "no coincide con ninguna habilidad, conjunto ni estilo; cada fila debe nombrar un único elemento con su nombre exacto, o decir «General»."));
                 continue;
             }
 
