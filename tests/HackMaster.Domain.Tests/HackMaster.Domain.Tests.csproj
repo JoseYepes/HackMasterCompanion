@@ -15,6 +15,12 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <!-- Datos generados que comprueba DataIntegrityTests. -->
+  <ItemGroup>
+    <None Include="..\..\data\*.json" Link="data\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\docs\dudas.md" Link="docs\dudas.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\HackMaster.Domain\HackMaster.Domain.csproj" />
   </ItemGroup>

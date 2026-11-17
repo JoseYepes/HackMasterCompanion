@@ -89,6 +89,11 @@
 - **Primera importación real (2026-11-17)**: `data/*.json` y `docs/dudas.md` generados (343
   habilidades, 36 conjuntos, 23 oficiales, 5 estilos; 9 dudas de la hoja y 41 detectadas; unos 4 s).
   Ningún archivo contiene `manualText`.
+- **Bloque de comprobaciones (2026-11-17)**: `DataIntegrityTests` lee `data/` y `docs/dudas.md`
+  (T034, T061; se comprobó que fallan con datos estropeados). Datos: 501 KB; importación: 2,4 s y
+  repetible (T035, falta el paso 3 de `quickstart.md` con el usuario). Búsqueda: 169-231 ms con
+  los datos reales (T067). Las pruebas de navegador siguen esperando permiso para descargar
+  Chromium.
 - **Pendiente del usuario para más adelante**: los 23 conjuntos oficiales no tienen componentes en
   el Excel; el usuario cree que puede ser un error suyo al pasarlos del manual. Revisarlos con la
   fuente.

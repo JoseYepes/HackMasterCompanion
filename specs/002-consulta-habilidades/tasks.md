@@ -117,8 +117,8 @@ pase; cada patrón nuevo de la hoja se añade al importador con su prueba.
 - [X] T031 [US5] Ejecutar `dotnet run --project tools/DataImport -- "$env:HACKMASTER_EXCEL" data/` y entregar al usuario la lista de errores con la corrección propuesta para cada fila (sesión local con el usuario)
 - [X] T032 [US5] El usuario corrige en la hoja los nombres que no resuelven y añade a la pestaña "Dudas" las dudas de `docs/PRODUCTO.md` A5 que faltan (Pellizcar; estilos de artes marciales; Maniobra Ka-Bob y Desenfunde veloz), añade como duda "General" la de los estilos de artes marciales, y divide la duda "granjero / mercader / noble" en tres filas con el nombre exacto de cada conjunto oficial; el agente le prepara el texto. *2026-11-17: a petición del usuario, el agente aplicó los cambios, y los de las filas 278, 282 y 293 de "Habilidades" según el Manual del Jugador (detalle en `docs/ESTADO.md`).*
 - [X] T033 [US5] Repetir la importación hasta obtener código 0; revisar con el usuario la lista de avisos; versionar `data/*.json` y `docs/dudas.md`
-- [ ] T034 [US5] Escribir `tests/HackMaster.Domain.Tests/DataIntegrityTests.cs` leyendo `data/` (enlazado como contenido del proyecto de pruebas): 343 habilidades, 36 conjuntos `Custom`, 23 `Official`, 5 estilos; `slug` únicos por tipo; todo `Target` existe; ningún archivo contiene la propiedad `manualText` (SC-001, SC-009, SC-010)
-- [ ] T035 [US5] Medir el tamaño de `data/*.json` y anotarlo en `research.md` §5 (revisar la decisión si supera 1 MB); medir la duración de la importación completa y anotarla (SC-008: menos de 1 minuto); validar el paso 3 de `quickstart.md` con el usuario
+- [X] T034 [US5] Escribir `tests/HackMaster.Domain.Tests/DataIntegrityTests.cs` leyendo `data/` (enlazado como contenido del proyecto de pruebas): 343 habilidades, 36 conjuntos `Custom`, 23 `Official`, 5 estilos; `slug` únicos por tipo; todo `Target` existe; ningún archivo contiene la propiedad `manualText` (SC-001, SC-009, SC-010)
+- [ ] T035 [US5] Medir el tamaño de `data/*.json` y anotarlo en `research.md` §5 (revisar la decisión si supera 1 MB); medir la duración de la importación completa y anotarla (SC-008: menos de 1 minuto); validar el paso 3 de `quickstart.md` con el usuario — *2026-11-17: tamaño (501 KB) y duración (2,4 s) medidos y anotados; falta el paso 3 con el usuario*
 
 **Checkpoint**: datos reales en el repositorio. Las fases 5 a 8 pueden empezar antes de este punto
 usando los datos de prueba de T038.
@@ -214,7 +214,7 @@ separador de miles; libros como acrónimo y página.
 
 - [X] T059 [P] [US4] Escribir `tests/HackMaster.Web.Tests/DoubtsPageTests.cs`: lista cada duda con elemento, fuente, duda y decisión provisional; separa las de la hoja de las detectadas; el `Target` de cada duda enlaza a su ficha (habilidad, conjunto, conjunto oficial o estilo); una duda general se muestra como "General" sin enlace
 - [X] T060 [US4] Crear `src/HackMaster.Web/Pages/Doubts.razor` en `/dudas` y sus estilos en `src/HackMaster.Web/wwwroot/css/app.css`
-- [ ] T061 [US4] Añadir a `tests/HackMaster.Domain.Tests/DataIntegrityTests.cs` la comprobación de que `docs/dudas.md` contiene el `subject` de todas las dudas de `data/doubts.json` (requiere T033)
+- [X] T061 [US4] Añadir a `tests/HackMaster.Domain.Tests/DataIntegrityTests.cs` la comprobación de que `docs/dudas.md` contiene el `subject` de todas las dudas de `data/doubts.json` (requiere T033)
 
 **Checkpoint**: todas las historias funcionan.
 
@@ -234,7 +234,7 @@ un equipo sin navegadores instalados.
 - [ ] T064 [P] Escribir `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs`: en `/`, `/habilidades` (con filtros abiertos), una ficha de habilidad, `/conjuntos`, una ficha de conjunto, `/estilos` y `/dudas`, a 390 px y 820 px, `scrollWidth` no supera `clientWidth` (FR-026, SC-006) — escrita el 2026-11-17; falta ejecutarla con los datos reales (tras T033) y Chromium instalado
 - [X] T065 [P] Crear `tests/README.md` en castellano: instalar el navegador de Playwright, arrancar la aplicación, definir `HACKMASTER_E2E_URL` y ejecutar `dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=E2E"`
 - [ ] T066 Añadir a `.github/workflows/ci.yml` un trabajo que publica la aplicación, la sirve en local, instala Chromium y ejecuta las pruebas `E2E`; acciones fijadas por SHA; comprobar que el total queda por debajo de 10 minutos
-- [ ] T067 Medir SC-003 (resultados en menos de 0,5 s con 343 elementos) en el navegador y anotar el resultado en `research.md` §11; si no se cumple, adoptar `<Virtualize>` en `src/HackMaster.Web/Pages/Skills.razor`
+- [X] T067 Medir SC-003 (resultados en menos de 0,5 s con 343 elementos) en el navegador y anotar el resultado en `research.md` §11; si no se cumple, adoptar `<Virtualize>` en `src/HackMaster.Web/Pages/Skills.razor`
 - [ ] T068 Recorrer `quickstart.md` completo con el usuario, incluida la comparación de 30 habilidades y 10 conjuntos al azar con la hoja (SC-005), y registrar los resultados; anotar como dato informativo la cobertura de pruebas de `src/HackMaster.Domain` (orientativa: 90 %, principio IV)
 - [ ] T069 Revisión independiente del diff por un subagente con contexto limpio (regresiones, pruebas débiles, violaciones de la constitución, restos de texto de manual) y aplicar lo que encuentre
 - [ ] T070 Actualizar `docs/ESTADO.md` y `docs/PRODUCTO.md` (nombres actuales de los comandos `/speckit-…`, dudas A5 trasladadas a la hoja); abrir el pull request en castellano con qué se hizo, cómo se verificó y qué falta

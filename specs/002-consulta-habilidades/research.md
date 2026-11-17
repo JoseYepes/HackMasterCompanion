@@ -70,6 +70,10 @@ Las versiones citadas se consultaron en NuGet el 2026-11-16. Se fijan en
   (diffs ilegibles).
 - **Coste**: el tamaño de los JSON se suma a la descarga inicial. Estimación: menos de 500 KB antes
   de comprimir. Se mide en la implementación; si supera 1 MB se revisa esta decisión.
+- **Medido el 2026-11-17 (T035)**: 501 KB sin comprimir (`skills.json` 409 KB, `suites.json` 63 KB,
+  `doubts.json` 21 KB, `styles.json` 8 KB). Queda por debajo de 1 MB: la decisión se mantiene.
+  La importación completa tarda 2,4 s sin contar la compilación (SC-008: menos de un minuto) y es
+  repetible: volver a importar la misma hoja no cambia `data/` ni `docs/dudas.md`.
 
 ## 6. Modelo y lógica de consulta
 
@@ -153,6 +157,12 @@ Las versiones citadas se consultaron en NuGet el 2026-11-16. Se fijan en
   no justifican virtualización ni una librería.
 - **Alternatives considered**: Bootstrap u otra librería (peso y estilos que deshacer);
   `<Virtualize>` (se adopta solo si SC-003 no se cumple).
+- **Medido el 2026-11-17 (T067, SC-003)**: con los 343 elementos reales, compilación de depuración
+  y Chromium, desde que se escribe hasta que cambia la lista pasan entre 169 y 231 ms, incluidos
+  los 150 ms de espera del buscador; el peor caso es "a", que devuelve las 343. Cumple los 0,5 s:
+  no hace falta `<Virtualize>`. Medido con un `MutationObserver` sobre el recuento; una primera
+  medición con `requestAnimationFrame` daba unos 600 ms porque el panel del navegador estaba
+  oculto y frenaba los fotogramas.
 
 ## 12. Pruebas de interfaz con Playwright
 
