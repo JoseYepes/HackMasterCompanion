@@ -66,7 +66,7 @@ public class SuitesPageTests : BunitContext
     [Theory]
     [InlineData("HERBAL")]
     [InlineData("cartógrafo")]
-    public void Search_By_Name_Ignores_Accents_And_Case__FR021(string text)
+    public void Search_By_Name_Ignores_Accents_And_Case__FR007(string text)
     {
         var cut = RenderList();
 
@@ -79,7 +79,7 @@ public class SuitesPageTests : BunitContext
     }
 
     [Fact]
-    public void Search_From_The_Address_Is_Restored__FR021()
+    public void Search_From_The_Address_Is_Restored__US3()
     {
         var cut = RenderList("conjuntos?q=explo");
 

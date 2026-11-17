@@ -114,7 +114,7 @@ public sealed class DataIntegrityTests
     }
 
     [Fact]
-    public void No_Data_File_Contains_Manual_Text__SC009()
+    public void No_Data_File_Has_A_Manual_Text_Property__SC009()
     {
         foreach (var fileName in new[] { "skills.json", "suites.json", "styles.json", "doubts.json" })
         {

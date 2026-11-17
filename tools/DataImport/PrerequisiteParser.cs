@@ -27,8 +27,11 @@ public static partial class PrerequisiteParser
     [GeneratedRegex(@"^competencia\b")]
     private static partial Regex Proficiency();
 
-    /// <summary>Nivel de maestría: "otra maniobra especial al 101%+", "2 más al 51%+".</summary>
-    [GeneratedRegex(@"\d+ ?%\+?$")]
+    /// <summary>
+    /// Nivel de maestría: "otra maniobra especial al 101%+", "2 más al 51%+". Exige "al" delante del
+    /// porcentaje: un nombre desconocido seguido de "50%+" es una errata, no una condición.
+    /// </summary>
+    [GeneratedRegex(@"\bal \d+ ?%\+?$")]
     private static partial Regex MasteryLevel();
 
     /// <summary>Cuantificador: "Al menos dos de".</summary>

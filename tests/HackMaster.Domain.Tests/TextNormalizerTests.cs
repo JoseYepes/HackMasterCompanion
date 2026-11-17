@@ -46,13 +46,13 @@ public class TextNormalizerTests
     [InlineData("Forrajear (por clima)", "forrajear-por-clima")]
     [InlineData("  Saber   animal  ", "saber-animal")]
     [InlineData("Tasación: gemas", "tasacion-gemas")]
-    public void ToSlug_Uses_Hyphens_Without_Repeats_Or_Edges__F001(string name, string expected)
+    public void ToSlug_Uses_Hyphens_Without_Repeats_Or_Edges__FR019(string name, string expected)
     {
         Assert.Equal(expected, TextNormalizer.ToSlug(name));
     }
 
     [Fact]
-    public void ToSlug_Is_Equal_For_Names_That_Differ_Only_In_Case_Or_Accents__F001()
+    public void ToSlug_Is_Equal_For_Names_That_Differ_Only_In_Case_Or_Accents__FR019()
     {
         Assert.Equal(TextNormalizer.ToSlug("Leer/Escribir"), TextNormalizer.ToSlug("leer/escribir"));
     }

@@ -98,7 +98,9 @@ else
     private void UpdateCriteria(SkillCriteria criteria)
     {
         Show(criteria);
-        var uri = Navigation.ToAbsoluteUri(SkillAddress.ToRelativeUri(criteria)).ToString();
+        // AbsoluteUri, no ToString(): el navegador devuelve la dirección codificada ("%C3%A1" por "á"),
+        // y la comparación con Navigation.Uri debe hacerse en esa misma forma.
+        var uri = Navigation.ToAbsoluteUri(SkillAddress.ToRelativeUri(criteria)).AbsoluteUri;
         if (uri != Navigation.Uri)
         {
             _shownUri = uri;

@@ -51,7 +51,9 @@
     {
         Show(args.Value?.ToString() ?? string.Empty);
         var relative = string.IsNullOrWhiteSpace(_text) ? Path : $"{Path}?q={Uri.EscapeDataString(_text)}";
-        var uri = Navigation.ToAbsoluteUri(relative).ToString();
+        // AbsoluteUri, no ToString(): el navegador devuelve la dirección codificada ("%C3%A1" por "á"),
+        // y la comparación con Navigation.Uri debe hacerse en esa misma forma.
+        var uri = Navigation.ToAbsoluteUri(relative).AbsoluteUri;
         if (uri != Navigation.Uri)
         {
             _shownUri = uri;

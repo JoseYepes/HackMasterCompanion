@@ -217,6 +217,18 @@ public class PrerequisiteParserTests
         Assert.Equal(["Disfraz (de mendigo)"], result.Unresolved);
     }
 
+    [Theory]
+    [InlineData("Trabajar el metl 50%+")]
+    [InlineData("Habilidad inexistente 101%+")]
+    public void Unknown_Name_Followed_By_A_Mastery_Level_Is_Still_Unresolved__FR005(string text)
+    {
+        // Un nivel de maestría solo es condición en frases como «2 más al 51%+»; tras un nombre
+        // desconocido es una errata que debe detener la importación.
+        var result = Parse(text);
+
+        Assert.Equal([text], result.Unresolved);
+    }
+
     [Fact]
     public void Unknown_Name_Is_Reported_As_Unresolved__FR005()
     {

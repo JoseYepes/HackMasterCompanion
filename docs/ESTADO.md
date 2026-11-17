@@ -97,6 +97,16 @@
   Playwright (unos 700 MB en disco). Las 6 pruebas `E2E` pasan con los datos reales en unos 24 s
   (T063, T064). Se añadió el trabajo `e2e` al CI (T066), que arranca la aplicación con `dotnet run`;
   no se ha visto aún en GitHub.
+- **Revisión independiente (T069, 2026-11-17)**: sin restos de texto de manual, rutas personales ni
+  versiones sin fijar. Corregido: un nombre desconocido seguido de "50%+" pasaba la importación
+  como condición (ahora solo "… al 51%+" lo es); la comparación de direcciones en Habilidades y
+  Conjuntos fallaba con tildes o espacios (no se pudo reproducir un efecto visible; quedan dos
+  pruebas de navegador de vigilancia). Se renombraron 5 pruebas que citaban mal la regla.
+  **Hallazgos menores sin corregir** (latentes con los datos actuales): un emoji en un resumen haría
+  fallar el fragmento de la búsqueda (`SkillQuery`); `DataWriter` no es atómico si falla a mitad de
+  la copia; una dificultad de 100 % en la hoja se leería como 1 %; la prueba de desbordamiento no
+  visita nombres muy largos ni conjuntos oficiales; "Competencia …" mal escrita pasaría como
+  condición.
 - **Pendiente del usuario para más adelante**: los 23 conjuntos oficiales no tienen componentes en
   el Excel; el usuario cree que puede ser un error suyo al pasarlos del manual. Revisarlos con la
   fuente.
