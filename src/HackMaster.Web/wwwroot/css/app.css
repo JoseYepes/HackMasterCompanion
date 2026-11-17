@@ -86,6 +86,79 @@ a {
   margin-right: 0.3rem;
 }
 
+/* Fichas */
+
+.back {
+  margin: 0 0 0.5rem;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  margin: 1rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.fields dt {
+  margin-top: 0.5rem;
+  font-size: 0.85em;
+  color: var(--muted);
+}
+
+.fields dd {
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 820px) {
+  .fields {
+    grid-template-columns: 12rem minmax(0, 1fr);
+  }
+
+  .fields dt,
+  .fields dd {
+    margin: 0;
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fields dt {
+    font-size: 1em;
+  }
+}
+
+.summary p,
+.suites p {
+  overflow-wrap: anywhere;
+}
+
+.suites ul {
+  padding-left: 1.25rem;
+}
+
+.doubt-notice {
+  margin: 1rem 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 4px solid var(--warning-ink);
+  background: var(--warning-bg);
+  overflow-wrap: anywhere;
+}
+
+.doubt-notice p {
+  margin: 0.25rem 0;
+}
+
+.doubt-title {
+  font-weight: 700;
+}
+
+.field-label {
+  color: var(--muted);
+}
+
 /* Buscador y filtros de habilidades */
 
 .search label {

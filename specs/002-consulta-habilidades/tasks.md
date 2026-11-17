@@ -167,15 +167,15 @@ separador de miles; libros como acrónimo y página.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T048 [P] [US2] Escribir `tests/HackMaster.Web.Tests/PrerequisiteViewTests.cs`: los segmentos `Skill`, `Suite` y `OfficialSuite` son enlaces a `/habilidades/{slug}`, `/conjuntos/{slug}` y `/conjuntos/oficiales/{slug}`; `Text` y `Condition` son texto; `Unverified` lleva `pending-mark`; sin segmentos muestra "Ninguno"
-- [ ] T049 [P] [US2] Escribir `tests/HackMaster.Web.Tests/SkillDetailTests.cs`: muestra todos los campos de FR-003; precio 1403 se muestra "1403"; dificultad con "%"; libro "MJ 329"; resumen ausente → "pendiente de verificar"; campo en `pending` → `pending-mark` junto a su valor original de `raw`; lista los conjuntos que la contienen con enlace; `doubt-notice` con duda, fuente y decisión provisional; `slug` inexistente → página no encontrada
+- [X] T048 [P] [US2] Escribir `tests/HackMaster.Web.Tests/PrerequisiteViewTests.cs`: los segmentos `Skill`, `Suite` y `OfficialSuite` son enlaces a `/habilidades/{slug}`, `/conjuntos/{slug}` y `/conjuntos/oficiales/{slug}`; `Text` y `Condition` son texto; `Unverified` lleva `pending-mark`; sin segmentos muestra "Ninguno"
+- [X] T049 [P] [US2] Escribir `tests/HackMaster.Web.Tests/SkillDetailTests.cs`: muestra todos los campos de FR-003; precio 1403 se muestra "1403"; dificultad con "%"; libro "MJ 329"; resumen ausente → "pendiente de verificar"; campo en `pending` → `pending-mark` junto a su valor original de `raw`; lista los conjuntos que la contienen con enlace; `doubt-notice` con duda, fuente y decisión provisional; `slug` inexistente → página no encontrada
 
 ### Implementation
 
-- [ ] T050 [P] [US2] Crear `src/HackMaster.Web/Components/PendingMark.razor` (ya creado en la fase 5 para la lista; texto "pendiente de verificar", `data-testid="pending-mark"`) y `src/HackMaster.Web/Components/DoubtNotice.razor` (`data-testid="doubt-notice"`)
-- [ ] T051 [P] [US2] Crear `src/HackMaster.Web/Components/PrerequisiteView.razor`
-- [ ] T052 [US2] Crear `src/HackMaster.Web/Pages/SkillDetail.razor` en `/habilidades/{slug}` y enlazar cada fila de `src/HackMaster.Web/Pages/Skills.razor` con su ficha
-- [ ] T053 [US2] Añadir a `src/HackMaster.Web/wwwroot/css/app.css` los estilos de ficha, marca de pendiente y aviso de duda a 390 px y 820 px
+- [X] T050 [P] [US2] Crear `src/HackMaster.Web/Components/PendingMark.razor` (ya creado en la fase 5 para la lista; texto "pendiente de verificar", `data-testid="pending-mark"`) y `src/HackMaster.Web/Components/DoubtNotice.razor` (`data-testid="doubt-notice"`)
+- [X] T051 [P] [US2] Crear `src/HackMaster.Web/Components/PrerequisiteView.razor`
+- [X] T052 [US2] Crear `src/HackMaster.Web/Pages/SkillDetail.razor` en `/habilidades/{slug}` y enlazar cada fila de `src/HackMaster.Web/Pages/Skills.razor` con su ficha
+- [X] T053 [US2] Añadir a `src/HackMaster.Web/wwwroot/css/app.css` los estilos de ficha, marca de pendiente y aviso de duda a 390 px y 820 px
 
 **Checkpoint**: historias 1 y 2 funcionan juntas; volver atrás conserva la consulta.
 

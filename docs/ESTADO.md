@@ -27,7 +27,12 @@
   `SkillFacets`), carga de datos (`GameData`), página `/habilidades` con la consulta en la
   dirección, navegación y CSS propio. Probado con datos de prueba (`tests/HackMaster.Web.Tests/
   TestData.cs`, valores inventados solo para las pruebas); en el navegador, la página sin datos no
-  desborda a 390 ni a 820 px. 201 pruebas en verde. Siguiente: fase 6 (ficha de habilidad).
+  desborda a 390 ni a 820 px.
+- **Fase 6 hecha (T048 a T053, 2026-11-17)**: ficha `/habilidades/{slug}` con todos los campos,
+  marca de pendiente junto al valor original, requisitos enlazados (`PrerequisiteView`), conjuntos
+  que la incluyen y aviso de dudas (`DoubtNotice`); un `slug` inexistente muestra "Página no
+  encontrada". Sin datos reales aún no se ha visto en el navegador: queda para cuando se importe
+  el Excel. 217 pruebas en verde. Siguiente: fase 7 (conjuntos y estilos).
 - **Ensayo del importador con la hoja real (2026-11-17, sin escribir en el repositorio)**: lee las
   cuatro pestañas y falla con 15 errores, todos de datos: 11 requisitos de "Habilidades" (filas
   48, 49, 50, 117, 173, 215, 262 ×2, 278, 282, 293), 2 de "Conjuntos de habilidades" (fila 245) y
