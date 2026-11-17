@@ -11,11 +11,12 @@
 - **F000 (Base del proyecto): terminada.** 28 de 28 tareas cerradas (`specs/001-base-proyecto/`).
   Pull requests #1, #2 y #3 fusionados. Sitio publicado en
   https://joseyepes.github.io/HackMasterCompanion/
-- **En curso: F001 (Datos y consulta de habilidades).** Spec escrita y validada en
-  `specs/002-consulta-habilidades/` (rama `002-consulta-habilidades`), con las aclaraciones de
-  `/speckit-clarify` incorporadas, y plan técnico escrito (`plan.md`, `research.md`,
-  `data-model.md`, `contracts/`, `quickstart.md`) y 71 tareas en `tasks.md`. Siguiente paso:
-  `/speckit-analyze` y después `/speckit-implement` por fases.
+- **F001 (Datos y consulta de habilidades): implementada, a falta de revisión y fusión.** Rama
+  `002-consulta-habilidades`, `specs/002-consulta-habilidades/`. Hechas 67 de 71 tareas. Quedan:
+  T035 (paso 3 de `quickstart.md`: el usuario busca una frase del texto de manual con `git grep`),
+  T068 (el usuario coteja unas filas con el Excel; un programa ya comparó 30 habilidades y 10
+  conjuntos al azar sin diferencias), T070 (pull request) y T071 (validar el sitio publicado tras
+  fusionar).
 - **Decisiones del plan de F001** (detalle en `research.md`): ClosedXML para leer la hoja; JSON en
   `data/` incrustado en la aplicación; modelo y búsqueda en `Domain`; proyecto de pruebas nuevo
   `tests/HackMaster.DataImport.Tests`; Playwright dentro de `Web.Tests`; CSS propio sin librería.
@@ -165,8 +166,6 @@
 
 ## Pendiente menor
 
-- `docs/PRODUCTO.md` aún usa los nombres antiguos de los comandos (`/speckit.specify`,
-  `/speckit.plan`) y menciona `.claude/commands`; lo actual es `/speckit-…` y `.claude/skills`.
 - T021 de F000: no se comprobó en GitHub que una prueba rota deja el CI en rojo, por decisión del
   usuario; se observó en local.
 
