@@ -4,6 +4,7 @@
     <Project Path="src/HackMaster.Web/HackMaster.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/HackMaster.DataImport.Tests/HackMaster.DataImport.Tests.csproj" />
     <Project Path="tests/HackMaster.Domain.Tests/HackMaster.Domain.Tests.csproj" />
     <Project Path="tests/HackMaster.Web.Tests/HackMaster.Web.Tests.csproj" />
   </Folder>

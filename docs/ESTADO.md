@@ -19,6 +19,14 @@
 - **Decisiones del plan de F001** (detalle en `research.md`): ClosedXML para leer la hoja; JSON en
   `data/` incrustado en la aplicación; modelo y búsqueda en `Domain`; proyecto de pruebas nuevo
   `tests/HackMaster.DataImport.Tests`; Playwright dentro de `Web.Tests`; CSS propio sin librería.
+- **Implementación de F001**: fases 1 a 3 hechas (T001 a T029): modelo y normalización en
+  `Domain`, importador completo en `tools/DataImport` y 147 pruebas en verde. Falta de T030 el
+  retoque de `CLAUDE.md` (requiere confirmación del usuario). Siguiente: fase 4 con el usuario.
+- **Ensayo del importador con la hoja real (2026-11-17, sin escribir en el repositorio)**: lee las
+  cuatro pestañas y falla con 16 errores, todos de datos: 11 requisitos de "Habilidades" (filas
+  48, 49, 50, 117, 173, 215, 262 ×2, 278, 282, 293), 3 de "Conjuntos de habilidades" (filas 245 ×2
+  y 258) y 2 dudas (filas 2 "Justa" y 3 "granjero / mercader / noble") que no coinciden con ningún
+  nombre. Repetir el comando del README da la lista exacta.
 - **Tarea del usuario antes de la primera importación**: corregir en el Excel los requisitos que
   no coinciden con ninguna habilidad (el importador falla siempre y los lista) y pasar a la
   pestaña "Dudas" las dudas de `PRODUCTO.md` A5 que faltan. El Excel es la única fuente de dudas;

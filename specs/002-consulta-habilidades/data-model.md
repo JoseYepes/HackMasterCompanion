@@ -10,7 +10,8 @@ importador, que los escribe, y la aplicación, que los lee. Los nombres de campo
 |---|---|
 | `Slug` (texto) | Identificador para direcciones: nombre normalizado, espacios y signos → "-". Único dentro de su tipo de elemento (habilidad, conjunto de habilidades, conjunto oficial, estilo); dos nombres del mismo tipo con igual `slug` son un **error** de importación. |
 | `Ability` (enumeración) | `FUE`, `DES`, `CON`, `INT`, `SAB`, `CAR`. Un valor que no esté en la lista (la hoja contiene "ASP") no se descarta: va a `raw` y el campo a `pending`. |
-| `BookRef` | `acronym` (p. ej. `MJ`, `CG`, `GrG`, `HJ8`) y `page` (anulable). Una celda como "MJ 329 / GMG 71" da dos referencias. |
+| `BookRef` | `acronym` (p. ej. `MJ`, `CG`, `GrG`, `HJ8`) y `page` (texto anulable: lo que sigue al acrónimo, tal como está en la fuente; "HJ 4.05" da `HJ` y `4.05`). Una celda como "MJ 329 / GMG 71" da dos referencias. |
+| `ElementKind` (enumeración) | `Skill`, `Suite`, `OfficialSuite`, `Style`. Tipo de elemento al que apunta un componente o una duda. |
 | `Pending` | `pending`: lista de nombres de campo pendientes de verificar. `raw`: diccionario campo → texto original de la hoja. |
 
 ## Skill (habilidad)
@@ -60,7 +61,7 @@ reconocida ni anotación de duda es un **error** (FR-005).
 | `kind` | `Custom` u `Official` | bloque en el que aparece | 36 `Custom` (reglas de HJ 4.05), 23 `Official` |
 | `cost` | entero anulable | fila de título | tal como figura; no se recalcula en F001 |
 | `abilities` | lista de Ability | fila de título | — |
-| `masteryDie` | texto anulable | fila de título | mismas reglas que en Skill |
+| `masteryDie` | texto anulable | fila de título | mismas reglas que en Skill. En los `Custom` la hoja no lo da (se calcula con las reglas de HJ 4.05, F002): queda nulo **sin** marcarse pendiente |
 | `price`, `difficulty` | entero anulable | fila de título | "?" o vacío → nulo + `pending` |
 | `books` | lista de BookRef | fila de título | — |
 | `classes` | lista de texto | fila de título | solo en los `Custom` |
