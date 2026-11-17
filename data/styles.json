@@ -1,4 +1,335 @@
 {
   "schemaVersion": 1,
-  "styles": []
+  "styles": [
+    {
+      "slug": "estilo-baston-percutor-striking-staff-style",
+      "name": "Estilo Bastón Percutor (Striking Staff Style)",
+      "searchName": "estilo baston percutor (striking staff style)",
+      "abilities": [
+        "FUE",
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Sabiduría 14+",
+            "kind": "Condition"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Competencia con bastón",
+            "kind": "Condition"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Combate avanzado a dos manos (Advanced Two-Handed Fighting)",
+            "kind": "Skill",
+            "target": "combate-avanzado-a-dos-manos-advanced-two-handed-fighting"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Zancadilla (Trip Attack)",
+            "kind": "Skill",
+            "target": "zancadilla-trip-attack"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          }
+        ]
+      },
+      "price": 500,
+      "difficulty": 5,
+      "books": [
+        {
+          "acronym": "CG",
+          "page": "54"
+        }
+      ],
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "estilo-del-yunque-the-anvil-style",
+      "name": "Estilo del Yunque (The Anvil Style)",
+      "searchName": "estilo del yunque (the anvil style)",
+      "abilities": [
+        "FUE",
+        "DES"
+      ],
+      "masteryDie": "d4",
+      "prerequisite": {
+        "segments": []
+      },
+      "price": 400,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ8",
+          "page": "10"
+        }
+      ],
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "estilo-escudo-de-la-muerte-shield-of-death-style",
+      "name": "Estilo Escudo de la Muerte (Shield of Death Style)",
+      "searchName": "estilo escudo de la muerte (shield of death style)",
+      "abilities": [
+        "FUE",
+        "INT"
+      ],
+      "masteryDie": "d4",
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Puñetazo con escudo (Shield Punch)",
+            "kind": "Skill",
+            "target": "punetazo-con-escudo-shield-punch"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Embestida con escudo (Shield Bash)",
+            "kind": "Skill",
+            "target": "embestida-con-escudo-shield-bash"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Zancadilla (Trip Attack)",
+            "kind": "Skill",
+            "target": "zancadilla-trip-attack"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Piruetas",
+            "kind": "Skill",
+            "target": "piruetas"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Estilo avanzado de arma y escudo (Advanced Weapon and Shield Style)",
+            "kind": "Skill",
+            "target": "estilo-avanzado-de-arma-y-escudo-advanced-weapon-and-shield-style"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Competencia con espada corta",
+            "kind": "Condition"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Especialización con escudo (Shield Specialization)",
+            "kind": "Skill",
+            "target": "especializacion-con-escudo-shield-specialization"
+          }
+        ]
+      },
+      "price": 200,
+      "difficulty": 5,
+      "books": [
+        {
+          "acronym": "CG",
+          "page": "55"
+        }
+      ],
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "estilo-martillo-y-yunque-hammer-and-anvil-style",
+      "name": "Estilo Martillo y Yunque (Hammer and Anvil Style)",
+      "searchName": "estilo martillo y yunque (hammer and anvil style)",
+      "abilities": [
+        "FUE",
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Fuerza 17+",
+            "kind": "Condition"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Embestida con escudo (Shield Bash)",
+            "kind": "Skill",
+            "target": "embestida-con-escudo-shield-bash"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Puñetazo con escudo (Shield Punch)",
+            "kind": "Skill",
+            "target": "punetazo-con-escudo-shield-punch"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Combate avanzado con dos armas (Advanced Two-Weapon Fighting)",
+            "kind": "Skill",
+            "target": "combate-avanzado-con-dos-armas-advanced-two-weapon-fighting"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Estilo avanzado de arma y escudo (Advanced Weapon and Shield Style)",
+            "kind": "Skill",
+            "target": "estilo-avanzado-de-arma-y-escudo-advanced-weapon-and-shield-style"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Competencia con martillo de guerra",
+            "kind": "Condition"
+          }
+        ]
+      },
+      "price": 1000,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "CG",
+          "page": "55"
+        }
+      ],
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "estilo-tormenta-de-hachas-axe-storm-style",
+      "name": "Estilo Tormenta de Hachas (Axe Storm Style)",
+      "searchName": "estilo tormenta de hachas (axe storm style)",
+      "abilities": [
+        "INT",
+        "DES"
+      ],
+      "masteryDie": "d4",
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Destreza 17+",
+            "kind": "Condition"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Competencia con hacha de mano",
+            "kind": "Condition"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Combate avanzado con dos armas (Advanced Two-Weapon Fighting)",
+            "kind": "Skill",
+            "target": "combate-avanzado-con-dos-armas-advanced-two-weapon-fighting"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Desenfundado rápido (Quick Draw)",
+            "kind": "Skill",
+            "target": "desenfundado-rapido-quick-draw"
+          },
+          {
+            "text": " (hacha de mano)",
+            "kind": "Text"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Zancadilla (Trip Attack)",
+            "kind": "Skill",
+            "target": "zancadilla-trip-attack"
+          },
+          {
+            "text": " 50%+",
+            "kind": "Text"
+          }
+        ]
+      },
+      "price": 2300,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "CG",
+          "page": "53"
+        }
+      ],
+      "pending": [],
+      "raw": {}
+    }
+  ]
 }

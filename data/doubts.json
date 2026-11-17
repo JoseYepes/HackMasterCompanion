@@ -1,4 +1,515 @@
 {
   "schemaVersion": 1,
-  "doubts": []
+  "doubts": [
+    {
+      "id": "sheet-skill-cerrajeria-1",
+      "origin": "Sheet",
+      "subject": "Cerrajeria",
+      "target": {
+        "kind": "Skill",
+        "slug": "cerrajeria"
+      },
+      "source": "GrG 65 (tabla) / GrG 69 (texto)",
+      "question": "La tabla del GrG da 3 PC y (FUE+DES+SAB)/3; el texto de la habilidad dice Destreza y 1 PC para ladrones (2 PC para el resto de grupos).",
+      "provisional": "Dejé los datos de la tabla (3 PC, FUE, DES, SAB). Si prefieres el texto: DES y 2 PC (1 PC para el grupo de ladrones)."
+    },
+    {
+      "id": "sheet-official-suite-conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite-1",
+      "origin": "Sheet",
+      "subject": "Conjunto de habilidades de granjero (Farmer's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite"
+      },
+      "source": "HJ2 p.2",
+      "question": "HJ13 marca coste, dificultad y requisito con \"?\" y no tengo el HJ2.",
+      "provisional": "Dejé \"?\" en el requisito."
+    },
+    {
+      "id": "sheet-official-suite-conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite-1",
+      "origin": "Sheet",
+      "subject": "Conjunto de habilidades de mercader (Merchant's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite"
+      },
+      "source": "HJ2 p.2",
+      "question": "HJ13 marca coste, dificultad y requisito con \"?\" y no tengo el HJ2.",
+      "provisional": "Dejé \"?\" en el requisito."
+    },
+    {
+      "id": "sheet-official-suite-conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite-1",
+      "origin": "Sheet",
+      "subject": "Conjunto de habilidades de noble (Noble's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite"
+      },
+      "source": "HJ2 p.2",
+      "question": "HJ13 marca coste, dificultad y requisito con \"?\" y no tengo el HJ2.",
+      "provisional": "Dejé \"?\" en el requisito."
+    },
+    {
+      "id": "sheet-skill-desenfunde-veloz-kodt-fast-draw-kodt-1",
+      "origin": "Sheet",
+      "subject": "Desenfunde veloz (KODT) (Fast Draw [KODT])",
+      "target": {
+        "kind": "Skill",
+        "slug": "desenfunde-veloz-kodt-fast-draw-kodt"
+      },
+      "source": "KODT 64, p. 38",
+      "question": "Sin texto fuente."
+    },
+    {
+      "id": "sheet-general-1",
+      "origin": "Sheet",
+      "subject": "General",
+      "source": "CG",
+      "question": "Estilos de artes marciales: descripciones genéricas; falta la tabla 5D del CG."
+    },
+    {
+      "id": "sheet-skill-justa-jousting-1",
+      "origin": "Sheet",
+      "subject": "Justa (Jousting)",
+      "target": {
+        "kind": "Skill",
+        "slug": "justa-jousting"
+      },
+      "source": "HJ13 (KODT 64, p.38)",
+      "question": "El requisito viene de una fuente que no tengo (KODT 64).",
+      "provisional": "Puse \"Montar criatura terrestre (sin verificar)\"."
+    },
+    {
+      "id": "sheet-skill-maniobra-ka-bob-ka-bob-maneuver-1",
+      "origin": "Sheet",
+      "subject": "Maniobra Ka-Bob (Ka-Bob Maneuver)",
+      "target": {
+        "kind": "Skill",
+        "slug": "maniobra-ka-bob-ka-bob-maneuver"
+      },
+      "source": "KODT 64, p. 38",
+      "question": "Sin texto fuente."
+    },
+    {
+      "id": "sheet-skill-pellizcar-pinch-1",
+      "origin": "Sheet",
+      "subject": "Pellizcar (Pinch)",
+      "target": {
+        "kind": "Skill",
+        "slug": "pellizcar-pinch"
+      },
+      "source": "MJ",
+      "question": "Texto del MJ pendiente de verificar."
+    },
+    {
+      "id": "import-skill-agujeritos-runicos-masteryDie",
+      "origin": "Import",
+      "subject": "Agujeritos Runicos",
+      "target": {
+        "kind": "Skill",
+        "slug": "agujeritos-runicos"
+      },
+      "question": "El dado de maestría «3» no es un dado existente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-skill-ahora-aqui-ahora-alli-masteryDie",
+      "origin": "Import",
+      "subject": "Ahora aquí, ahora allí",
+      "target": {
+        "kind": "Skill",
+        "slug": "ahora-aqui-ahora-alli"
+      },
+      "question": "El dado de maestría «5» no es un dado existente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-cartografo-components",
+      "origin": "Import",
+      "subject": "Cartógrafo",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "cartografo"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-skill-chi-star-masteryDie",
+      "origin": "Import",
+      "subject": "Chi-Star",
+      "target": {
+        "kind": "Skill",
+        "slug": "chi-star"
+      },
+      "question": "El dado de maestría «5» no es un dado existente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-administrador-politico-administrator-politician-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de administrador/político (Administrator/Politician Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-administrador-politico-administrator-politician-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-administrador-politico-administrator-politician-skill-suite-masteryDie",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de administrador/político (Administrator/Politician Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-administrador-politico-administrator-politician-skill-suite"
+      },
+      "question": "El dado de maestría «5» no es un dado existente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-artista-artist-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de artista (Artist Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-artista-artist-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-carpintero-carpenter-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de carpintero (Carpenter Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-carpintero-carpenter-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-carretero-transportista-teamster-freighter-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de carretero/transportista (Teamster/Freighter Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-carretero-transportista-teamster-freighter-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-comerciante-trueque-trader-barter-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de comerciante/trueque (Trader/Barter Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-comerciante-trueque-trader-barter-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-constructor-naval-shipwright-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de constructor naval (Shipwright Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-constructor-naval-shipwright-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-curandero-medico-healer-doctor-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de curandero/médico (Healer/Doctor Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-curandero-medico-healer-doctor-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-escriba-scribe-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de escriba (Scribe Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-escriba-scribe-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de granjero (Farmer's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite-difficulty",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de granjero (Farmer's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite"
+      },
+      "question": "Falta la dificultad; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite-prerequisite",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de granjero (Farmer's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite"
+      },
+      "question": "El requisito está sin verificar en la fuente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite-price",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de granjero (Farmer's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite"
+      },
+      "question": "Falta el precio; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-herrero-blacksmith-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de herrero (Blacksmith Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-herrero-blacksmith-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-marinero-sailor-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de marinero (Sailor Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-marinero-sailor-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-maton-thug-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de matón (Thug Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-maton-thug-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de mercader (Merchant's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite-difficulty",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de mercader (Merchant's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite"
+      },
+      "question": "Falta la dificultad; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite-prerequisite",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de mercader (Merchant's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite"
+      },
+      "question": "El requisito está sin verificar en la fuente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite-price",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de mercader (Merchant's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite"
+      },
+      "question": "Falta el precio; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-misionero-missionary-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de misionero (Missionary Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-misionero-missionary-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-navegante-navigator-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de navegante (Navigator Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-navegante-navigator-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de noble (Noble's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite-difficulty",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de noble (Noble's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite"
+      },
+      "question": "Falta la dificultad; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite-prerequisite",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de noble (Noble's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite"
+      },
+      "question": "El requisito está sin verificar en la fuente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite-price",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de noble (Noble's [Daughter] Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite"
+      },
+      "question": "Falta el precio; queda pendiente de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-pintor-retratista-limner-painter-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de pintor/retratista (Limner/Painter Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-pintor-retratista-limner-painter-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-primeros-auxilios-components",
+      "origin": "Import",
+      "subject": "Conjunto de Habilidades de primeros auxilios",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-primeros-auxilios"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-sastre-tejedor-tailor-weaver-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de sastre/tejedor (Tailor/Weaver Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-sastre-tejedor-tailor-weaver-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-supervivencia-components",
+      "origin": "Import",
+      "subject": "Conjunto de Habilidades de supervivencia",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-supervivencia"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-conjunto-de-habilidades-de-trampero-peletero-trapper-furrier-skill-suite-components",
+      "origin": "Import",
+      "subject": "Conjunto de habilidades de trampero/peletero (Trapper/Furrier Skill Suite)",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "conjunto-de-habilidades-de-trampero-peletero-trapper-furrier-skill-suite"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-official-suite-historiador-components",
+      "origin": "Import",
+      "subject": "Historiador",
+      "target": {
+        "kind": "OfficialSuite",
+        "slug": "historiador"
+      },
+      "question": "La fuente no detalla sus componentes; quedan pendientes de verificar."
+    },
+    {
+      "id": "import-skill-justa-jousting-prerequisite",
+      "origin": "Import",
+      "subject": "Justa (Jousting)",
+      "target": {
+        "kind": "Skill",
+        "slug": "justa-jousting"
+      },
+      "question": "El requisito está sin verificar en la fuente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-skill-lengua-dragonil-masteryDie",
+      "origin": "Import",
+      "subject": "Lengua dragonil",
+      "target": {
+        "kind": "Skill",
+        "slug": "lengua-dragonil"
+      },
+      "question": "El dado de maestría «2» no es un dado existente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-skill-liderazgo-basico-masteryDie",
+      "origin": "Import",
+      "subject": "Liderazgo básico",
+      "target": {
+        "kind": "Skill",
+        "slug": "liderazgo-basico"
+      },
+      "question": "El dado de maestría «5» no es un dado existente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-skill-liderazgo-de-pequenos-grupos-masteryDie",
+      "origin": "Import",
+      "subject": "Liderazgo de pequeños grupos",
+      "target": {
+        "kind": "Skill",
+        "slug": "liderazgo-de-pequenos-grupos"
+      },
+      "question": "El dado de maestría «5» no es un dado existente; queda pendiente de verificar."
+    },
+    {
+      "id": "import-skill-superioridad-de-la-mirada-del-tigre-la-masteryDie",
+      "origin": "Import",
+      "subject": "Superioridad de la mirada del tigre, la",
+      "target": {
+        "kind": "Skill",
+        "slug": "superioridad-de-la-mirada-del-tigre-la"
+      },
+      "question": "El dado de maestría «5» no es un dado existente; queda pendiente de verificar."
+    }
+  ]
 }

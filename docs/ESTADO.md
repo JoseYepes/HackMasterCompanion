@@ -74,10 +74,24 @@
 - **Fallo del importador corregido (2026-11-17)**: la hoja guarda el dado de maestría como número
   con el formato `\dGeneral` (se ve "d6") y ClosedXML lo leía como fecha, lo que dejaba 337 dados
   "pendientes de verificar". Ahora se lee el número.
-- **Importación de prueba (2026-11-17, a una carpeta temporal)**: código 0; 343 habilidades, 36
-  conjuntos, 23 oficiales, 5 estilos; 9 dudas de la hoja y 166 avisos (sobre todo conjuntos sin
-  coste, precio o dificultad, 16 características no reconocidas y 8 dados inexistentes). Falta
-  revisarlos con el usuario y escribir de verdad en `data/` (T033).
+- **Excel recalculado (2026-11-17)**: guardar con ClosedXML borró los resultados de las fórmulas
+  (no las fórmulas). Al recalcular con LibreOffice se vio que los resultados del original ya
+  estaban desactualizados (495 distintos: costes, precios y dificultades de conjuntos, dados,
+  libros de los componentes). El usuario aceptó la versión recalculada. Lección: **no guardar el
+  Excel con ClosedXML**; si hay que editarlo, recalcular y guardar con LibreOffice y comparar.
+  También se quitó la «R» del coste de Birlar: en el MJ significa «restringida a algunas clases»,
+  y eso ya está en «Clases permitidas».
+- **Avisos revisados con el usuario (T033, 2026-11-17)**: el importador acepta ahora «ASP»
+  (Aspecto) como característica y «NA» como «no aplica» (sin marca de pendiente). Los 41 avisos que
+  quedan se aceptan tal cual: 8 dados inexistentes («5», «3», «2»), 4 requisitos sin verificar y 6
+  campos de granjero / mercader / noble (dudas ya registradas) y los 23 conjuntos oficiales sin
+  componentes.
+- **Primera importación real (2026-11-17)**: `data/*.json` y `docs/dudas.md` generados (343
+  habilidades, 36 conjuntos, 23 oficiales, 5 estilos; 9 dudas de la hoja y 41 detectadas; unos 4 s).
+  Ningún archivo contiene `manualText`.
+- **Pendiente del usuario para más adelante**: los 23 conjuntos oficiales no tienen componentes en
+  el Excel; el usuario cree que puede ser un error suyo al pasarlos del manual. Revisarlos con la
+  fuente.
 - El Excel es la única fuente de dudas; `docs/dudas.md` se genera. Cada fila de "Dudas" nombra un
   solo elemento con su nombre exacto, o dice "General".
 - **`/speckit-analyze` pasado el 2026-11-16**: 9 hallazgos (2 altos), todos corregidos en los
