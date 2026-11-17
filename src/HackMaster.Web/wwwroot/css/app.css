@@ -1,14 +1,275 @@
+:root {
+  --ink: #1f2328;
+  --muted: #5c636a;
+  --line: #d0d7de;
+  --surface: #f6f8fa;
+  --accent: #1b6ec2;
+  --warning-bg: #fff8c5;
+  --warning-ink: #6b4e00;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 html, body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   margin: 0;
+  color: var(--ink);
+  line-height: 1.4;
 }
 
 main {
   padding: 1rem;
+  max-width: 72rem;
+  margin: 0 auto;
 }
 
 h1:focus {
   outline: none;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Cabecera y navegación */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.site-name {
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+}
+
+.site-nav a {
+  padding: 0.25rem 0;
+  text-decoration: none;
+}
+
+.site-nav a.active {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.sections li {
+  margin-bottom: 0.5rem;
+}
+
+/* Marca de pendiente de verificar */
+
+.pending-mark {
+  display: inline-block;
+  padding: 0 0.3rem;
+  border-radius: 0.25rem;
+  background: var(--warning-bg);
+  color: var(--warning-ink);
+  font-size: 0.85em;
+}
+
+.pending-raw {
+  margin-right: 0.3rem;
+}
+
+/* Buscador y filtros de habilidades */
+
+.search label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--muted);
+}
+
+.search input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+}
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+}
+
+.active-filters ul {
+  display: contents;
+  list-style: none;
+}
+
+.active-filters li {
+  padding: 0.125rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  overflow-wrap: anywhere;
+}
+
+.active-filters-label {
+  color: var(--muted);
+}
+
+.clear-filters {
+  padding: 0.25rem 0.75rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.filters {
+  margin-top: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.filters summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.filters fieldset {
+  border: 0;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.filters legend {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.filters .option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0 0.75rem 0.25rem 0;
+  overflow-wrap: anywhere;
+}
+
+.filters .ranges label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0 0.75rem 0.25rem 0;
+}
+
+.filters .ranges input {
+  width: 6.5rem;
+  padding: 0.25rem;
+}
+
+.sort {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+}
+
+.sort select {
+  max-width: 100%;
+  padding: 0.25rem;
+  font: inherit;
+}
+
+.result-count {
+  color: var(--muted);
+}
+
+/* Lista de habilidades: tarjetas en móvil, tabla a partir de 820 px */
+
+.skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.skill-head {
+  display: none;
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.125rem 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+}
+
+.skill-name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.skill-type,
+.skill-book {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.skill-cost {
+  text-align: right;
+}
+
+.skill-book {
+  text-align: right;
+}
+
+.snippet {
+  grid-column: 1 / -1;
+  margin: 0.25rem 0 0;
+  font-size: 0.9em;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 820px) {
+  .skill-head,
+  .skill-row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.2fr) 4rem minmax(0, 1.2fr);
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.5rem 0.75rem;
+    margin: 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+  }
+
+  .skill-head {
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .skill-cost .field-label {
+    display: none;
+  }
+
+  .skill-book {
+    text-align: left;
+  }
 }
 
 #blazor-error-ui {

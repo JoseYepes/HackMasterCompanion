@@ -1,5 +1,24 @@
 @inherits LayoutComponentBase
+@inject GameData Data
+
+<header class="site-header">
+    <a class="site-name" href="">@AppInfo.Name</a>
+    <nav class="site-nav" aria-label="Secciones">
+        <NavLink href="habilidades">Habilidades</NavLink>
+        <NavLink href="conjuntos">Conjuntos</NavLink>
+        <NavLink href="estilos">Estilos</NavLink>
+        <NavLink href="dudas">Dudas</NavLink>
+    </nav>
+</header>
 
 <main>
-    @Body
+    @if (Data.LoadError is not null)
+    {
+        <h1>No se pudieron cargar los datos</h1>
+        <p role="alert">@Data.LoadError</p>
+    }
+    else
+    {
+        @Body
+    }
 </main>
