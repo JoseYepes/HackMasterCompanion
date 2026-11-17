@@ -2,6 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <RootNamespace>HackMaster.DataImport</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\HackMaster.Domain\HackMaster.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

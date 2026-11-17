@@ -1,0 +1,30 @@
+@page "/estilos"
+@inject GameData Data
+
+<PageTitle>Estilos de combate · @AppInfo.Name</PageTitle>
+
+<h1>Estilos de combate</h1>
+
+@if (Data.Styles.Count == 0)
+{
+    <p class="no-results">No hay estilos de combate en los datos.</p>
+}
+else
+{
+    <ul class="item-list style-list">
+        <li class="item-head" aria-hidden="true">
+            <span>Nombre</span><span>Características</span><span>Dado</span><span>Precio</span><span>Dificultad</span><span>Libro</span>
+        </li>
+        @foreach (var style in Data.Styles)
+        {
+            <li class="item-row" data-testid="style-row" @key="style.Slug">
+                <a class="item-name style-name" href="@Routes.Element(ElementKind.Style, style.Slug)">@style.Name</a>
+                <span><span class="field-label">Características </span><FieldValue Field="abilities" Text="@Display.List(style.Abilities)" Pending="style.Pending" Raw="style.Raw" /></span>
+                <span><span class="field-label">Dado </span><FieldValue Field="masteryDie" Text="@(style.MasteryDie ?? Display.Missing)" Pending="style.Pending" Raw="style.Raw" /></span>
+                <span><span class="field-label">Precio </span><FieldValue Field="price" Text="@(style.Price is null ? Display.Missing : Display.Number(style.Price) + " po")" Pending="style.Pending" Raw="style.Raw" /></span>
+                <span><span class="field-label">Dificultad </span><FieldValue Field="difficulty" Text="@Display.Percent(style.Difficulty)" Pending="style.Pending" Raw="style.Raw" /></span>
+                <span><FieldValue Field="books" Text="@Display.Books(style.Books)" Pending="style.Pending" Raw="style.Raw" /></span>
+            </li>
+        }
+    </ul>
+}

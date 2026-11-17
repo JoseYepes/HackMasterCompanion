@@ -10,6 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Datos de juego generados por tools/DataImport; viajan incrustados en la aplicación. -->
+    <EmbeddedResource Include="..\..\data\*.json" LogicalName="HackMaster.Data.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HackMaster.Domain\HackMaster.Domain.csproj" />
   </ItemGroup>
 

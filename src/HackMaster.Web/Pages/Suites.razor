@@ -1,0 +1,72 @@
+@page "/conjuntos"
+@inject GameData Data
+@inject NavigationManager Navigation
+
+<PageTitle>Conjuntos · @AppInfo.Name</PageTitle>
+
+<h1>Conjuntos</h1>
+
+<div class="search">
+    <label for="suite-search">Buscar por nombre</label>
+    <input id="suite-search" type="search" autocomplete="off" data-testid="search-input" value="@_text" @oninput="OnSearchInput" />
+</div>
+
+<section data-testid="custom-suites">
+    <h2>Conjuntos de habilidades (@_custom.Count)</h2>
+    <SuiteList Suites="_custom" />
+</section>
+
+<section data-testid="official-suites">
+    <h2>Conjuntos oficiales (@_official.Count)</h2>
+    <SuiteList Suites="_official" />
+</section>
+
+@code {
+    private const string Path = "conjuntos";
+
+    private string _text = string.Empty;
+    private string? _shownUri;
+    private IReadOnlyList<SkillSuite> _custom = [];
+    private IReadOnlyList<SkillSuite> _official = [];
+
+    protected override void OnParametersSet()
+    {
+        if (Navigation.Uri == _shownUri)
+        {
+            return;
+        }
+
+        _shownUri = Navigation.Uri;
+        var uri = new Uri(Navigation.Uri);
+        var q = uri.Query.TrimStart('?')
+            .Split('&', StringSplitOptions.RemoveEmptyEntries)
+            .Select(part => part.Split('=', 2))
+            .Where(pair => pair[0] == "q" && pair.Length == 2)
+            .Select(pair => Uri.UnescapeDataString(pair[1].Replace('+', ' ')))
+            .LastOrDefault();
+        Show(q ?? string.Empty);
+    }
+
+    private void OnSearchInput(ChangeEventArgs args)
+    {
+        Show(args.Value?.ToString() ?? string.Empty);
+        var relative = string.IsNullOrWhiteSpace(_text) ? Path : $"{Path}?q={Uri.EscapeDataString(_text)}";
+        // AbsoluteUri, no ToString(): el navegador devuelve la dirección codificada ("%C3%A1" por "á"),
+        // y la comparación con Navigation.Uri debe hacerse en esa misma forma.
+        var uri = Navigation.ToAbsoluteUri(relative).AbsoluteUri;
+        if (uri != Navigation.Uri)
+        {
+            _shownUri = uri;
+            Navigation.NavigateTo(uri, replace: true);
+        }
+    }
+
+    private void Show(string text)
+    {
+        _text = text;
+        var normalized = TextNormalizer.Normalize(text);
+        var matches = Data.Suites.Where(suite => suite.SearchName.Contains(normalized, StringComparison.Ordinal)).ToList();
+        _custom = matches.Where(suite => suite.Kind == SuiteKind.Custom).ToList();
+        _official = matches.Where(suite => suite.Kind == SuiteKind.Official).ToList();
+    }
+}

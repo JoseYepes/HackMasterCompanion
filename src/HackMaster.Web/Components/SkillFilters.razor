@@ -1,0 +1,146 @@
+@using System.Globalization
+@* Filtros de la lista de habilidades: los activos se ven siempre; el panel se pliega. *@
+
+@if (Criteria.IsActive)
+{
+    <div class="active-filters" data-testid="active-filters">
+        <span class="active-filters-label">Filtros activos:</span>
+        <ul>
+            @if (!string.IsNullOrWhiteSpace(Criteria.Text))
+            {
+                <li>Búsqueda «@Criteria.Text.Trim()»</li>
+            }
+            @foreach (var value in Criteria.Types.Order(StringComparer.Ordinal))
+            {
+                <li>Tipo: @value</li>
+            }
+            @foreach (var value in Criteria.Books.Order(StringComparer.Ordinal))
+            {
+                <li>Libro: @value</li>
+            }
+            @foreach (var value in Criteria.Classes.Order(StringComparer.Ordinal))
+            {
+                <li>Clase: @value</li>
+            }
+            @if (Criteria.PriceMin is not null || Criteria.PriceMax is not null)
+            {
+                <li>Precio: @Range(Criteria.PriceMin, Criteria.PriceMax, " po")</li>
+            }
+            @if (Criteria.DifficultyMin is not null || Criteria.DifficultyMax is not null)
+            {
+                <li>Dificultad: @Range(Criteria.DifficultyMin, Criteria.DifficultyMax, " %")</li>
+            }
+        </ul>
+        <button type="button" class="clear-filters" data-testid="clear-filters" @onclick="Clear">Quitar filtros</button>
+    </div>
+}
+
+<details class="filters">
+    <summary>Filtros</summary>
+
+    <fieldset data-testid="filter-type">
+        <legend>Tipo</legend>
+        @foreach (var value in Facets.Types)
+        {
+            <label class="option"><input type="checkbox" value="@value" checked="@Criteria.Types.Contains(value)" @onchange="e => Toggle(value, e, c => c.Types, (c, s) => c with { Types = s })" /> @value</label>
+        }
+    </fieldset>
+
+    <fieldset data-testid="filter-book">
+        <legend>Libro</legend>
+        @foreach (var value in Facets.Books)
+        {
+            <label class="option"><input type="checkbox" value="@value" checked="@Criteria.Books.Contains(value)" @onchange="e => Toggle(value, e, c => c.Books, (c, s) => c with { Books = s })" /> @value</label>
+        }
+    </fieldset>
+
+    <fieldset data-testid="filter-class">
+        <legend>Clase (incluye las de «Todas»)</legend>
+        @foreach (var value in Facets.Classes)
+        {
+            <label class="option"><input type="checkbox" value="@value" checked="@Criteria.Classes.Contains(value)" @onchange="e => Toggle(value, e, c => c.Classes, (c, s) => c with { Classes = s })" /> @value</label>
+        }
+    </fieldset>
+
+    <fieldset class="ranges">
+        <legend>Precio (po)</legend>
+        <label>Mínimo <input type="number" inputmode="numeric" data-testid="filter-price-min" value="@Text(Criteria.PriceMin)" @onchange="e => Change(c => c with { PriceMin = Integer(e) })" /></label>
+        <label>Máximo <input type="number" inputmode="numeric" data-testid="filter-price-max" value="@Text(Criteria.PriceMax)" @onchange="e => Change(c => c with { PriceMax = Integer(e) })" /></label>
+    </fieldset>
+
+    <fieldset class="ranges">
+        <legend>Dificultad (%)</legend>
+        <label>Mínima <input type="number" data-testid="filter-difficulty-min" value="@Text(Criteria.DifficultyMin)" @onchange="e => Change(c => c with { DifficultyMin = Integer(e) })" /></label>
+        <label>Máxima <input type="number" data-testid="filter-difficulty-max" value="@Text(Criteria.DifficultyMax)" @onchange="e => Change(c => c with { DifficultyMax = Integer(e) })" /></label>
+    </fieldset>
+</details>
+
+<label class="sort">
+    Ordenar por
+    <select data-testid="sort-select" value="@SkillAddress.SortValue(Criteria.Sort)" @onchange="ChangeSort">
+        <option value="nombre">Nombre (A–Z)</option>
+        <option value="-nombre">Nombre (Z–A)</option>
+        <option value="pc">PC (menor primero)</option>
+        <option value="-pc">PC (mayor primero)</option>
+        <option value="precio">Precio (menor primero)</option>
+        <option value="-precio">Precio (mayor primero)</option>
+        <option value="dificultad">Dificultad (menor primero)</option>
+        <option value="-dificultad">Dificultad (mayor primero)</option>
+    </select>
+</label>
+
+@code {
+    /// <summary>Opciones de cada filtro.</summary>
+    [Parameter, EditorRequired]
+    public SkillFacets Facets { get; set; } = default!;
+
+    /// <summary>Consulta actual.</summary>
+    [Parameter, EditorRequired]
+    public SkillCriteria Criteria { get; set; } = default!;
+
+    /// <summary>Se llama con la consulta nueva cada vez que cambia un filtro.</summary>
+    [Parameter]
+    public EventCallback<SkillCriteria> CriteriaChanged { get; set; }
+
+    private Task Change(Func<SkillCriteria, SkillCriteria> update) => CriteriaChanged.InvokeAsync(update(Criteria));
+
+    private Task Toggle(
+        string value,
+        ChangeEventArgs args,
+        Func<SkillCriteria, IReadOnlySet<string>> current,
+        Func<SkillCriteria, IReadOnlySet<string>, SkillCriteria> with)
+    {
+        var set = new HashSet<string>(current(Criteria), StringComparer.Ordinal);
+        if (IsChecked(args))
+        {
+            set.Add(value);
+        }
+        else
+        {
+            set.Remove(value);
+        }
+
+        return Change(criteria => with(criteria, set));
+    }
+
+    private Task ChangeSort(ChangeEventArgs args) =>
+        Change(criteria => criteria with { Sort = SkillAddress.ParseSort(args.Value?.ToString()) ?? SkillSort.Default });
+
+    /// <summary>Quita la búsqueda y todos los filtros; conserva el orden.</summary>
+    private Task Clear() => Change(criteria => SkillCriteria.Empty with { Sort = criteria.Sort });
+
+    private static bool IsChecked(ChangeEventArgs args) =>
+        args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+
+    private static int? Integer(ChangeEventArgs args) =>
+        int.TryParse(args.Value?.ToString(), NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var number) ? number : null;
+
+    private static string? Text(int? value) => value?.ToString(CultureInfo.InvariantCulture);
+
+    private static string Range(int? min, int? max, string unit) => (min, max) switch
+    {
+        (not null, not null) => $"{Text(min)} a {Text(max)}{unit}",
+        (not null, null) => $"desde {Text(min)}{unit}",
+        _ => $"hasta {Text(max)}{unit}",
+    };
+}

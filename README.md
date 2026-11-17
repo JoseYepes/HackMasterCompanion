@@ -19,6 +19,19 @@ dotnet format --verify-no-changes
 dotnet run --project src/HackMaster.Web
 ```
 
+### Regenerar los datos de juego
+
+Los datos de `data/` y el archivo `docs/dudas.md` se generan desde la hoja de cálculo, que vive
+fuera del repositorio. Con su ruta en la variable de entorno `HACKMASTER_EXCEL` (PowerShell):
+
+```
+dotnet run --project tools/DataImport -- "$env:HACKMASTER_EXCEL" data/
+```
+
+Si la hoja tiene errores (un requisito que no coincide con ninguna habilidad, un nombre repetido…),
+la herramienta los lista todos con su pestaña y su fila y no modifica ningún archivo. No edites
+`data/` ni `docs/dudas.md` a mano.
+
 La construcción trata cualquier aviso como error.
 
 ## Estructura
@@ -28,7 +41,9 @@ src/HackMaster.Domain          reglas puras, sin dependencias externas
 src/HackMaster.Web             aplicación Blazor WebAssembly
 tests/HackMaster.Domain.Tests  pruebas del dominio (xUnit)
 tests/HackMaster.Web.Tests     pruebas de componentes (bUnit)
-tools/DataImport               importador de datos (llega con F001)
+tests/HackMaster.DataImport.Tests  pruebas del importador (xUnit)
+data/                          datos de juego generados (no se editan a mano)
+tools/DataImport               importador de datos: hoja de cálculo → data/
 docs/                          producto y decisiones
 specs/                         una carpeta por funcionalidad (Spec Kit)
 ```

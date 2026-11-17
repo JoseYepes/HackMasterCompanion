@@ -1,0 +1,82 @@
+@page "/habilidades/{Slug}"
+@inject GameData Data
+
+@if (_skill is null)
+{
+    <NotFound />
+}
+else
+{
+    <PageTitle>@_skill.Name · @AppInfo.Name</PageTitle>
+
+    <p class="back"><a href="@SkillAddress.Path">← Habilidades</a></p>
+
+    <h1>@_skill.Name</h1>
+
+    <DoubtNotice Doubts="@Data.DoubtsFor(ElementKind.Skill, _skill.Slug)" />
+
+    <dl class="fields">
+        <dt>Tipo</dt>
+        <dd><FieldValue Field="type" Text="@_skill.Type" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+        <dt>Coste (PC)</dt>
+        <dd><FieldValue Field="cost" Text="@Display.Number(_skill.Cost)" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+        <dt>Características</dt>
+        <dd><FieldValue Field="abilities" Text="@Display.List(_skill.Abilities)" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+        <dt>Dado de maestría</dt>
+        <dd><FieldValue Field="masteryDie" Text="@(_skill.MasteryDie ?? Display.Missing)" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+        <dt>Requisitos</dt>
+        <dd><PrerequisiteView Prerequisite="_skill.Prerequisite" /></dd>
+        <dt>Precio (po)</dt>
+        <dd><FieldValue Field="price" Text="@Display.Number(_skill.Price)" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+        <dt>Dificultad</dt>
+        <dd><FieldValue Field="difficulty" Text="@Display.Percent(_skill.Difficulty)" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+        <dt>Libro</dt>
+        <dd><FieldValue Field="books" Text="@Display.Books(_skill.Books)" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+        <dt>Clases permitidas</dt>
+        <dd><FieldValue Field="classes" Text="@Display.List(_skill.Classes)" Pending="_skill.Pending" Raw="_skill.Raw" /></dd>
+    </dl>
+
+    <h2>Resumen</h2>
+    <div class="summary">
+        @if (_skill.Summary is null)
+        {
+            <PendingMark />
+        }
+        else
+        {
+            <p>@_skill.Summary</p>
+        }
+    </div>
+
+    <h2>Conjuntos que la incluyen</h2>
+    <div class="suites">
+        @if (_suites.Count == 0)
+        {
+            <p>No forma parte de ningún conjunto.</p>
+        }
+        else
+        {
+            <ul>
+                @foreach (var suite in _suites)
+                {
+                    <li><a href="@Routes.Suite(suite)">@suite.Name</a>@(suite.Kind == SuiteKind.Official ? " (oficial)" : string.Empty)</li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+@code {
+    /// <summary>Identificador de la habilidad en la dirección.</summary>
+    [Parameter]
+    public string Slug { get; set; } = string.Empty;
+
+    private Skill? _skill;
+    private IReadOnlyList<SkillSuite> _suites = [];
+
+    protected override void OnParametersSet()
+    {
+        _skill = Data.FindSkill(Slug);
+        _suites = _skill is null ? [] : Data.SuitesContaining(_skill.Slug);
+    }
+}

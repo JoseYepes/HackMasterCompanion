@@ -1,0 +1,72 @@
+@* Ficha de un conjunto (de habilidades u oficial). Los valores son los de la fuente; no se recalculan. *@
+@inject GameData Data
+
+<PageTitle>@Suite.Name · @AppInfo.Name</PageTitle>
+
+<p class="back"><a href="conjuntos">← Conjuntos</a></p>
+
+<h1>@Suite.Name</h1>
+<p class="suite-kind">@(IsOfficial ? "Conjunto oficial" : "Conjunto de habilidades")</p>
+
+<DoubtNotice Doubts="@Data.DoubtsFor(IsOfficial ? ElementKind.OfficialSuite : ElementKind.Suite, Suite.Slug)" />
+
+<dl class="fields">
+    <dt>Coste (PC)</dt>
+    <dd><FieldValue Field="cost" Text="@Display.Number(Suite.Cost)" Pending="Suite.Pending" Raw="Suite.Raw" /></dd>
+    <dt>Características</dt>
+    <dd><FieldValue Field="abilities" Text="@Display.List(Suite.Abilities)" Pending="Suite.Pending" Raw="Suite.Raw" /></dd>
+    <dt>Dado de maestría</dt>
+    <dd><FieldValue Field="masteryDie" Text="@(Suite.MasteryDie ?? Display.Missing)" Pending="Suite.Pending" Raw="Suite.Raw" /></dd>
+    <dt>Precio (po)</dt>
+    <dd><FieldValue Field="price" Text="@Display.Number(Suite.Price)" Pending="Suite.Pending" Raw="Suite.Raw" /></dd>
+    <dt>Dificultad</dt>
+    <dd><FieldValue Field="difficulty" Text="@Display.Percent(Suite.Difficulty)" Pending="Suite.Pending" Raw="Suite.Raw" /></dd>
+    <dt>Libro</dt>
+    <dd><FieldValue Field="books" Text="@Display.Books(Suite.Books)" Pending="Suite.Pending" Raw="Suite.Raw" /></dd>
+    @if (!IsOfficial || Suite.Classes.Count > 0)
+    {
+        <dt>Clases permitidas</dt>
+        <dd><FieldValue Field="classes" Text="@Display.List(Suite.Classes)" Pending="Suite.Pending" Raw="Suite.Raw" /></dd>
+    }
+    @if (IsOfficial || Suite.Prerequisite.Segments.Count > 0)
+    {
+        <dt>Requisitos</dt>
+        <dd><PrerequisiteView Prerequisite="Suite.Prerequisite" /></dd>
+    }
+</dl>
+
+<h2>Componentes</h2>
+<div class="components">
+    @if (Suite.Components.Count > 0)
+    {
+        <ul>
+            @foreach (var component in Suite.Components)
+            {
+                <li><a href="@Routes.Element(component.Kind, component.Target)">@component.Name</a>@KindLabel(component.Kind)</li>
+            }
+        </ul>
+    }
+    else if (Suite.Pending.Contains("components"))
+    {
+        <p>La fuente no detalla sus componentes: <PendingMark /></p>
+    }
+    else
+    {
+        <p>Ninguno.</p>
+    }
+</div>
+
+@code {
+    /// <summary>Conjunto que se muestra.</summary>
+    [Parameter, EditorRequired]
+    public SkillSuite Suite { get; set; } = default!;
+
+    private bool IsOfficial => Suite.Kind == SuiteKind.Official;
+
+    private static string KindLabel(ElementKind kind) => kind switch
+    {
+        ElementKind.Suite => " (conjunto)",
+        ElementKind.OfficialSuite => " (conjunto oficial)",
+        _ => string.Empty,
+    };
+}

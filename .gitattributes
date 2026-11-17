@@ -5,3 +5,7 @@
 *.ico binary
 *.woff binary
 *.woff2 binary
+
+# Datos generados: mismos bytes en Windows y en CI
+data/*.json text eol=lf
+docs/dudas.md text eol=lf

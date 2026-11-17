@@ -1,0 +1,32 @@
+@* Requisito tal como lo escribe la fuente: habilidades y conjuntos enlazados, el resto como texto (FR-020). *@
+<span class="prerequisite">@if (Prerequisite.Segments.Count == 0)
+    {
+        @("Ninguno")
+    }
+    @foreach (var segment in Prerequisite.Segments)
+    {
+        @switch (segment.Kind)
+        {
+            case PrerequisiteSegmentKind.Skill when segment.Target is not null:
+                <a href="@Routes.Element(ElementKind.Skill, segment.Target)">@segment.Text</a>
+                break;
+            case PrerequisiteSegmentKind.Suite when segment.Target is not null:
+                <a href="@Routes.Element(ElementKind.Suite, segment.Target)">@segment.Text</a>
+                break;
+            case PrerequisiteSegmentKind.OfficialSuite when segment.Target is not null:
+                <a href="@Routes.Element(ElementKind.OfficialSuite, segment.Target)">@segment.Text</a>
+                break;
+            case PrerequisiteSegmentKind.Unverified:
+                <PendingMark Raw="@segment.Text" />
+                break;
+            default:
+                @segment.Text
+                break;
+        }
+    }</span>
+
+@code {
+    /// <summary>Requisito que se muestra.</summary>
+    [Parameter, EditorRequired]
+    public Prerequisite Prerequisite { get; set; } = default!;
+}

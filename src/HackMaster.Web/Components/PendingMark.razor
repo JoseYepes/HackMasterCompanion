@@ -1,0 +1,11 @@
+@* Marca de dato pendiente de verificar (FR-027); muestra el texto original de la fuente si lo hay. *@
+<span class="pending-mark" data-testid="pending-mark">@if (!string.IsNullOrEmpty(Raw))
+    {
+        <span class="pending-raw">«@Raw»</span>
+    }pendiente de verificar</span>
+
+@code {
+    /// <summary>Texto original de la fuente para el dato.</summary>
+    [Parameter]
+    public string? Raw { get; set; }
+}

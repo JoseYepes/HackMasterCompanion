@@ -1,0 +1,37 @@
+@page "/dudas"
+@inject GameData Data
+
+<PageTitle>Dudas · @AppInfo.Name</PageTitle>
+
+<h1>Dudas abiertas</h1>
+
+<p>Datos que no son firmes en las fuentes: qué se duda, de dónde sale y qué se ha hecho mientras tanto.</p>
+
+@if (Data.Doubts.Count == 0)
+{
+    <p class="no-results">No hay dudas abiertas.</p>
+}
+else
+{
+    <section data-testid="sheet-doubts">
+        <h2>Dudas registradas (@_sheet.Count)</h2>
+        <DoubtTable Doubts="_sheet" />
+    </section>
+
+    <section data-testid="import-doubts">
+        <h2>Detectadas al importar (@_detected.Count)</h2>
+        <p class="section-note">Valores de la hoja que no se pudieron interpretar; quedan pendientes de verificar.</p>
+        <DoubtTable Doubts="_detected" />
+    </section>
+}
+
+@code {
+    private IReadOnlyList<Doubt> _sheet = [];
+    private IReadOnlyList<Doubt> _detected = [];
+
+    protected override void OnInitialized()
+    {
+        _sheet = Data.Doubts.Where(doubt => doubt.Origin == DoubtOrigin.Sheet).ToList();
+        _detected = Data.Doubts.Where(doubt => doubt.Origin == DoubtOrigin.Import).ToList();
+    }
+}

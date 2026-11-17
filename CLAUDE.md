@@ -20,9 +20,9 @@ dotnet format --verify-no-changes
 dotnet run --project tools/DataImport -- "%HACKMASTER_EXCEL%" data/
 dotnet run --project src/HackMaster.Web
 ```
-El Excel fuente (`Hackhabilidades_completo.xlsx`) vive **fuera del repositorio** y nunca se versiona. Su ruta se indica en la variable de entorno `HACKMASTER_EXCEL` de cada equipo; no escribas rutas personales en el repositorio (es público). En PowerShell o bash usa `$env:HACKMASTER_EXCEL` o `"$HACKMASTER_EXCEL"`. El importador llega con F001.
+El Excel fuente (`Hackhabilidades_completo.xlsx`) vive **fuera del repositorio** y nunca se versiona. Su ruta se indica en la variable de entorno `HACKMASTER_EXCEL` de cada equipo; no escribas rutas personales en el repositorio (es público). En PowerShell o bash usa `$env:HACKMASTER_EXCEL` o `"$HACKMASTER_EXCEL"`.
 
-Los tests de interfaz (Playwright) se documentarán en `tests/README.md` cuando se incorporen.
+Los tests de interfaz (Playwright) están documentados en `tests/README.md`.
 
 ## Flujo con Spec Kit (una funcionalidad = un ciclo)
 Los comandos son skills en `.claude/skills/` y se invocan con guion (`/speckit-…`).

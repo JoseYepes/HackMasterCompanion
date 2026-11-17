@@ -1,6 +1,6 @@
 # PRODUCTO — HackMaster Companion
 
-> Entrada para `/speckit.specify` (parte A: qué y por qué) y `/speckit.plan` (parte B: guía técnica). No sustituye a las specs que genere Spec Kit: son su materia prima.
+> Entrada para `/speckit-specify` (parte A: qué y por qué) y `/speckit-plan` (parte B: guía técnica). No sustituye a las specs que genere Spec Kit: son su materia prima.
 
 # Parte A — Qué y por qué
 
@@ -13,7 +13,7 @@ Jugadores y director de juego, sobre todo en móvil, también tablet y PC, a vec
 ## A3. Fuera de alcance por ahora
 Tiendas de aplicaciones; automatizar todo el sistema de reglas; multijugador en tiempo real.
 
-## A4. Funcionalidades, en orden (cada una = una `/speckit.specify`)
+## A4. Funcionalidades, en orden (cada una = una `/speckit-specify`)
 
 ### F000 — Base del proyecto
 Como mantenedor, quiero una base que compile, pase tests en CI y se publique, para trabajar con seguridad.
@@ -44,6 +44,8 @@ Como jugador, quiero ver mis fichas en cualquier dispositivo tras iniciar sesió
 **Aceptación:** la ficha creada en un dispositivo aparece en otro; tests de integración; despliegue repetible por CI; solo servicios gratuitos, con alerta de presupuesto.
 
 ## A5. Dudas abiertas
+Desde F001 la lista viva está en la pestaña "Dudas" de la hoja y se publica en `docs/dudas.md` (generado por `DataImport`); estas son las dudas de partida, ya trasladadas a la hoja.
+
 1. Justa, Maniobra Ka-Bob y Desenfunde veloz (KODT 64, p. 38): sin texto fuente.
 2. Requisitos de los conjuntos granjero, mercader y noble (HJ 2): sin fuente ("?").
 3. Cerrajería: la tabla de GrG (3 PC; FUE/DES/SAB) y el texto (DES; 1-2 PC) discrepan; se usó la tabla.
@@ -52,7 +54,7 @@ Como jugador, quiero ver mis fichas en cualquier dispositivo tras iniciar sesió
 
 ---
 
-# Parte B — Guía técnica (para `/speckit.plan`)
+# Parte B — Guía técnica (para `/speckit-plan`)
 
 ## B1. Stack
 .NET LTS, C#, Blazor WebAssembly PWA. Dados 3D con `@3d-dice/dice-box` o three.js + cannon-es vía JS interop tras `IDiceRenderer`. xUnit (dominio), bUnit (componentes), Playwright (interfaz). IndexedDB para fichas (Blazored.LocalStorage no basta). GitHub Pages (ruta base `/<repo>/`).
@@ -68,7 +70,7 @@ Como jugador, quiero ver mis fichas en cualquier dispositivo tras iniciar sesió
 /docs                      PRODUCTO.md, dudas.md, adr/
 /specs                     (Spec Kit) una carpeta por funcionalidad
 /.specify                  (Spec Kit) constitución, plantillas, scripts
-/.claude/commands          (Spec Kit con Claude Code) comandos /speckit.*
+/.claude/skills            (Spec Kit con Claude Code) comandos /speckit-…
 ```
 
 ## B3. Modelo de datos (borrador; refinar en `data-model.md`)

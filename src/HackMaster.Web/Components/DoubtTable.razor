@@ -1,0 +1,38 @@
+@* Lista de dudas; cada una enlaza con la ficha del elemento, salvo las generales. *@
+@if (Doubts.Count == 0)
+{
+    <p class="no-results">Ninguna.</p>
+}
+else
+{
+    <ul class="doubt-list">
+        @foreach (var doubt in Doubts)
+        {
+            <li class="doubt-row" data-testid="doubt-row" @key="doubt.Id">
+                <p class="doubt-subject">@if (doubt.Target is null)
+                    {
+                        @doubt.Subject
+                    }
+                    else
+                    {
+                        <a href="@Routes.Element(doubt.Target.Kind, doubt.Target.Slug)">@doubt.Subject</a>
+                    }</p>
+                <p>@doubt.Question</p>
+                @if (!string.IsNullOrWhiteSpace(doubt.Source))
+                {
+                    <p><span class="field-label">Fuente:</span> @doubt.Source</p>
+                }
+                @if (!string.IsNullOrWhiteSpace(doubt.Provisional))
+                {
+                    <p><span class="field-label">Mientras tanto:</span> @doubt.Provisional</p>
+                }
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    /// <summary>Dudas que se muestran, en orden.</summary>
+    [Parameter, EditorRequired]
+    public IReadOnlyList<Doubt> Doubts { get; set; } = [];
+}

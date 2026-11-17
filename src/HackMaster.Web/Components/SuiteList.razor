@@ -1,0 +1,31 @@
+@* Lista de conjuntos: tarjetas en móvil, tabla a partir de 820 px. *@
+@if (Suites.Count == 0)
+{
+    <p class="no-results">Ningún conjunto coincide con la búsqueda.</p>
+}
+else
+{
+    <ul class="item-list suite-list">
+        <li class="item-head" aria-hidden="true">
+            <span>Nombre</span><span>PC</span><span>Precio</span><span>Dificultad</span><span>Libro</span>
+        </li>
+        @foreach (var suite in Suites)
+        {
+            <li class="item-row" data-testid="suite-row" @key="suite.Slug">
+                <a class="item-name suite-name" href="@Routes.Suite(suite)">@suite.Name</a>
+                <span class="suite-cost"><span class="field-label">PC </span><FieldValue Field="cost" Text="@Display.Number(suite.Cost)" Pending="suite.Pending" Raw="suite.Raw" /></span>
+                <span class="suite-price"><span class="field-label">Precio </span><FieldValue Field="price" Text="@PriceText(suite.Price)" Pending="suite.Pending" Raw="suite.Raw" /></span>
+                <span class="suite-difficulty"><span class="field-label">Dificultad </span><FieldValue Field="difficulty" Text="@Display.Percent(suite.Difficulty)" Pending="suite.Pending" Raw="suite.Raw" /></span>
+                <span class="suite-book"><FieldValue Field="books" Text="@Display.Books(suite.Books)" Pending="suite.Pending" Raw="suite.Raw" /></span>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    /// <summary>Conjuntos que se muestran, ya ordenados.</summary>
+    [Parameter, EditorRequired]
+    public IReadOnlyList<SkillSuite> Suites { get; set; } = [];
+
+    private static string PriceText(int? price) => price is null ? Display.Missing : Display.Number(price) + " po";
+}

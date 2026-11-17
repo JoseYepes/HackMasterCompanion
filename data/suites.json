@@ -1,0 +1,2892 @@
+{
+  "schemaVersion": 1,
+  "suites": [
+    {
+      "slug": "acrobata",
+      "name": "Acrobata",
+      "searchName": "acrobata",
+      "kind": "Custom",
+      "cost": 6,
+      "abilities": [
+        "DES"
+      ],
+      "masteryDie": "d6",
+      "price": 974,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Caminar por la cuerda floja",
+          "kind": "Skill",
+          "target": "caminar-por-la-cuerda-floja"
+        },
+        {
+          "name": "Piruetas",
+          "kind": "Skill",
+          "target": "piruetas"
+        },
+        {
+          "name": "Saltar",
+          "kind": "Skill",
+          "target": "saltar"
+        },
+        {
+          "name": "Malabarismos",
+          "kind": "Skill",
+          "target": "malabarismos"
+        },
+        {
+          "name": "Manejo de la cuerda",
+          "kind": "Skill",
+          "target": "manejo-de-la-cuerda"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "actor",
+      "name": "Actor",
+      "searchName": "actor",
+      "kind": "Custom",
+      "cost": 12,
+      "abilities": [
+        "DES"
+      ],
+      "masteryDie": "d6",
+      "price": 3300,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Grupo de ladrones"
+      ],
+      "components": [
+        {
+          "name": "Actuar",
+          "kind": "Skill",
+          "target": "actuar"
+        },
+        {
+          "name": "Disfrazarse",
+          "kind": "Skill",
+          "target": "disfrazarse"
+        },
+        {
+          "name": "Imitar dialectos",
+          "kind": "Skill",
+          "target": "imitar-dialectos"
+        },
+        {
+          "name": "Imitar voces",
+          "kind": "Skill",
+          "target": "imitar-voces"
+        },
+        {
+          "name": "Mentir con habilidad",
+          "kind": "Skill",
+          "target": "mentir-con-habilidad"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "alquimista",
+      "name": "Alquimista",
+      "searchName": "alquimista",
+      "kind": "Custom",
+      "cost": 16,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 1403,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Botánica",
+          "kind": "Skill",
+          "target": "botanica"
+        },
+        {
+          "name": "Herbalismo",
+          "kind": "Skill",
+          "target": "herbalismo"
+        },
+        {
+          "name": "Identificación vegetal holística",
+          "kind": "Skill",
+          "target": "identificacion-vegetal-holistica"
+        },
+        {
+          "name": "Alquimia",
+          "kind": "Skill",
+          "target": "alquimia"
+        },
+        {
+          "name": "Destilar",
+          "kind": "Skill",
+          "target": "destilar"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "atleta",
+      "name": "Atleta",
+      "searchName": "atleta",
+      "kind": "Custom",
+      "cost": 10,
+      "abilities": [
+        "DES"
+      ],
+      "masteryDie": "d6",
+      "price": 1018,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Correr",
+          "kind": "Skill",
+          "target": "correr"
+        },
+        {
+          "name": "Aguante",
+          "kind": "Skill",
+          "target": "aguante"
+        },
+        {
+          "name": "Nadar estilo perro",
+          "kind": "Skill",
+          "target": "nadar-estilo-perro"
+        },
+        {
+          "name": "Nadar",
+          "kind": "Skill",
+          "target": "nadar"
+        },
+        {
+          "name": "Saltar",
+          "kind": "Skill",
+          "target": "saltar"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "capitan-de-compania",
+      "name": "Capitán de compañía",
+      "searchName": "capitan de compania",
+      "kind": "Custom",
+      "cost": 19,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d4",
+      "price": 1788,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Liderazgo básico",
+          "kind": "Skill",
+          "target": "liderazgo-basico"
+        },
+        {
+          "name": "Liderazgo de pequeños grupos",
+          "kind": "Skill",
+          "target": "liderazgo-de-pequenos-grupos"
+        },
+        {
+          "name": "sentido de la batalla",
+          "kind": "Skill",
+          "target": "sentido-de-la-batalla"
+        },
+        {
+          "name": "Tácticas de pequeñas unidades",
+          "kind": "Skill",
+          "target": "tacticas-de-pequenas-unidades"
+        },
+        {
+          "name": "Historia militar",
+          "kind": "Skill",
+          "target": "historia-militar"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "carterista",
+      "name": "Carterista",
+      "searchName": "carterista",
+      "kind": "Custom",
+      "cost": 14,
+      "abilities": [
+        "DES"
+      ],
+      "masteryDie": "d4",
+      "price": 1843,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Juego de Manos",
+          "kind": "Skill",
+          "target": "juego-de-manos"
+        },
+        {
+          "name": "Deslizarse entre las sombras",
+          "kind": "Skill",
+          "target": "deslizarse-entre-las-sombras"
+        },
+        {
+          "name": "Movimiento sigiloso",
+          "kind": "Skill",
+          "target": "movimiento-sigiloso"
+        },
+        {
+          "name": "Cara de poquer",
+          "kind": "Skill",
+          "target": "cara-de-poquer"
+        },
+        {
+          "name": "Tantear (tecnica de tasación encubierta)",
+          "kind": "Skill",
+          "target": "tantear-tecnica-de-tasacion-encubierta"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "cartografo",
+      "name": "Cartógrafo",
+      "searchName": "cartografo",
+      "kind": "Custom",
+      "cost": 7,
+      "abilities": [
+        "CAR"
+      ],
+      "masteryDie": "d6",
+      "price": 935,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Cartografiar mazmorras",
+          "kind": "Skill",
+          "target": "cartografiar-mazmorras"
+        },
+        {
+          "name": "Cartografiar terrenos",
+          "kind": "Skill",
+          "target": "cartografiar-terrenos"
+        },
+        {
+          "name": "Leer/escribir",
+          "kind": "Skill",
+          "target": "leer-escribir"
+        },
+        {
+          "name": "Mapeado apresurado",
+          "kind": "Skill",
+          "target": "mapeado-apresurado"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "cartografo",
+      "name": "Cartógrafo",
+      "searchName": "cartografo",
+      "kind": "Official",
+      "cost": 7,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 935,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "cerrajero",
+      "name": "Cerrajero",
+      "searchName": "cerrajero",
+      "kind": "Custom",
+      "cost": 6,
+      "abilities": [
+        "FUE"
+      ],
+      "masteryDie": "d6",
+      "price": 2200,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Trabajar el metal",
+          "kind": "Skill",
+          "target": "trabajar-el-metal"
+        },
+        {
+          "name": "Herrería",
+          "kind": "Skill",
+          "target": "herreria"
+        },
+        {
+          "name": "Cerrajeria",
+          "kind": "Skill",
+          "target": "cerrajeria"
+        },
+        {
+          "name": "Herramientas de herreria",
+          "kind": "Skill",
+          "target": "herramientas-de-herreria"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "cocinero-de-campana",
+      "name": "Cocinero de campaña",
+      "searchName": "cocinero de campana",
+      "kind": "Custom",
+      "cost": 3,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "price": 765,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Arte culinario",
+          "kind": "Skill",
+          "target": "arte-culinario"
+        },
+        {
+          "name": "Cocinar",
+          "kind": "Skill",
+          "target": "cocinar"
+        },
+        {
+          "name": "Encender fuego",
+          "kind": "Skill",
+          "target": "encender-fuego"
+        },
+        {
+          "name": "Forrajear (por clima)",
+          "kind": "Skill",
+          "target": "forrajear-por-clima"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-administrador-politico-administrator-politician-skill-suite",
+      "name": "Conjunto de habilidades de administrador/político (Administrator/Politician Skill Suite)",
+      "searchName": "conjunto de habilidades de administrador/politico (administrator/politician skill suite)",
+      "kind": "Official",
+      "cost": 10,
+      "abilities": [
+        "SAB",
+        "CAR"
+      ],
+      "price": 2075,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "masteryDie",
+        "components"
+      ],
+      "raw": {
+        "masteryDie": "5"
+      }
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-artista-artist-skill-suite",
+      "name": "Conjunto de habilidades de artista (Artist Skill Suite)",
+      "searchName": "conjunto de habilidades de artista (artist skill suite)",
+      "kind": "Official",
+      "cost": 8,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d10",
+      "price": 1850,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-carpintero-carpenter-skill-suite",
+      "name": "Conjunto de habilidades de carpintero (Carpenter Skill Suite)",
+      "searchName": "conjunto de habilidades de carpintero (carpenter skill suite)",
+      "kind": "Official",
+      "cost": 5,
+      "abilities": [
+        "FUE",
+        "DES",
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 5300,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-carretero-transportista-teamster-freighter-skill-suite",
+      "name": "Conjunto de habilidades de carretero/transportista (Teamster/Freighter Skill Suite)",
+      "searchName": "conjunto de habilidades de carretero/transportista (teamster/freighter skill suite)",
+      "kind": "Official",
+      "cost": 4,
+      "abilities": [
+        "INT",
+        "SAB"
+      ],
+      "masteryDie": "d10",
+      "price": 1000,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-comerciante-trueque-trader-barter-skill-suite",
+      "name": "Conjunto de habilidades de comerciante/trueque (Trader/Barter Skill Suite)",
+      "searchName": "conjunto de habilidades de comerciante/trueque (trader/barter skill suite)",
+      "kind": "Official",
+      "cost": 13,
+      "abilities": [
+        "FUE",
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "price": 1250,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-constructor-naval-shipwright-skill-suite",
+      "name": "Conjunto de habilidades de constructor naval (Shipwright Skill Suite)",
+      "searchName": "conjunto de habilidades de constructor naval (shipwright skill suite)",
+      "kind": "Official",
+      "cost": 8,
+      "abilities": [
+        "DES"
+      ],
+      "masteryDie": "d10",
+      "price": 5775,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": []
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-curandero-medico-healer-doctor-skill-suite",
+      "name": "Conjunto de habilidades de curandero/médico (Healer/Doctor Skill Suite)",
+      "searchName": "conjunto de habilidades de curandero/medico (healer/doctor skill suite)",
+      "kind": "Official",
+      "cost": 8,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 6270,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-escriba-scribe-skill-suite",
+      "name": "Conjunto de habilidades de escriba (Scribe Skill Suite)",
+      "searchName": "conjunto de habilidades de escriba (scribe skill suite)",
+      "kind": "Official",
+      "cost": 3,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d6",
+      "price": 700,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-granjero-farmer-s-daughter-skill-suite",
+      "name": "Conjunto de habilidades de granjero (Farmer's [Daughter] Skill Suite)",
+      "searchName": "conjunto de habilidades de granjero (farmer's [daughter] skill suite)",
+      "kind": "Official",
+      "cost": 9,
+      "abilities": [
+        "SAB",
+        "CON"
+      ],
+      "masteryDie": "d10",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "HJ2",
+          "page": "2"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "?",
+            "kind": "Unverified"
+          }
+        ]
+      },
+      "pending": [
+        "prerequisite",
+        "price",
+        "difficulty",
+        "components"
+      ],
+      "raw": {
+        "prerequisite": "?"
+      }
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-herrero-blacksmith-skill-suite",
+      "name": "Conjunto de habilidades de herrero (Blacksmith Skill Suite)",
+      "searchName": "conjunto de habilidades de herrero (blacksmith skill suite)",
+      "kind": "Official",
+      "cost": 4,
+      "abilities": [
+        "FUE"
+      ],
+      "masteryDie": "d6",
+      "price": 1400,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-marinero-sailor-skill-suite",
+      "name": "Conjunto de habilidades de marinero (Sailor Skill Suite)",
+      "searchName": "conjunto de habilidades de marinero (sailor skill suite)",
+      "kind": "Official",
+      "cost": 11,
+      "abilities": [
+        "DES"
+      ],
+      "masteryDie": "d8",
+      "price": 1550,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": []
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-maton-thug-skill-suite",
+      "name": "Conjunto de habilidades de matón (Thug Skill Suite)",
+      "searchName": "conjunto de habilidades de maton (thug skill suite)",
+      "kind": "Official",
+      "cost": 10,
+      "abilities": [
+        "FUE",
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1400,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-mercader-merchant-s-daughter-skill-suite",
+      "name": "Conjunto de habilidades de mercader (Merchant's [Daughter] Skill Suite)",
+      "searchName": "conjunto de habilidades de mercader (merchant's [daughter] skill suite)",
+      "kind": "Official",
+      "cost": 10,
+      "abilities": [
+        "SAB",
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "HJ2",
+          "page": "2"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "?",
+            "kind": "Unverified"
+          }
+        ]
+      },
+      "pending": [
+        "prerequisite",
+        "price",
+        "difficulty",
+        "components"
+      ],
+      "raw": {
+        "prerequisite": "?"
+      }
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-misionero-missionary-skill-suite",
+      "name": "Conjunto de habilidades de misionero (Missionary Skill Suite)",
+      "searchName": "conjunto de habilidades de misionero (missionary skill suite)",
+      "kind": "Official",
+      "cost": 12,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d10",
+      "price": 2750,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "329"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-navegante-navigator-skill-suite",
+      "name": "Conjunto de habilidades de navegante (Navigator Skill Suite)",
+      "searchName": "conjunto de habilidades de navegante (navigator skill suite)",
+      "kind": "Official",
+      "cost": 6,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 1180,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": []
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-noble-noble-s-daughter-skill-suite",
+      "name": "Conjunto de habilidades de noble (Noble's [Daughter] Skill Suite)",
+      "searchName": "conjunto de habilidades de noble (noble's [daughter] skill suite)",
+      "kind": "Official",
+      "cost": 8,
+      "abilities": [
+        "SAB",
+        "CAR"
+      ],
+      "masteryDie": "d8",
+      "books": [
+        {
+          "acronym": "HJ2",
+          "page": "2"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "?",
+            "kind": "Unverified"
+          }
+        ]
+      },
+      "pending": [
+        "prerequisite",
+        "price",
+        "difficulty",
+        "components"
+      ],
+      "raw": {
+        "prerequisite": "?"
+      }
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-pintor-retratista-limner-painter-skill-suite",
+      "name": "Conjunto de habilidades de pintor/retratista (Limner/Painter Skill Suite)",
+      "searchName": "conjunto de habilidades de pintor/retratista (limner/painter skill suite)",
+      "kind": "Official",
+      "cost": 7,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d6",
+      "price": 5555,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-primeros-auxilios",
+      "name": "Conjunto de Habilidades de primeros auxilios",
+      "searchName": "conjunto de habilidades de primeros auxilios",
+      "kind": "Official",
+      "cost": 5,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d6",
+      "price": 1000,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "331"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Primeros auxilios: Cauterizar heridas",
+            "kind": "Skill",
+            "target": "primeros-auxilios-cauterizar-heridas"
+          },
+          {
+            "text": ", ",
+            "kind": "Text"
+          },
+          {
+            "text": "Primeros auxilios: Coser heridas",
+            "kind": "Skill",
+            "target": "primeros-auxilios-coser-heridas"
+          },
+          {
+            "text": " y ",
+            "kind": "Text"
+          },
+          {
+            "text": "Primeros auxilios: Coserse heridas",
+            "kind": "Skill",
+            "target": "primeros-auxilios-coserse-heridas"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-sastre-tejedor-tailor-weaver-skill-suite",
+      "name": "Conjunto de habilidades de sastre/tejedor (Tailor/Weaver Skill Suite)",
+      "searchName": "conjunto de habilidades de sastre/tejedor (tailor/weaver skill suite)",
+      "kind": "Official",
+      "cost": 4,
+      "abilities": [
+        "DES",
+        "INT"
+      ],
+      "masteryDie": "d12",
+      "price": 500,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-supervivencia",
+      "name": "Conjunto de Habilidades de supervivencia",
+      "searchName": "conjunto de habilidades de supervivencia",
+      "kind": "Official",
+      "cost": 10,
+      "abilities": [
+        "CON",
+        "INT",
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1500,
+      "difficulty": 5,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "332"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "conjunto-de-habilidades-de-trampero-peletero-trapper-furrier-skill-suite",
+      "name": "Conjunto de habilidades de trampero/peletero (Trapper/Furrier Skill Suite)",
+      "searchName": "conjunto de habilidades de trampero/peletero (trapper/furrier skill suite)",
+      "kind": "Official",
+      "cost": 5,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "price": 1100,
+      "difficulty": 10,
+      "books": [
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "curandero",
+      "name": "Curandero",
+      "searchName": "curandero",
+      "kind": "Custom",
+      "cost": 13,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d6",
+      "price": 2090,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Conjunto de Habilidades de primeros auxilios",
+          "kind": "OfficialSuite",
+          "target": "conjunto-de-habilidades-de-primeros-auxilios"
+        },
+        {
+          "name": "Sanación",
+          "kind": "Skill",
+          "target": "sanacion"
+        },
+        {
+          "name": "Botánica",
+          "kind": "Skill",
+          "target": "botanica"
+        },
+        {
+          "name": "Herbalismo",
+          "kind": "Skill",
+          "target": "herbalismo"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "diplomatico",
+      "name": "Diplomático",
+      "searchName": "diplomatico",
+      "kind": "Custom",
+      "cost": 11,
+      "abilities": [
+        "CAR"
+      ],
+      "masteryDie": "d6",
+      "price": 935,
+      "difficulty": 25,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Parlamentar",
+          "kind": "Skill",
+          "target": "parlamentar"
+        },
+        {
+          "name": "Diplomacia",
+          "kind": "Skill",
+          "target": "diplomacia"
+        },
+        {
+          "name": "Oratoria",
+          "kind": "Skill",
+          "target": "oratoria"
+        },
+        {
+          "name": "Discurso enardecedor",
+          "kind": "Skill",
+          "target": "discurso-enardecedor"
+        },
+        {
+          "name": "Resistirse a la persuasión",
+          "kind": "Skill",
+          "target": "resistirse-a-la-persuasion"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "escribano",
+      "name": "Escribano",
+      "searchName": "escribano",
+      "kind": "Custom",
+      "cost": 15,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 1375,
+      "difficulty": 25,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Leer/Escribir",
+          "kind": "Skill",
+          "target": "leer-escribir"
+        },
+        {
+          "name": "Lenguas Modernas",
+          "kind": "Skill",
+          "target": "lenguas-modernas"
+        },
+        {
+          "name": "Lectura rapida",
+          "kind": "Skill",
+          "target": "lectura-rapida"
+        },
+        {
+          "name": "Caligrafía",
+          "kind": "Skill",
+          "target": "caligrafia"
+        },
+        {
+          "name": "Falsificación",
+          "kind": "Skill",
+          "target": "falsificacion"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "espia",
+      "name": "Espía",
+      "searchName": "espia",
+      "kind": "Custom",
+      "cost": 11,
+      "abilities": [
+        "INT",
+        "SAB"
+      ],
+      "masteryDie": "d4",
+      "price": 2173,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Inteligencia e información",
+          "kind": "Skill",
+          "target": "inteligencia-e-informacion"
+        },
+        {
+          "name": "Seguimiento",
+          "kind": "Skill",
+          "target": "seguimiento"
+        },
+        {
+          "name": "Segundas intenciones",
+          "kind": "Skill",
+          "target": "segundas-intenciones"
+        },
+        {
+          "name": "Identidad secreta",
+          "kind": "Skill",
+          "target": "identidad-secreta"
+        },
+        {
+          "name": "Leer los labios",
+          "kind": "Skill",
+          "target": "leer-los-labios"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "experto-en-venenos",
+      "name": "Experto en venenos",
+      "searchName": "experto en venenos",
+      "kind": "Custom",
+      "cost": 8,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d6",
+      "price": 1100,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Grupo de ladrones"
+      ],
+      "components": [
+        {
+          "name": "Botánica",
+          "kind": "Skill",
+          "target": "botanica"
+        },
+        {
+          "name": "Identificar veneno",
+          "kind": "Skill",
+          "target": "identificar-veneno"
+        },
+        {
+          "name": "Herbalismo",
+          "kind": "Skill",
+          "target": "herbalismo"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "forjador-de-armaduras",
+      "name": "Forjador de armaduras",
+      "searchName": "forjador de armaduras",
+      "kind": "Custom",
+      "cost": 19,
+      "abilities": [
+        "FUE"
+      ],
+      "masteryDie": "d6",
+      "price": 2613,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Herramientas de herreria",
+          "kind": "Skill",
+          "target": "herramientas-de-herreria"
+        },
+        {
+          "name": "Herrería",
+          "kind": "Skill",
+          "target": "herreria"
+        },
+        {
+          "name": "Trabajar el cuero",
+          "kind": "Skill",
+          "target": "trabajar-el-cuero"
+        },
+        {
+          "name": "Trabajar el metal",
+          "kind": "Skill",
+          "target": "trabajar-el-metal"
+        },
+        {
+          "name": "Forjar armaduras",
+          "kind": "Skill",
+          "target": "forjar-armaduras"
+        },
+        {
+          "name": "Reparación de escudos de metal",
+          "kind": "Skill",
+          "target": "reparacion-de-escudos-de-metal"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "forjador-de-armas",
+      "name": "Forjador de armas",
+      "searchName": "forjador de armas",
+      "kind": "Custom",
+      "cost": 10,
+      "abilities": [
+        "FUE"
+      ],
+      "masteryDie": "d6",
+      "price": 2420,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Trabajar el cuero",
+          "kind": "Skill",
+          "target": "trabajar-el-cuero"
+        },
+        {
+          "name": "Trabajar el metal",
+          "kind": "Skill",
+          "target": "trabajar-el-metal"
+        },
+        {
+          "name": "Herramientas de herreria",
+          "kind": "Skill",
+          "target": "herramientas-de-herreria"
+        },
+        {
+          "name": "Herrería",
+          "kind": "Skill",
+          "target": "herreria"
+        },
+        {
+          "name": "Forjar armas",
+          "kind": "Skill",
+          "target": "forjar-armas"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "hechicero",
+      "name": "Hechicero",
+      "searchName": "hechicero",
+      "kind": "Custom",
+      "cost": 13,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 2613,
+      "difficulty": 30,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Grupo de magos"
+      ],
+      "components": [
+        {
+          "name": "Saber arcano",
+          "kind": "Skill",
+          "target": "saber-arcano"
+        },
+        {
+          "name": "Hechicería",
+          "kind": "Skill",
+          "target": "hechiceria"
+        },
+        {
+          "name": "Escritura",
+          "kind": "Skill",
+          "target": "escritura"
+        },
+        {
+          "name": "Juego de manos",
+          "kind": "Skill",
+          "target": "juego-de-manos"
+        },
+        {
+          "name": "Habla arcana",
+          "kind": "Skill",
+          "target": "habla-arcana"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "herbalista",
+      "name": "Herbalista",
+      "searchName": "herbalista",
+      "kind": "Custom",
+      "cost": 9,
+      "abilities": [
+        "INT",
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1150,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Botánica",
+          "kind": "Skill",
+          "target": "botanica"
+        },
+        {
+          "name": "Identificación vegetal holística",
+          "kind": "Skill",
+          "target": "identificacion-vegetal-holistica"
+        },
+        {
+          "name": "Herbalismo",
+          "kind": "Skill",
+          "target": "herbalismo"
+        },
+        {
+          "name": "Forrajear (por clima)",
+          "kind": "Skill",
+          "target": "forrajear-por-clima"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "historiador",
+      "name": "Historiador",
+      "searchName": "historiador",
+      "kind": "Official",
+      "cost": 4,
+      "abilities": [
+        "INT",
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "price": 1375,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "314"
+        },
+        {
+          "acronym": "GMG",
+          "page": "71"
+        }
+      ],
+      "classes": [],
+      "components": [],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [
+        "components"
+      ],
+      "raw": {}
+    },
+    {
+      "slug": "ingeniero-militar",
+      "name": "Ingeniero militar",
+      "searchName": "ingeniero militar",
+      "kind": "Custom",
+      "cost": 8,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d4",
+      "price": 4455,
+      "difficulty": 25,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Ingeniería",
+          "kind": "Skill",
+          "target": "ingenieria"
+        },
+        {
+          "name": "Ingeniería de fortificacones",
+          "kind": "Skill",
+          "target": "ingenieria-de-fortificacones"
+        },
+        {
+          "name": "Construcción de fortificaciones",
+          "kind": "Skill",
+          "target": "construccion-de-fortificaciones"
+        },
+        {
+          "name": "Construcción de asedios",
+          "kind": "Skill",
+          "target": "construccion-de-asedios"
+        },
+        {
+          "name": "Historia militar",
+          "kind": "Skill",
+          "target": "historia-militar"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "interrogador",
+      "name": "Interrogador",
+      "searchName": "interrogador",
+      "kind": "Custom",
+      "cost": 13,
+      "abilities": [
+        "CAR",
+        "FUE",
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1678,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Reunir información",
+          "kind": "Skill",
+          "target": "reunir-informacion"
+        },
+        {
+          "name": "Interrogar",
+          "kind": "Skill",
+          "target": "interrogar"
+        },
+        {
+          "name": "Tortura",
+          "kind": "Skill",
+          "target": "tortura"
+        },
+        {
+          "name": "Gestos amenazadores (Corporales y manuales, no verbales)",
+          "kind": "Skill",
+          "target": "gestos-amenazadores-corporales-y-manuales-no-verbales"
+        },
+        {
+          "name": "Mentir con habilidad",
+          "kind": "Skill",
+          "target": "mentir-con-habilidad"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "investigador",
+      "name": "Investigador",
+      "searchName": "investigador",
+      "kind": "Custom",
+      "cost": 11,
+      "abilities": [
+        "INT"
+      ],
+      "masteryDie": "d6",
+      "price": 1595,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Actualidad",
+          "kind": "Skill",
+          "target": "actualidad"
+        },
+        {
+          "name": "Observación",
+          "kind": "Skill",
+          "target": "observacion"
+        },
+        {
+          "name": "Reunir información",
+          "kind": "Skill",
+          "target": "reunir-informacion"
+        },
+        {
+          "name": "Interrogar",
+          "kind": "Skill",
+          "target": "interrogar"
+        },
+        {
+          "name": "Leer los labios",
+          "kind": "Skill",
+          "target": "leer-los-labios"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "jinete",
+      "name": "Jinete",
+      "searchName": "jinete",
+      "kind": "Custom",
+      "cost": 5,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "price": 1485,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "saber animal",
+          "kind": "Skill",
+          "target": "saber-animal"
+        },
+        {
+          "name": "Manejo de animales",
+          "kind": "Skill",
+          "target": "manejo-de-animales"
+        },
+        {
+          "name": "Montar criatura terrestre",
+          "kind": "Skill",
+          "target": "montar-criatura-terrestre"
+        },
+        {
+          "name": "Adiestrar animales",
+          "kind": "Skill",
+          "target": "adiestrar-animales"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "jugador",
+      "name": "Jugador",
+      "searchName": "jugador",
+      "kind": "Custom",
+      "cost": 6,
+      "abilities": [
+        "CAR"
+      ],
+      "masteryDie": "d6",
+      "price": 473,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Juego",
+          "kind": "Skill",
+          "target": "juego"
+        },
+        {
+          "name": "Cara de poquer",
+          "kind": "Skill",
+          "target": "cara-de-poquer"
+        },
+        {
+          "name": "Las reglas del juego limpio",
+          "kind": "Skill",
+          "target": "las-reglas-del-juego-limpio"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "lapidario",
+      "name": "Lapidario",
+      "searchName": "lapidario",
+      "kind": "Custom",
+      "cost": 11,
+      "abilities": [
+        "INT",
+        "DES"
+      ],
+      "masteryDie": "d6",
+      "price": 6380,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Tasación",
+          "kind": "Skill",
+          "target": "tasacion"
+        },
+        {
+          "name": "Tasación: gemas",
+          "kind": "Skill",
+          "target": "tasacion-gemas"
+        },
+        {
+          "name": "Tallado de gemas",
+          "kind": "Skill",
+          "target": "tallado-de-gemas"
+        },
+        {
+          "name": "Herramientas de joyeria",
+          "kind": "Skill",
+          "target": "herramientas-de-joyeria"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "lider-de-escuadron-jefe-de-equipo",
+      "name": "Lider de escuadrón/ jefe de equipo",
+      "searchName": "lider de escuadron/ jefe de equipo",
+      "kind": "Custom",
+      "cost": 10,
+      "abilities": [
+        "CAR",
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1210,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Liderazgo básico",
+          "kind": "Skill",
+          "target": "liderazgo-basico"
+        },
+        {
+          "name": "Tácticas de pequeñas unidades",
+          "kind": "Skill",
+          "target": "tacticas-de-pequenas-unidades"
+        },
+        {
+          "name": "Ajuste de actitud",
+          "kind": "Skill",
+          "target": "ajuste-de-actitud"
+        },
+        {
+          "name": "Reclutar ejercitos",
+          "kind": "Skill",
+          "target": "reclutar-ejercitos"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "mantenimiento",
+      "name": "Mantenimiento",
+      "searchName": "mantenimiento",
+      "kind": "Custom",
+      "cost": 2,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "*",
+      "price": 220,
+      "difficulty": 0,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Mantenimiento de armaduras",
+          "kind": "Skill",
+          "target": "mantenimiento-de-armaduras"
+        },
+        {
+          "name": "Mantenimiento de armas",
+          "kind": "Skill",
+          "target": "mantenimiento-de-armas"
+        },
+        {
+          "name": "Mantenimiento y conservación general",
+          "kind": "Skill",
+          "target": "mantenimiento-y-conservacion-general"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "montanero",
+      "name": "Montañero",
+      "searchName": "montanero",
+      "kind": "Custom",
+      "cost": 4,
+      "abilities": [
+        "CON",
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1106,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Montañismo",
+          "kind": "Skill",
+          "target": "montanismo"
+        },
+        {
+          "name": "Manejo de la cuerda",
+          "kind": "Skill",
+          "target": "manejo-de-la-cuerda"
+        },
+        {
+          "name": "Encender fuego",
+          "kind": "Skill",
+          "target": "encender-fuego"
+        },
+        {
+          "name": "Mapa mental (era: Sentido de la orientación)",
+          "kind": "Skill",
+          "target": "mapa-mental-era-sentido-de-la-orientacion"
+        },
+        {
+          "name": "Forrajear (por clima)",
+          "kind": "Skill",
+          "target": "forrajear-por-clima"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "poeta",
+      "name": "Poeta",
+      "searchName": "poeta",
+      "kind": "Custom",
+      "cost": 4,
+      "abilities": [
+        "CAR"
+      ],
+      "masteryDie": "d6",
+      "price": 1595,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Lenguas modernas",
+          "kind": "Skill",
+          "target": "lenguas-modernas"
+        },
+        {
+          "name": "Poesía, escritura y comprensión e interpretación de textos",
+          "kind": "Skill",
+          "target": "poesia-escritura-y-comprension-e-interpretacion-de-textos"
+        },
+        {
+          "name": "Leer/escribir",
+          "kind": "Skill",
+          "target": "leer-escribir"
+        },
+        {
+          "name": "Arte de la seducción, el",
+          "kind": "Skill",
+          "target": "arte-de-la-seduccion-el"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "reparador-de-armaduras",
+      "name": "Reparador de armaduras",
+      "searchName": "reparador de armaduras",
+      "kind": "Custom",
+      "cost": 18,
+      "abilities": [
+        "DES",
+        "INT"
+      ],
+      "masteryDie": "d8",
+      "price": 2393,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Mantenimiento de armaduras",
+          "kind": "Skill",
+          "target": "mantenimiento-de-armaduras"
+        },
+        {
+          "name": "Reparación basica de armaduras",
+          "kind": "Skill",
+          "target": "reparacion-basica-de-armaduras"
+        },
+        {
+          "name": "Reparación avanzada de armaduras",
+          "kind": "Skill",
+          "target": "reparacion-avanzada-de-armaduras"
+        },
+        {
+          "name": "Reparación Experta de armaduras",
+          "kind": "Skill",
+          "target": "reparacion-experta-de-armaduras"
+        },
+        {
+          "name": "Reparación de escudos de metal",
+          "kind": "Skill",
+          "target": "reparacion-de-escudos-de-metal"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "saqueador",
+      "name": "Saqueador",
+      "searchName": "saqueador",
+      "kind": "Custom",
+      "cost": 13,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1408,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Saqueo básico",
+          "kind": "Skill",
+          "target": "saqueo-basico"
+        },
+        {
+          "name": "Saqueo avanzado",
+          "kind": "Skill",
+          "target": "saqueo-avanzado"
+        },
+        {
+          "name": "Vandalismo y profanación",
+          "kind": "Skill",
+          "target": "vandalismo-y-profanacion"
+        },
+        {
+          "name": "Pedirse prime",
+          "kind": "Skill",
+          "target": "pedirse-prime"
+        },
+        {
+          "name": "Empaque efectivo",
+          "kind": "Skill",
+          "target": "empaque-efectivo"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "soldado",
+      "name": "Soldado",
+      "searchName": "soldado",
+      "kind": "Custom",
+      "cost": 31,
+      "abilities": [
+        "CON",
+        "SAB"
+      ],
+      "masteryDie": "d4",
+      "price": 1991,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Mantener la disciplina",
+          "kind": "Skill",
+          "target": "mantener-la-disciplina"
+        },
+        {
+          "name": "Sentido de la batalla",
+          "kind": "Skill",
+          "target": "sentido-de-la-batalla"
+        },
+        {
+          "name": "Aguante",
+          "kind": "Skill",
+          "target": "aguante"
+        },
+        {
+          "name": "Combate a muerte",
+          "kind": "Skill",
+          "target": "combate-a-muerte"
+        },
+        {
+          "name": "Armarse de coraje",
+          "kind": "Skill",
+          "target": "armarse-de-coraje"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "superviviente",
+      "name": "Superviviente",
+      "searchName": "superviviente",
+      "kind": "Custom",
+      "cost": 16,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 2552,
+      "difficulty": 15,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Percepción climática",
+          "kind": "Skill",
+          "target": "percepcion-climatica"
+        },
+        {
+          "name": "Conjunto de habilidades de supervivencia",
+          "kind": "OfficialSuite",
+          "target": "conjunto-de-habilidades-de-supervivencia"
+        },
+        {
+          "name": "Orientarse sin mapas",
+          "kind": "Skill",
+          "target": "orientarse-sin-mapas"
+        },
+        {
+          "name": "Signos rurales",
+          "kind": "Skill",
+          "target": "signos-rurales"
+        },
+        {
+          "name": "Forrajear (por clima)",
+          "kind": "Skill",
+          "target": "forrajear-por-clima"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "teologo",
+      "name": "Teólogo",
+      "searchName": "teologo",
+      "kind": "Custom",
+      "cost": 10,
+      "abilities": [
+        "SAB"
+      ],
+      "masteryDie": "d6",
+      "price": 1925,
+      "difficulty": 25,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Religión (general)",
+          "kind": "Skill",
+          "target": "religion-general"
+        },
+        {
+          "name": "Religión (Especifica)",
+          "kind": "Skill",
+          "target": "religion-especifica"
+        },
+        {
+          "name": "Saber divino",
+          "kind": "Skill",
+          "target": "saber-divino"
+        },
+        {
+          "name": "Historia antigua",
+          "kind": "Skill",
+          "target": "historia-antigua"
+        },
+        {
+          "name": "Lenguas antiguas/muertas",
+          "kind": "Skill",
+          "target": "lenguas-antiguas-muertas"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "trampeador",
+      "name": "Trampeador",
+      "searchName": "trampeador",
+      "kind": "Custom",
+      "cost": 3,
+      "abilities": [
+        "CAR",
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "price": 1128,
+      "difficulty": 25,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Grupo de ladrones"
+      ],
+      "components": [
+        {
+          "name": "Colocar trampas",
+          "kind": "Skill",
+          "target": "colocar-trampas"
+        },
+        {
+          "name": "Colocar trampas avanzadas",
+          "kind": "Skill",
+          "target": "colocar-trampas-avanzadas"
+        },
+        {
+          "name": "Barrer en busca de trampas",
+          "kind": "Skill",
+          "target": "barrer-en-busca-de-trampas"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "trovador",
+      "name": "Trovador",
+      "searchName": "trovador",
+      "kind": "Custom",
+      "cost": 7,
+      "abilities": [
+        "CAR"
+      ],
+      "masteryDie": "d6",
+      "price": 2640,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "Cantar",
+          "kind": "Skill",
+          "target": "cantar"
+        },
+        {
+          "name": "Instrumentos de cuerda",
+          "kind": "Skill",
+          "target": "instrumentos-de-cuerda"
+        },
+        {
+          "name": "Poesía, escritura y comprensión e interpretación de textos",
+          "kind": "Skill",
+          "target": "poesia-escritura-y-comprension-e-interpretacion-de-textos"
+        },
+        {
+          "name": "Arte de la seducción, el",
+          "kind": "Skill",
+          "target": "arte-de-la-seduccion-el"
+        },
+        {
+          "name": "Trabajarse a la multitud",
+          "kind": "Skill",
+          "target": "trabajarse-a-la-multitud"
+        },
+        {
+          "name": "Recitar cánticos",
+          "kind": "Skill",
+          "target": "recitar-canticos"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    },
+    {
+      "slug": "zoologo",
+      "name": "Zoologo",
+      "searchName": "zoologo",
+      "kind": "Custom",
+      "cost": 7,
+      "abilities": [
+        "INT",
+        "SAB"
+      ],
+      "masteryDie": "d8",
+      "price": 1408,
+      "difficulty": 20,
+      "books": [
+        {
+          "acronym": "HJ",
+          "page": "4.05"
+        }
+      ],
+      "classes": [
+        "Todas"
+      ],
+      "components": [
+        {
+          "name": "saber animal",
+          "kind": "Skill",
+          "target": "saber-animal"
+        },
+        {
+          "name": "Anatomía básica",
+          "kind": "Skill",
+          "target": "anatomia-basica"
+        },
+        {
+          "name": "Saber de los bosques",
+          "kind": "Skill",
+          "target": "saber-de-los-bosques"
+        },
+        {
+          "name": "Percepción climática",
+          "kind": "Skill",
+          "target": "percepcion-climatica"
+        },
+        {
+          "name": "Identificar animales por el rastro",
+          "kind": "Skill",
+          "target": "identificar-animales-por-el-rastro"
+        }
+      ],
+      "prerequisite": {
+        "segments": [
+          {
+            "text": "Las de las habilidades que lo componen",
+            "kind": "Text"
+          }
+        ]
+      },
+      "pending": [],
+      "raw": {}
+    }
+  ]
+}

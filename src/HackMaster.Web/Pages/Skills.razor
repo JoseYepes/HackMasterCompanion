@@ -1,0 +1,123 @@
+@page "/habilidades"
+@implements IDisposable
+@inject GameData Data
+@inject NavigationManager Navigation
+
+<PageTitle>Habilidades · @AppInfo.Name</PageTitle>
+
+<h1>Habilidades</h1>
+
+<div class="search">
+    <label for="skill-search">Buscar en el nombre y el resumen</label>
+    <input id="skill-search" type="search" autocomplete="off" data-testid="search-input" value="@_text" @oninput="OnSearchInput" />
+</div>
+
+<SkillFilters Facets="Data.SkillFacets" Criteria="_criteria" CriteriaChanged="UpdateCriteria" />
+
+<p class="result-count" data-testid="result-count" role="status">@CountText</p>
+
+@if (_matches.Count == 0)
+{
+    <p class="no-results">Ninguna habilidad cumple la búsqueda y los filtros. Prueba a quitar alguno.</p>
+}
+else
+{
+    <ul class="skill-list">
+        <li class="skill-head" aria-hidden="true">
+            <span>Nombre</span><span>Tipo</span><span>PC</span><span>Libro</span>
+        </li>
+        @foreach (var match in _matches)
+        {
+            var skill = match.Skill;
+            <li class="skill-row" data-testid="skill-row" @key="skill.Slug">
+                <a class="skill-name" href="@($"habilidades/{skill.Slug}")">@skill.Name</a>
+                <span class="skill-type">@skill.Type</span>
+                <span class="skill-cost"><span class="field-label">PC </span>@if (skill.Pending.Contains("cost"))
+                    {
+                        <PendingMark Raw="@skill.Raw.GetValueOrDefault("cost")" />
+                    }
+                    else
+                    {
+                        @Display.Number(skill.Cost)
+                    }</span>
+                <span class="skill-book">@Display.Books(skill.Books)</span>
+                @if (match.Snippet is not null)
+                {
+                    <p class="snippet">@match.Snippet</p>
+                }
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    /// <summary>Espera tras la última tecla antes de buscar.</summary>
+    private static readonly TimeSpan SearchDelay = TimeSpan.FromMilliseconds(150);
+
+    private SkillCriteria _criteria = SkillCriteria.Empty;
+    private IReadOnlyList<SkillMatch> _matches = [];
+    private string _text = string.Empty;
+    private string? _shownUri;
+    private CancellationTokenSource? _typing;
+
+    private string CountText => _matches.Count == 1 ? "1 habilidad" : $"{_matches.Count} habilidades";
+
+    protected override void OnParametersSet()
+    {
+        // La consulta vive en la dirección: al llegar (o al volver atrás) se reconstruye desde ella.
+        if (Navigation.Uri == _shownUri)
+        {
+            return;
+        }
+
+        _shownUri = Navigation.Uri;
+        Show(SkillAddress.Parse(Navigation.Uri, Data.SkillFacets));
+    }
+
+    private async Task OnSearchInput(ChangeEventArgs args)
+    {
+        _text = args.Value?.ToString() ?? string.Empty;
+
+        _typing?.Cancel();
+        _typing?.Dispose();
+        _typing = new CancellationTokenSource();
+        var token = _typing.Token;
+
+        try
+        {
+            await Task.Delay(SearchDelay, token);
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        UpdateCriteria(_criteria with { Text = _text });
+    }
+
+    private void UpdateCriteria(SkillCriteria criteria)
+    {
+        Show(criteria);
+        // AbsoluteUri, no ToString(): el navegador devuelve la dirección codificada ("%C3%A1" por "á"),
+        // y la comparación con Navigation.Uri debe hacerse en esa misma forma.
+        var uri = Navigation.ToAbsoluteUri(SkillAddress.ToRelativeUri(criteria)).AbsoluteUri;
+        if (uri != Navigation.Uri)
+        {
+            _shownUri = uri;
+            Navigation.NavigateTo(uri, replace: true);
+        }
+    }
+
+    private void Show(SkillCriteria criteria)
+    {
+        _criteria = criteria;
+        _text = criteria.Text ?? string.Empty;
+        _matches = SkillQuery.Apply(Data.Skills, criteria);
+    }
+
+    public void Dispose()
+    {
+        _typing?.Cancel();
+        _typing?.Dispose();
+    }
+}
