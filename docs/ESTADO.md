@@ -20,8 +20,7 @@
   `data/` incrustado en la aplicación; modelo y búsqueda en `Domain`; proyecto de pruebas nuevo
   `tests/HackMaster.DataImport.Tests`; Playwright dentro de `Web.Tests`; CSS propio sin librería.
 - **Implementación de F001**: fases 1 a 3 hechas (T001 a T029): modelo y normalización en
-  `Domain`, importador completo en `tools/DataImport`. Falta de T030 el retoque de `CLAUDE.md`
-  (requiere confirmación del usuario). La fase 4 (primera importación real) espera a que el
+  `Domain`, importador completo en `tools/DataImport`. La fase 4 (primera importación real) espera a que el
   usuario corrija el Excel, decidido el 2026-11-17: mientras, se avanza con las pantallas.
 - **Fase 5 hecha (T036 a T047, 2026-11-17)**: búsqueda y filtros en `Domain` (`SkillQuery`,
   `SkillFacets`), carga de datos (`GameData`), página `/habilidades` con la consulta en la
@@ -41,6 +40,13 @@
   detectadas al importar; cada una enlaza con su ficha y las generales salen como "General" sin
   enlace. T061 espera a la primera importación real (T033). 239 pruebas en verde. Siguiente:
   fase 9 (Playwright, CI y entrega), que necesita los datos reales para varias tareas.
+- **Fase 9 empezada (2026-11-17)**: Playwright incorporado a `Web.Tests` (T062) con las pruebas de
+  desbordamiento y de flujo de habilidades escritas (T063, T064) pero **sin ejecutar**: necesitan
+  los datos reales y Chromium (unos 150 MB, pendiente de que el usuario autorice la descarga).
+  Instrucciones en `tests/README.md` (T065). El trabajo de CI para estas pruebas (T066) se añade
+  cuando haya datos, porque antes fallaría. `CLAUDE.md` retocado con permiso del usuario
+  (T030 cerrada): quitada la frase "El importador llega con F001" y Playwright remite a
+  `tests/README.md`.
 - **Botones en el móvil**: la pregunta con botones del final de cada turno solo se ve en la app de
   escritorio; desde el móvil (control remoto activado el 2026-11-17) el usuario responde por texto.
 - **Ensayo del importador con la hoja real (2026-11-17, sin escribir en el repositorio)**: lee las

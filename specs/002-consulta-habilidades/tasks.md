@@ -100,7 +100,7 @@ accede a la columna D de "Descripciones"; mensajes con el formato de
 - [X] T027 [P] [US5] Implementar `tools/DataImport/WorkbookReader.cs` con ClosedXML; la columna D de "Descripciones" no se lee
 - [X] T028 [P] [US5] Implementar `tools/DataImport/DataWriter.cs`: JSON con las opciones de `GameDataFiles`, `docs/dudas.md`, escritura en carpeta temporal y movimiento final
 - [X] T029 [US5] Reescribir `tools/DataImport/Program.cs` según `contracts/data-import-cli.md` (argumentos, códigos 0/1/2, resumen y errores en castellano)
-- [ ] T030 [US5] Actualizar `README.md` y `CLAUDE.md` con el comando de importación real (`CLAUDE.md` requiere confirmación del usuario)
+- [X] T030 [US5] Actualizar `README.md` y `CLAUDE.md` con el comando de importación real (`CLAUDE.md` requiere confirmación del usuario)
 
 **Checkpoint**: el importador funciona y está probado sin la hoja real.
 
@@ -229,10 +229,10 @@ minutos.
 **Restricciones**: acciones fijadas por SHA; permisos mínimos; `dotnet test` debe seguir pasando en
 un equipo sin navegadores instalados.
 
-- [ ] T062 Añadir `Microsoft.Playwright` a `tests/HackMaster.Web.Tests/HackMaster.Web.Tests.csproj` y crear `tests/HackMaster.Web.Tests/E2E/E2EFactAttribute.cs` (omite la prueba si falta `HACKMASTER_E2E_URL`; categoría `E2E`) y `tests/HackMaster.Web.Tests/E2E/BrowserFixture.cs` (Chromium, tamaños 390×844 y 820×1180)
-- [ ] T063 [P] Escribir `tests/HackMaster.Web.Tests/E2E/SkillsFlowTests.cs`: 343 resultados al entrar; "botanica" muestra "Botánica" la primera (comprueba la normalización en WebAssembly); combinar dos libros y un tipo; abrir una ficha, volver atrás y conservar la consulta; recargar una ficha carga la misma ficha
-- [ ] T064 [P] Escribir `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs`: en `/`, `/habilidades` (con filtros abiertos), una ficha de habilidad, `/conjuntos`, una ficha de conjunto, `/estilos` y `/dudas`, a 390 px y 820 px, `scrollWidth` no supera `clientWidth` (FR-026, SC-006)
-- [ ] T065 [P] Crear `tests/README.md` en castellano: instalar el navegador de Playwright, arrancar la aplicación, definir `HACKMASTER_E2E_URL` y ejecutar `dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=E2E"`
+- [X] T062 Añadir `Microsoft.Playwright` a `tests/HackMaster.Web.Tests/HackMaster.Web.Tests.csproj` y crear `tests/HackMaster.Web.Tests/E2E/E2EFactAttribute.cs` (omite la prueba si falta `HACKMASTER_E2E_URL`; categoría `E2E`) y `tests/HackMaster.Web.Tests/E2E/BrowserFixture.cs` (Chromium, tamaños 390×844 y 820×1180)
+- [ ] T063 [P] Escribir `tests/HackMaster.Web.Tests/E2E/SkillsFlowTests.cs`: 343 resultados al entrar; "botanica" muestra "Botánica" la primera (comprueba la normalización en WebAssembly); combinar dos libros y un tipo; abrir una ficha, volver atrás y conservar la consulta; recargar una ficha carga la misma ficha — escrita el 2026-11-17; falta ejecutarla con los datos reales (tras T033) y Chromium instalado
+- [ ] T064 [P] Escribir `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs`: en `/`, `/habilidades` (con filtros abiertos), una ficha de habilidad, `/conjuntos`, una ficha de conjunto, `/estilos` y `/dudas`, a 390 px y 820 px, `scrollWidth` no supera `clientWidth` (FR-026, SC-006) — escrita el 2026-11-17; falta ejecutarla con los datos reales (tras T033) y Chromium instalado
+- [X] T065 [P] Crear `tests/README.md` en castellano: instalar el navegador de Playwright, arrancar la aplicación, definir `HACKMASTER_E2E_URL` y ejecutar `dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=E2E"`
 - [ ] T066 Añadir a `.github/workflows/ci.yml` un trabajo que publica la aplicación, la sirve en local, instala Chromium y ejecuta las pruebas `E2E`; acciones fijadas por SHA; comprobar que el total queda por debajo de 10 minutos
 - [ ] T067 Medir SC-003 (resultados en menos de 0,5 s con 343 elementos) en el navegador y anotar el resultado en `research.md` §11; si no se cumple, adoptar `<Virtualize>` en `src/HackMaster.Web/Pages/Skills.razor`
 - [ ] T068 Recorrer `quickstart.md` completo con el usuario, incluida la comparación de 30 habilidades y 10 conjuntos al azar con la hoja (SC-005), y registrar los resultados; anotar como dato informativo la cobertura de pruebas de `src/HackMaster.Domain` (orientativa: 90 %, principio IV)
