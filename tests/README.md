@@ -23,8 +23,8 @@ de entorno `HACKMASTER_E2E_URL`. Es lo esperado: así `dotnet test` funciona en 
 
 Necesitan los datos reales en `data/` (por ejemplo, esperan 343 habilidades).
 
-1. Construir y, solo la primera vez, instalar Chromium para Playwright (descarga el navegador,
-   unos 150 MB, en la carpeta de usuario):
+1. Construir y, solo la primera vez, instalar Chromium para Playwright (descarga unos 150 MB;
+   ya instalado ocupa unos 700 MB en `%LOCALAPPDATA%\ms-playwright`):
 
    ```
    dotnet build tests/HackMaster.Web.Tests
@@ -47,6 +47,8 @@ Necesitan los datos reales en `data/` (por ejemplo, esperan 343 habilidades).
    ```
 
    En bash: `HACKMASTER_E2E_URL=http://localhost:5238/ dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=E2E"`.
+
+En GitHub, el trabajo `e2e` de `.github/workflows/ci.yml` hace estos mismos pasos en cada pull request.
 
 Las pruebas comprueban, entre otras cosas, que ninguna pantalla se desborda en horizontal a 390 px
 ni a 820 px (FR-026) y que la búsqueda, los filtros y el botón de volver atrás funcionan con los

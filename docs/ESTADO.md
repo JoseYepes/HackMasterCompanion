@@ -92,8 +92,11 @@
 - **Bloque de comprobaciones (2026-11-17)**: `DataIntegrityTests` lee `data/` y `docs/dudas.md`
   (T034, T061; se comprobó que fallan con datos estropeados). Datos: 501 KB; importación: 2,4 s y
   repetible (T035, falta el paso 3 de `quickstart.md` con el usuario). Búsqueda: 169-231 ms con
-  los datos reales (T067). Las pruebas de navegador siguen esperando permiso para descargar
-  Chromium.
+  los datos reales (T067).
+- **Pruebas de navegador (2026-11-17)**: con permiso del usuario se instaló Chromium para
+  Playwright (unos 700 MB en disco). Las 6 pruebas `E2E` pasan con los datos reales en unos 24 s
+  (T063, T064). Se añadió el trabajo `e2e` al CI (T066), que arranca la aplicación con `dotnet run`;
+  no se ha visto aún en GitHub.
 - **Pendiente del usuario para más adelante**: los 23 conjuntos oficiales no tienen componentes en
   el Excel; el usuario cree que puede ser un error suyo al pasarlos del manual. Revisarlos con la
   fuente.
