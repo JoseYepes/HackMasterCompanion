@@ -16,6 +16,8 @@ else
 
     <h1>@Title</h1>
 
+    <PlayerSuitesError />
+
     @if (!_loaded)
     {
         <p>Cargando…</p>
@@ -152,7 +154,7 @@ else
 
     private SuiteCalculation Calculation => Suites.Calculate(_components);
 
-    private string? Problem => _saveProblem ?? Suites.CheckName(_name, Slug) ?? Suites.CheckComposition(_components, Slug);
+    private string? Problem => _saveProblem ?? Suites.CheckSave(_name, _components, Slug);
 
     private sealed record Result(string Name, string KindText, SuiteComponentRef Ref);
 

@@ -17,12 +17,15 @@ public sealed class BrowserStore(IJSRuntime js)
     /// <summary>Se lanza cuando <see cref="IsAvailable"/> cambia.</summary>
     public event Action? AvailabilityChanged;
 
-    /// <summary>Valor guardado con esa clave, o nulo si no hay ninguno.</summary>
+    /// <summary>
+    /// Valor guardado con esa clave, o nulo si no hay ninguno. Mientras el navegador deje guardar se
+    /// lee siempre de él, para ver lo que haya guardado otra pestaña; si no, de la memoria.
+    /// </summary>
     public async Task<string?> GetAsync(string key)
     {
-        if (_memory.TryGetValue(key, out var remembered))
+        if (!IsAvailable)
         {
-            return remembered;
+            return _memory.GetValueOrDefault(key);
         }
 
         try
@@ -32,7 +35,7 @@ public sealed class BrowserStore(IJSRuntime js)
         catch (JSException)
         {
             MarkUnavailable();
-            return null;
+            return _memory.GetValueOrDefault(key);
         }
     }
 

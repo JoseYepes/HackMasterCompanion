@@ -199,15 +199,15 @@ del jugador aparecen con los 36.
 **Verificación**: verificación común; pasan las pruebas `E2E` con la aplicación en marcha
 (`tests/README.md`); el CI está en verde en el pull request.
 
-- [ ] T026 [P] Escribir `tests/HackMaster.Web.Tests/E2E/DiceAndSuitesTests.cs`:
+- [X] T026 [P] Escribir `tests/HackMaster.Web.Tests/E2E/DiceAndSuitesTests.cs`:
   - tirar "2d6+3" y recargar conserva el historial;
   - crear con las 5 habilidades de Alquimista da 16 PC, 1403 po, dificultad 15 y d8;
   - guardar y recargar lo conserva;
   - (SC-001, SC-005)
-- [ ] T027 [P] Añadir `/dados`, `/conjuntos/nuevo` y la ficha de un conjunto del jugador a `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs`, a 390 px y 820 px (FR-020, SC-006)
+- [X] T027 [P] Añadir `/dados`, `/conjuntos/nuevo` y la ficha de un conjunto del jugador a `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs`, a 390 px y 820 px (FR-020, SC-006)
 - [ ] T028 Pedir al usuario que añada a la pestaña "Dudas" de la hoja las dos dudas de research §1 (dado de 4 conjuntos; 6 componentes en Forjador de armaduras y Trovador), reimportar y versionar `data/doubts.json` y `docs/dudas.md`
-- [ ] T029 Medir SC-004 en el navegador (una tirada y crear un conjunto de 4 habilidades) y anotarlo en `research.md`
-- [ ] T030 Revisión independiente del diff por un subagente con contexto limpio y aplicar lo que encuentre
+- [X] T029 Medir SC-004 en el navegador (una tirada y crear un conjunto de 4 habilidades) y anotarlo en `research.md`
+- [X] T030 Revisión independiente del diff por un subagente con contexto limpio y aplicar lo que encuentre
 - [ ] T031 Actualizar `docs/ESTADO.md` y `tests/README.md`; abrir el pull request en castellano con qué se hizo, cómo se verificó y qué falta
 - [ ] T032 Tras fusionar, comprobar `/dados` y el creador en el sitio publicado
 

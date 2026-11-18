@@ -131,6 +131,16 @@ public class SuiteCalculatorTests
     }
 
     [Fact]
+    public void A_Component_With_Unknown_Classes_Makes_The_Classes_Pending__FR012b()
+    {
+        // Los conjuntos oficiales no traen clases en los datos: no se sabe quién puede comprarlos.
+        var result = Calculate(Component("Cartógrafo (oficial)", classes: []), Component("B"));
+
+        Assert.Empty(result.Classes);
+        Assert.Contains("Cartógrafo (oficial)", result.ClassesPending, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Available_Abilities_Are_Those_Of_The_Components_Without_Repeats__FR012()
     {
         var result = Calculate(Component("A", abilities: [Ability.INT, Ability.SAB]), Component("B", abilities: [Ability.SAB, Ability.DES]));

@@ -86,6 +86,17 @@ public class StoredDataTests
         Assert.Contains("versión", read.Error, StringComparison.Ordinal);
     }
 
+    [Theory]
+    [InlineData("{ \"schemaVersion\": 1, \"penetrating\": false, \"rolls\": [null] }")]
+    [InlineData("{ \"schemaVersion\": 1, \"penetrating\": false, \"rolls\": [ { \"formula\": \"1d6\", \"penetrating\": false, \"total\": 3, \"rolledAt\": \"2026-11-18T10:00:00+01:00\", \"constant\": 0, \"groups\": null } ] }")]
+    public void Rolls_With_Missing_Parts_Are_Rejected_Without_Throwing__FR019(string json)
+    {
+        var read = StoredData.ReadRolls(json);
+
+        Assert.Null(read.Value);
+        Assert.False(string.IsNullOrEmpty(read.Error));
+    }
+
     [Fact]
     public void Data_From_A_Newer_Version_Is_Rejected_With_A_Reason__FR018()
     {
@@ -99,6 +110,8 @@ public class StoredDataTests
     [InlineData("{ esto no es json")]
     [InlineData("[1, 2, 3]")]
     [InlineData("{ \"schemaVersion\": 1, \"suites\": 5 }")]
+    [InlineData("{ \"schemaVersion\": 1, \"suites\": [null] }")]
+    [InlineData("{ \"schemaVersion\": 1, \"suites\": [ { \"slug\": \"a\", \"name\": \"A\", \"components\": null, \"abilities\": [], \"createdAt\": \"2026-11-18T10:00:00+01:00\", \"updatedAt\": \"2026-11-18T10:00:00+01:00\" } ] }")]
     public void Damaged_Data_Is_Rejected_Without_Throwing__FR019(string json)
     {
         var read = StoredData.ReadSuites(json);

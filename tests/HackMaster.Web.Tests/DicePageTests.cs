@@ -164,6 +164,35 @@ public class DicePageTests : BunitContext
     }
 
     [Fact]
+    public void A_Roll_Keeps_The_Rolls_Saved_Meanwhile_In_Another_Tab__SC005()
+    {
+        var stored = JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.rolls");
+        stored.SetResult(null);
+        var cut = Render<Dice>();
+        cut.WaitForElement("[data-testid=dice-formula]");
+        stored.SetResult(StoredHistory);
+        cut.Find("[data-testid=dice-formula]").Input("1d6");
+
+        cut.Find("form").Submit();
+
+        cut.WaitForAssertion(() => Assert.Equal(3, cut.FindAll("[data-testid=history-row]").Count));
+        Assert.Contains("1d20+2", (string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Damaged_History_Is_Reported_And_Not_Overwritten__FR019()
+    {
+        JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.rolls").SetResult("{ dañado");
+        var cut = Render<Dice>();
+        cut.WaitForElement("[data-testid=dice-formula]").Input("1d6");
+
+        cut.Find("form").Submit();
+
+        Assert.Contains("No se pudo leer el historial", cut.Find("[data-testid=roll-history]").TextContent, StringComparison.Ordinal);
+        Assert.Empty(JSInterop.Invocations["localStorage.setItem"]);
+    }
+
+    [Fact]
     public void Choosing_A_History_Row_Copies_Its_Formula_Without_Rolling__FR016()
     {
         var cut = RenderWithHistory();
@@ -185,6 +214,17 @@ public class DicePageTests : BunitContext
 
         Assert.Empty(cut.FindAll("[data-testid=history-row]"));
         Assert.Contains("\"rolls\": []", (string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Invalid_Formula_In_The_Address_Shows_Its_Error_Without_Rolling__FR003()
+    {
+        Services.GetRequiredService<NavigationManager>().NavigateTo("dados?f=3x6");
+
+        var cut = Render<Dice>();
+
+        Assert.Contains("«x» no vale", cut.Find("[data-testid=dice-error]").TextContent, StringComparison.Ordinal);
+        Assert.Empty(cut.FindAll("[data-testid=dice-total]"));
     }
 
     [Fact]

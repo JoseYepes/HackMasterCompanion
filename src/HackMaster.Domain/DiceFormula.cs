@@ -54,7 +54,8 @@ public sealed record DiceFormula(string Text, IReadOnlyList<DiceTerm> Terms)
 
         if (text.Trim().Length > MaxLength)
         {
-            return Fail(MaxLength, text[MaxLength..], $"La fórmula no puede tener más de {MaxLength} caracteres.");
+            var limit = (text.Length - text.TrimStart().Length) + MaxLength;
+            return Fail(limit, text[limit..], $"La fórmula no puede tener más de {MaxLength} caracteres.");
         }
 
         return new Parser(text).Run();
@@ -77,6 +78,7 @@ public sealed record DiceFormula(string Text, IReadOnlyList<DiceTerm> Terms)
             if (TryReadSign(out var leading))
             {
                 sign = leading;
+                SkipSpaces();
             }
 
             while (true)
@@ -131,10 +133,19 @@ public sealed record DiceFormula(string Text, IReadOnlyList<DiceTerm> Terms)
             var start = _position;
             var hasCount = TryReadNumber(out var count, out var countText);
 
+            // Los espacios dentro de un grupo ("2 d6", "2d 6") se ignoran (FR-001).
+            var afterCount = _position;
+            SkipSpaces();
+            if (AtEnd || char.ToLowerInvariant(Current) != 'd')
+            {
+                _position = afterCount;
+            }
+
             if (!AtEnd && char.ToLowerInvariant(Current) == 'd')
             {
                 var dAt = _position;
                 _position++;
+                SkipSpaces();
                 if (!TryReadNumber(out var sides, out var sidesText))
                 {
                     var fragment = AtEnd ? text[dAt].ToString() : text[dAt..(_position + 1)];
@@ -180,8 +191,13 @@ public sealed record DiceFormula(string Text, IReadOnlyList<DiceTerm> Terms)
                 return null;
             }
 
-            return AtEnd
-                ? Fail(start, string.Empty, "Falta un dado o un número.")
+            if (AtEnd)
+            {
+                return Fail(start, string.Empty, "Falta un dado o un número.");
+            }
+
+            return Current is '+' or '-'
+                ? Fail(_position, Current.ToString(), $"Sobra «{Current}»: entre dos términos va un solo «+» o «-».")
                 : InvalidCharacter();
         }
 
@@ -208,7 +224,7 @@ public sealed record DiceFormula(string Text, IReadOnlyList<DiceTerm> Terms)
                 return false;
             }
 
-            value = digits.Length > 9 ? int.MaxValue : int.Parse(digits, CultureInfo.InvariantCulture);
+            value = digits.TrimStart('0').Length > 9 ? int.MaxValue : int.Parse(digits, CultureInfo.InvariantCulture);
             return true;
         }
 

@@ -1,0 +1,10 @@
+@* Aviso de que los conjuntos guardados en el dispositivo no se pudieron leer (FR-019). *@
+@inject PlayerSuites PlayerSuites
+
+@if (PlayerSuites.LoadError is not null)
+{
+    <p class="doubt-notice" role="alert" data-testid="player-suites-error">
+        No se pudieron leer tus conjuntos guardados en este dispositivo (@PlayerSuites.LoadError).
+        No se guardará ningún cambio, para no borrarlos.
+    </p>
+}

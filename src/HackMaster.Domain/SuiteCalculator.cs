@@ -189,10 +189,17 @@ public static class SuiteCalculator
 
     /// <summary>
     /// "Todas" no restringe. Las restricciones de los componentes se cruzan: quedan las clases que
-    /// aparecen en todas. Si no queda ninguna, no se puede deducir con los datos (FR-012b).
+    /// aparecen en todas. Si no queda ninguna, o algún componente no trae clases (los conjuntos
+    /// oficiales), no se puede deducir con los datos (FR-012b).
     /// </summary>
     private static (IReadOnlyList<string> Classes, string? Pending) Classes(IReadOnlyList<SuiteComponentValues> components)
     {
+        var unknown = components.Where(component => component.Classes.Count == 0).Select(component => component.Name).ToList();
+        if (unknown.Count > 0)
+        {
+            return ([], $"No se sabe qué clases pueden comprar {Join(unknown)}.");
+        }
+
         var restricted = components
             .Where(component => component.Classes.Count > 0 && !component.Classes.Contains(AllClasses))
             .ToList();

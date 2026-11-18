@@ -7,6 +7,12 @@
 
 <h1>Dados</h1>
 
+@if (!_loaded)
+{
+    <p>Cargando…</p>
+    return;
+}
+
 <form class="dice-form" @onsubmit="RollTyped">
     <label for="dice-formula">Fórmula</label>
     <div class="dice-input">
@@ -82,24 +88,33 @@
     private RollHistoryFile _history = RollHistoryFile.Empty;
     private string? _historyError;
     private bool _confirmClear;
+    private bool _loaded;
 
-    /// <summary>Fórmula inicial desde la dirección (<c>/dados?f=2d6%2B3</c>); no se tira sola.</summary>
+    /// <summary>
+    /// Fórmula inicial desde la dirección (<c>/dados?f=2d6%2B3</c>); no se tira sola y, si no es
+    /// válida, se muestra con su error (contracts/rutas.md).
+    /// </summary>
     [SupplyParameterFromQuery(Name = "f")]
     public string? InitialFormula { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         _text = InitialFormula ?? string.Empty;
+        if (!string.IsNullOrWhiteSpace(_text))
+        {
+            _error = DiceFormula.Parse(_text).Error;
+        }
+
         var read = StoredData.ReadRolls(await Store.GetAsync(HistoryKey));
         _history = read.Value ?? RollHistoryFile.Empty;
         _historyError = read.Error;
+        _loaded = true;
     }
 
     private async Task OnPenetratingChanged(ChangeEventArgs args)
     {
         var penetrating = args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
-        _history = _history with { Penetrating = penetrating };
-        await SaveAsync();
+        await UpdateAsync(history => history with { Penetrating = penetrating });
     }
 
     private static string ErrorText(DiceFormulaError error)
@@ -148,18 +163,35 @@
 
     private async Task RollAsync(DiceFormula formula)
     {
-        _last = DiceRoller.Roll(formula, _history.Penetrating, Random, DateTimeOffset.Now);
-        _history = RollHistory.Add(_history, _last);
-        await SaveAsync();
+        var roll = DiceRoller.Roll(formula, _history.Penetrating, Random, DateTimeOffset.Now);
+        _last = roll;
+        await UpdateAsync(history => RollHistory.Add(history, roll));
     }
 
     private async Task ClearAsync()
     {
-        _history = RollHistory.Clear(_history);
         _confirmClear = false;
-        await SaveAsync();
+        await UpdateAsync(RollHistory.Clear);
     }
 
-    /// <summary>Guarda el historial, salvo si el guardado no se pudo leer: así no se pierde.</summary>
-    private Task SaveAsync() => _historyError is null ? Store.SetAsync(HistoryKey, StoredData.Write(_history)) : Task.CompletedTask;
+    /// <summary>
+    /// Aplica el cambio sobre el historial guardado, que se vuelve a leer justo antes para no borrar
+    /// lo que haya guardado otra pestaña (SC-005). Si no hay nada guardado, se parte de lo que hay en
+    /// la página. Si lo guardado no se puede leer, el cambio se queda en la página y no se escribe
+    /// nada, para no perderlo (FR-019).
+    /// </summary>
+    private async Task UpdateAsync(Func<RollHistoryFile, RollHistoryFile> change)
+    {
+        var json = await Store.GetAsync(HistoryKey);
+        var read = json is null ? new StoredRead<RollHistoryFile>(_history, null) : StoredData.ReadRolls(json);
+        _historyError = read.Error;
+        if (read.Value is null)
+        {
+            _history = change(_history);
+            return;
+        }
+
+        _history = change(read.Value);
+        await Store.SetAsync(HistoryKey, StoredData.Write(_history));
+    }
 }

@@ -33,6 +33,18 @@ public class BrowserStoreTests : BunitContext
     }
 
     [Fact]
+    public async Task Reading_After_Writing_Gets_What_Another_Tab_Saved_Since__SC005()
+    {
+        JSInterop.SetupVoid("localStorage.setItem", _ => true).SetVoidResult();
+        JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.suites").SetResult("de la otra pestaña");
+        var store = NewStore();
+
+        await store.SetAsync("hackmaster.suites", "de esta pestaña");
+
+        Assert.Equal("de la otra pestaña", await store.GetAsync("hackmaster.suites"));
+    }
+
+    [Fact]
     public async Task Failed_Write_Does_Not_Throw_Keeps_The_Value_In_Memory_And_Warns__FR019()
     {
         JSInterop.SetupVoid("localStorage.setItem", _ => true).SetException(new JSException("QuotaExceededError"));

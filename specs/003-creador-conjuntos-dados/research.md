@@ -54,9 +54,11 @@ Decisiones técnicas del plan. Formato: decisión, por qué, alternativas descar
 
 ## 4. Clases permitidas
 
-- **Decision**: "Todas" es neutro. Si todas las restricciones de los componentes son el mismo
-  texto, ese es el resultado. Si hay restricciones distintas (por ejemplo "Grupo de ladrones" y
-  "Ladrón (clase)"), el resultado es "pendiente de verificar" y se listan. En los datos hay 9
+- **Decision**: "Todas" es neutro. Las restricciones de los componentes se cruzan: quedan las
+  clases que aparecen, con el mismo texto, en todas. Si no queda ninguna (por ejemplo "Grupo de
+  ladrones" y "Ladrón (clase)"), el resultado es "pendiente de verificar" y se listan. Un
+  componente sin clases en los datos (los 23 conjuntos oficiales) también lo deja pendiente
+  (revisión independiente, 2026-11-18). En los datos hay 9
   valores: "Todas", "Grupo de guerreros", "Grupo de ladrones", "Grupo de clérigos", "Grupo de
   magos", "Grupo de magos (Sindicato de Adivinos)", "Bárbaro (clase)", "Guerrero (clase)" y
   "Ladrón (clase)".
@@ -138,3 +140,8 @@ Decisiones técnicas del plan. Formato: decisión, por qué, alternativas descar
   - **Playwright**: tirada y creación de un conjunto a 390 px y 820 px, sin desbordamiento, y que
     lo guardado sigue tras recargar (SC-005, SC-006).
 - **Rationale**: cada criterio de éxito tiene su prueba automática.
+- **Medido el 2026-11-18 (T029, SC-004)**: con Playwright en local, abrir `/dados`, tirar "2d6+3"
+  y recargar lleva unos 3 s; abrir el creador, añadir las 5 habilidades de Alquimista, guardar,
+  recargar y ver la lista, unos 4 s. Es el tiempo de la aplicación, sin el de una persona
+  escribiendo; los objetivos (10 s y 2 min) dejan margen de sobra. Queda que el usuario lo pruebe
+  a mano.

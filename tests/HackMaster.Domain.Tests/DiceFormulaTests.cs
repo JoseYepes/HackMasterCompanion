@@ -82,6 +82,43 @@ public class DiceFormulaTests
         Assert.Equal(Valid_("2d6+3").Terms, formula.Terms);
     }
 
+    [Theory]
+    [InlineData("- 1d6", "-1d6")]
+    [InlineData("+ 2d6", "2d6")]
+    [InlineData("2 d6", "2d6")]
+    [InlineData("2d 6", "2d6")]
+    [InlineData(" 1d20 +  3 ", "1d20+3")]
+    public void Spaces_Anywhere_Inside_A_Term_Are_Ignored__FR001(string text, string normalized)
+    {
+        Assert.Equal(normalized, Valid_(text).Text);
+    }
+
+    [Fact]
+    public void Two_Signs_In_A_Row_Say_That_One_Is_Left_Over__FR003()
+    {
+        var error = Invalid_("2d6+-3");
+
+        Assert.Equal(4, error.Position);
+        Assert.Contains("Sobra «-»", error.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Leading_Zeros_Do_Not_Make_A_Number_Too_Big__FR001()
+    {
+        Assert.Equal([DiceTerm.Dice(1, 1, 6)], Valid_("0000000001d6").Terms);
+    }
+
+    [Fact]
+    public void Length_Error_Points_Into_The_Written_Text_After_Leading_Spaces__FR004()
+    {
+        var text = "   " + TooLong;
+
+        var error = Invalid_(text);
+
+        Assert.Equal(3 + DiceFormula.MaxLength, error.Position);
+        Assert.Equal(text[(3 + DiceFormula.MaxLength)..], error.Fragment);
+    }
+
     [Fact]
     public void A_Leading_Sign_Applies_To_The_First_Term__FR001()
     {

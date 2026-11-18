@@ -58,6 +58,34 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
         }
     }
 
+    /// <summary>
+    /// Vuelve a leer lo guardado justo antes de escribir, para no borrar lo que haya guardado otra
+    /// pestaña mientras tanto (SC-005). Si no hay nada guardado (datos del sitio borrados), se
+    /// conserva lo que hay en memoria y se vuelve a escribir.
+    /// </summary>
+    private async Task RefreshAsync()
+    {
+        await _loadGate.WaitAsync();
+        try
+        {
+            var json = await store.GetAsync(StorageKey);
+            if (json is null)
+            {
+                _loaded = true;
+                return;
+            }
+
+            var read = StoredData.ReadSuites(json);
+            _file = read.Value ?? _file;
+            LoadError = read.Error;
+            _loaded = true;
+        }
+        finally
+        {
+            _loadGate.Release();
+        }
+    }
+
     public PlayerSuite? Find(string slug) => _file.Suites.FirstOrDefault(suite => suite.Slug == slug);
 
     public bool IsPlayerSuite(string slug) => Find(slug) is not null;
@@ -94,9 +122,24 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
 
     /// <summary>Motivo por el que estos componentes no se pueden guardar, o nulo.</summary>
     public string? CheckComposition(IReadOnlyList<SuiteComponentRef> components, string? originalSlug) =>
+        CheckComposition(components, originalSlug is null ? null : new SuiteComponentRef(ElementKind.Suite, originalSlug));
+
+    /// <summary>
+    /// Motivo por el que no se puede guardar con este nombre y estos componentes, o nulo. Busca
+    /// ciclos con el slug nuevo y con el anterior: un conjunto borrado deja su referencia en los que
+    /// lo usaban, y reutilizar su nombre podría cerrar un ciclo.
+    /// </summary>
+    public string? CheckSave(string name, IReadOnlyList<SuiteComponentRef> components, string? originalSlug)
+    {
+        var problem = CheckName(name, originalSlug) ?? CheckComposition(components, originalSlug);
+        var slug = TextNormalizer.ToSlug(name.Trim());
+        return problem ?? (slug == originalSlug ? null : CheckComposition(components, new SuiteComponentRef(ElementKind.Suite, slug)));
+    }
+
+    private string? CheckComposition(IReadOnlyList<SuiteComponentRef> components, SuiteComponentRef? self) =>
         SuiteCalculator.CheckComposition(
             components,
-            originalSlug is null ? null : new SuiteComponentRef(ElementKind.Suite, originalSlug),
+            self,
             reference => reference.Kind == ElementKind.Suite && Find(reference.Slug) is { } child ? child.Components : []);
 
     /// <summary>Motivo por el que el nombre no vale, o nulo. El slug no puede coincidir con el de otro conjunto de habilidades.</summary>
@@ -129,13 +172,13 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
         string? originalSlug,
         DateTimeOffset now)
     {
-        await LoadAsync();
+        await RefreshAsync();
         if (LoadError is not null)
         {
             return new SuiteSaveResult(null, $"No se guarda para no borrar los conjuntos que no se pudieron leer ({LoadError}).");
         }
 
-        var problem = CheckName(name, originalSlug) ?? CheckComposition(components, originalSlug);
+        var problem = CheckSave(name, components, originalSlug);
         if (problem is not null)
         {
             return new SuiteSaveResult(null, problem);
@@ -170,7 +213,7 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
 
     public async Task DeleteAsync(string slug)
     {
-        await LoadAsync();
+        await RefreshAsync();
         if (LoadError is not null)
         {
             return;
@@ -256,6 +299,8 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
             DifficultyPending = Missing,
             MasteryDie = null,
             MasteryDiePending = Missing,
+            Classes = [],
+            ClassesPending = Missing,
         };
     }
 

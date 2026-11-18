@@ -42,9 +42,21 @@ public static class StoredData
     /// <summary>Versión del formato que escribe esta aplicación.</summary>
     public const int CurrentVersion = 1;
 
-    public static StoredRead<PlayerSuitesFile> ReadSuites(string? json) => Read(json, PlayerSuitesFile.Empty, file => file.Suites is not null);
+    public static StoredRead<PlayerSuitesFile> ReadSuites(string? json) => Read(json, PlayerSuitesFile.Empty, IsComplete);
 
-    public static StoredRead<RollHistoryFile> ReadRolls(string? json) => Read(json, RollHistoryFile.Empty, file => file.Rolls is not null);
+    public static StoredRead<RollHistoryFile> ReadRolls(string? json) => Read(json, RollHistoryFile.Empty, IsComplete);
+
+    // El deserializador deja en nulo lo que falta o vale null en el JSON aunque el tipo no lo admita;
+    // se rechaza aquí para no fallar después.
+    private static bool IsComplete(PlayerSuitesFile file) =>
+        file.Suites is not null && file.Suites.All(suite =>
+            suite is not null && suite.Slug is not null && suite.Name is not null && suite.Abilities is not null
+            && suite.Components is not null && suite.Components.All(component => component is not null && component.Slug is not null));
+
+    private static bool IsComplete(RollHistoryFile file) =>
+        file.Rolls is not null && file.Rolls.All(roll =>
+            roll is not null && roll.Formula is not null && roll.Groups is not null
+            && roll.Groups.All(group => group is not null && group.Dice is not null && group.Dice.All(die => die is not null)));
 
     public static string Write(PlayerSuitesFile file) => JsonSerializer.Serialize(file with { SchemaVersion = CurrentVersion }, GameDataJson.Options);
 

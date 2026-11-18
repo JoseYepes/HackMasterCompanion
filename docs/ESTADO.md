@@ -22,9 +22,8 @@
   dados que penetran son una opción que el jugador activa (regla del MJ, «Daño de penetración»), y
   el dado de maestría de un conjunto es la media redondeada a la baja a un dado real; un conjunto
   tiene entre 2 y 5 habilidades (según recuerda el usuario del HJ 4.05). **Tareas del usuario**:
-  añadir a la pestaña "Dudas" de la hoja dos dudas: el dado de Zoólogo, Escribano, Hechicero y
-  Cerrajero, que no siguen esa regla, y Forjador de armaduras y Trovador, que tienen 6
-  habilidades. Aclarado después (`/speckit-clarify`): los conjuntos del jugador van en la misma
+  añadir a la pestaña "Dudas" de la hoja dos dudas: el dado de Zoólogo, Escribano y Hechicero,
+  que no siguen esa regla, y Forjador de armaduras y Trovador, que tienen 6 habilidades (T028). Aclarado después (`/speckit-clarify`): los conjuntos del jugador van en la misma
   lista que los 36, sin distinguirse, y sus clases permitidas se calculan solas.
 - **Plan de F002 (2026-11-18)**, detalle en `research.md`: analizador de fórmulas propio;
   `IRandom` con `Random.Shared`; `localStorage` por `IJSRuntime` sin paquetes (IndexedDB sigue en
@@ -36,6 +35,20 @@
   «C86=» del principio de la fórmula de PC de «Imitar voces» (fila 85, columna C), que hoy vale 0;
   (2) Mantenimiento: sus 3 habilidades tienen dado «*» y la regla no da dado; dejarlo como en el
   manual o borrarlo. Al corregirlas, quitar sus excepciones de la prueba (falla si sobran).
+- **Implementación de F002 (2026-11-18)**: fases 1 a 5 hechas y probadas en el navegador a
+  390 px (tirador con penetración, historial, creador; Alquimista rehecho da 16 PC, 1403 po, 15 %
+  y d8). 10 pruebas de navegador en verde. SC-004 medido: unos 3 s tirar y 4 s crear y guardar un
+  conjunto, sin contar lo que tarda una persona.
+- **Revisión independiente de F002 (T030, 2026-11-18)**: corregido:
+  - la página de dados podía guardar antes de cargar el historial;
+  - dos pestañas se borraban lo guardado: ahora se relee antes de escribir;
+  - un conjunto oficial (sin clases en los datos) daba «Todas»: ahora queda pendiente;
+  - no se avisaba si los conjuntos guardados no se podían leer;
+  - reutilizar el nombre de un conjunto borrado podía cerrar un ciclo;
+  - espacios y mensajes del analizador; `?f=` no válido sin error; azar real sin prueba; datos
+    guardados con nulos.
+  **Sin corregir** (menores): si una reimportación añade a la hoja un conjunto con el mismo slug
+  que uno del jugador, los dos comparten dirección sin aviso.
 - **Nota**: en esta sesión la app no encontraba los comandos `/speckit-…` como skills; se
   siguieron sus instrucciones leyendo `.claude/skills/*/SKILL.md`. El HJ 4.05 que tiene el usuario está escaneado: las reglas se toman de las fórmulas
   de la hoja (PC = suma − 1; precio = suma × 1,1 redondeado; dificultad = mayor + 5).

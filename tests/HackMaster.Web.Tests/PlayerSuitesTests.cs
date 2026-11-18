@@ -137,6 +137,20 @@ public class PlayerSuitesTests : BunitContext
     }
 
     [Fact]
+    public async Task Reusing_The_Name_Of_A_Deleted_Suite_Cannot_Close_A_Cycle__FR011()
+    {
+        // X usa F; se borra F (X conserva la referencia) y se crea otro «F» que usa X: F → X → F.
+        var service = NewService();
+        await SaveOk(service, "F", Botanica, Zoologia);
+        await SaveOk(service, "X", new SuiteComponentRef(ElementKind.Suite, "f"), Rastrear);
+        await service.DeleteAsync("f");
+
+        var result = await service.SaveAsync("F", [new SuiteComponentRef(ElementKind.Suite, "x"), Lucha], [], originalSlug: null, At);
+
+        Assert.Contains("a sí mismo", result.Problem, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task Renaming_Updates_The_Suites_That_Use_It__FR014()
     {
         var service = NewService();
@@ -178,6 +192,26 @@ public class PlayerSuitesTests : BunitContext
         Assert.Equal([new SuiteComponentRef(ElementKind.Skill, "ya-no-existe")], service.MissingComponents(service.Find("viejo")!));
         Assert.Null(suite.Cost);
         Assert.Contains("components", suite.Pending);
+        Assert.Contains("classes", suite.Pending);
+    }
+
+    [Fact]
+    public async Task Saving_Keeps_A_Suite_Saved_Meanwhile_In_Another_Tab__SC005()
+    {
+        var stored = JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.suites");
+        stored.SetResult(null);
+        var service = NewService();
+        await service.LoadAsync();
+        stored.SetResult("""
+            { "schemaVersion": 1, "suites": [ { "slug": "de-otra-pestana", "name": "De otra pestaña",
+              "components": [ { "kind": "Skill", "slug": "botanica" }, { "kind": "Skill", "slug": "lucha" } ],
+              "abilities": [], "createdAt": "2026-11-18T10:00:00+01:00", "updatedAt": "2026-11-18T10:00:00+01:00" } ] }
+            """);
+
+        await SaveOk(service, "Naturalista", Botanica, Zoologia);
+
+        Assert.Equal(["De otra pestaña", "Naturalista"], service.Suites.Select(suite => suite.Name));
+        Assert.Contains("De otra pestaña", (string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!, StringComparison.Ordinal);
     }
 
     [Fact]
