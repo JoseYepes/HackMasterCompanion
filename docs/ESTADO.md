@@ -24,7 +24,14 @@
   tiene entre 2 y 5 habilidades (según recuerda el usuario del HJ 4.05). **Tareas del usuario**:
   añadir a la pestaña "Dudas" de la hoja dos dudas: el dado de Zoólogo, Escribano, Hechicero y
   Cerrajero, que no siguen esa regla, y Forjador de armaduras y Trovador, que tienen 6
-  habilidades. Siguiente paso: `/speckit-clarify` y después `/speckit-plan`. El HJ 4.05 que tiene el usuario está escaneado: las reglas se toman de las fórmulas
+  habilidades. Aclarado después (`/speckit-clarify`): los conjuntos del jugador van en la misma
+  lista que los 36, sin distinguirse, y sus clases permitidas se calculan solas.
+- **Plan de F002 (2026-11-18)**, detalle en `research.md`: analizador de fórmulas propio;
+  `IRandom` con `Random.Shared`; `localStorage` por `IJSRuntime` sin paquetes (IndexedDB sigue en
+  F004); los valores de los conjuntos del jugador se calculan al mostrarlos; una prueba recalcula
+  los 36 conjuntos de `data/`. Siguiente paso: `/speckit-tasks`.
+- **Nota**: en esta sesión la app no encontraba los comandos `/speckit-…` como skills; se
+  siguieron sus instrucciones leyendo `.claude/skills/*/SKILL.md`. El HJ 4.05 que tiene el usuario está escaneado: las reglas se toman de las fórmulas
   de la hoja (PC = suma − 1; precio = suma × 1,1 redondeado; dificultad = mayor + 5).
 - **Decisiones del plan de F001** (detalle en `research.md`): ClosedXML para leer la hoja; JSON en
   `data/` incrustado en la aplicación; modelo y búsqueda en `Domain`; proyecto de pruebas nuevo
