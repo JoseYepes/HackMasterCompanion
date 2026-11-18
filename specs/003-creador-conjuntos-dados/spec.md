@@ -163,8 +163,9 @@ las tres aparecen en el historial en orden, con fórmula, detalle, total y hora.
 - **FR-006**: El tirador DEBE tener una opción, que el jugador activa o desactiva cuando quiera,
   para que los dados penetren: cada dado que saca su máximo añade otro dado igual cuyo resultado
   menos 1 se suma, y se repite mientras siga saliendo el máximo (MJ, «Daño de penetración»). Los
-  modificadores no penetran. El detalle DEBE mostrar cada dado extra. Un dado de 1 cara no penetra,
-  y la cadena tiene un límite de seguridad (a fijar en el plan) que, si se alcanza, se indica.
+  modificadores no penetran. El detalle DEBE mostrar cada dado extra. Los dados tienen al menos 2
+  caras (FR-004), y la cadena tiene un límite de seguridad (a fijar en el plan) que, si se
+  alcanza, se indica.
 - **FR-007**: El jugador DEBE poder repetir la última tirada sin volver a escribir la fórmula.
 
 **Creador de conjuntos**
