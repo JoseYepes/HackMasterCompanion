@@ -150,7 +150,7 @@ marcha, reiniciándola tras cada compilación.
 - [X] T019 Medir que sin 3D la descarga no crece (SC-005) y anotarlo en `research.md` §8
 - [X] T020 [P] Actualizar `tests/README.md`, `specs/004-dados-3d/contracts/dice3d-js.md` (enlace al contrato nuevo) y `docs/ESTADO.md`
 - [X] T021 Revisión independiente del diff (subagente con contexto limpio); corregir lo que encuentre
-- [ ] T022 Pull request; tras fusionar, comprobar el sitio publicado
+- [X] T022 Pull request; tras fusionar, comprobar el sitio publicado
 - [ ] T023 Comprobación del usuario en su móvil: fluidez en calidad alta y si le gustan los dados (SC-003, SC-006)
 
 ---
