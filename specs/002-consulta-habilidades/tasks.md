@@ -237,8 +237,8 @@ un equipo sin navegadores instalados.
 - [X] T067 Medir SC-003 (resultados en menos de 0,5 s con 343 elementos) en el navegador y anotar el resultado en `research.md` §11; si no se cumple, adoptar `<Virtualize>` en `src/HackMaster.Web/Pages/Skills.razor`
 - [ ] T068 Recorrer `quickstart.md` completo con el usuario, incluida la comparación de 30 habilidades y 10 conjuntos al azar con la hoja (SC-005), y registrar los resultados; anotar como dato informativo la cobertura de pruebas de `src/HackMaster.Domain` (orientativa: 90 %, principio IV)
 - [X] T069 Revisión independiente del diff por un subagente con contexto limpio (regresiones, pruebas débiles, violaciones de la constitución, restos de texto de manual) y aplicar lo que encuentre — *2026-11-17: corregidos el requisito «nombre desconocido + NN%+» que pasaba como condición y la comparación de direcciones con tildes; renombradas 5 pruebas mal referenciadas; los hallazgos menores quedan anotados en `docs/ESTADO.md`*
-- [ ] T070 Actualizar `docs/ESTADO.md` y `docs/PRODUCTO.md` (nombres actuales de los comandos `/speckit-…`, dudas A5 trasladadas a la hoja); abrir el pull request en castellano con qué se hizo, cómo se verificó y qué falta
-- [ ] T071 Tras fusionar, validar el paso 6 de `quickstart.md` en el sitio publicado y anotarlo en el pull request
+- [X] T070 Actualizar `docs/ESTADO.md` y `docs/PRODUCTO.md` (nombres actuales de los comandos `/speckit-…`, dudas A5 trasladadas a la hoja); abrir el pull request en castellano con qué se hizo, cómo se verificó y qué falta
+- [X] T071 Tras fusionar, validar el paso 6 de `quickstart.md` en el sitio publicado y anotarlo en el pull request
 
 ---
 

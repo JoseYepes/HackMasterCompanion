@@ -4,19 +4,28 @@
 > las specs: decisiones tomadas de palabra, hallazgos y lo que queda por decidir. Actualízala al
 > terminar cada sesión.
 
-Última actualización: 2026-11-17
+Última actualización: 2026-11-18
 
 ## Dónde estamos
 
 - **F000 (Base del proyecto): terminada.** 28 de 28 tareas cerradas (`specs/001-base-proyecto/`).
   Pull requests #1, #2 y #3 fusionados. Sitio publicado en
   https://joseyepes.github.io/HackMasterCompanion/
-- **F001 (Datos y consulta de habilidades): implementada, a falta de revisión y fusión.** Rama
-  `002-consulta-habilidades`, `specs/002-consulta-habilidades/`. Hechas 67 de 71 tareas. Quedan:
-  T035 (paso 3 de `quickstart.md`: el usuario busca una frase del texto de manual con `git grep`),
-  T068 (el usuario coteja unas filas con el Excel; un programa ya comparó 30 habilidades y 10
-  conjuntos al azar sin diferencias), T070 (pull request) y T071 (validar el sitio publicado tras
-  fusionar).
+- **F001 (Datos y consulta de habilidades): terminada y publicada.** Pull request #5 fusionado el
+  2026-11-17; CI en verde, incluidas las 8 pruebas de navegador. Sitio publicado comprobado a
+  tamaño de móvil (T071). Hechas 69 de 71 tareas. **Pospuestas por el usuario** (no bloquean):
+  T035 (paso 3 de `quickstart.md`: buscar con `git grep` una frase del texto de manual) y T068
+  (cotejar a mano unas filas con el Excel; un programa ya comparó 30 habilidades y 10 conjuntos al
+  azar sin diferencias).
+- **En curso: F002 (Creador de conjuntos y tirador 2D).** Rama `003-creador-conjuntos-dados`,
+  `specs/003-creador-conjuntos-dados/spec.md` escrita el 2026-11-18. Resuelto con el usuario: los
+  dados que penetran son una opción que el jugador activa (regla del MJ, «Daño de penetración»), y
+  el dado de maestría de un conjunto es la media redondeada a la baja a un dado real; un conjunto
+  tiene entre 2 y 5 habilidades (según recuerda el usuario del HJ 4.05). **Tareas del usuario**:
+  añadir a la pestaña "Dudas" de la hoja dos dudas: el dado de Zoólogo, Escribano, Hechicero y
+  Cerrajero, que no siguen esa regla, y Forjador de armaduras y Trovador, que tienen 6
+  habilidades. Siguiente paso: `/speckit-clarify` y después `/speckit-plan`. El HJ 4.05 que tiene el usuario está escaneado: las reglas se toman de las fórmulas
+  de la hoja (PC = suma − 1; precio = suma × 1,1 redondeado; dificultad = mayor + 5).
 - **Decisiones del plan de F001** (detalle en `research.md`): ClosedXML para leer la hoja; JSON en
   `data/` incrustado en la aplicación; modelo y búsqueda en `Domain`; proyecto de pruebas nuevo
   `tests/HackMaster.DataImport.Tests`; Playwright dentro de `Web.Tests`; CSS propio sin librería.
