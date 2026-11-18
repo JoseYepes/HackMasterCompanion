@@ -31,6 +31,10 @@ Como jugador, quiero crear conjuntos con las reglas de HJ 4.05 y lanzar fórmula
 Como jugador, quiero ver los dados rodar con física.
 **Aceptación:** existe modo "sin 3D" de respaldo; el resultado mostrado coincide con el dominio en 1 000 tiradas de prueba; ≥ 30 fps en móvil medio (comprobación manual documentada).
 
+### F007 — Estilo de fantasía heroica (se hace antes de F004)
+Como jugador, quiero que la aplicación tenga un aspecto de fantasía heroica, con un modo noche para la mesa de juego.
+**Aceptación:** estilo «pergamino y tinta» (fondo de pergamino, granate, dorado y letras de inscripción) y modo noche «taberna» (madera oscura y ámbar), elegidos por el usuario el 2026-11-18 sobre tres maquetas; contraste legible en los dos modos; sin desbordamiento horizontal a 390 px y 820 px; funciona sin conexión. Numerada F007 para no renumerar las demás.
+
 ### F004 — Fichas de PJ
 Como jugador, quiero crear, editar, duplicar, borrar, exportar e importar fichas.
 **Aceptación:** exportar e importar deja la ficha idéntica; migración de esquema v1→v2 con test; funciona sin conexión.
