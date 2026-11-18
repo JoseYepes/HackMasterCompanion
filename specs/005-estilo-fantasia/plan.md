@@ -93,7 +93,7 @@ src/HackMaster.Web/
 ├── wwwroot/
 │   ├── index.html                 # script de <head>, metas color-scheme y theme-color, precarga de letras
 │   ├── css/app.css                # @font-face, variables de los dos modos, reglas con variables, mesa
-│   └── lib/                       # + 5 woff2, cinzel.LICENSE, eb-garamond.LICENSE, README.md
+│   └── fonts/                     # nuevo: 5 woff2, cinzel.LICENSE, eb-garamond.LICENSE, README.md
 ├── Components/ThemeToggle.razor   # nuevo
 └── Layout/MainLayout.razor        # + ThemeToggle en la barra
 
