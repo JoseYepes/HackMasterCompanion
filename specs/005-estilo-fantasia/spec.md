@@ -99,7 +99,8 @@ siguen leyendo.
 
 ### Edge Cases
 
-- Sin conexión: el estilo completo, letras incluidas, se ve igual que con conexión.
+- Sin conexión: el estilo no depende de ningún servicio externo, así que se verá igual en cuanto
+  la aplicación funcione sin conexión.
 - Las letras de inscripción aún no han cargado: el texto se ve con una letra de reserva parecida y
   no queda invisible mientras tanto.
 - Nombres largos de habilidades ("Combate avanzado con dos armas (Advanced Two-Weapon Fighting)")
@@ -161,8 +162,10 @@ siguen leyendo.
 - **SC-002**: En los dos modos, el 100 % de las combinaciones de texto y fondo medidas cumplen los
   contrastes de FR-006.
 - **SC-003**: Cambiar de modo tarda menos de 0,5 s en aplicarse en un móvil medio.
-- **SC-004**: Sin conexión, después de la primera visita, el estilo se ve completo (letras
-  incluidas) en las 12 pantallas.
+- **SC-004**: Al abrir cualquiera de las 12 pantallas, el estilo completo (letras incluidas) se
+  carga solo desde la propia aplicación: ninguna petición sale a otro sitio. Así funcionará sin
+  conexión en cuanto la aplicación sea instalable (hoy aún no tiene modo sin conexión; ver
+  Assumptions).
 - **SC-005**: La primera carga de la aplicación crece como mucho un 10 % respecto a antes del
   estilo.
 - **SC-006**: Ninguna pantalla se desborda en horizontal a 390 px ni a 820 px en ninguno de los
@@ -183,4 +186,7 @@ siguen leyendo.
   con colores, letras, bordes y texturas sencillas. Un logotipo propio podría ser una
   funcionalidad aparte.
 - La impresión de pantallas y un tercer modo de alto contraste quedan fuera de alcance.
+- La aplicación aún no es instalable ni funciona sin conexión (no tiene trabajador de servicio);
+  hacerla instalable no es parte de esta funcionalidad. El estilo solo garantiza no depender de
+  nada externo (SC-004). Detectado al planificar, 2026-11-18.
 - No hay contenido del juego nuevo: los textos de las maquetas eran datos reales ya publicados.
