@@ -17,8 +17,8 @@ const MIN_PLAYBACK = 1.5;          // la reproducción no baja de 1,5 s aunque l
 const TABLE_WIDTH = 10;
 const DIE_COLOR = '#f4efe6';
 const DIE_INK = '#1f2328';
-const EXTRA_COLOR = '#b42318';     // dados extra por penetración (FR-006)
-const EXTRA_INK = '#ffffff';
+const EXTRA_COLOR = '#e8b54a';     // dados extra por penetración (FR-006): dorados, se ven en las dos mesas de F007
+const EXTRA_INK = '#2a1608';
 
 // ---------------------------------------------------------------------------------------------
 // Formas

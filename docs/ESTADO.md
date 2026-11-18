@@ -20,7 +20,38 @@
 - **F002 (Creador de conjuntos y tirador 2D): terminada y publicada.** Pull request #6 fusionado el
   2026-11-18; CI en verde con las 10 pruebas de navegador; sitio publicado comprobado (T032).
   Queda T028 (dudas en la hoja, del usuario).
-- **En curso: F003 (Dados 3D).** Rama `004-dados-3d`, spec en `specs/004-dados-3d/`.
+- **F003 (Dados 3D): terminada y publicada.** Pull request #7 fusionado el 2026-11-18 (a88806b);
+  CI en verde, incluidas las pruebas de navegador del 3D con WebGL por software. Sitio publicado
+  comprobado (T021, aún sin marcar en `tasks.md`): 7 tipos de dado con las caras del detalle, 3,7 s.
+  **Pendiente**: T018 (fotogramas por segundo en el móvil del usuario) y marcar T018 y T021.
+- **En curso: F007 (Estilo de fantasía heroica)**, antes de F004 por decisión del usuario. Rama
+  `005-estilo-fantasia`, `specs/005-estilo-fantasia/`. Elegido sobre tres maquetas: «A con modo
+  noche B» (pergamino y tinta; noche de taberna). Aclarado: mismas letras en los dos modos; un solo
+  botón ☀/☾ que la primera vez sigue al dispositivo; mesa de dados de cuero granate (normal) y
+  madera (noche). Letras Cinzel y EB Garamond (Fontsource 5.3.0, OFL) descargadas con permiso del
+  usuario y comprobadas por SHA-256. **Hallazgo**: la aplicación aún no es instalable ni funciona
+  sin conexión (no hay trabajador de servicio); SC-004 de F007 se ajustó a «sin peticiones
+  externas». **Implementado (2026-11-18)**: T001–T017 hechas. Letras en `wwwroot/fonts/` (no en
+  `lib/`, que vigila la prueba de F003 de no descargar el 3D); colores solo en variables de dos
+  modos; script en el `<head>` de `index.html` que aplica el modo antes de pintar; botón
+  `ThemeToggle`; mesa de cuero o madera solo con CSS. En el análisis se descartó la clase
+  `ThemePreference` (nadie la usaría; constitución III). Al verlo en el móvil se cambió la letra de
+  los nombres de habilidades, conjuntos y estilos a Garamond: en Cinzel (todo mayúsculas) los
+  nombres largos se partían mal. Descarga inicial +3,7 %. Las pruebas de navegador nuevas no se
+  vieron fallar antes de implementar (sí las unitarias y las de bUnit). **Revisión independiente
+  (T018)**: corregido que el foco no se veía en la barra (granate sobre granate; ahora dorado), que
+  los dados extra rojos casi desaparecían sobre el cuero (ahora dorados; la prueba lee los colores
+  de `dice3d.js`), que el botón podía romper la página sin el script del modo, y ampliada la
+  prueba de colores sueltos a todas las funciones y nombres de color de CSS. **Sin corregir**
+  (menor): las pestañas no se avisan del cambio de modo; las demás lo toman al recargar.
+  Pruebas: 556 unitarias y 27 de navegador. **Falta**: pull request (T019) y la comprobación del
+  usuario en su móvil (T020).
+- **Pendiente sin funcionalidad asignada**: hacer la aplicación instalable y que funcione sin
+  conexión (PWA: trabajador de servicio y manifiesto), que pide `PRODUCTO.md` A1 y A2.
+- **Nueva: F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18 para después
+  de F007: color, bordes redondeados, materiales y sonido, «como los de Baldur's Gate 3» en calidad
+  pero sin copiar sus diseños.
+- Historia de F003: rama `004-dados-3d`, spec en `specs/004-dados-3d/`.
   Aclarado con el usuario: d100 como dos d10; como mucho 20 dados en pantalla; los dados 3D
   empiezan desactivados. Plan (2026-11-18): three.js 0.187.0 + cannon-es 0.20.0 copiadas en
   `wwwroot/lib/`, módulo propio `dice3d.js` que fuerza la cara del dominio, sin `IDiceRenderer`

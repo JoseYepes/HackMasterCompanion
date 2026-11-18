@@ -57,3 +57,12 @@ datos reales.
 Las pruebas de los dados 3D (`Dice3DTests`) dibujan con WebGL por software (SwiftShader), porque el
 equipo de GitHub no tiene tarjeta gráfica; el navegador se abre con `--enable-unsafe-swiftshader`.
 Si después de recompilar la aplicación falla la carga de `js/dice3d.js`, reinicia la aplicación.
+
+Estilo de fantasía heroica (F007):
+
+- `ThemeContrastTests` (sin navegador) lee `wwwroot/css/app.css` y comprueba que cada color de los
+  dos modos se lee sobre su fondo (contraste de WCAG 2.1) y que ninguna regla usa colores sueltos.
+- `ThemeTests` (navegador) comprueba que las letras son propias y no se pide nada a otros sitios,
+  que el modo guardado se aplica antes de pintar, que se recuerda, que sin elección se sigue al
+  dispositivo y que la mesa de dados cambia con el modo.
+- `NoHorizontalOverflowTests` recorre las pantallas en modo normal y en modo noche.

@@ -6,7 +6,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HackMaster Companion</title>
   <base href="/" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#5a1f1b" />
+  <script>
+    // Modo normal o noche (F007, specs/005-estilo-fantasia/contracts/theme.md). Va antes de la hoja
+    // de estilos para que la página no se pinte un instante en el otro modo.
+    (function () {
+      var key = 'hackmaster.theme';
+      var bar = { light: '#5a1f1b', dark: '#120d09' };
+      function saved() {
+        try {
+          var value = JSON.parse(localStorage.getItem(key));
+          return value && value.schemaVersion === 1 && bar.hasOwnProperty(value.mode) ? value.mode : null;
+        } catch (e) {
+          return null;
+        }
+      }
+      function apply(mode) {
+        document.documentElement.setAttribute('data-theme', mode);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', bar[mode]);
+      }
+      var device = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      apply(saved() || device);
+      window.hackmasterTheme = {
+        current: function () {
+          return document.documentElement.getAttribute('data-theme');
+        },
+        set: function (mode) {
+          if (!bar.hasOwnProperty(mode)) return;
+          apply(mode);
+          try {
+            localStorage.setItem(key, JSON.stringify({ schemaVersion: 1, mode: mode }));
+          } catch (e) {
+            // Sin almacenamiento el modo cambia igual; solo no se recuerda.
+          }
+        }
+      };
+    })();
+  </script>
   <link rel="preload" id="webassembly" />
+  <link rel="preload" href="fonts/cinzel-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/eb-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="css/app.css" />
   <link rel="icon" type="image/png" href="favicon.png" />
   <script type="importmap"></script>

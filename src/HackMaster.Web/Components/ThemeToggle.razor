@@ -1,0 +1,62 @@
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+
+@* Botón de modo normal y noche (F007, FR-003). El modo lo aplica y lo guarda el script de
+   index.html (specs/005-estilo-fantasia/contracts/theme.md); aquí solo se pregunta y se pide. *@
+<button type="button" class="theme-toggle" data-testid="theme-toggle" aria-label="@Label" title="@Label" @onclick="ToggleAsync">
+    @if (_dark)
+    {
+        @* Sol: se pulsa para volver al modo normal. *@
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4.5" fill="currentColor" />
+            <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" />
+            </g>
+        </svg>
+    }
+    else
+    {
+        @* Luna: se pulsa para pasar al modo noche. *@
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="currentColor" />
+        </svg>
+    }
+</button>
+
+@code {
+    private bool _dark;
+
+    private string Label => _dark ? "Cambiar a modo normal" : "Cambiar a modo noche";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            _dark = await JS.InvokeAsync<string>("hackmasterTheme.current") == "dark";
+            StateHasChanged();
+        }
+        catch (JSException)
+        {
+            // Sin el script del modo, el botón se queda en modo normal; la aplicación sigue funcionando.
+        }
+    }
+
+    private async Task ToggleAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("hackmasterTheme.set", _dark ? "light" : "dark");
+            _dark = !_dark;
+        }
+        catch (JSException)
+        {
+            // Sin el script del modo (por ejemplo, un index.html viejo en caché) no cambia nada: el
+            // botón sigue diciendo la verdad y la aplicación no muestra el aviso de error.
+        }
+    }
+}

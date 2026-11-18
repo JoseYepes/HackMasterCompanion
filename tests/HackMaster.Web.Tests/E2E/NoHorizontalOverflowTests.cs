@@ -2,7 +2,10 @@ using Microsoft.Playwright;
 
 namespace HackMaster.Web.Tests.E2E;
 
-/// <summary>Ninguna pantalla de F001 se desborda en horizontal a 390 px ni a 820 px (FR-026, SC-006).</summary>
+/// <summary>
+/// Ninguna pantalla se desborda en horizontal a 390 px ni a 820 px (F001 FR-026, SC-006), ni en
+/// modo normal ni en modo noche (F007 FR-011, SC-006).
+/// </summary>
 [Trait("Category", "E2E")]
 public sealed class NoHorizontalOverflowTests(BrowserFixture browser) : IClassFixture<BrowserFixture>
 {
@@ -14,6 +17,8 @@ public sealed class NoHorizontalOverflowTests(BrowserFixture browser) : IClassFi
 
     private static async Task AssertNoOverflowAsync(IPage page, string where)
     {
+        var theme = await page.EvaluateAsync<string?>("() => document.documentElement.dataset.theme");
+        Assert.True(where.EndsWith("modo " + theme, StringComparison.Ordinal), $"{where}: la página está en modo {theme ?? "(ninguno)"}.");
         var widths = await page.EvaluateAsync<int[]>("() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]");
         Assert.True(widths[0] <= widths[1], $"{where}: el contenido mide {widths[0]} px y la pantalla {widths[1]} px.");
     }
@@ -30,10 +35,12 @@ public sealed class NoHorizontalOverflowTests(BrowserFixture browser) : IClassFi
     [E2EFact]
     public async Task No_Screen_Overflows_At_390_Or_820__FR026()
     {
-        foreach (var viewport in Viewports.All)
+        foreach (var (viewport, mode) in Viewports.All.SelectMany(viewport => new[] { (viewport, "light"), (viewport, "dark") }))
         {
             var page = await browser.NewPageAsync(viewport);
-            var size = $"{viewport.Width} px";
+            var size = $"{viewport.Width} px en modo {mode}";
+            // F007: el modo se guarda antes de que cargue cada página, como si el jugador ya lo hubiera elegido.
+            await page.AddInitScriptAsync("localStorage.setItem('hackmaster.theme', '{\"schemaVersion\":1,\"mode\":\"" + mode + "\"}')");
 
             var skill = await FirstLinkAsync(page, "habilidades", "[data-testid=skill-row]");
             var suite = await FirstLinkAsync(page, "conjuntos", "[data-testid=suite-row]");
