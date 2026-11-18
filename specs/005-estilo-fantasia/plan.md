@@ -27,7 +27,7 @@ Nuevo aspecto para toda la aplicación, sin cambiar su contenido ni su comportam
 
 **Storage**: `localStorage`, clave nueva `hackmaster.theme` (versión 1)
 
-**Testing**: xUnit (`ThemePreferenceTests`, `ThemeContrastTests`), bUnit (`ThemeTogglePageTests`),
+**Testing**: xUnit (`ThemeContrastTests`), bUnit (`ThemeTogglePageTests`),
 Playwright (`ThemeTests` y `NoHorizontalOverflowTests` en los dos modos)
 
 **Target Platform**: navegadores modernos, móvil primero (390 px), tableta (820 px) y PC
@@ -48,7 +48,7 @@ Playwright (`ThemeTests` y `NoHorizontalOverflowTests` en los dos modos)
 
 **Scale/Scope**:
 - `app.css` (unas 860 líneas) se reorganiza en variables.
-- 1 componente nuevo (`ThemeToggle`) y 1 clase (`ThemePreference`).
+- 1 componente nuevo (`ThemeToggle`); sin clases nuevas en C#.
 - Un script de unas 30 líneas en `index.html`.
 - 5 archivos de letras y 2 licencias.
 
@@ -60,7 +60,7 @@ Playwright (`ThemeTests` y `NoHorizontalOverflowTests` en los dos modos)
 |---|---|---|
 | I. Contenido sin inventar | Sin contenido del juego nuevo. Las maquetas usaban datos ya publicados. | PASA |
 | II. Prioridad de fuentes | No aplica. | PASA |
-| III. Dominio puro y arquitectura mínima | `Domain` no cambia. `ThemePreference` va en `Web` porque no es una regla del juego. Sin interfaces, capas ni proyectos nuevos. | PASA |
+| III. Dominio puro y arquitectura mínima | `Domain` no cambia. La preferencia la gestiona solo el script de `index.html`; no se crea una clase en C# que nadie usaría (data-model.md). Sin interfaces, capas ni proyectos nuevos. | PASA |
 | IV. Test primero | Las pruebas de la preferencia, los contrastes y el botón se escriben antes y se ven fallar. Las de navegador cubren el destello, el recuerdo y el desbordamiento. | PASA |
 | V. Local primero | Letras dentro de la aplicación, sin servicios externos. La preferencia guardada lleva `schemaVersion`. | PASA |
 | VI. Entrega verificable | Comandos y pasos manuales en `quickstart.md`. | PASA |
@@ -78,7 +78,7 @@ specs/005-estilo-fantasia/
 ├── spec.md
 ├── plan.md              # este archivo
 ├── research.md          # letras, paleta, botón, mesa, pruebas, tamaño
-├── data-model.md        # ThemePreference y la clave hackmaster.theme
+├── data-model.md        # la preferencia y la clave hackmaster.theme
 ├── quickstart.md
 ├── contracts/
 │   └── theme.md         # data-theme, localStorage y window.hackmasterTheme
@@ -94,12 +94,10 @@ src/HackMaster.Web/
 │   ├── index.html                 # script de <head>, metas color-scheme y theme-color, precarga de letras
 │   ├── css/app.css                # @font-face, variables de los dos modos, reglas con variables, mesa
 │   └── lib/                       # + 5 woff2, cinzel.LICENSE, eb-garamond.LICENSE, README.md
-├── ThemePreference.cs             # nuevo
 ├── Components/ThemeToggle.razor   # nuevo
 └── Layout/MainLayout.razor        # + ThemeToggle en la barra
 
 tests/HackMaster.Web.Tests/
-├── ThemePreferenceTests.cs        # nuevo
 ├── ThemeContrastTests.cs          # nuevo: lee app.css
 ├── ThemeTogglePageTests.cs        # nuevo (bUnit)
 └── E2E/

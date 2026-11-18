@@ -100,7 +100,7 @@ tirada no afecta a la animación (US3, escenario 3).
 | Qué | Cómo |
 |---|---|
 | Contrastes (FR-006, SC-002) | Prueba xUnit en `Web.Tests` que lee las variables de `app.css` de los dos modos y comprueba cada par de la tabla de §2 con la fórmula de WCAG. |
-| Preferencia (FR-004) | Pruebas xUnit de `ThemePreference`: leer, escribir, valores rotos o de otra versión. |
+| Preferencia (FR-004) | Playwright: valores rotos, de otra versión o con un modo desconocido se tratan como "sin elegir"; `localStorage` que falla no impide cambiar de modo. |
 | Botón (FR-003) | bUnit: nombre accesible según el modo, el clic llama a `hackmasterTheme.set` y cambia el nombre. |
 | Sin destello y recordar (FR-005, US2) | Playwright: con la preferencia guardada, `data-theme` ya está puesto en `DOMContentLoaded`; tras recargar sigue el modo; sin preferencia sigue a `prefers-color-scheme`. |
 | Cambio rápido (SC-003) | Playwright: del clic al cambio de color del fondo, menos de 500 ms. |

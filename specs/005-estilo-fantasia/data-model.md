@@ -2,24 +2,20 @@
 
 Esta funcionalidad no tiene datos del juego. Solo guarda una preferencia en el dispositivo.
 
-## ThemePreference (`HackMaster.Web`)
+## Preferencia de modo
 
-No va en `Domain`: no es una regla del juego, sino una preferencia de la interfaz.
+| Campo | Valores |
+|---|---|
+| `schemaVersion` | `1` |
+| `mode` | `"light"` (normal) o `"dark"` (noche) |
 
-| Campo | Tipo | Valores |
-|---|---|---|
-| `SchemaVersion` | entero | `1` |
-| `Mode` | `ThemeMode` | `Light` (normal) o `Dark` (noche) |
-
-- `ThemeMode.Light` se guarda como `"light"` y `ThemeMode.Dark` como `"dark"`.
-- `ThemePreference.Parse(string? json)` devuelve la preferencia, o nulo si no hay o no se entiende
-  (JSON roto, otra versión, modo desconocido): nulo significa "sin elegir".
-- `ThemePreference.Toggle()` devuelve la preferencia con el otro modo.
-- `ToJson()` escribe exactamente el formato del contrato (`contracts/theme.md`).
-
-La lectura que importa al arrancar la hace el script de `index.html`. `ThemePreference` existe para
-que las reglas (qué se considera válido, cuál es el otro modo) tengan pruebas en C#, y el
-componente la usa para el nombre accesible del botón.
+- La lee y la escribe solo el script del `<head>` de `index.html` (`contracts/theme.md`), porque
+  tiene que aplicarse antes de que Blazor arranque.
+- Sin valor, con JSON roto, con otra `schemaVersion` o con un modo desconocido: "sin elegir", se
+  sigue a `prefers-color-scheme`.
+- No hay clase en C#: el componente `ThemeToggle` solo pregunta el modo actual y pide el otro. Una
+  clase que nadie usara para leer ni escribir sería una abstracción "por si acaso" (principio III).
+  Las reglas de lectura se prueban en el navegador (`ThemeTests`).
 
 ## Guardado
 

@@ -7,9 +7,8 @@ dotnet build -warnaserror
 dotnet test --no-build
 dotnet format --verify-no-changes
 ```
-
-Esperado: 0 avisos; pasan las pruebas de contraste (`ThemeContrastTests`), de la preferencia
-(`ThemePreferenceTests`) y del botón (`ThemeTogglePageTests`), además de todas las anteriores.
+Esperado: 0 avisos; pasan las pruebas de contraste y colores (`ThemeContrastTests`) y del botón
+(`ThemeTogglePageTests`), además de todas las anteriores.
 
 ## 2. Pruebas de navegador
 
