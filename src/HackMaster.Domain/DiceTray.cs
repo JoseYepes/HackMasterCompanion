@@ -10,7 +10,7 @@ public sealed record TrayChange(DiceTray Tray, string? Problem);
 /// Bandeja de dados: compone la fórmula del tirador a golpe de clic (US4, FR-017 a FR-021). Lleva
 /// cuántos dados hay de cada tipo y un modificador; se escribe como "3d6+1d20+2".
 /// </summary>
-public sealed record DiceTray
+public sealed partial record DiceTray
 {
     /// <summary>Dados de la bandeja, por número de caras (FR-017).</summary>
     public static IReadOnlyList<int> Sides { get; } = [4, 6, 8, 10, 12, 20, 100];
@@ -44,10 +44,24 @@ public sealed record DiceTray
             return Empty;
         }
 
-        var compact = text.Replace(" ", string.Empty, StringComparison.Ordinal);
-        if (int.TryParse(compact, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var number))
+        // Solo números con su signo ("+1", "1+2"): el analizador de fórmulas los rechaza porque no hay
+        // dados, pero para la bandeja son el modificador. Dos números sin signo entre ellos no valen.
+        var onlyNumbers = OnlyNumbers().Match(text);
+        if (onlyNumbers.Success)
         {
-            return Math.Abs(number) <= DiceFormula.MaxNumber ? new DiceTray(new int[Sides.Count], number) : null;
+            var sum = 0L;
+            foreach (System.Text.RegularExpressions.Capture term in onlyNumbers.Groups["term"].Captures)
+            {
+                var value = term.Value.Replace(" ", string.Empty, StringComparison.Ordinal);
+                if (value.TrimStart('+', '-').TrimStart('0').Length > 9)
+                {
+                    return null;
+                }
+
+                sum += long.Parse(value, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture);
+            }
+
+            return Math.Abs(sum) <= DiceFormula.MaxNumber ? new DiceTray(new int[Sides.Count], (int)sum) : null;
         }
 
         var parsed = DiceFormula.Parse(text);
@@ -123,6 +137,9 @@ public sealed record DiceTray
 
         return builder.ToString();
     }
+
+    [System.Text.RegularExpressions.GeneratedRegex(@"^\s*(?<term>[+-]?\s*\d+)(\s*(?<term>[+-]\s*\d+))*\s*$")]
+    private static partial System.Text.RegularExpressions.Regex OnlyNumbers();
 
     private static int IndexOf(int sides)
     {

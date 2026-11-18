@@ -7,7 +7,7 @@ public class StoredDataTests
 {
     private static readonly DateTimeOffset At = new(2026, 11, 18, 10, 0, 0, TimeSpan.FromHours(1));
 
-    private static PlayerSuitesFile SampleSuites() => new(StoredData.CurrentVersion,
+    private static PlayerSuitesFile SampleSuites() => new(StoredData.SuitesVersion,
     [
         new PlayerSuite
         {
@@ -20,7 +20,7 @@ public class StoredDataTests
         },
     ]);
 
-    private static RollHistoryFile SampleRolls() => new(StoredData.CurrentVersion, Penetrating: true,
+    private static RollHistoryFile SampleRolls() => new(StoredData.RollsVersion, Penetrating: true,
     [
         new StoredRoll("2d6+3", Penetrating: false, Total: 10, RolledAt: At, Constant: 3,
             Groups: [new StoredGroup(Count: 2, Sides: 6, Sign: 1, Subtotal: 7, Capped: false, Dice: [new StoredDie(3, false), new StoredDie(4, false)])]),
@@ -55,11 +55,23 @@ public class StoredDataTests
     }
 
     [Fact]
-    public void Written_Data_Carries_The_Current_Schema_Version__FR018()
+    public void Written_Data_Carries_The_Current_Schema_Version_Of_Each_Format__FR018()
     {
-        Assert.Equal(2, StoredData.CurrentVersion);
-        Assert.Contains("\"schemaVersion\": 2", StoredData.Write(SampleSuites()), StringComparison.Ordinal);
+        // Cada formato tiene su versión: el historial cambió en F003 (dice3d) y los conjuntos no, así
+        // que una versión anterior de la aplicación abierta en otra pestaña sigue leyendo los conjuntos.
+        Assert.Equal(1, StoredData.SuitesVersion);
+        Assert.Equal(2, StoredData.RollsVersion);
+        Assert.Contains("\"schemaVersion\": 1", StoredData.Write(SampleSuites()), StringComparison.Ordinal);
         Assert.Contains("\"schemaVersion\": 2", StoredData.Write(SampleRolls()), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Suites_Of_A_Newer_Version_Are_Rejected_With_A_Reason__FR018()
+    {
+        var read = StoredData.ReadSuites("{ \"schemaVersion\": 2, \"suites\": [] }");
+
+        Assert.Null(read.Value);
+        Assert.Contains("más reciente", read.Error, StringComparison.Ordinal);
     }
 
     [Fact]
@@ -86,7 +98,7 @@ public class StoredDataTests
         Assert.True(read.Value!.Penetrating);
         Assert.False(read.Value.Dice3D);
         Assert.Equal(17, Assert.Single(read.Value.Rolls).Total);
-        Assert.Equal(StoredData.CurrentVersion, read.Value.SchemaVersion);
+        Assert.Equal(StoredData.RollsVersion, read.Value.SchemaVersion);
     }
 
     [Fact]

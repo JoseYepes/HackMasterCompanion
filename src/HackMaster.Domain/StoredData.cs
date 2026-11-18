@@ -7,7 +7,7 @@ namespace HackMaster.Domain;
 /// <summary>Conjuntos del jugador guardados en el dispositivo (clave <c>hackmaster.suites</c>).</summary>
 public sealed record PlayerSuitesFile(int SchemaVersion, IReadOnlyList<PlayerSuite> Suites)
 {
-    public static PlayerSuitesFile Empty { get; } = new(StoredData.CurrentVersion, []);
+    public static PlayerSuitesFile Empty { get; } = new(StoredData.SuitesVersion, []);
 }
 
 /// <summary>Un dado de una tirada guardada.</summary>
@@ -35,7 +35,7 @@ public sealed record RollHistoryFile(
     IReadOnlyList<StoredRoll> Rolls,
     [property: JsonPropertyName("dice3d")] bool Dice3D = false)
 {
-    public static RollHistoryFile Empty { get; } = new(StoredData.CurrentVersion, false, []);
+    public static RollHistoryFile Empty { get; } = new(StoredData.RollsVersion, false, []);
 }
 
 /// <summary>Resultado de leer algo guardado: el valor, o el motivo por el que no se pudo leer.</summary>
@@ -48,12 +48,20 @@ public sealed record StoredRead<T>(T? Value, string? Error)
 /// </summary>
 public static class StoredData
 {
-    /// <summary>Versión del formato que escribe esta aplicación.</summary>
-    public const int CurrentVersion = 2;
+    /// <summary>
+    /// Versión del formato de los conjuntos que escribe esta aplicación. Cada formato lleva la suya:
+    /// así, cambiar uno no hace que una versión anterior de la aplicación rechace el otro.
+    /// </summary>
+    public const int SuitesVersion = 1;
 
-    public static StoredRead<PlayerSuitesFile> ReadSuites(string? json) => Read(json, PlayerSuitesFile.Empty, IsComplete);
+    /// <summary>Versión del formato del historial: la 2 (F003) añade la opción de dados 3D.</summary>
+    public const int RollsVersion = 2;
 
-    public static StoredRead<RollHistoryFile> ReadRolls(string? json) => Read(json, RollHistoryFile.Empty, IsComplete);
+    public static StoredRead<PlayerSuitesFile> ReadSuites(string? json) =>
+        Read(json, PlayerSuitesFile.Empty, IsComplete, SuitesVersion, (root, _) => root);
+
+    public static StoredRead<RollHistoryFile> ReadRolls(string? json) =>
+        Read(json, RollHistoryFile.Empty, IsComplete, RollsVersion, MigrateRolls);
 
     // El deserializador deja en nulo lo que falta o vale null en el JSON aunque el tipo no lo admita;
     // se rechaza aquí para no fallar después.
@@ -67,11 +75,11 @@ public static class StoredData
             roll is not null && roll.Formula is not null && roll.Groups is not null
             && roll.Groups.All(group => group is not null && group.Dice is not null && group.Dice.All(die => die is not null)));
 
-    public static string Write(PlayerSuitesFile file) => JsonSerializer.Serialize(file with { SchemaVersion = CurrentVersion }, GameDataJson.Options);
+    public static string Write(PlayerSuitesFile file) => JsonSerializer.Serialize(file with { SchemaVersion = SuitesVersion }, GameDataJson.Options);
 
-    public static string Write(RollHistoryFile file) => JsonSerializer.Serialize(file with { SchemaVersion = CurrentVersion }, GameDataJson.Options);
+    public static string Write(RollHistoryFile file) => JsonSerializer.Serialize(file with { SchemaVersion = RollsVersion }, GameDataJson.Options);
 
-    private static StoredRead<T> Read<T>(string? json, T empty, Func<T, bool> isComplete)
+    private static StoredRead<T> Read<T>(string? json, T empty, Func<T, bool> isComplete, int currentVersion, Func<JsonElement, int, JsonElement> migrate)
         where T : class
     {
         if (string.IsNullOrWhiteSpace(json))
@@ -90,12 +98,12 @@ public static class StoredData
                 return new StoredRead<T>(null, "Los datos guardados no indican su versión de formato.");
             }
 
-            if (version > CurrentVersion)
+            if (version > currentVersion)
             {
-                return new StoredRead<T>(null, $"Los datos guardados son de una versión más reciente de la aplicación ({version}); esta entiende hasta la {CurrentVersion}.");
+                return new StoredRead<T>(null, $"Los datos guardados son de una versión más reciente de la aplicación ({version}); esta entiende hasta la {currentVersion}.");
             }
 
-            var migrated = Migrate(document.RootElement, version);
+            var migrated = migrate(document.RootElement, version);
             var value = migrated.Deserialize<T>(GameDataJson.Options);
             return value is not null && isComplete(value)
                 ? new StoredRead<T>(value, null)
@@ -108,29 +116,25 @@ public static class StoredData
     }
 
     /// <summary>
-    /// Lleva los datos de <paramref name="version"/> a la versión actual, paso a paso. Cada versión
+    /// Lleva un historial de <paramref name="version"/> a la versión actual, paso a paso. Cada versión
     /// nueva añade aquí su paso, con su prueba.
     /// </summary>
-    private static JsonElement Migrate(JsonElement root, int version)
+    private static JsonElement MigrateRolls(JsonElement root, int version)
     {
-        if (version == CurrentVersion)
+        if (version == RollsVersion)
         {
             return root;
         }
 
         var node = JsonNode.Parse(root.GetRawText())?.AsObject()
             ?? throw new JsonException("Los datos guardados no son un objeto.");
-        for (; version < CurrentVersion; version++)
+        for (; version < RollsVersion; version++)
         {
             switch (version)
             {
                 case 1:
-                    // 1 → 2 (F003): el historial gana la opción de dados 3D, desactivada. Los conjuntos no cambian.
-                    if (node.ContainsKey("rolls") && !node.ContainsKey("dice3d"))
-                    {
-                        node["dice3d"] = false;
-                    }
-
+                    // 1 → 2 (F003): el historial gana la opción de dados 3D, desactivada.
+                    node["dice3d"] ??= false;
                     break;
                 default:
                     throw new JsonException($"No se sabe migrar la versión {version} del formato.");

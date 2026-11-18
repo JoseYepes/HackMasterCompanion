@@ -12,6 +12,8 @@ const WAVE_STEPS = 60 * 3;         // una ola espera como mucho 3 s a que se par
 const LAST_WAVE_STEPS = 60 * 5;    // la última ola, como mucho 5 s
 const MAX_PLAYBACK = 3.6;          // reproducción: como mucho 3,6 s (FR-004: menos de 4 s)
 const REST_STEPS = 20;             // pasos seguidos casi quietos para dar un dado por parado
+const SETTLE_STEPS = 15;           // pasos para asentar un dado que acabó inclinado
+const MIN_PLAYBACK = 1.5;          // la reproducción no baja de 1,5 s aunque la simulación tarde
 const TABLE_WIDTH = 10;
 const DIE_COLOR = '#f4efe6';
 const DIE_INK = '#1f2328';
@@ -260,13 +262,82 @@ function run(plan, seed, depth) {
   }
 
   for (const entry of items) {
+    settle(entry);
     const last = entry.frames[entry.frames.length - 1];
     const slot = topSlot(entry.data, { x: last[3], y: last[4], z: last[5], w: last[6] });
     entry.labels = forceLabel(entry.labels, slot, entry.item.face);
     entry.top = slot;
   }
 
-  return { items, steps: step };
+  const longest = Math.max(0, ...items.map(entry => entry.start + entry.frames.length));
+  return { items, steps: longest };
+}
+
+/**
+ * Un dado que acaba inclinado (apoyado en otro o en una pared) se asienta en unos pasos más sobre
+ * la cara que tiene arriba, para que el resultado se lea sin dudas. No cambia qué cara queda arriba.
+ */
+function settle(entry) {
+  const last = entry.frames[entry.frames.length - 1];
+  const q = new THREE.Quaternion(last[3], last[4], last[5], last[6]);
+  const slot = topSlot(entry.data, q);
+  // Dirección del dado que debe quedar mirando hacia arriba: la normal de la cara de arriba o, en el
+  // d4, la contraria a la normal de la cara de abajo.
+  const local = entry.data.shape.byVertex
+    ? entry.data.faces.find(face => !face.indices.includes(slot)).normal.clone().negate()
+    : entry.data.faces[slot].normal.clone();
+  const world = local.clone().applyQuaternion(q);
+  if (world.y > 0.995) return;
+
+  const target = new THREE.Quaternion().setFromUnitVectors(world, new THREE.Vector3(0, 1, 0)).multiply(q);
+  const rest = -Math.min(...entry.data.vertices.map(v => v.clone().applyQuaternion(target).y));
+  const y = last[1] > rest + 0.15 ? last[1] : rest;
+  const from = new THREE.Vector3(last[0], last[1], last[2]);
+  const to = new THREE.Vector3(last[0], y, last[2]);
+  for (let i = 1; i <= SETTLE_STEPS; i++) {
+    const t = i / SETTLE_STEPS;
+    const p = from.clone().lerp(to, t);
+    const r = q.clone().slerp(target, t);
+    entry.frames.push([p.x, p.y, p.z, r.x, r.y, r.z, r.w]);
+  }
+}
+
+/**
+ * Comprobación de una simulación, para las pruebas (SC-001): por dado, la cara de arriba, cuánto
+ * apunta hacia arriba esa cara (1 = plana; en el d4, el vértice de arriba frente a los demás), si
+ * hay tantas caras (o vértices) como etiquetas y si las etiquetas son distintas entre sí.
+ */
+export function inspect(plan, seed) {
+  const started = performance.now();
+  const { items, steps } = run(plan, seed, TABLE_WIDTH * 0.75);
+  const ms = performance.now() - started;
+  return {
+    ms,
+    steps,
+    dice: items.map(entry => {
+      const last = entry.frames[entry.frames.length - 1];
+      const q = new THREE.Quaternion(last[3], last[4], last[5], last[6]);
+      const slot = topSlot(entry.data, q);
+      const slots = entry.data.shape.byVertex ? entry.data.vertices.length : entry.data.faces.length;
+      const up = entry.data.shape.byVertex
+        ? flatnessOfVertex(entry.data, q, slot)
+        : entry.data.faces[slot].normal.clone().applyQuaternion(q).y;
+      return {
+        face: entry.labels[slot],
+        up,
+        slots,
+        labels: entry.labels.length,
+        unique: new Set(entry.labels).size === entry.labels.length,
+        inside: Math.abs(last[0]) < TABLE_WIDTH / 2 && Math.abs(last[2]) < TABLE_WIDTH * 0.375 && last[1] > 0,
+      };
+    }),
+  };
+}
+
+/** En el d4: la cara de abajo (la opuesta al vértice de arriba) debe mirar hacia abajo. */
+function flatnessOfVertex(data, q, vertex) {
+  const opposite = data.faces.findIndex(face => !face.indices.includes(vertex));
+  return -data.faces[opposite].normal.clone().applyQuaternion(q).y;
 }
 
 /**
@@ -420,7 +491,10 @@ export function roll(element, plan) {
   finish(element);
   clear(board);
 
+  const simulationStarted = performance.now();
   const { items, steps } = run(plan, Math.floor(Math.random() * 2 ** 31), board.depth);
+  // La simulación también cuenta para los 4 s de FR-004: la reproducción se acorta lo que tardó.
+  const simulationSeconds = (performance.now() - simulationStarted) / 1000;
   board.meshes = items.map(entry => {
     const mesh = dieMesh(entry.data, entry.labels, entry.item.penetration);
     mesh.visible = false;
@@ -429,7 +503,7 @@ export function roll(element, plan) {
     return mesh;
   });
 
-  const duration = Math.min(steps * STEP, MAX_PLAYBACK) * 1000;
+  const duration = Math.min(steps * STEP, Math.max(MAX_PLAYBACK - simulationSeconds, MIN_PLAYBACK)) * 1000;
   return new Promise(resolve => {
     const startedAt = performance.now();
     const show = (frameIndex) => {
@@ -499,6 +573,8 @@ export function dispose(element) {
   clear(board);
   board.observer.disconnect();
   board.renderer.dispose();
+  // Devuelve el contexto WebGL al navegador: si no, encender y apagar el 3D muchas veces los acumula.
+  board.renderer.forceContextLoss();
   board.renderer.domElement.remove();
   boards.delete(element);
 }

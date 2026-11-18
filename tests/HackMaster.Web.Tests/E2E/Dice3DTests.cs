@@ -39,18 +39,21 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
                 dice.push({ shape, face: pick(faces[shape]), wave: 0, penetration: false });
               }
             }
-            const shown = dice3d.simulate({ dice }, roll + 1);
-            const wanted = dice.map(die => die.face);
-            if (JSON.stringify(shown) !== JSON.stringify(wanted)) {
-              failures.push({ roll, wanted, shown });
-            }
+            // Además de la cara, comprueba lo que la hace legible y fiable: el dado queda plano
+            // (la cara de arriba mira hacia arriba), dentro de la mesa, con tantas caras como
+            // etiquetas y sin etiquetas repetidas.
+            const result = dice3d.inspect({ dice }, roll + 1);
+            result.dice.forEach((shown, i) => {
+              const ok = shown.face === dice[i].face && shown.up > 0.99 && shown.inside && shown.unique && shown.slots === shown.labels;
+              if (!ok) failures.push({ roll, die: dice[i], shown });
+            });
           }
           return JSON.stringify(failures.slice(0, 5)) + ' / ' + failures.length;
         }
         """;
 
     [E2EFact]
-    public async Task In_1000_Simulated_Rolls_Every_Die_Stops_On_The_Wanted_Face__SC001()
+    public async Task In_1000_Simulated_Rolls_Every_Die_Stops_Flat_On_The_Wanted_Face__SC001()
     {
         var page = await browser.NewPageAsync(Viewports.Phone);
         await BrowserFixture.GoToAsync(page, "dados");
@@ -89,7 +92,7 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
         await BrowserFixture.GoToAsync(page, "dados");
         await page.EvaluateAsync("""() => localStorage.setItem('hackmaster.rolls', '{"schemaVersion":2,"penetrating":false,"dice3d":true,"rolls":[]}')""");
         await BrowserFixture.GoToAsync(page, "dados?f=" + Uri.EscapeDataString(formula));
-        await page.Locator("[data-testid=dice-board] canvas").WaitForAsync();
+        await page.Locator("[data-testid=dice3d-toggle][data-ready=true]").WaitForAsync();
         return page;
     }
 
@@ -150,6 +153,21 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
         await page.Locator("[data-testid=dice-formula]").WaitForAsync();
 
         Assert.DoesNotContain(requested, url => url.Contains("/lib/", StringComparison.Ordinal) || url.Contains("dice3d", StringComparison.Ordinal));
+    }
+
+    [E2EFact]
+    public async Task Tray_Buttons_Are_At_Least_44_Pixels_At_390__FR022()
+    {
+        var page = await browser.NewPageAsync(Viewports.Phone);
+        await BrowserFixture.GoToAsync(page, "dados");
+        await page.Locator("[data-testid=tray-die-6]").WaitForAsync();
+
+        var smallest = await page.EvaluateAsync<double>("""
+            () => Math.min(...[...document.querySelectorAll('.tray-die, .tray-action')]
+              .map(button => Math.min(button.getBoundingClientRect().width, button.getBoundingClientRect().height)))
+            """);
+
+        Assert.True(smallest >= 44, $"El botón más pequeño mide {smallest} px.");
     }
 
     [E2EFact]

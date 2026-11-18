@@ -10,12 +10,16 @@
     private ElementReference _element;
     private IJSObjectReference? _module;
     private bool _created;
+    private bool _disposed;
 
-    /// <summary>Carga el módulo y crea la mesa. Falso si el navegador no puede mostrar 3D.</summary>
+    /// <summary>
+    /// Carga el módulo y crea la mesa. Falso si el navegador no puede mostrar 3D o si el componente
+    /// se ha quitado mientras cargaba (el jugador apagó el 3D): entonces no se crea nada.
+    /// </summary>
     public async Task<bool> StartAsync()
     {
         _module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/dice3d.js");
-        if (!await _module.InvokeAsync<bool>("isSupported"))
+        if (_disposed || !await _module.InvokeAsync<bool>("isSupported") || _disposed)
         {
             return false;
         }
@@ -48,6 +52,7 @@
 
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is null)
         {
             return;

@@ -120,12 +120,13 @@ public class DiceBoardTests
     [Fact]
     public void A_Cut_Never_Splits_The_Two_D10_Of_A_D100__FR007()
     {
-        // 18d6 + 1d100 que penetra: 18 + 2 = 20 al empezar; el extra del d100 (2 dados) no cabe entero.
-        var values = Enumerable.Repeat(2, 18).Concat([100, 50]).ToArray();
+        // 17d6 + 1d100 que penetra: 17 + 2 = 19 al empezar; queda un hueco, pero el extra del d100
+        // son dos d10 y no se separan: no se dibuja ninguno de los dos.
+        var values = Enumerable.Repeat(2, 17).Concat([100, 50]).ToArray();
 
-        var plan = Plan("18d6+1d100", true, values);
+        var plan = Plan("17d6+1d100", true, values);
 
-        Assert.Equal(20, plan.Dice.Count);
+        Assert.Equal(19, plan.Dice.Count);
         Assert.True(plan.Truncated);
         Assert.DoesNotContain(plan.Dice, die => die.Wave > 0);
     }

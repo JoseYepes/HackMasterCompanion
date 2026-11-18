@@ -34,7 +34,7 @@ public class Dice3DPageTests : BunitContext
     {
         JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.rolls").SetResult(Dice3DOn);
         var cut = Render<Dice>();
-        cut.WaitForAssertion(() => _module.VerifyInvoke("create"));
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
         return cut;
     }
 
@@ -62,7 +62,7 @@ public class Dice3DPageTests : BunitContext
 
         cut.WaitForElement("[data-testid=dice3d-toggle]").Change(true);
 
-        cut.WaitForAssertion(() => _module.VerifyInvoke("create"));
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
         Assert.Contains("\"dice3d\": true", LastSaved(), StringComparison.Ordinal);
     }
 
@@ -97,15 +97,32 @@ public class Dice3DPageTests : BunitContext
     }
 
     [Fact]
-    public void Rolling_Again_While_The_Dice_Roll_Finishes_The_Previous_Roll_First__F003()
+    public void Rolling_Again_While_The_Dice_Roll_Finishes_The_Previous_Roll_And_Shows_The_New_One__US1()
     {
         var cut = RenderWith3DOn();
         Submit(cut, "1d20");
         cut.WaitForAssertion(() => _module.VerifyInvoke("roll"));
 
         Submit(cut, "1d6");
-
         cut.WaitForAssertion(() => _module.VerifyInvoke("finish"));
+        cut.WaitForAssertion(() => Assert.Equal(2, _module.Invocations["roll"].Count));
+        _roll.SetVoidResult();
+
+        cut.WaitForAssertion(() => Assert.Equal("4", cut.Find("[data-testid=dice-total]").TextContent.Trim()));
+        Assert.Contains("1d6", cut.Find(".roll-formula").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void The_History_Does_Not_Show_The_Result_Before_The_Dice_Stop__FR005()
+    {
+        var cut = RenderWith3DOn();
+
+        Submit(cut, "1d20");
+        cut.WaitForAssertion(() => _module.VerifyInvoke("roll"));
+
+        Assert.Empty(cut.FindAll("[data-testid=history-row]"));
+        _roll.SetVoidResult();
+        cut.WaitForAssertion(() => Assert.Single(cut.FindAll("[data-testid=history-row]")));
     }
 
     [Fact]

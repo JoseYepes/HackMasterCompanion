@@ -24,7 +24,18 @@
   Aclarado con el usuario: d100 como dos d10; como mucho 20 dados en pantalla; los dados 3D
   empiezan desactivados. Plan (2026-11-18): three.js 0.187.0 + cannon-es 0.20.0 copiadas en
   `wwwroot/lib/`, módulo propio `dice3d.js` que fuerza la cara del dominio, sin `IDiceRenderer`
-  (constitución III). **Pendiente**: que el usuario apruebe las dos dependencias y su descarga.
+  (constitución III). El usuario aprobó las dos dependencias (opción A, frente a hacer la física en
+  C# o renunciar al 3D) y añadió la **bandeja de dados** (US4: cada clic suma un dado a la fórmula).
+- **Implementación de F003 (2026-11-18)**: fases 1 a 5 y la bandeja hechas; 1 000 tiradas simuladas
+  con la cara correcta y el dado plano; 17 pruebas de navegador; descarga inicial sin 3D +0,35 %.
+  **Revisión independiente (T019)**: corregido que el historial mostraba el total antes de pararse
+  los dados; que apagar el 3D mientras cargaba lo dejaba muerto hasta recargar; dados que acababan
+  inclinados (8,5 %; ahora se asientan); la simulación cuenta para los 4 s; contexto WebGL liberado;
+  «1 2» en la bandeja; versiones separadas de los formatos guardados (conjuntos 1, historial 2) para
+  que una versión anterior abierta en otra pestaña no rechace los conjuntos; pruebas reforzadas.
+  **Sin corregir** (menores): girar el móvil durante una tirada puede dejar algún dado fuera de
+  cámara; la simulación ocupa el hilo principal (unos 0,6 s con 20 d20 en el ordenador).
+  **Pendiente**: fotogramas por segundo en el móvil del usuario (T018), con la web publicada.
 - Historia de F002: rama `003-creador-conjuntos-dados`,
   `specs/003-creador-conjuntos-dados/spec.md` escrita el 2026-11-18. Resuelto con el usuario: los
   dados que penetran son una opción que el jugador activa (regla del MJ, «Daño de penetración»), y

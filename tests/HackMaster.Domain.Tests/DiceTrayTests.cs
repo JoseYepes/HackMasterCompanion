@@ -75,12 +75,15 @@ public class DiceTrayTests
     [InlineData("+1", "+1")]
     [InlineData("-2", "-2")]
     [InlineData("5", "+5")]
+    [InlineData(" +3 ", "+3")]
+    [InlineData("1+2", "+3")]
     public void A_Lone_Number_Is_Only_A_Modifier__FR020(string text, string expected)
     {
         Assert.Equal(expected, Tray(text).ToText());
     }
 
     [Theory]
+    [InlineData("1 2")]
     [InlineData("1d3+1d6")]
     [InlineData("1d20-1d4")]
     [InlineData("2d")]

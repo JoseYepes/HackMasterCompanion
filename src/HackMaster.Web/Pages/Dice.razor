@@ -28,7 +28,7 @@
         Los dados penetran
     </label>
     <label class="dice-option">
-        <input type="checkbox" data-testid="dice3d-toggle" checked="@Use3D" disabled="@_dice3dUnavailable" @onchange="OnDice3DChanged" />
+        <input type="checkbox" data-testid="dice3d-toggle" data-ready="@(_boardReady ? "true" : "false")" checked="@Use3D" disabled="@_dice3dUnavailable" @onchange="OnDice3DChanged" />
         Dados 3D
     </label>
 </form>
@@ -62,14 +62,14 @@
         <p class="section-note" role="status">No se pudo leer el historial guardado (@_historyError). Las tiradas nuevas no se guardarán para no borrarlo.</p>
     }
 
-    @if (_history.Rolls.Count == 0)
+    @if (ShownHistory.Count == 0)
     {
         <p class="section-note">Todavía no hay tiradas.</p>
     }
     else
     {
         <ol class="history-list">
-            @foreach (var roll in _history.Rolls)
+            @foreach (var roll in ShownHistory)
             {
                 <li class="history-row" data-testid="history-row">
                     <button type="button" class="history-formula" title="Usar esta fórmula" @onclick="() => UseFormula(roll.Formula)">@roll.Formula</button>
@@ -118,6 +118,16 @@
     private bool Use3D => _history.Dice3D && !_dice3dUnavailable;
 
     /// <summary>
+    /// Historial que se muestra: la tirada que aún rueda ya está guardada (FR-002), pero no se enseña
+    /// hasta que los dados se paran (FR-005).
+    /// </summary>
+    private IReadOnlyList<StoredRoll> ShownHistory =>
+        _rolling is not null && _history.Rolls.Count > 0
+            && _history.Rolls[0].RolledAt == _rolling.RolledAt && _history.Rolls[0].Formula == _rolling.Formula.Text
+            ? [.. _history.Rolls.Skip(1)]
+            : _history.Rolls;
+
+    /// <summary>
     /// Fórmula inicial desde la dirección (<c>/dados?f=2d6%2B3</c>); no se tira sola y, si no es
     /// válida, se muestra con su error (contracts/rutas.md).
     /// </summary>
@@ -146,18 +156,33 @@
             return;
         }
 
+        var board = _board;
         _boardStarting = true;
         try
         {
-            _boardReady = await _board.StartAsync();
-            if (!_boardReady)
+            var ready = await board.StartAsync();
+            // Si mientras cargaba el jugador apagó el 3D (y quizá lo volvió a encender, con otra
+            // mesa), esta respuesta ya no cuenta.
+            if (!ReferenceEquals(board, _board) || !Use3D)
+            {
+                // Se vuelve a pintar para que, si hay una mesa nueva, arranque ahora.
+                _boardStarting = false;
+                StateHasChanged();
+                return;
+            }
+
+            _boardReady = ready;
+            if (!ready)
             {
                 Unavailable("Este navegador no puede mostrar dados 3D: se tira sin animación.");
             }
         }
         catch (JSException)
         {
-            Unavailable("No se pudieron cargar los dados 3D: se tira sin animación.");
+            if (ReferenceEquals(board, _board) && Use3D)
+            {
+                Unavailable("No se pudieron cargar los dados 3D: se tira sin animación.");
+            }
         }
         finally
         {

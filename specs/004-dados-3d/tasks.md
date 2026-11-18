@@ -178,9 +178,9 @@ renumerar las anteriores.
 - [X] T015 [P] Añadir a `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs` `/dados` con «Dados 3D» activado y una tirada en pantalla, a 390 y 820 px (SC-006)
 - [X] T016 [P] Añadir a `Dice3DTests` que una tirada en pantalla de `6d6` termina en menos de 4 s (SC-004) y que las caras de arriba de los dados en pantalla al pararse (consulta de depuración del módulo) coinciden con el detalle de la tirada (SC-001, FR-001)
 - [X] T017 Medir con Playwright los bytes descargados al abrir `/habilidades` y `/dados` sin 3D, comparar con `main` y anotarlo en `research.md` (SC-005)
-- [ ] T018 Medir con el usuario los fotogramas por segundo en su móvil con `6d6` y anotar modelo y resultado en `research.md` (SC-003, FR-013)
-- [ ] T019 Revisión independiente del diff por un subagente con contexto limpio y aplicar lo que encuentre
-- [ ] T020 Actualizar `docs/ESTADO.md` y `tests/README.md`; abrir el pull request en castellano
+- [ ] T018 (tras fusionar, con la web publicada) Medir con el usuario los fotogramas por segundo en su móvil con `6d6` y anotar modelo y resultado en `research.md` (SC-003, FR-013)
+- [X] T019 Revisión independiente del diff por un subagente con contexto limpio y aplicar lo que encuentre
+- [X] T020 Actualizar `docs/ESTADO.md` y `tests/README.md`; abrir el pull request en castellano
 - [ ] T021 Tras fusionar, comprobar `/dados` con 3D en el sitio publicado
 
 ---

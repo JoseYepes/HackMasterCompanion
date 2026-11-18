@@ -53,7 +53,7 @@ public class Dice3DFallbackTests : BunitContext
         _module.Setup<bool>("isSupported").SetResult(true);
         _module.SetupVoid("roll", _ => true).SetException(new JSException("WebGL: CONTEXT_LOST"));
         var cut = Render<Dice>();
-        cut.WaitForAssertion(() => _module.VerifyInvoke("create"));
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
 
         Submit(cut, "2d6+3");
 
@@ -79,7 +79,7 @@ public class Dice3DFallbackTests : BunitContext
     {
         _module.Setup<bool>("isSupported").SetResult(true);
         var cut = Render<Dice>();
-        cut.WaitForAssertion(() => _module.VerifyInvoke("create"));
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
 
         Submit(cut, "21d6");
 
@@ -94,7 +94,7 @@ public class Dice3DFallbackTests : BunitContext
         _module.Setup<bool>("isSupported").SetResult(true);
         _module.SetupVoid("roll", _ => true).SetVoidResult();
         var cut = Render<Dice>();
-        cut.WaitForAssertion(() => _module.VerifyInvoke("create"));
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
 
         Submit(cut, "1d3+1d6");
 
@@ -103,11 +103,51 @@ public class Dice3DFallbackTests : BunitContext
     }
 
     [Fact]
+    public void Turning_3D_Off_While_It_Loads_And_On_Again_Leaves_It_Working__FR011()
+    {
+        var supported = _module.Setup<bool>("isSupported");
+        _module.SetupVoid("roll", _ => true).SetVoidResult();
+        var cut = Render<Dice>();
+        cut.WaitForAssertion(() => Assert.Single(_module.Invocations["isSupported"]));
+
+        // Se apaga antes de que el módulo responda; después responde.
+        cut.Find("[data-testid=dice3d-toggle]").Change(false);
+        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        supported.SetResult(true);
+        Assert.Empty(_module.Invocations["create"]);
+
+        cut.Find("[data-testid=dice3d-toggle]").Change(true);
+        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
+        Assert.Single(_module.Invocations["create"]);
+        Submit(cut, "1d6");
+
+        cut.WaitForAssertion(() => _module.VerifyInvoke("roll"));
+        Assert.Empty(cut.FindAll("[data-testid=dice3d-warning]"));
+    }
+
+    [Fact]
+    public void Turning_3D_Off_And_On_Before_The_First_Load_Ends_Still_Starts_The_New_Board__FR011()
+    {
+        var supported = _module.Setup<bool>("isSupported");
+        var cut = Render<Dice>();
+        cut.WaitForAssertion(() => Assert.Single(_module.Invocations["isSupported"]));
+
+        cut.Find("[data-testid=dice3d-toggle]").Change(false);
+        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        cut.Find("[data-testid=dice3d-toggle]").Change(true);
+        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        supported.SetResult(true);
+
+        cut.WaitForAssertion(() => Assert.Single(_module.Invocations["create"]));
+    }
+
+    [Fact]
     public void Turning_3D_Off_Rolls_Exactly_As_Before__FR012()
     {
         _module.Setup<bool>("isSupported").SetResult(true);
         var cut = Render<Dice>();
-        cut.WaitForAssertion(() => _module.VerifyInvoke("create"));
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
 
         cut.Find("[data-testid=dice3d-toggle]").Change(false);
         // Como el navegador: la siguiente lectura devuelve lo que se acaba de guardar.
