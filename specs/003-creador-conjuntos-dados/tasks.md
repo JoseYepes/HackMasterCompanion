@@ -208,8 +208,8 @@ del jugador aparecen con los 36.
 - [ ] T028 Pedir al usuario que añada a la pestaña "Dudas" de la hoja las dos dudas de research §1 (dado de 4 conjuntos; 6 componentes en Forjador de armaduras y Trovador), reimportar y versionar `data/doubts.json` y `docs/dudas.md`
 - [X] T029 Medir SC-004 en el navegador (una tirada y crear un conjunto de 4 habilidades) y anotarlo en `research.md`
 - [X] T030 Revisión independiente del diff por un subagente con contexto limpio y aplicar lo que encuentre
-- [ ] T031 Actualizar `docs/ESTADO.md` y `tests/README.md`; abrir el pull request en castellano con qué se hizo, cómo se verificó y qué falta
-- [ ] T032 Tras fusionar, comprobar `/dados` y el creador en el sitio publicado
+- [X] T031 Actualizar `docs/ESTADO.md` y `tests/README.md`; abrir el pull request en castellano con qué se hizo, cómo se verificó y qué falta
+- [X] T032 Tras fusionar, comprobar `/dados` y el creador en el sitio publicado
 
 ---
 

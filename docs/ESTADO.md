@@ -17,7 +17,11 @@
   T035 (paso 3 de `quickstart.md`: buscar con `git grep` una frase del texto de manual) y T068
   (cotejar a mano unas filas con el Excel; un programa ya comparó 30 habilidades y 10 conjuntos al
   azar sin diferencias).
-- **En curso: F002 (Creador de conjuntos y tirador 2D).** Rama `003-creador-conjuntos-dados`,
+- **F002 (Creador de conjuntos y tirador 2D): terminada y publicada.** Pull request #6 fusionado el
+  2026-11-18; CI en verde con las 10 pruebas de navegador; sitio publicado comprobado (T032).
+  Queda T028 (dudas en la hoja, del usuario).
+- **En curso: F003 (Dados 3D).** Rama `004-dados-3d`, spec en `specs/004-dados-3d/`.
+- Historia de F002: rama `003-creador-conjuntos-dados`,
   `specs/003-creador-conjuntos-dados/spec.md` escrita el 2026-11-18. Resuelto con el usuario: los
   dados que penetran son una opción que el jugador activa (regla del MJ, «Daño de penetración»), y
   el dado de maestría de un conjunto es la media redondeada a la baja a un dado real; un conjunto
