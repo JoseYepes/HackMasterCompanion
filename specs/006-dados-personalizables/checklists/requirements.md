@@ -13,7 +13,7 @@
 
 ## Requirement Completeness
 
-- [ ] No [NEEDS CLARIFICATION] markers remain
+- [x] No [NEEDS CLARIFICATION] markers remain
 - [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
@@ -31,6 +31,6 @@
 
 ## Notes
 
-- Quedan 3 marcas [NEEDS CLARIFICATION] (dados extra, aspecto por tipo de dado, sonido al
-  empezar), que se preguntan al usuario.
+- Las 3 marcas [NEEDS CLARIFICATION] se resolvieron con el usuario el 2026-11-18 (aura para los
+  dados extra, un aspecto para todos, sonido activado); el usuario añadió el efecto de penetración (US5).
 - Materiales y colores concretos se eligen con imágenes antes del plan.

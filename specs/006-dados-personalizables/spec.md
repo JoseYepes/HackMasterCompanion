@@ -8,6 +8,17 @@
 
 **Input**: User description: "F008 — Dados personalizables y sonido. Como jugador, quiero elegir el color, el material y los bordes de mis dados 3D, y oír cómo ruedan, para que se parezcan a dados de verdad (calidad y ambiente parecidos a los de Baldur's Gate 3, sin copiar sus diseños). Aceptación: color del dado y de los números; bordes redondeados; varios materiales o texturas; sonido de choques que depende de la fuerza del golpe, con botón para silenciarlo; texturas y sonidos de licencia libre e incluidos en la aplicación (descarga con permiso del usuario); opción de calidad más baja para móviles lentos."
 
+## Clarifications
+
+### Session 2026-11-18
+
+- Q: ¿Cómo se distinguen los dados extra por penetración cuando el jugador elige sus colores?
+  → A: Con un brillo o aura alrededor, sea cual sea el material.
+- Q: ¿El aspecto es el mismo para todos los dados o por tipo? → A: Uno para todos.
+- Q: ¿El sonido empieza activado o silenciado la primera vez? → A: Activado.
+- Nota del usuario: en la mesa a los dados de penetración también se les llama «dados que
+  explotan». Pide, si es posible, un efecto al penetrar: explosión, fuego o incluso sangre (US5).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Elegir el aspecto de mis dados (Priority: P1)
@@ -98,12 +109,36 @@ colores lisos y la animación es fluida.
 
 ---
 
+### User Story 5 - Efecto cuando un dado penetra («explota») (Priority: P2)
+
+Como jugador, quiero que cuando un dado saca el máximo y penetra se vea un efecto llamativo
+(explosión, fuego o sangre), para celebrar el momento como en la mesa.
+
+**Why this priority**: Lo pidió el usuario y da mucho ambiente, pero el tirador funciona sin ello.
+
+**Independent Test**: Con «Los dados penetran» activado, tirar hasta que un dado saque el máximo:
+en ese dado se ve el efecto elegido y el dado extra aparece con su aura.
+
+**Acceptance Scenarios**:
+
+1. **Given** un dado que saca el máximo y penetra, **When** se para, **Then** se ve sobre él el
+   efecto elegido (por ejemplo, explosión, fuego o sangre) antes de que salga el dado extra.
+2. **Given** la configuración, **When** el jugador elige el efecto o «ninguno», **Then** las
+   siguientes penetraciones usan esa elección, que se recuerda.
+3. **Given** el sonido activado, **When** se ve el efecto, **Then** suena acorde (por ejemplo, un
+   estallido), con el mismo silencio que el resto (FR-009).
+4. **Given** varias penetraciones seguidas, **When** se tira, **Then** la tirada sigue terminando en
+   menos de 4 s (SC-004 de F003).
+
+---
+
 ### Edge Cases
 
-- Dados extra por penetración: DEBEN seguir distinguiéndose de los normales sea cual sea el
-  aspecto elegido. [NEEDS CLARIFICATION: ¿cómo se marcan los dados extra cuando el jugador elige
-  sus colores? Por ejemplo, con un segundo color que elige él, con un brillo o aura, o siempre
-  dorados]
+- Dados extra por penetración: se distinguen de los normales con un brillo o aura, sea cual sea el
+  aspecto elegido (aclaración 1).
+- El dispositivo pide menos animación: el efecto de penetración se sustituye por un destello breve
+  o solo el aura.
+- Calidad baja: el efecto de penetración es más sencillo (menos partículas) o solo el aura.
 - El d100 (dos d10): los dos dados toman el aspecto elegido.
 - Un material con texturas que aún no ha cargado: los dados se ven con su color liso mientras
   tanto y la tirada no espera.
@@ -123,23 +158,23 @@ colores lisos y la animación es fluida.
 - **FR-002**: El jugador DEBE poder elegir el color del dado y el color de los números.
 - **FR-003**: Si el color de los números no contrasta lo suficiente con el del dado (menos de
   3:1), la aplicación DEBE avisarlo antes de guardar o proponer un color que se lea.
-- **FR-004**: [NEEDS CLARIFICATION: ¿el aspecto es el mismo para todos los dados, o se puede
-  elegir uno distinto por tipo de dado (por ejemplo, el d20 de otro color)?]
+- **FR-004**: El aspecto elegido DEBE aplicarse a todos los dados por igual; no hay aspecto por
+  tipo de dado (aclaración 2).
 - **FR-005**: La configuración DEBE tener una vista previa de un dado que gira, que cambia al
   momento con cada elección.
 - **FR-006**: Todas las formas de dado DEBEN tener las aristas y las esquinas redondeadas, y la
   cara de arriba DEBE seguir coincidiendo con el resultado del tirador en el 100 % de las tiradas.
-- **FR-007**: Los dados extra por penetración DEBEN distinguirse de los normales con cualquier
-  aspecto elegido (ver Edge Cases).
+- **FR-007**: Los dados extra por penetración DEBEN llevar un brillo o aura que los distinga de los
+  normales con cualquier aspecto elegido (aclaración 1).
 - **FR-008**: Los choques de los dados entre sí y con la mesa DEBEN sonar, con un volumen que
   depende de la fuerza del choque, y sin que suenen decenas de golpes a la vez.
-- **FR-009**: DEBE haber un control para silenciar el sonido, que se recuerda.
-  [NEEDS CLARIFICATION: ¿el sonido empieza activado o silenciado la primera vez?]
+- **FR-009**: DEBE haber un control para silenciar el sonido, que se recuerda. La primera vez el
+  sonido está activado (aclaración 3).
 - **FR-010**: Sin permiso para reproducir sonido, o si el sonido falla, la tirada DEBE funcionar
   igual y sin mensajes de error.
 - **FR-011**: DEBE haber una opción de calidad baja que dibuja los dados sin texturas ni reflejos,
   con el mismo resultado y la misma duración.
-- **FR-012**: La configuración (material, colores, sonido y calidad) DEBE recordarse en el
+- **FR-012**: La configuración (material, colores, efecto, sonido y calidad) DEBE recordarse en el
   dispositivo, con versión de formato y migración desde lo guardado por F003.
 - **FR-013**: Las texturas y los sonidos DEBEN ser de licencia libre, formar parte de la aplicación
   y no cargarse de servicios de terceros; su descarga necesita el permiso del usuario.
@@ -148,13 +183,18 @@ colores lisos y la animación es fluida.
 - **FR-015**: Los diseños de los dados DEBEN ser propios: NO DEBEN copiar los de ningún juego.
 - **FR-016**: Los controles nuevos DEBEN cumplir lo de F007: contraste en los dos modos, botones
   de 44 px y sin desbordamiento a 390 y 820 px.
+- **FR-017**: Cuando un dado penetra, DEBE verse sobre él un efecto de penetración elegido por el
+  jugador entre al menos explosión, fuego, sangre y «ninguno», con su sonido si el sonido está
+  activado (US5). El efecto NO DEBE alargar la tirada más allá de los 4 s.
+- **FR-018**: Si el dispositivo pide menos animación o la calidad es baja, el efecto de
+  penetración DEBE simplificarse (destello breve o solo el aura).
 
 ### Key Entities *(include if feature involves data)*
 
-- **Aspecto de los dados**: material, color del dado, color de los números y, según FR-004, si es
-  común a todos los dados o por tipo.
-- **Preferencias de los dados**: aspecto, sonido activado o silenciado y calidad. Se guardan en el
-  dispositivo; en F006 se guardarán también en la cuenta del jugador.
+- **Aspecto de los dados**: material, color del dado y color de los números, común a todos los
+  dados.
+- **Preferencias de los dados**: aspecto, efecto de penetración, sonido activado o silenciado y
+  calidad. Se guardan en el dispositivo; en F006 se guardarán también en la cuenta del jugador.
 
 ## Success Criteria *(mandatory)*
 
