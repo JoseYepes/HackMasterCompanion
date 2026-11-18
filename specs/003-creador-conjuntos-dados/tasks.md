@@ -53,20 +53,20 @@ navegador, que todas las historias usan.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T002 [P] Escribir `tests/HackMaster.Domain.Tests/StoredDataTests.cs`:
+- [X] T002 [P] Escribir `tests/HackMaster.Domain.Tests/StoredDataTests.cs`:
   - leer y escribir `hackmaster.suites` y `hackmaster.rolls` con `schemaVersion: 1` sin perder datos;
   - un JSON sin `schemaVersion` o con una versión mayor que la conocida se rechaza con motivo;
   - un JSON dañado se rechaza sin excepción;
   - (FR-018, data-model "Guardado")
-- [ ] T003 [P] Escribir `tests/HackMaster.Web.Tests/BrowserStoreTests.cs` con el `JSInterop` de bUnit:
+- [X] T003 [P] Escribir `tests/HackMaster.Web.Tests/BrowserStoreTests.cs` con el `JSInterop` de bUnit:
   - guarda y lee cada clave;
   - si `localStorage.setItem` o `getItem` fallan, no lanza, marca `IsAvailable = false` y conserva los datos en memoria (FR-019)
 
 ### Implementation
 
-- [ ] T004 [P] Crear `src/HackMaster.Domain/IRandom.cs` (`int Next(int minInclusive, int maxInclusive)`) y `src/HackMaster.Web/SystemRandom.cs` con `Random.Shared`, registrado como instancia única en `src/HackMaster.Web/Program.cs`
-- [ ] T005 Crear `src/HackMaster.Domain/StoredData.cs` con los formatos de `data-model.md`, `CurrentVersion = 1` y `Migrate` hasta pasar T002
-- [ ] T006 Crear `src/HackMaster.Web/BrowserStore.cs` (`localStorage` por `IJSRuntime`, de ámbito único) y el aviso `storage-warning` en `MainLayout.razor`, hasta pasar T003
+- [X] T004 [P] Crear `src/HackMaster.Domain/IRandom.cs` (`int Next(int minInclusive, int maxInclusive)`) y `src/HackMaster.Web/SystemRandom.cs` con `Random.Shared`, registrado como instancia única en `src/HackMaster.Web/Program.cs`
+- [X] T005 Crear `src/HackMaster.Domain/StoredData.cs` con los formatos de `data-model.md`, `CurrentVersion = 1` y `Migrate` hasta pasar T002
+- [X] T006 Crear `src/HackMaster.Web/BrowserStore.cs` (`localStorage` por `IJSRuntime`, de ámbito único) y el aviso `storage-warning` en `MainLayout.razor`, hasta pasar T003
 
 ---
 

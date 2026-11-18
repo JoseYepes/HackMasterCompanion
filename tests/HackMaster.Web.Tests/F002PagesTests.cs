@@ -8,7 +8,11 @@ namespace HackMaster.Web.Tests;
 /// <summary>Direcciones nuevas de F002 y enlace en la navegación (FR-021).</summary>
 public class F002PagesTests : BunitContext
 {
-    public F002PagesTests() => Services.AddSingleton(TestData.Create());
+    public F002PagesTests()
+    {
+        Services.AddSingleton(TestData.Create());
+        Services.AddSingleton<BrowserStore>();
+    }
 
     [Fact]
     public void Dice_Page_Has_Its_Title__FR021()

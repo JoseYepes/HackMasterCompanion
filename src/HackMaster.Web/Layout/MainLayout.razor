@@ -1,5 +1,7 @@
 @inherits LayoutComponentBase
+@implements IDisposable
 @inject GameData Data
+@inject BrowserStore Store
 
 <header class="site-header">
     <a class="site-name" href="">@AppInfo.Name</a>
@@ -12,6 +14,14 @@
     </nav>
 </header>
 
+@if (!Store.IsAvailable)
+{
+    <p class="storage-warning" role="status" data-testid="storage-warning">
+        El navegador no deja guardar datos: tus conjuntos y tiradas no se pueden guardar y se
+        perderán al cerrar la página.
+    </p>
+}
+
 <main>
     @if (Data.LoadError is not null)
     {
@@ -23,3 +33,11 @@
         @Body
     }
 </main>
+
+@code {
+    protected override void OnInitialized() => Store.AvailabilityChanged += OnAvailabilityChanged;
+
+    private void OnAvailabilityChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose() => Store.AvailabilityChanged -= OnAvailabilityChanged;
+}

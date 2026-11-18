@@ -33,6 +33,16 @@ a {
   color: var(--accent);
 }
 
+/* Aviso cuando el navegador no deja guardar */
+
+.storage-warning {
+  margin: 0;
+  padding: 0.5rem 1rem;
+  background: var(--warning-bg);
+  color: var(--warning-ink);
+  border-bottom: 1px solid var(--line);
+}
+
 /* Cabecera y navegación */
 
 .site-header {
