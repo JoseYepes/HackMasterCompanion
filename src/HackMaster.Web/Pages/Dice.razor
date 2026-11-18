@@ -1,5 +1,78 @@
 @page "/dados"
+@inject IRandom Random
 
 <PageTitle>Dados · @AppInfo.Name</PageTitle>
 
 <h1>Dados</h1>
+
+<form class="dice-form" @onsubmit="RollTyped">
+    <label for="dice-formula">Fórmula</label>
+    <div class="dice-input">
+        <input id="dice-formula" type="text" inputmode="text" autocomplete="off" spellcheck="false"
+               placeholder="2d6+3" data-testid="dice-formula"
+               value="@_text" @oninput="args => _text = args.Value?.ToString() ?? string.Empty" />
+        <button type="submit" data-testid="dice-roll">Tirar</button>
+    </div>
+    <label class="dice-option">
+        <input type="checkbox" data-testid="dice-penetrating" checked="@_penetrating" @onchange="OnPenetratingChanged" />
+        Los dados penetran
+    </label>
+</form>
+
+@if (_error is not null)
+{
+    <p class="dice-error" role="alert" data-testid="dice-error">@ErrorText(_error)</p>
+}
+
+@if (_last is not null)
+{
+    <RollView Result="_last" />
+    <button type="button" class="dice-repeat" data-testid="dice-repeat" @onclick="Repeat">Repetir @_last.Formula.Text</button>
+}
+
+@code {
+    private string _text = string.Empty;
+    private bool _penetrating;
+    private DiceFormulaError? _error;
+    private RollResult? _last;
+
+    /// <summary>Fórmula inicial desde la dirección (<c>/dados?f=2d6%2B3</c>); no se tira sola.</summary>
+    [SupplyParameterFromQuery(Name = "f")]
+    public string? InitialFormula { get; set; }
+
+    protected override void OnInitialized() => _text = InitialFormula ?? string.Empty;
+
+    private void OnPenetratingChanged(ChangeEventArgs args) =>
+        _penetrating = args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+
+    private static string ErrorText(DiceFormulaError error)
+    {
+        var where = error.Fragment.Length > 0 ? $" Está en «{error.Fragment}», posición {error.Position + 1}." : string.Empty;
+        return $"{error.Message}{where} Ejemplo: {DiceFormulaError.Example}";
+    }
+
+    private void RollTyped()
+    {
+        var parsed = DiceFormula.Parse(_text);
+        _error = parsed.Error;
+        if (parsed.Formula is null)
+        {
+            _last = null;
+            return;
+        }
+
+        Roll(parsed.Formula);
+    }
+
+    private void Repeat()
+    {
+        if (_last is not null)
+        {
+            _error = null;
+            Roll(_last.Formula);
+        }
+    }
+
+    private void Roll(DiceFormula formula) =>
+        _last = DiceRoller.Roll(formula, _penetrating, Random, DateTimeOffset.Now);
+}

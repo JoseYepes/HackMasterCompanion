@@ -79,18 +79,18 @@ navegador, que todas las historias usan.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T007 [P] [US1] Escribir `tests/HackMaster.Domain.Tests/DiceFormulaTests.cs`:
+- [X] T007 [P] [US1] Escribir `tests/HackMaster.Domain.Tests/DiceFormulaTests.cs`:
   - válidas: "2d6+3", "1d20+1d6-2", "d8", "2D6 + 3", "-1+1d4", "1d100", "100d6", "1d1000";
   - no válidas, cada una con posición, trozo y ejemplo: "", "  ", "2d", "d", "3x6", "2d6+", "0d6", "2d0", "2d1", "+3", "5", "101d6", "1d1001", "1d6+10001", fórmula de 101 caracteres, "2d6++3", "2d6 3";
   - al menos 20 de cada clase (FR-001 a FR-004, SC-002)
-- [ ] T008 [P] [US1] Escribir `tests/HackMaster.Domain.Tests/DiceRollerTests.cs` con un `IRandom` de secuencia fija:
+- [X] T008 [P] [US1] Escribir `tests/HackMaster.Domain.Tests/DiceRollerTests.cs` con un `IRandom` de secuencia fija:
   - total = suma de grupos con signo más constantes (FR-005);
   - cada dado entre 1 y sus caras;
   - con penetración, el dado que saca el máximo añade otro que suma `valor − 1`, en cadena, hasta 100 extra con aviso (FR-006, `__MJ`);
   - sin penetración, nunca hay dados extra;
   - los modificadores no penetran;
   - uniformidad: 10 000 tiradas de 1d6 con `Random(20261118)`, cada cara entre el 15 % y el 18,4 % (SC-003)
-- [ ] T009 [P] [US1] Escribir `tests/HackMaster.Web.Tests/DicePageTests.cs` (bUnit):
+- [X] T009 [P] [US1] Escribir `tests/HackMaster.Web.Tests/DicePageTests.cs` (bUnit):
   - tirar "2d6+3" muestra `dice-total` y `dice-detail`;
   - una fórmula mala muestra `dice-error` y no tira;
   - `dice-repeat` repite la fórmula (FR-007);
@@ -99,9 +99,9 @@ navegador, que todas las historias usan.
 
 ### Implementation
 
-- [ ] T010 [US1] Crear `src/HackMaster.Domain/DiceFormula.cs` (`DiceTerm`, `DiceFormulaError`, `Parse` escrito a mano, research §5) hasta pasar T007
-- [ ] T011 [US1] Crear `src/HackMaster.Domain/DiceRoller.cs` (`DieRoll`, `GroupRoll`, `RollResult`) hasta pasar T008
-- [ ] T012 [US1] Crear `src/HackMaster.Web/Components/RollView.razor` y completar `Dice.razor` (fórmula, opción de penetración, Tirar, Repetir, error y resultado) hasta pasar T009, con CSS en `src/HackMaster.Web/wwwroot/css/app.css` pensado para 390 px
+- [X] T010 [US1] Crear `src/HackMaster.Domain/DiceFormula.cs` (`DiceTerm`, `DiceFormulaError`, `Parse` escrito a mano, research §5) hasta pasar T007
+- [X] T011 [US1] Crear `src/HackMaster.Domain/DiceRoller.cs` (`DieRoll`, `GroupRoll`, `RollResult`) hasta pasar T008
+- [X] T012 [US1] Crear `src/HackMaster.Web/Components/RollView.razor` y completar `Dice.razor` (fórmula, opción de penetración, Tirar, Repetir, error y resultado) hasta pasar T009, con CSS en `src/HackMaster.Web/wwwroot/css/app.css` pensado para 390 px
 
 ---
 

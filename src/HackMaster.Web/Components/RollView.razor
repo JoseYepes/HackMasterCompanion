@@ -1,0 +1,49 @@
+@* Detalle de una tirada: cada grupo con sus dados (los extra por penetración, marcados) y el total. *@
+
+<div class="roll">
+    <p class="roll-total">
+        <span class="roll-formula">@Result.Formula.Text</span>
+        <span class="roll-equals">=</span>
+        <strong data-testid="dice-total">@Result.Total</strong>
+    </p>
+
+    <ul class="roll-detail" data-testid="dice-detail">
+        @foreach (var group in Result.Groups)
+        {
+            <li>
+                <span class="roll-group">@(group.Term.Sign < 0 ? "−" : string.Empty)@(group.Term):</span>
+                @foreach (var die in group.Dice)
+                {
+                    if (die.IsPenetration)
+                    {
+                        <span class="die penetration" title="Dado extra por penetración: suma @die.Contribution">↻@die.Value</span>
+                    }
+                    else
+                    {
+                        <span class="die">@die.Value</span>
+                    }
+                }
+                <span class="roll-subtotal">= @group.Subtotal</span>
+                @if (group.PenetrationCapped)
+                {
+                    <span class="roll-capped">(se paró tras @DiceRoller.MaxPenetrationsPerDie dados extra)</span>
+                }
+            </li>
+        }
+        @if (Result.Constant != 0)
+        {
+            <li><span class="roll-group">Modificador:</span> @(Result.Constant > 0 ? "+" : "−")@Math.Abs(Result.Constant)</li>
+        }
+    </ul>
+
+    @if (Result.Penetrating)
+    {
+        <p class="roll-note">Con dados que penetran: cada ↻ es un dado extra que suma su valor menos 1.</p>
+    }
+</div>
+
+@code {
+    /// <summary>Tirada que se muestra.</summary>
+    [Parameter, EditorRequired]
+    public RollResult Result { get; set; } = default!;
+}
