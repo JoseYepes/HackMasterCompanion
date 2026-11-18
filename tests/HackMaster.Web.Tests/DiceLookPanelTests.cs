@@ -148,6 +148,30 @@ public class DiceLookPanelTests : BunitContext
     }
 
     [Fact]
+    public void A_Rerender_With_The_Old_Look_While_Saving_Does_Not_Undo_The_Choice__Review()
+    {
+        // Revisión de F008: la página vuelve a pintar el panel con el aspecto viejo mientras guarda.
+        var cut = RenderOpen();
+        cut.Find("[data-testid=look-material-Marble]").Click();
+
+        cut.Render(parameters => parameters.Add(panel => panel.Look, DiceLook.Default));
+        cut.Find("[data-testid=look-effect-Fire]").Change(true);
+
+        Assert.Equal("true", cut.Find("[data-testid=look-material-Marble]").GetAttribute("aria-pressed"));
+        Assert.Equal((DiceMaterial.Marble, PenetrationEffect.Fire), (_changed!.Material, _changed.Effect));
+    }
+
+    [Fact]
+    public void A_New_Look_From_The_Page_Is_Taken__FR012()
+    {
+        var cut = RenderOpen();
+
+        cut.Render(parameters => parameters.Add(panel => panel.Look, DiceLook.Default.ForMaterial(DiceMaterial.Stone)));
+
+        Assert.Equal("true", cut.Find("[data-testid=look-material-Stone]").GetAttribute("aria-pressed"));
+    }
+
+    [Fact]
     public void Closing_The_Panel_Stops_The_Preview__FR005()
     {
         var cut = RenderOpen();
@@ -210,5 +234,22 @@ public class DiceLookOnDicePageTests : BunitContext
         var look = JsonSerializer.SerializeToElement(_module.Invocations["roll"].Last().Arguments[2]);
         Assert.Equal("Wood", look.GetProperty("material").GetString());
         _module.VerifyInvoke("unlockAudio");
+    }
+
+    [Fact]
+    public void Muted_Dice_Do_Not_Wake_The_Audio__FR009()
+    {
+        JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.rolls").SetResult("""
+            { "schemaVersion": 3, "penetrating": false, "dice3d": true, "rolls": [],
+              "look": { "material": "Ivory", "color": "#f4efe6", "ink": "#1f2328", "effect": "Explosion", "sound": false, "quality": "High" } }
+            """);
+        var cut = Render<Dice>();
+        cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
+
+        cut.Find("[data-testid=dice-formula]").Input("1d6");
+        cut.Find("form").Submit();
+
+        cut.WaitForAssertion(() => _module.VerifyInvoke("roll"));
+        Assert.Empty(_module.Invocations["unlockAudio"]);
     }
 }

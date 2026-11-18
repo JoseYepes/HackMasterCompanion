@@ -107,8 +107,14 @@
     };
 
     private DiceLook _look = DiceLook.Default;
+
+    // Último aspecto recibido de la página. Solo se toma uno nuevo si la página lo cambia: mientras
+    // guarda, la página vuelve a pintar el panel con el aspecto anterior, y eso no debe deshacer la
+    // elección del jugador (revisión de F008).
+    private DiceLook? _received;
     private bool _open;
     private bool _previewPending;
+    private bool _disposed;
     private ElementReference _preview;
     private IJSObjectReference? _module;
 
@@ -120,8 +126,9 @@
 
     protected override void OnParametersSet()
     {
-        if (Look != _look)
+        if (Look != _received)
         {
+            _received = Look;
             _look = Look;
             _previewPending = _open;
         }
@@ -138,7 +145,11 @@
         try
         {
             _module ??= await JS.InvokeAsync<IJSObjectReference>("import", "./js/dice3d.js");
-            await _module.InvokeVoidAsync("preview", _preview, DiceLookJs.From(_look));
+            // Mientras cargaba el módulo, el panel pudo cerrarse o quitarse: entonces no se crea nada.
+            if (_open && !_disposed)
+            {
+                await _module.InvokeVoidAsync("preview", _preview, DiceLookJs.From(_look));
+            }
         }
         catch (JSException)
         {
@@ -191,6 +202,7 @@
 
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is null)
         {
             return;
@@ -205,9 +217,9 @@
 
             await _module.DisposeAsync();
         }
-        catch (JSDisconnectedException)
+        catch (JSException)
         {
-            // La página se está cerrando.
+            // La vista previa ya no existía o la página se está cerrando: nada que liberar.
         }
     }
 }

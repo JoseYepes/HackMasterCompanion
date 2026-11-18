@@ -64,6 +64,7 @@ public sealed partial class ThemeContrastTests
     [Theory]
     [InlineData("DIE_COLOR", "DIE_INK")]
     [InlineData("AURA_COLOR", null)]
+    [InlineData("AURA_ALT_COLOR", null)]
     public void Dice_Stand_Out_On_The_Table_In_Both_Modes__FR006_FR012(string body, string? ink)
     {
         var dice = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "js", "dice3d.js"));

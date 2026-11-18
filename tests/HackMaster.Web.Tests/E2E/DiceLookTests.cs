@@ -105,6 +105,9 @@ public sealed class DiceLookTests(BrowserFixture browser) : IClassFixture<Browse
         Assert.Equal(
             [("Fire", 0), ("Fire", 1)],
             result.GetProperty("effects").EnumerateArray().Select(effect => (effect.GetProperty("effect").GetString(), effect.GetProperty("parent").GetInt32())));
+        // Revisión de F008: shownEffects dice lo que se lanzó de verdad en pantalla, no lo planeado;
+        // el primero sale con la animación en marcha (el último podría coincidir con el final).
+        Assert.True(result.GetProperty("effects")[0].GetProperty("launched").GetBoolean(), "El efecto no llegó a lanzarse en pantalla.");
         Assert.Equal([false, true, true], result.GetProperty("dice").EnumerateArray().Select(die => die.GetProperty("aura").GetBoolean()));
         Assert.InRange(result.GetProperty("ms").GetDouble(), 0, 4000);
     }
@@ -178,6 +181,71 @@ public sealed class DiceLookTests(BrowserFixture browser) : IClassFixture<Browse
     }
 
     [E2EFact]
+    public async Task One_Die_Landing_Sounds_Once_Per_Moment_Not_Once_Per_Corner__Review()
+    {
+        // Revisión de F008: cada esquina que toca la mesa y cada choque entre dos dados daban un
+        // sonido aparte en el mismo instante.
+        var page = await OpenAsync(browser, Viewports.Phone, History("BlackIron"));
+
+        var sounds = await page.EvaluateAsync<JsonElement>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              const board = document.querySelector('[data-testid=dice-board]');
+              await dice3d.roll(board, { dice: [{ shape: 'D6', face: '4', wave: 0, penetration: false, parent: null }] },
+                { material: 'Stone', color: '#8c8a84', ink: '#1f1d1a', effect: 'None', sound: true, quality: 'High' });
+              return JSON.parse(JSON.stringify(dice3d.heardSounds(board)));
+            }
+            """);
+
+        var times = sounds.EnumerateArray().Select(sound => sound.GetProperty("at").GetDouble()).ToList();
+        Assert.NotEmpty(times);
+        Assert.Equal(times.Count, times.Distinct().Count());
+    }
+
+    [E2EFact]
+    public async Task A_Penetrating_D100_Shows_One_Effect_Not_Two__FR017()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("Ivory"));
+
+        var effects = await page.EvaluateAsync<JsonElement>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              const board = document.querySelector('[data-testid=dice-board]');
+              await dice3d.roll(board, { dice: [
+                { shape: 'D10Tens', face: '00', wave: 0, penetration: false, parent: null },
+                { shape: 'D10', face: '0', wave: 0, penetration: false, parent: null },
+                { shape: 'D10Tens', face: '30', wave: 1, penetration: true, parent: 1 },
+                { shape: 'D10', face: '7', wave: 1, penetration: true, parent: 1 },
+              ] }, { material: 'Ivory', color: '#f4efe6', ink: '#1f2328', effect: 'Explosion', sound: true, quality: 'High' });
+              return JSON.parse(JSON.stringify({ effects: dice3d.shownEffects(board), sounds: dice3d.heardSounds(board).filter(s => s.kind === 'Explosion') }));
+            }
+            """);
+
+        Assert.Equal(1, effects.GetProperty("effects").GetArrayLength());
+        Assert.Equal(1, effects.GetProperty("sounds").GetArrayLength());
+    }
+
+    [E2EFact]
+    public async Task The_Aura_Stands_Out_Also_On_Gold_Dice__FR007()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("Ivory"));
+
+        var dice = await page.EvaluateAsync<JsonElement>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              const board = document.querySelector('[data-testid=dice-board]');
+              const roll = color => dice3d.roll(board, { dice: [
+                { shape: 'D6', face: '6', wave: 0, penetration: false, parent: null },
+                { shape: 'D6', face: '1', wave: 1, penetration: true, parent: 0 },
+              ] }, { material: 'OldGold', color, ink: '#2a1608', effect: 'None', sound: false, quality: 'High' }).then(() => dice3d.shownDice(board)[1].auraColor);
+              return JSON.parse(JSON.stringify([await roll('#d4a842'), await roll('#2f5a46')]));
+            }
+            """);
+
+        Assert.NotEqual(dice[0].GetString(), dice[1].GetString());
+    }
+
+    [E2EFact]
     public async Task Muted_Dice_Make_No_Sound__FR009()
     {
         var page = await OpenAsync(browser, Viewports.Phone, History("BlackIron"));
@@ -203,7 +271,7 @@ public sealed class DiceLookTests(BrowserFixture browser) : IClassFixture<Browse
     }
 
     [E2EFact]
-    public async Task Low_Quality_Draws_Plain_Colors_Without_Textures_Or_Transparency__FR011()
+    public async Task Low_Quality_Draws_Plain_Colors_Without_Textures_Reflections_Or_Transmission__FR011()
     {
         var page = await OpenAsync(browser, Viewports.Phone, History("Ivory"));
 
@@ -223,6 +291,7 @@ public sealed class DiceLookTests(BrowserFixture browser) : IClassFixture<Browse
             Assert.Equal("13", die.GetProperty("face").GetString());
             Assert.False(die.GetProperty("textured").GetBoolean(), $"{material} con calidad baja lleva textura.");
             Assert.False(die.GetProperty("transmission").GetBoolean(), $"{material} con calidad baja es translúcido.");
+            Assert.False(die.GetProperty("reflective").GetBoolean(), $"{material} con calidad baja tiene reflejos (cuerpo o números).");
         }
     }
 

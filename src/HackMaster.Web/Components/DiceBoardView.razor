@@ -40,8 +40,20 @@
             return;
         }
 
-        // El navegador solo deja sonar tras un gesto del jugador: se prepara el audio al tirar.
-        await _module.InvokeVoidAsync("unlockAudio");
+        // El navegador solo deja sonar tras un gesto del jugador: se prepara el audio al tirar, y solo
+        // si hay sonido (FR-009). Un fallo del audio no debe apagar el 3D.
+        if (look.Sound)
+        {
+            try
+            {
+                await _module.InvokeVoidAsync("unlockAudio");
+            }
+            catch (JSException)
+            {
+                // Sin sonido la tirada sigue igual (FR-010).
+            }
+        }
+
         var dice = plan.Dice.Select(die => new { shape = die.Shape.ToString(), face = die.Face, wave = die.Wave, penetration = die.IsPenetration, parent = die.Parent });
         await _module.InvokeVoidAsync("roll", _element, new { dice }, DiceLookJs.From(look));
     }

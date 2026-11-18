@@ -10,7 +10,7 @@ import * as CANNON from '../lib/cannon-es.js';
 const STEP = 1 / 60;
 const WAVE_STEPS = 60 * 3;         // una ola espera como mucho 3 s a que se pare la anterior
 const LAST_WAVE_STEPS = 60 * 5;    // la última ola, como mucho 5 s
-const MAX_PLAYBACK = 3.6;          // reproducción: como mucho 3,6 s (FR-004: menos de 4 s)
+const MAX_PLAYBACK = 3.3;          // reproducción: como mucho 3,3 s; con lo que hace la página antes y después, menos de 4 s (FR-004)
 const REST_STEPS = 20;             // pasos seguidos casi quietos para dar un dado por parado
 const SETTLE_STEPS = 15;           // pasos para asentar un dado que acabó inclinado
 const MIN_PLAYBACK = 1.5;          // la reproducción no baja de 1,5 s aunque la simulación tarde
@@ -20,6 +20,8 @@ const DIE_INK = '#1f2328';
 // Dados extra por penetración: llevan el aspecto del jugador y un aura de este color, que se ve en
 // las dos mesas de F007 (F008, FR-007).
 const AURA_COLOR = '#e8b54a';
+// En dados de color parecido al aura (oro viejo, amarillos), el aura es azul para que se distinga.
+const AURA_ALT_COLOR = '#5fd0ff';
 const EFFECT_SECONDS = 0.6;        // duración de un efecto de penetración
 
 // ---------------------------------------------------------------------------------------------
@@ -220,7 +222,7 @@ function run(plan, seed, depth) {
   const random = seeded(seed);
   const world = createWorld(depth);
   // Choques grabados para el sonido (F008, research §3): paso y fuerza del golpe.
-  const collisions = [];
+  const collisions = new Map();
   const clock = { step: 0 };
   const items = plan.dice.map((item, index) => {
     const data = shapeData(item.shape);
@@ -229,7 +231,15 @@ function run(plan, seed, depth) {
     body.angularDamping = 0.1;
     body.addEventListener('collide', event => {
       const strength = Math.abs(event.contact.getImpactVelocityAlongNormal());
-      if (strength > 0.8) collisions.push({ step: clock.step, strength });
+      if (strength <= 0.8) return;
+      // Un golpe es un sonido: cannon avisa a los dos dados de un choque entre ellos y una vez por
+      // cada esquina que toca. Se guarda uno por dado (o pareja de dados) y paso, el más fuerte.
+      const other = event.body;
+      const key = other.mass === 0
+        ? `${clock.step}:${body.id}`
+        : `${clock.step}:${Math.min(body.id, other.id)}-${Math.max(body.id, other.id)}`;
+      const previous = collisions.get(key);
+      if (!previous || previous.strength < strength) collisions.set(key, { step: clock.step, strength });
     });
     return { item, data, body, labels: baseLabels(item, plan.dice[index - 1]), start: -1, frames: [] };
   });
@@ -280,7 +290,7 @@ function run(plan, seed, depth) {
   }
 
   const longest = Math.max(0, ...items.map(entry => entry.start + entry.frames.length));
-  return { items, steps: longest, collisions };
+  return { items, steps: longest, collisions: [...collisions.values()] };
 }
 
 /**
@@ -481,8 +491,18 @@ function canvasTexture(key, size, draw, color = true) {
   if (color) texture.colorSpace = THREE.SRGBColorSpace;
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   textureCache.set(key, texture);
+  // Cada color nuevo de un material con textura crea una; se guardan las últimas (revisión de F008).
+  const colored = [...textureCache.keys()].filter(name => !PERMANENT_TEXTURES.includes(name));
+  if (colored.length > MAX_CACHED_TEXTURES) {
+    const oldest = colored[0];
+    textureCache.get(oldest).dispose();
+    textureCache.delete(oldest);
+  }
   return texture;
 }
+
+const PERMANENT_TEXTURES = ['glow', 'scratches'];
+const MAX_CACHED_TEXTURES = 12;
 
 /** Mezcla un color #rrggbb con blanco (t > 0) o negro (t < 0). */
 function shade(hex, t) {
@@ -640,10 +660,14 @@ function dieMesh(data, labels, look, extra = false) {
   // La malla redondeada y las texturas del material se comparten entre dados: no se liberan con el dado.
   body.userData.shared = true;
   group.add(body);
-  group.userData.look = { material: look.material, textured: made.textured, transmission: made.transmission, aura: extra };
+  const auraColor = auraFor(look.color);
+  const low = look.quality === 'Low';
+  group.userData.look = {
+    material: look.material, textured: made.textured, transmission: made.transmission, reflective: !low, aura: extra, auraColor: extra ? auraColor : null,
+  };
   if (extra) {
     // Aura de los dados extra por penetración: luz aditiva detrás del dado (FR-007).
-    const aura = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: AURA_COLOR, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.9 }));
+    const aura = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: auraColor, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.9 }));
     aura.scale.setScalar(h * 5.5);
     aura.userData.shared = true;
     aura.renderOrder = -1;
@@ -676,10 +700,27 @@ function dieMesh(data, labels, look, extra = false) {
 
     const texts = data.shape.byVertex ? face.indices.map(index => labels[index]) : [labels[faceIndex]];
     const where = data.shape.byVertex ? uv.map(([u, v]) => [0.5 + (u - 0.5) * 0.62, 0.5 + (v - 0.5) * 0.62]) : [[0.5, 0.5]];
-    const material = new THREE.MeshStandardMaterial({ map: faceTexture(texts, where, look.ink), transparent: true, roughness: 0.5, depthWrite: false });
+    // Con calidad baja, los números tampoco reflejan el entorno (FR-011).
+    const material = low
+      ? new THREE.MeshBasicMaterial({ map: faceTexture(texts, where, look.ink), transparent: true, depthWrite: false })
+      : new THREE.MeshStandardMaterial({ map: faceTexture(texts, where, look.ink), transparent: true, roughness: 0.5, depthWrite: false });
     group.add(new THREE.Mesh(geometry, material));
   });
   return group;
+}
+
+/** Color del aura: dorado, o azul si el dado es de un color parecido al dorado (FR-007). */
+function auraFor(color) {
+  const luminance = hex => {
+    const c = new THREE.Color(hex);
+    return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b; // THREE.Color ya está en espacio lineal
+  };
+  const a = luminance(AURA_COLOR);
+  const b = luminance(color);
+  const contrast = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  const hue = new THREE.Color(color).getHSL({}).h;
+  const goldish = hue > 0.08 && hue < 0.17;
+  return contrast < 1.6 || (goldish && contrast < 2.5) ? AURA_ALT_COLOR : AURA_COLOR;
 }
 
 /** Libera las geometrías y materiales propios de un dado (no la malla redondeada compartida). */
@@ -871,10 +912,12 @@ export function roll(element, plan, look) {
     return mesh;
   });
 
-  // Efectos de penetración: uno por dado extra, en su dado padre, cuando el extra aparece (FR-017).
+  // Efectos de penetración: uno por dado que penetra (los dos d10 extra de un d100 comparten padre),
+  // en el dado padre, cuando aparece su primer dado extra (FR-017). launched dice si llegó a verse.
   const effect = effectFor(shownLook);
   const parentOf = entry => (Number.isInteger(entry.item.parent) ? entry.item.parent : null);
-  board.effects = effect ? items.filter(entry => parentOf(entry) !== null).map(entry => ({ effect, parent: parentOf(entry) })) : [];
+  const parents = [...new Set(items.map(parentOf).filter(parent => parent !== null))];
+  board.effects = effect ? parents.map(parent => ({ effect, parent, launched: false })) : [];
 
   // Todo lo que tarda preparar la tirada (simulación, mallas y la primera compilación de los
   // materiales) cuenta para los 4 s de FR-004 de F003: la reproducción se acorta lo que tardó.
@@ -884,7 +927,7 @@ export function roll(element, plan, look) {
   const setupSeconds = (performance.now() - simulationStarted) / 1000;
   const duration = Math.min(steps * STEP, Math.max(MAX_PLAYBACK - setupSeconds, MIN_PLAYBACK)) * 1000;
   board.sounds = shownLook.sound ? planSounds(items, collisions, steps, duration / 1000, shownLook, effect) : [];
-  playSounds(board.sounds);
+  board.audioOutput = playSounds(board.sounds);
   return new Promise(resolve => {
     const startedAt = performance.now();
     const show = (frameIndex, animate) => {
@@ -895,9 +938,10 @@ export function roll(element, plan, look) {
         const appeared = !mesh.visible && local >= 0;
         mesh.visible = local >= 0;
         if (mesh.visible) place(mesh, entry.frames[Math.min(local, entry.frames.length - 1)]);
-        const parent = parentOf(entry);
-        if (animate && appeared && effect && parent !== null && board.meshes[parent]) {
-          spawnEffect(board, effect, board.meshes[parent].position, now);
+        const record = appeared ? board.effects.find(item => item.parent === parentOf(entry) && !item.launched) : null;
+        if (animate && record && board.meshes[record.parent]) {
+          spawnEffect(board, effect, board.meshes[record.parent].position, now);
+          record.launched = true;
         }
       }
       updateParticles(board, now);
@@ -906,6 +950,7 @@ export function roll(element, plan, look) {
     const end = () => {
       clearTimeout(playing.timer);
       clearParticles(board);
+      stopSounds(board);
       show(steps, false);
       board.playing = null;
       resolve();
@@ -1063,9 +1108,13 @@ function planSounds(items, collisions, steps, seconds, look, effect) {
   const at = step => (steps > 0 ? (step / steps) * seconds : 0);
   const planned = collisions.map(hit => ({ at: at(hit.step), volume: Math.min(1, hit.strength / 12), kind: look.material }));
   if (effect) {
+    // Un sonido por dado que penetra (como el efecto): cuando aparece su primer dado extra.
+    const first = new Map();
     for (const entry of items) {
-      if (Number.isInteger(entry.item.parent)) planned.push({ at: at(entry.start), volume: 0.8, kind: effect });
+      const parent = entry.item.parent;
+      if (Number.isInteger(parent) && (!first.has(parent) || entry.start < first.get(parent))) first.set(parent, entry.start);
     }
+    for (const start of first.values()) planned.push({ at: at(start), volume: 0.8, kind: effect });
   }
   planned.sort((a, b) => a.at - b.at);
   const kept = [];
@@ -1097,7 +1146,7 @@ function noise(context) {
 }
 
 /** Ruido filtrado con envolvente: la base de golpes, estallidos y soplos. */
-function burst(context, time, { volume, type, frequency, length, q = 1 }) {
+function burst(context, output, time, { volume, type, frequency, length, q = 1 }) {
   const source = context.createBufferSource();
   source.buffer = noise(context);
   const filter = context.createBiquadFilter();
@@ -1107,49 +1156,72 @@ function burst(context, time, { volume, type, frequency, length, q = 1 }) {
   const gain = context.createGain();
   gain.gain.setValueAtTime(volume, time);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
-  source.connect(filter).connect(gain).connect(context.destination);
+  source.connect(filter).connect(gain).connect(output);
   source.start(time);
   source.stop(time + length + 0.05);
 }
 
 /** Tono que resuena y se apaga: el «clic» o el «clinc» del material. */
-function ring(context, time, { volume, frequency, length }) {
+function ring(context, output, time, { volume, frequency, length }) {
   const oscillator = context.createOscillator();
   oscillator.frequency.value = frequency * (0.92 + Math.random() * 0.16);
   const gain = context.createGain();
   gain.gain.setValueAtTime(volume, time);
   gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
-  oscillator.connect(gain).connect(context.destination);
+  oscillator.connect(gain).connect(output);
   oscillator.start(time);
   oscillator.stop(time + length + 0.05);
 }
 
-/** Programa los sonidos en el contexto de audio; si no hay audio o falla, no pasa nada (FR-010). */
+/**
+ * Programa los sonidos de una tirada en el contexto de audio, todos a través de una salida propia
+ * de la tirada (con un compresor para que los golpes juntos no saturen), que se apaga al terminar
+ * la tirada. Si no hay audio o falla, no pasa nada (FR-010). Devuelve esa salida, o null.
+ */
 function playSounds(sounds) {
-  if (!audio || sounds.length === 0) return;
+  if (!audio || sounds.length === 0) return null;
   try {
+    const output = audio.createGain();
+    const compressor = audio.createDynamicsCompressor();
+    output.connect(compressor).connect(audio.destination);
     const start = audio.currentTime + 0.02;
     for (const sound of sounds) {
       const time = start + sound.at;
       const tone = TONES[sound.kind];
       if (tone) {
         const [frequency, length, grit] = tone;
-        burst(audio, time, { volume: sound.volume * 0.5 * grit, type: 'bandpass', frequency: frequency * 1.5, length: 0.04 });
-        ring(audio, time, { volume: sound.volume * 0.25, frequency, length });
+        burst(audio, output, time, { volume: sound.volume * 0.5 * grit, type: 'bandpass', frequency: frequency * 1.5, length: 0.04 });
+        ring(audio, output, time, { volume: sound.volume * 0.25, frequency, length });
       } else if (sound.kind === 'Explosion') {
-        burst(audio, time, { volume: 0.9, type: 'lowpass', frequency: 500, length: 0.6 });
-        ring(audio, time, { volume: 0.3, frequency: 70, length: 0.4 });
+        burst(audio, output, time, { volume: 0.9, type: 'lowpass', frequency: 500, length: 0.6 });
+        ring(audio, output, time, { volume: 0.3, frequency: 70, length: 0.4 });
       } else if (sound.kind === 'Fire') {
-        burst(audio, time, { volume: 0.5, type: 'bandpass', frequency: 900, length: 0.7, q: 0.6 });
+        burst(audio, output, time, { volume: 0.5, type: 'bandpass', frequency: 900, length: 0.7, q: 0.6 });
       } else if (sound.kind === 'Blood') {
-        burst(audio, time, { volume: 0.6, type: 'lowpass', frequency: 350, length: 0.25 });
-        burst(audio, time + 0.08, { volume: 0.4, type: 'lowpass', frequency: 250, length: 0.2 });
+        burst(audio, output, time, { volume: 0.6, type: 'lowpass', frequency: 350, length: 0.25 });
+        burst(audio, output, time + 0.08, { volume: 0.4, type: 'lowpass', frequency: 250, length: 0.2 });
       } else {
-        ring(audio, time, { volume: 0.3, frequency: 1800, length: 0.3 });
+        ring(audio, output, time, { volume: 0.3, frequency: 1800, length: 0.3 });
       }
     }
+    return output;
   } catch {
     // Sin audio la tirada sigue igual.
+    return null;
+  }
+}
+
+/** Corta los sonidos que queden de la tirada (al terminar, tocar la mesa o tirar otra vez). */
+function stopSounds(board) {
+  const output = board.audioOutput;
+  board.audioOutput = null;
+  if (!output || !audio) return;
+  try {
+    output.gain.cancelScheduledValues(audio.currentTime);
+    output.gain.setTargetAtTime(0, audio.currentTime, 0.03);
+    setTimeout(() => output.disconnect(), 300);
+  } catch {
+    // Nada que cortar.
   }
 }
 
