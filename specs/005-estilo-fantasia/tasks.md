@@ -25,7 +25,7 @@ aplicación en marcha (`tests/README.md`).
 - `Domain` no cambia.
 - No cambiar textos, `data-testid` ni el orden de los elementos de ninguna pantalla (FR-013).
 - Sin paquetes nuevos; las únicas dependencias nuevas son las letras ya descargadas.
-- Los archivos de `wwwroot/lib/` no se editan.
+- Los archivos de `wwwroot/lib/` y `wwwroot/fonts/` no se editan.
 - Interfaz en castellano.
 
 ## Format: `[ID] [P?] [Story] Description`
@@ -37,7 +37,7 @@ aplicación en marcha (`tests/README.md`).
 
 ## Phase 1: Setup
 
-- [X] T001 Descargar, con el permiso del usuario, Cinzel 600 y 700 y EB Garamond 400, 600 y cursiva 400 (Fontsource 5.3.0, jsDelivr) con sus `LICENSE` en `src/HackMaster.Web/wwwroot/lib/`, comprobar su SHA-256 y anotarlas en `lib/README.md`
+- [X] T001 Descargar, con el permiso del usuario, Cinzel 600 y 700 y EB Garamond 400, 600 y cursiva 400 (Fontsource 5.3.0, jsDelivr) con sus `LICENSE` en `src/HackMaster.Web/wwwroot/fonts/` (aparte de `lib/`, que solo se descarga con los dados 3D), comprobar su SHA-256 y anotarlas en `fonts/README.md`
 
 ---
 
@@ -51,13 +51,13 @@ contraste, se ajusta el color y se anota en `research.md`.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T002 [P] Escribir `tests/HackMaster.Web.Tests/ThemeContrastTests.cs`: lee
+- [X] T002 [P] Escribir `tests/HackMaster.Web.Tests/ThemeContrastTests.cs`: lee
   `src/HackMaster.Web/wwwroot/css/app.css`, toma las variables de `:root` y de
   `html[data-theme="dark"]`, y comprueba con la fórmula de WCAG 2.1 cada par de `research.md` §2:
   - texto normal, secundario, enlaces, errores, avisos y botones ≥ 4,5 (FR-006);
   - bordes de controles, títulos grandes y dados sobre la mesa ≥ 3 (FR-006, FR-012);
   - las dos listas de variables tienen los mismos nombres (ningún color se queda sin modo noche)
-- [ ] T003 [P] Añadir a `ThemeContrastTests`: fuera de los bloques de variables, `app.css` no
+- [X] T003 [P] Añadir a `ThemeContrastTests`: fuera de los bloques de variables, `app.css` no
   tiene colores sueltos (`#…`, `rgb(…)`, nombres como `lightyellow` o `white`), para que nada se
   quede sin modo noche (FR-002, FR-009)
 - [X] T004 Descartada en el análisis (2026-11-18): era una clase `ThemePreference` en C# que nadie
@@ -66,7 +66,7 @@ contraste, se ajusta el color y se anota en `research.md`.
 
 ### Implementation
 
-- [ ] T005 En `src/HackMaster.Web/wwwroot/css/app.css`: `@font-face` de las 5 letras con `font-display: swap` (FR-014), variables de color de los dos modos (`:root` y `html[data-theme="dark"]`) y sustituir todos los colores sueltos (`#fff`, `#b42318`, `lightyellow`…) por variables, hasta pasar T002 y T003
+- [X] T005 En `src/HackMaster.Web/wwwroot/css/app.css`: `@font-face` de las 5 letras con `font-display: swap` (FR-014), variables de color de los dos modos (`:root` y `html[data-theme="dark"]`) y sustituir todos los colores sueltos (`#fff`, `#b42318`, `lightyellow`…) por variables, hasta pasar T002 y T003
 
 ---
 
@@ -82,16 +82,16 @@ contraste, se ajusta el color y se anota en `research.md`.
 
 ### Tests (primero)
 
-- [ ] T006 [P] [US1] Ampliar `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs` para que recorra las pantallas en los dos modos (FR-011, SC-006)
-- [ ] T007 [P] [US1] Escribir en `tests/HackMaster.Web.Tests/E2E/ThemeTests.cs`:
+- [X] T006 [P] [US1] Ampliar `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs` para que recorra las pantallas en los dos modos (FR-011, SC-006)
+- [X] T007 [P] [US1] Escribir en `tests/HackMaster.Web.Tests/E2E/ThemeTests.cs`:
   - al abrir las 12 pantallas no sale ninguna petición fuera del origen de la aplicación (FR-008, SC-004);
   - los `h1` usan Cinzel y el texto EB Garamond, y `document.fonts` las tiene cargadas (FR-001, FR-007);
   - todos los botones visibles de Habilidades, el editor de conjuntos y Dados miden al menos 44 × 44 px a 390 px (FR-010)
 
 ### Implementation
 
-- [ ] T008 [US1] Dar el aspecto de la maqueta A en `app.css`: letras (Cinzel solo en títulos, nombre de la aplicación y nombres de tarjeta), barra granate con borde dorado, tarjetas de pergamino en las listas, campos, botones, etiquetas, avisos, foco visible (FR-010) y botones de 44 px, hasta pasar T006 y T007
-- [ ] T009 [US1] En `src/HackMaster.Web/wwwroot/index.html`: precargar Cinzel 600 y EB Garamond 400; adaptar los colores de la pantalla de carga y del aviso de error de Blazor a las variables
+- [X] T008 [US1] Dar el aspecto de la maqueta A en `app.css`: letras (Cinzel solo en títulos, nombre de la aplicación y nombres de tarjeta), barra granate con borde dorado, tarjetas de pergamino en las listas, campos, botones, etiquetas, avisos, foco visible (FR-010) y botones de 44 px, hasta pasar T006 y T007
+- [X] T009 [US1] En `src/HackMaster.Web/wwwroot/index.html`: precargar Cinzel 600 y EB Garamond 400; adaptar los colores de la pantalla de carga y del aviso de error de Blazor a las variables
 
 **Checkpoint**: la aplicación ya tiene el aspecto A; el modo noche aún no se puede elegir.
 
@@ -109,22 +109,22 @@ contraste, se ajusta el color y se anota en `research.md`.
 
 ### Tests (primero)
 
-- [ ] T010 [P] [US2] Escribir `tests/HackMaster.Web.Tests/ThemeTogglePageTests.cs` (bUnit, JavaScript simulado):
+- [X] T010 [P] [US2] Escribir `tests/HackMaster.Web.Tests/ThemeTogglePageTests.cs` (bUnit, JavaScript simulado):
   - con `current()` = `light`, el botón se llama «Cambiar a modo noche»; con `dark`, «Cambiar a modo normal» (FR-003);
   - al pulsarlo llama a `hackmasterTheme.set` con el otro modo y cambia su nombre;
   - el botón está en la barra de navegación de `MainLayout`
-- [ ] T011 [P] [US2] Añadir a `tests/HackMaster.Web.Tests/E2E/ThemeTests.cs`:
+- [X] T011 [P] [US2] Añadir a `tests/HackMaster.Web.Tests/E2E/ThemeTests.cs`:
   - con `{"schemaVersion":1,"mode":"dark"}` guardado, `data-theme="dark"` ya está puesto en `DOMContentLoaded` (FR-005);
   - tras pulsar el botón y recargar, sigue el modo elegido (FR-004);
   - sin preferencia y con el dispositivo en oscuro, se abre en modo noche; en claro, en normal (FR-004);
   - con JSON roto, `schemaVersion` 2 o un modo desconocido guardado, se trata como "sin elegir" y sigue al dispositivo; si `localStorage` falla, el botón cambia el modo igualmente (contrato);
-  - del clic al cambio de color del fondo, menos de 500 ms (SC-003);
+  - del clic al cambio de color del fondo de la página, menos de 500 ms (SC-003);
   - el botón mide al menos 44 × 44 px y no se pierde lo escrito en la búsqueda al cambiar (FR-005, FR-010)
 
 ### Implementation
 
-- [ ] T012 [US2] Script en el `<head>` de `src/HackMaster.Web/wwwroot/index.html`, antes de la hoja de estilos: leer `hackmaster.theme`, poner `data-theme`, `<meta name="color-scheme">`, `<meta name="theme-color">` y `window.hackmasterTheme` (`current`, `set`) según `contracts/theme.md`
-- [ ] T013 [US2] Crear `src/HackMaster.Web/Components/ThemeToggle.razor` (iconos SVG de sol y luna, `aria-label`, `data-testid="theme-toggle"`) y ponerlo en la barra de `src/HackMaster.Web/Layout/MainLayout.razor`, hasta pasar T010 y T011
+- [X] T012 [US2] Script en el `<head>` de `src/HackMaster.Web/wwwroot/index.html`, antes de la hoja de estilos: leer `hackmaster.theme`, poner `data-theme`, `<meta name="color-scheme">`, `<meta name="theme-color">` y `window.hackmasterTheme` (`current`, `set`) según `contracts/theme.md`
+- [X] T013 [US2] Crear `src/HackMaster.Web/Components/ThemeToggle.razor` (iconos SVG de sol y luna, `aria-label`, `data-testid="theme-toggle"`) y ponerlo en la barra de `src/HackMaster.Web/Layout/MainLayout.razor`, hasta pasar T010 y T011
 
 **Checkpoint**: los dos modos funcionan en todas las pantallas.
 
@@ -138,18 +138,18 @@ contraste, se ajusta el color y se anota en `research.md`.
 
 ### Tests (primero)
 
-- [ ] T014 [P] [US3] Añadir a `tests/HackMaster.Web.Tests/E2E/ThemeTests.cs`: el fondo de `[data-testid=dice-board]` cambia al cambiar de modo, y cambiar de modo a mitad de una tirada 3D no cambia el resultado mostrado (FR-012, US3 escenario 3)
+- [X] T014 [P] [US3] Añadir a `tests/HackMaster.Web.Tests/E2E/ThemeTests.cs`: el fondo de `[data-testid=dice-board]` cambia al cambiar de modo, y cambiar de modo a mitad de una tirada 3D no cambia el resultado mostrado (FR-012, US3 escenario 3)
 
 ### Implementation
 
-- [ ] T015 [US3] En `app.css`: `.dice-board` de cuero (degradado granate y costura dorada) en modo normal y de madera (vetas con `repeating-linear-gradient`) en modo noche; bandeja de dados con las variables del modo, hasta pasar T014
+- [X] T015 [US3] En `app.css`: `.dice-board` de cuero (degradado granate y costura dorada) en modo normal y de madera (vetas con `repeating-linear-gradient`) en modo noche; bandeja de dados con las variables del modo, hasta pasar T014
 
 ---
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T016 Medir la primera carga sin caché y compararla con los 2837 KB de antes (SC-005); anotarlo en `research.md` §6
-- [ ] T017 [P] Actualizar `tests/README.md` (pruebas nuevas) y `docs/ESTADO.md`
+- [X] T016 Medir la primera carga sin caché y compararla con los 2837 KB de antes (SC-005); anotarlo en `research.md` §6
+- [X] T017 [P] Actualizar `tests/README.md` (pruebas nuevas) y `docs/ESTADO.md`
 - [ ] T018 Revisión independiente del diff (subagente con contexto limpio): regresiones, pruebas débiles, contraste, FR-013 y constitución; corregir lo que encuentre
 - [ ] T019 Pull request en castellano; tras fusionar, comprobar el sitio publicado en los dos modos
 - [ ] T020 Comprobación manual del usuario en su móvil: reconoce las maquetas A y B (SC-007)

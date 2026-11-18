@@ -31,7 +31,18 @@
   madera (noche). Letras Cinzel y EB Garamond (Fontsource 5.3.0, OFL) descargadas con permiso del
   usuario y comprobadas por SHA-256. **Hallazgo**: la aplicación aún no es instalable ni funciona
   sin conexión (no hay trabajador de servicio); SC-004 de F007 se ajustó a «sin peticiones
-  externas». Plan escrito; faltan tareas, análisis e implementación.
+  externas». **Implementado (2026-11-18)**: T001–T017 hechas. Letras en `wwwroot/fonts/` (no en
+  `lib/`, que vigila la prueba de F003 de no descargar el 3D); colores solo en variables de dos
+  modos; script en el `<head>` de `index.html` que aplica el modo antes de pintar; botón
+  `ThemeToggle`; mesa de cuero o madera solo con CSS. En el análisis se descartó la clase
+  `ThemePreference` (nadie la usaría; constitución III). Al verlo en el móvil se cambió la letra de
+  los nombres de habilidades, conjuntos y estilos a Garamond: en Cinzel (todo mayúsculas) los
+  nombres largos se partían mal. Descarga inicial +3,7 %. Pruebas: 552 unitarias y 27 de
+  navegador. Las pruebas de navegador nuevas no se vieron fallar antes de implementar (sí las
+  unitarias y las de bUnit). **Falta**: revisión independiente (T018), pull request (T019) y la
+  comprobación del usuario en su móvil (T020).
+- **Pendiente sin funcionalidad asignada**: hacer la aplicación instalable y que funcione sin
+  conexión (PWA: trabajador de servicio y manifiesto), que pide `PRODUCTO.md` A1 y A2.
 - **Nueva: F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18 para después
   de F007: color, bordes redondeados, materiales y sonido, «como los de Baldur's Gate 3» en calidad
   pero sin copiar sus diseños.

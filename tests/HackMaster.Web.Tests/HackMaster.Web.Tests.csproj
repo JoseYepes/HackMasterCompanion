@@ -17,6 +17,11 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <!-- Hoja de estilos que comprueba ThemeContrastTests. -->
+  <ItemGroup>
+    <None Include="..\..\src\HackMaster.Web\wwwroot\css\app.css" Link="css\app.css" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\HackMaster.Web\HackMaster.Web.csproj" />
   </ItemGroup>

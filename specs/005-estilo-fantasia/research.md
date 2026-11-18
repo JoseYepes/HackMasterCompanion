@@ -5,7 +5,7 @@ Decisiones técnicas del plan. Cada una dice qué se eligió, por qué y qué se
 ## 1. Letras
 
 **Decisión**: Cinzel (600 y 700) para los títulos y EB Garamond (400, 600 y cursiva 400) para el
-texto, en `woff2` con solo los caracteres latinos, copiadas en `wwwroot/lib/` (versión 5.3.0 de
+texto, en `woff2` con solo los caracteres latinos, copiadas en `wwwroot/fonts/` (versión 5.3.0 de
 Fontsource, descargada de jsDelivr con permiso del usuario el 2026-11-18). Son 105 KB en total.
 
 **Por qué**:
@@ -111,5 +111,21 @@ tirada no afecta a la animación (US3, escenario 3).
 
 ## 6. Tamaño (SC-005)
 
-Antes del estilo, la primera carga era de unos 2837 KB (medido en F003). Las letras añaden
-105 KB, un 3,7 %; el CSS crece unos pocos KB. Se mide de nuevo al terminar.
+Antes del estilo, la primera carga comprimida era de unos 2837 KB (medido en F003).
+
+**Medido el 2026-11-18 (T016)**, publicando en Release `main` (a88806b) y la rama y comparando
+los archivos comprimidos con Brotli:
+
+| Archivo | Antes | Después |
+|---|---|---|
+| `app.css` | 2,7 KB | 4,1 KB |
+| `index.html` | 0,7 KB | 1,3 KB |
+| `HackMaster.Web` | 103,1 KB | 103,8 KB |
+| Letras (`fonts/`, ya comprimidas) | — | 102,5 KB como mucho |
+
+En total, unos 106 KB más: un **3,7 %**, por debajo del 10 % de SC-005. La cursiva solo se
+descarga si alguna pantalla la usa, así que lo normal es algo menos.
+
+Las letras van en `wwwroot/fonts/` y no en `lib/`, porque la prueba
+`Without_3D_Nothing_Of_The_3D_Part_Is_Downloaded__FR016` (F003) vigila que nada de `lib/` se
+descargue sin activar el 3D, y las letras se cargan en todas las páginas.

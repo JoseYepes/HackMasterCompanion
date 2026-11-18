@@ -10,7 +10,7 @@ Nuevo aspecto para toda la aplicación, sin cambiar su contenido ni su comportam
 
 - **Modo normal, «pergamino y tinta»** (maqueta A): fondo de pergamino, tinta, granate y dorado.
 - **Modo noche, «taberna»** (maqueta B): madera oscura, crema y ámbar, con las mismas letras.
-- **Letras propias**: Cinzel en los títulos y EB Garamond en el texto, copiadas en `wwwroot/lib/`
+- **Letras propias**: Cinzel en los títulos y EB Garamond en el texto, copiadas en `wwwroot/fonts/`
   (105 KB, licencia OFL, descarga aprobada por el usuario).
 - **Colores en variables CSS**: `:root` para el modo normal y `html[data-theme="dark"]` para el
   noche; las reglas de cada pantalla solo usan variables.
