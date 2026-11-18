@@ -53,3 +53,7 @@ En GitHub, el trabajo `e2e` de `.github/workflows/ci.yml` hace estos mismos paso
 Las pruebas comprueban, entre otras cosas, que ninguna pantalla se desborda en horizontal a 390 px
 ni a 820 px (FR-026) y que la búsqueda, los filtros y el botón de volver atrás funcionan con los
 datos reales.
+
+Las pruebas de los dados 3D (`Dice3DTests`) dibujan con WebGL por software (SwiftShader), porque el
+equipo de GitHub no tiene tarjeta gráfica; el navegador se abre con `--enable-unsafe-swiftshader`.
+Si después de recompilar la aplicación falla la carga de `js/dice3d.js`, reinicia la aplicación.
