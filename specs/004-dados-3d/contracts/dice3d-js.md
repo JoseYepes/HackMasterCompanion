@@ -19,3 +19,6 @@ captura, muestra el resultado en texto y pasa a modo sin 3D con un aviso (FR-011
 
 **Elementos de prueba**: `dice3d-toggle` (opción «Dados 3D»), `dice-board` (zona de los dados),
 `dice3d-warning` (avisos de 3D no disponible, demasiados dados o fallo).
+
+**F008**: el aspecto, el sonido, los efectos y la vista previa amplían este contrato en
+`specs/006-dados-personalizables/contracts/dice3d-look.md`.

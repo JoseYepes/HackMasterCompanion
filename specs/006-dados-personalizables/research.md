@@ -122,5 +122,16 @@ que contraste más.
 
 ## 8. Tamaño
 
-El módulo `dice3d.js` crecerá unas centenas de líneas (unos 15 KB sin comprimir) y solo se
-descarga con los dados 3D activados. Sin 3D, la descarga no cambia (SC-005).
+**Medido el 2026-11-18 (T019)**, publicando en Release `main` y la rama y comparando los archivos
+comprimidos con Brotli:
+
+| Archivo | Antes | Después | Se descarga |
+|---|---|---|---|
+| `app.css` | 4,1 KB | 4,3 KB | siempre |
+| `HackMaster.Web` | 103,8 KB | 107,7 KB | siempre |
+| `HackMaster.Domain` | 37,3 KB | 40,3 KB | siempre |
+| `dice3d.js` | 7,0 KB | 13,4 KB | solo con dados 3D |
+
+Sin 3D la descarga crece unos 7 KB, un **0,25 %**: el panel y las reglas del aspecto son código C#
+que se carga siempre. El plan decía «no crece», lo que no era posible con el panel en C#; SC-005 se
+ajustó a «menos de un 1 %». Texturas, sonidos y efectos no ocupan nada: se generan con código.

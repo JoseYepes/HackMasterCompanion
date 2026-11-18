@@ -39,7 +39,7 @@ móvil del usuario
 **Performance Goals**:
 - tirada en menos de 4 s con sonido y efectos (SC-004);
 - fluida en el móvil del usuario con calidad alta (SC-003, manual);
-- sin 3D, la descarga no crece (SC-005).
+- sin 3D, la descarga crece menos de un 1 % (SC-005).
 
 **Constraints**:
 - 0 avisos.

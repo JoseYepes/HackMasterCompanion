@@ -66,3 +66,13 @@ Estilo de fantasía heroica (F007):
   que el modo guardado se aplica antes de pintar, que se recuerda, que sin elección se sigue al
   dispositivo y que la mesa de dados cambia con el modo.
 - `NoHorizontalOverflowTests` recorre las pantallas en modo normal y en modo noche.
+
+Dados personalizables y sonido (F008):
+
+- `DiceLookTests` (dominio) y `StoredDataTests`: aspecto de los dados, contraste de los números y
+  historial versión 3.
+- `DiceLookPanelTests` (bUnit): el panel «Aspecto de los dados» con el módulo 3D simulado.
+- `E2E/DiceLookTests`: materiales, efectos al penetrar, aura, sonidos programados (el módulo los
+  apunta en `heardSounds`, así que no hace falta oírlos) y calidad baja.
+- `E2E/Dice3DTests`: las 1 000 tiradas comprueban además que la malla redondeada apoya en los
+  mismos planos que el poliedro con el que rueda.

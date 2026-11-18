@@ -212,7 +212,9 @@ en ese dado se ve el efecto elegido y el dado extra aparece con su aura.
 - **SC-003**: Con calidad alta, la animación de "6d6" va fluida en el móvil del usuario
   (comprobación manual); con calidad baja, al menos tan fluida como los dados de F003.
 - **SC-004**: Una tirada con sonido no tarda más que sin sonido (sigue en menos de 4 s).
-- **SC-005**: Sin activar los dados 3D, la descarga de la aplicación no crece.
+- **SC-005**: Sin activar los dados 3D, la descarga de la aplicación crece menos de un 1 % (el
+  panel y las reglas del aspecto son código que se carga siempre; texturas, sonidos y efectos solo
+  con el 3D). Ajustado al medir, 2026-11-18: antes decía «no crece».
 - **SC-006**: El usuario reconoce sus dados como «dados de verdad» y le gustan (comprobación
   manual en su móvil).
 

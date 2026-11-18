@@ -129,7 +129,7 @@ marcha, reiniciándola tras cada compilación.
 
 ### Implementation
 
-- [X] T016 [US3] En `dice3d.js`: choques grabados en la simulación, síntesis con Web Audio por material y por efecto, límite de golpes, `unlockAudio` y `heardSounds`; botón de silencio junto a la mesa y en el panel, hasta pasar T015
+- [X] T016 [US3] En `dice3d.js`: choques grabados en la simulación, síntesis con Web Audio por material y por efecto, límite de golpes, `unlockAudio` y `heardSounds`; botón de silencio junto a la mesa y en el panel, hasta pasar T015 (el silencio está en el panel; no hizo falta otro botón junto a la mesa)
 
 ---
 
@@ -147,8 +147,8 @@ marcha, reiniciándola tras cada compilación.
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T019 Medir que sin 3D la descarga no crece (SC-005) y anotarlo en `research.md` §8
-- [ ] T020 [P] Actualizar `tests/README.md`, `specs/004-dados-3d/contracts/dice3d-js.md` (enlace al contrato nuevo) y `docs/ESTADO.md`
+- [X] T019 Medir que sin 3D la descarga no crece (SC-005) y anotarlo en `research.md` §8
+- [X] T020 [P] Actualizar `tests/README.md`, `specs/004-dados-3d/contracts/dice3d-js.md` (enlace al contrato nuevo) y `docs/ESTADO.md`
 - [ ] T021 Revisión independiente del diff (subagente con contexto limpio); corregir lo que encuentre
 - [ ] T022 Pull request; tras fusionar, comprobar el sitio publicado
 - [ ] T023 Comprobación del usuario en su móvil: fluidez en calidad alta y si le gustan los dados (SC-003, SC-006)

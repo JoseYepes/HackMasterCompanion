@@ -25,10 +25,10 @@ Valores como en `data-model.md`. Un valor desconocido se trata como el de por de
 
 | Función | Salida |
 |---|---|
-| `shownDice(element)` | como en F003, más `material` y `aura` (bool) de cada dado |
+| `shownDice(element)` | como en F003, más `material`, `textured`, `transmission` y `aura` (bool) de cada dado |
 | `heardSounds(element)` | sonidos programados en la última tirada: `[{ at, volume, kind }]` (`kind`: material o efecto) |
 | `shownEffects(element)` | efectos lanzados en la última tirada: `[{ effect, parent }]` |
-| `inspect(plan, seed)` | como en F003, más `plane`: distancia de la cara de arriba de la malla redondeada al centro, que debe coincidir con la del poliedro |
+| `inspect(plan, seed)` | como en F003, más `roundedVertices` (vértices de la malla redondeada) y `planeError` (cuánto se separan sus caras de las del poliedro; debe ser casi 0) |
 
 ## Errores
 
