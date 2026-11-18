@@ -117,7 +117,7 @@ aplicación en marcha (`tests/README.md`).
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T011 [P] [US2] Añadir a `tests/HackMaster.Web.Tests/DicePageTests.cs`:
+- [X] T011 [P] [US2] Añadir a `tests/HackMaster.Web.Tests/DicePageTests.cs`:
   - `isSupported` falso → `dice3d-warning` y la opción no se puede activar (FR-011);
   - una `JSException` en `roll` → el total sale igual, aviso y modo sin 3D;
   - una tirada con `TooMany` → sin animación y con aviso (FR-007);
@@ -126,7 +126,7 @@ aplicación en marcha (`tests/README.md`).
 
 ### Implementation
 
-- [ ] T012 [US2] Completar `DiceBoard.razor` y `Dice.razor` con los avisos y el paso al modo sin 3D hasta pasar T011
+- [X] T012 [US2] Completar `DiceBoard.razor` y `Dice.razor` con los avisos y el paso al modo sin 3D hasta pasar T011
 
 ---
 

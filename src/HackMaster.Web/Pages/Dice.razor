@@ -167,6 +167,30 @@
         StateHasChanged();
     }
 
+    /// <summary>Avisos de una tirada en 3D: demasiados dados (FR-007) y dados sin forma física (FR-008).</summary>
+    private static string? Warning(BoardPlan plan)
+    {
+        var notes = new List<string>();
+        if (plan.TooMany)
+        {
+            notes.Add($"Más de {DiceBoard.MaxDice} dados: esta tirada se muestra sin animación.");
+        }
+        else if (plan.Truncated)
+        {
+            notes.Add($"Solo caben {DiceBoard.MaxDice} dados en pantalla: el resto de dados extra está en el detalle.");
+        }
+
+        if (plan.Unshaped.Count > 0)
+        {
+            var names = string.Join(", ", plan.Unshaped.Select(term => term.ToString()));
+            notes.Add(plan.Unshaped.Count == 1
+                ? $"{names} no tiene forma 3D: su resultado está en el detalle."
+                : $"{names} no tienen forma 3D: su resultado está en el detalle.");
+        }
+
+        return notes.Count == 0 ? null : string.Join(" ", notes);
+    }
+
     private void Unavailable(string warning)
     {
         _dice3dUnavailable = true;
@@ -257,9 +281,7 @@
         }
 
         var plan = DiceBoard.Plan(roll);
-        _dice3dWarning = plan.TooMany
-            ? $"Más de {DiceBoard.MaxDice} dados: esta tirada se muestra sin animación."
-            : plan.Truncated ? $"Solo caben {DiceBoard.MaxDice} dados en pantalla: el resto de dados extra está en el detalle." : null;
+        _dice3dWarning = Warning(plan);
         if (plan.TooMany)
         {
             _last = roll;
