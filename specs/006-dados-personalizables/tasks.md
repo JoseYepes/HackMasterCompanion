@@ -89,19 +89,19 @@ marcha, reiniciándola tras cada compilación.
 
 ### Tests (primero)
 
-- [ ] T009 [P] [US1] Escribir `tests/HackMaster.Web.Tests/DiceLookPanelTests.cs` (bUnit, JavaScript simulado):
+- [X] T009 [P] [US1] Escribir `tests/HackMaster.Web.Tests/DiceLookPanelTests.cs` (bUnit, JavaScript simulado):
   - el panel muestra los 11 materiales con su nombre en castellano y el actual marcado;
   - elegir un material llama a `preview` con su aspecto y lo guarda en el historial;
   - cambiar los colores actualiza la vista previa;
   - con contraste < 3, aviso y botón que pone los números legibles (FR-003);
   - sin 3D, el panel no se muestra;
   - los controles tienen nombres accesibles
-- [ ] T010 [P] [US1] Escribir `tests/HackMaster.Web.Tests/E2E/DiceLookTests.cs`: con un aspecto guardado, la tirada dibuja los dados con ese material (`shownDice`), y tras recargar sigue igual; sin desbordamiento a 390 y 820 px con el panel abierto; botones de 44 px
+- [X] T010 [P] [US1] Escribir `tests/HackMaster.Web.Tests/E2E/DiceLookTests.cs`: con un aspecto guardado, la tirada dibuja los dados con ese material (`shownDice`), y tras recargar sigue igual; sin desbordamiento a 390 y 820 px con el panel abierto; botones de 44 px
 
 ### Implementation
 
-- [ ] T011 [US1] En `dice3d.js`: los 11 materiales generados con código, entorno de reflejos, colores elegidos, `preview`/`stopPreview` (contrato) y `material` en `shownDice`
-- [ ] T012 [US1] Crear `src/HackMaster.Web/Components/DiceLookPanel.razor` y conectarlo en `src/HackMaster.Web/Pages/Dice.razor` y `DiceBoardView.razor` (pasa `look` y `parent` a `roll`), con estilos en `app.css` usando las variables de F007, hasta pasar T009 y T010
+- [X] T011 [US1] En `dice3d.js`: los 11 materiales generados con código, entorno de reflejos, colores elegidos, `preview`/`stopPreview` (contrato) y `material` en `shownDice`
+- [X] T012 [US1] Crear `src/HackMaster.Web/Components/DiceLookPanel.razor` y conectarlo en `src/HackMaster.Web/Pages/Dice.razor` y `DiceBoardView.razor` (pasa `look` y `parent` a `roll`), con estilos en `app.css` usando las variables de F007, hasta pasar T009 y T010
 
 **Checkpoint**: los dados se ven con el aspecto elegido.
 

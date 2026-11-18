@@ -40,6 +40,7 @@
 
 @if (Use3D)
 {
+    <DiceLookPanel Look="@Look" LookChanged="OnLookChanged" />
     <DiceBoardView @ref="_board" />
 }
 
@@ -116,6 +117,9 @@
 
     /// <summary>Los dados 3D se usan si el jugador los ha activado y el navegador puede mostrarlos.</summary>
     private bool Use3D => _history.Dice3D && !_dice3dUnavailable;
+
+    /// <summary>Aspecto de los dados del jugador (F008); el historial leído siempre lo trae.</summary>
+    private DiceLook Look => _history.Look ?? DiceLook.Default;
 
     /// <summary>
     /// Historial que se muestra: la tirada que aún rueda ya está guardada (FR-002), pero no se enseña
@@ -226,6 +230,8 @@
     private static bool Checked(ChangeEventArgs args) =>
         args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
 
+    private Task OnLookChanged(DiceLook look) => UpdateAsync(history => history with { Look = look });
+
     private async Task OnPenetratingChanged(ChangeEventArgs args)
     {
         var penetrating = Checked(args);
@@ -318,7 +324,7 @@
         StateHasChanged();
         try
         {
-            await _board.RollAsync(plan);
+            await _board.RollAsync(plan, Look);
         }
         catch (JSException)
         {

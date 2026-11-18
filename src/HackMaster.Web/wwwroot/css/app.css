@@ -1048,6 +1048,123 @@ html[data-theme="dark"] .dice-board {
   display: block;
 }
 
+/* Aspecto de los dados (F008) */
+
+.dice-look {
+  margin: 0.5rem 0;
+}
+
+.dice-look-open {
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.375rem;
+  background: var(--card);
+  color: var(--accent);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dice-look-body {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 0.5rem;
+  background: var(--card);
+}
+
+.dice-look-preview {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 0.5rem;
+  max-width: 10rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, var(--table-light), var(--table) 70%);
+}
+
+.look-group {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.look-group legend {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.look-materials {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.375rem;
+}
+
+.look-material {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  background: var(--paper);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.look-material[aria-pressed="true"] {
+  border: 2px solid var(--accent);
+  font-weight: 600;
+}
+
+.look-swatch {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.25rem;
+}
+
+.look-colors {
+  display: grid;
+  grid-template-columns: auto 3.5rem;
+  align-items: center;
+  gap: 0.375rem 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.look-colors input[type="color"] {
+  width: 3.5rem;
+  height: 2.75rem;
+  padding: 0.125rem;
+}
+
+.look-warning {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-left: 4px solid var(--warning-ink);
+  background: var(--warning-bg);
+  color: var(--warning-ink);
+}
+
+.look-warning button {
+  display: block;
+  margin-top: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.375rem;
+  background: var(--card);
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.look-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+}
+
 /* Bandeja de dados (F003, US4) */
 
 .dice-tray {

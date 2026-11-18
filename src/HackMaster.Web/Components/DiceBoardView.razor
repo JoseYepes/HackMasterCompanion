@@ -29,16 +29,21 @@
         return true;
     }
 
-    /// <summary>Tira el plan en pantalla y termina cuando los dados se paran o se llama a <see cref="FinishAsync"/>.</summary>
-    public async Task RollAsync(BoardPlan plan)
+    /// <summary>
+    /// Tira el plan en pantalla con el aspecto del jugador (F008) y termina cuando los dados se paran
+    /// o se llama a <see cref="FinishAsync"/>.
+    /// </summary>
+    public async Task RollAsync(BoardPlan plan, DiceLook look)
     {
         if (_module is null || !_created)
         {
             return;
         }
 
-        var dice = plan.Dice.Select(die => new { shape = die.Shape.ToString(), face = die.Face, wave = die.Wave, penetration = die.IsPenetration });
-        await _module.InvokeVoidAsync("roll", _element, new { dice });
+        // El navegador solo deja sonar tras un gesto del jugador: se prepara el audio al tirar.
+        await _module.InvokeVoidAsync("unlockAudio");
+        var dice = plan.Dice.Select(die => new { shape = die.Shape.ToString(), face = die.Face, wave = die.Wave, penetration = die.IsPenetration, parent = die.Parent });
+        await _module.InvokeVoidAsync("roll", _element, new { dice }, DiceLookJs.From(look));
     }
 
     /// <summary>Termina al momento la tirada en curso (al tocar la zona o al tirar otra vez).</summary>

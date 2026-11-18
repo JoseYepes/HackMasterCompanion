@@ -112,10 +112,11 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
                 { shape: 'D6', face: '6', wave: 0, penetration: false },
                 { shape: 'D6', face: '2', wave: 1, penetration: true },
               ] });
-              return JSON.stringify(dice3d.shownDice(board));
+              return JSON.stringify(dice3d.shownDice(board).map(die => ({ face: die.face, penetration: die.penetration })));
             }
             """);
 
+        // F008 añade a cada dado su material; aquí solo importan la cara y la marca de dado extra.
         Assert.Equal("""[{"face":"6","penetration":false},{"face":"2","penetration":true}]""", dice);
     }
 
