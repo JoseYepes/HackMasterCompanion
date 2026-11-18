@@ -209,8 +209,9 @@ las tres aparecen en el historial en orden, con fórmula, detalle, total y hora.
 
 - **FR-016**: El historial DEBE guardar como máximo las 100 tiradas más recientes, con fórmula,
   detalle, total y fecha y hora, y permitir borrarlo entero con confirmación.
-- **FR-017**: Los conjuntos y el historial DEBEN guardarse en el dispositivo, sin cuenta ni
-  conexión, y seguir disponibles al volver a abrir la aplicación.
+- **FR-017**: Los conjuntos, el historial y la elección de la opción de dados que penetran DEBEN
+  guardarse en el dispositivo, sin cuenta ni conexión, y seguir disponibles al volver a abrir la
+  aplicación.
 - **FR-018**: Lo guardado DEBE llevar versión de formato y DEBE poder migrarse a versiones nuevas
   sin perder datos (principio V).
 - **FR-019**: Si no se puede guardar, la aplicación DEBE seguir funcionando y avisar al jugador.

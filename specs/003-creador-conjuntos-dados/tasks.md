@@ -40,7 +40,7 @@ restricciones y un límite de 8 iteraciones (formato de `CLAUDE.md`).
 **Verificación**: verificación común; `/dados` y `/conjuntos/nuevo` cargan.
 **Restricciones**: sin lógica todavía.
 
-- [ ] T001 Añadir el enlace "Dados" a `src/HackMaster.Web/Layout/MainLayout.razor` y crear `src/HackMaster.Web/Pages/Dice.razor` (`@page "/dados"`, título "Dados") y `src/HackMaster.Web/Pages/SuiteEditor.razor` (`@page "/conjuntos/nuevo"` y `@page "/conjuntos/{Slug}/editar"`, título "Crear conjunto"), según `contracts/rutas.md`
+- [X] T001 Añadir el enlace "Dados" a `src/HackMaster.Web/Layout/MainLayout.razor` y crear `src/HackMaster.Web/Pages/Dice.razor` (`@page "/dados"`, título "Dados") y `src/HackMaster.Web/Pages/SuiteEditor.razor` (`@page "/conjuntos/nuevo"` y `@page "/conjuntos/{Slug}/editar"`, título "Crear conjunto"), según `contracts/rutas.md`
 
 ---
 
@@ -159,7 +159,11 @@ del jugador aparecen con los 36.
   - lee `data/` como `DataIntegrityTests`;
   - recalcula los 36 conjuntos de habilidades a partir de sus componentes;
   - compara coste, precio, dificultad y dado;
-  - excluye con nombre y motivo Zoólogo, Escribano, Hechicero y Cerrajero (dado) y lo que tenga datos pendientes;
+  - excluye solo estas excepciones, con su nombre y motivo, del valor afectado:
+    - dado de Zoólogo, Escribano y Hechicero (la hoja suma 1 a la media);
+    - dado de Cerrajero (escrito a mano);
+    - dado de Capitán de compañía y Líder de escuadrón (Liderazgo básico y Liderazgo de pequeños grupos tienen el dado «5» pendiente, y la aplicación lo deja pendiente, FR-013);
+  - cualquier otra diferencia hace fallar la prueba;
   - (SC-001, FR-015)
 - [ ] T019 [P] [US2] Escribir `tests/HackMaster.Web.Tests/PlayerSuitesTests.cs` (bUnit con `JSInterop`):
   - guardar, cambiar el nombre, modificar y borrar;
@@ -170,7 +174,10 @@ del jugador aparecen con los 36.
   - (FR-014)
 - [ ] T020 [P] [US2] Escribir `tests/HackMaster.Web.Tests/SuiteEditorTests.cs`:
   - buscar sin acentos añade componentes (`suite-search`, `suite-component`);
+  - cada componente muestra su coste, precio, dificultad y dado (US2-1);
+  - añadir un componente que ya está no lo duplica y avisa (caso límite);
   - `suite-summary` se recalcula con cada cambio;
+  - el requisito del conjunto dice «las de las habilidades que lo componen» y lista el requisito de cada componente (FR-012);
   - `suite-cannot-save` explica el motivo;
   - las características solo se eligen entre las de los componentes (FR-012);
   - guardar lleva a la ficha;

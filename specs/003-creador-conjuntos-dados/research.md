@@ -20,6 +20,9 @@ Decisiones técnicas del plan. Formato: decisión, por qué, alternativas descar
   - Dado con media + 1: Zoólogo, Escribano y Hechicero.
   - Dado escrito a mano: Cerrajero.
   - Más de 5 componentes: Forjador de armaduras y Trovador, con 6.
+  - Dado pendiente en la aplicación: Capitán de compañía y Líder de escuadrón, porque Liderazgo
+    básico y Liderazgo de pequeños grupos tienen el dado «5», que no existe; la hoja lo usa como
+    número y la aplicación deja pendiente el dado del conjunto (§3).
 - **Alternatives considered**: reconocer el texto del PDF (no hay herramienta instalada y daría
   un texto poco fiable); preguntar cada regla al usuario (ya validó las que tenían dudas).
 

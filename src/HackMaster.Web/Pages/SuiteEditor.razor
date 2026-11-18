@@ -1,0 +1,12 @@
+@page "/conjuntos/nuevo"
+@page "/conjuntos/{Slug}/editar"
+
+<PageTitle>Crear conjunto · @AppInfo.Name</PageTitle>
+
+<h1>Crear conjunto</h1>
+
+@code {
+    /// <summary>Conjunto del jugador que se edita; vacío al crear uno nuevo.</summary>
+    [Parameter]
+    public string? Slug { get; set; }
+}
