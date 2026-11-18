@@ -21,6 +21,10 @@
   2026-11-18; CI en verde con las 10 pruebas de navegador; sitio publicado comprobado (T032).
   Queda T028 (dudas en la hoja, del usuario).
 - **En curso: F003 (Dados 3D).** Rama `004-dados-3d`, spec en `specs/004-dados-3d/`.
+  Aclarado con el usuario: d100 como dos d10; como mucho 20 dados en pantalla; los dados 3D
+  empiezan desactivados. Plan (2026-11-18): three.js 0.187.0 + cannon-es 0.20.0 copiadas en
+  `wwwroot/lib/`, módulo propio `dice3d.js` que fuerza la cara del dominio, sin `IDiceRenderer`
+  (constitución III). **Pendiente**: que el usuario apruebe las dos dependencias y su descarga.
 - Historia de F002: rama `003-creador-conjuntos-dados`,
   `specs/003-creador-conjuntos-dados/spec.md` escrita el 2026-11-18. Resuelto con el usuario: los
   dados que penetran son una opción que el jugador activa (regla del MJ, «Daño de penetración»), y
