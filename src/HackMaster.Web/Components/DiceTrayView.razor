@@ -1,0 +1,79 @@
+@* Bandeja de dados (US4): cada botón suma un dado a la fórmula, sin tirar. La lógica está en Domain.DiceTray. *@
+
+<div class="dice-tray" role="group" aria-label="Bandeja de dados">
+    <div class="tray-dice">
+        @foreach (var sides in DiceTray.Sides)
+        {
+            var count = Current?.CountOf(sides) ?? 0;
+            <button type="button" class="tray-die" data-testid="tray-die-@sides" aria-label="Añadir un d@(sides)" @onclick="() => AddDie(sides)">
+                <svg viewBox="0 0 40 40" aria-hidden="true" class="tray-shape">
+                    <polygon points="@Shape(sides)" />
+                </svg>
+                <span class="tray-label">d@(sides)</span>
+                @if (count > 0)
+                {
+                    <span class="tray-count" data-testid="tray-count-@sides">@count</span>
+                }
+            </button>
+        }
+    </div>
+    <div class="tray-actions">
+        <button type="button" class="tray-action" data-testid="tray-minus" aria-label="Restar 1 al modificador" @onclick="() => AddModifier(-1)">−1</button>
+        <button type="button" class="tray-action" data-testid="tray-plus" aria-label="Sumar 1 al modificador" @onclick="() => AddModifier(1)">+1</button>
+        <button type="button" class="tray-action" data-testid="tray-clear" @onclick="Clear">Limpiar</button>
+    </div>
+    @if (_notice is not null)
+    {
+        <p class="section-note" role="status" data-testid="tray-notice">@_notice</p>
+    }
+</div>
+
+@code {
+    /// <summary>Fórmula del campo de texto.</summary>
+    [Parameter, EditorRequired]
+    public string Formula { get; set; } = string.Empty;
+
+    /// <summary>Se llama con la fórmula nueva al pulsar un botón.</summary>
+    [Parameter]
+    public EventCallback<string> FormulaChanged { get; set; }
+
+    private string? _notice;
+
+    /// <summary>Bandeja que corresponde a la fórmula escrita; nula si la bandeja no la entiende.</summary>
+    private DiceTray? Current => DiceTray.FromText(Formula);
+
+    /// <summary>Contorno de cada dado visto de frente, en un cuadro de 40 × 40.</summary>
+    private static string Shape(int sides) => sides switch
+    {
+        4 => "20,4 37,34 3,34",
+        6 => "6,6 34,6 34,34 6,34",
+        8 => "20,2 37,20 20,38 3,20",
+        10 => "20,2 36,17 20,38 4,17",
+        12 => "20,3 36,14 30,35 10,35 4,14",
+        20 => "20,2 36,11 36,29 20,38 4,29 4,11",
+        _ => "13,4 24,13 13,36 2,13 13,4 27,4 38,13 27,36 16,13 27,4",
+    };
+
+    private Task AddDie(int sides) => Apply(tray => tray.Add(sides));
+
+    private Task AddModifier(int delta) => Apply(tray => tray.AddModifier(delta));
+
+    private Task Clear()
+    {
+        _notice = null;
+        return FormulaChanged.InvokeAsync(string.Empty);
+    }
+
+    /// <summary>Aplica el botón sobre la fórmula escrita; si no la entiende, empieza una nueva y lo avisa (FR-020).</summary>
+    private async Task Apply(Func<DiceTray, TrayChange> press)
+    {
+        var current = Current;
+        var change = press(current ?? DiceTray.Empty);
+        _notice = change.Problem
+            ?? (current is null ? "La bandeja no entiende la fórmula escrita: ha empezado una fórmula nueva." : null);
+        if (change.Problem is null)
+        {
+            await FormulaChanged.InvokeAsync(change.Tray.ToText());
+        }
+    }
+}

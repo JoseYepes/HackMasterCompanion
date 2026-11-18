@@ -142,6 +142,34 @@ aplicación en marcha (`tests/README.md`).
 
 ---
 
+## Phase 5b: User Story 4 - Elegir los dados pulsando botones (Priority: P2)
+
+Añadida a petición del usuario el 2026-11-18 (spec, aclaraciones). IDs a partir de T022 para no
+renumerar las anteriores.
+
+**Goal**: una bandeja de dados compone la fórmula del campo de texto a golpe de clic.
+**Independent Test**: escenario de US4 en la spec ("3d6+1d20+2" en 6 pulsaciones, SC-007).
+**Verificación**: verificación común; pasan `DiceTrayTests` y `DiceTrayPageTests`.
+**Restricciones**: la lógica de la bandeja vive en `Domain` (`DiceTray`); la página solo la muestra.
+
+- [X] T022 [P] [US4] Escribir `tests/HackMaster.Domain.Tests/DiceTrayTests.cs`:
+  - añadir dados del mismo tipo y de tipos distintos, en orden de caras;
+  - modificador +1 / −1, que puede quedar en 0 o en negativo;
+  - partir de "2d6+3" y añadir un d6 da "3d6+3";
+  - no entiende "1d3+1d6" ni "1d20-1d4";
+  - un número suelto es solo modificador;
+  - no pasa de 100 dados (FR-017 a FR-021, SC-007)
+- [X] T023 [P] [US4] Escribir `tests/HackMaster.Web.Tests/DiceTrayPageTests.cs` (bUnit):
+  - botones `tray-die-4` … `tray-die-100`, `tray-plus`, `tray-minus` y `tray-clear`;
+  - los clics escriben en `dice-formula` y el número aparece en `tray-count-6`;
+  - una fórmula escrita que no se entiende → aviso `tray-notice`;
+  - límite de dados → aviso;
+  - pulsar «Tirar» tira la fórmula compuesta
+- [X] T024 [US4] Crear `src/HackMaster.Domain/DiceTray.cs` hasta pasar T022
+- [X] T025 [US4] Crear `src/HackMaster.Web/Components/DiceTrayView.razor` (dados dibujados con SVG, botones de 44 px como mínimo) y usarlo en `Dice.razor` hasta pasar T023; CSS para 390 px
+
+---
+
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 **Objetivo**: calidad medida, documentación al día y pull request.

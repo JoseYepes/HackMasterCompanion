@@ -22,6 +22,7 @@
                value="@_text" @oninput="args => _text = args.Value?.ToString() ?? string.Empty" />
         <button type="submit" data-testid="dice-roll">Tirar</button>
     </div>
+    <DiceTrayView Formula="@_text" FormulaChanged="text => { _text = text; _error = null; }" />
     <label class="dice-option">
         <input type="checkbox" data-testid="dice-penetrating" checked="@_history.Penetrating" @onchange="OnPenetratingChanged" />
         Los dados penetran

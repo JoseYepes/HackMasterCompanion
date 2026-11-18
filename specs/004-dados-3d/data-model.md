@@ -20,6 +20,14 @@ Reglas de `DiceBoard.Plan`:
 | más de 20 dados con forma en la tirada inicial (un d100 cuenta 2) | `TooMany` = verdadero y `Dice` vacío |
 | extras que pasan de 20 | se cortan y `Truncated` = verdadero |
 
+## Bandeja de dados (US4)
+
+| Tipo | Campos y reglas |
+|---|---|
+| `DiceTray` | `Counts` (dados por número de caras: 4, 6, 8, 10, 12, 20, 100) y `Modifier` (entero). Inmutable. |
+| `DiceTray.FromText(text)` | Bandeja equivalente a la fórmula escrita, o nulo si no la entiende. Vacío → bandeja vacía; un número suelto ("+1", "-2") → solo modificador; una fórmula válida → sus dados sumados por caras y sus números sumados. No la entiende si tiene dados restados o dados que no están en la bandeja (d2, d3…). |
+| `Add(sides)`, `AddModifier(delta)`, `ToText()` | `Add` suma un dado; `ToText` escribe los dados de menos a más caras y el modificador al final ("3d6+1d20+2"). Si el resultado pasa de los límites de `DiceFormula` (100 dados, número de 10 000), `Add`/`AddModifier` devuelven el motivo y la bandeja no cambia. |
+
 ## Guardado en el dispositivo
 
 La opción «Dados 3D» se guarda junto a la de penetración en `hackmaster.rolls`. El formato pasa a

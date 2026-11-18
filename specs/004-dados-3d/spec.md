@@ -17,6 +17,9 @@
 - Q: ¿Cuántos dados a la vez en 3D? → A: 20, contando los extra por penetración.
 - Q: ¿Los dados 3D empiezan activados la primera vez? → A: No: empiezan desactivados y el jugador
   los activa cuando quiera; la elección se recuerda.
+- Q (añadido por el usuario, 2026-11-18): ¿Se pueden elegir los dados pulsando botones, como en
+  otros tiradores? → A: Sí, una bandeja de dados (US4). Cada clic suma un dado de ese tipo a la
+  fórmula, y la tirada se hace con «Tirar»; no se tira al pulsar el dado.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -90,6 +93,33 @@ dado extra que rueda después y queda marcado como dado de penetración.
 
 ---
 
+### User Story 4 - Elegir los dados pulsando botones (Priority: P2)
+
+Como jugador, quiero componer la tirada pulsando los dados que quiero (y cuántos), en lugar de
+escribir la fórmula, para tirar más rápido desde el móvil.
+
+**Why this priority**: Facilita mucho el uso en el móvil, pero el tirador ya funciona escribiendo.
+
+**Independent Test**: Pulsar tres veces el d6, una el d20 y dos veces «+1»: el campo de fórmula
+muestra "3d6+1d20+2", junto al d6 se ve 3 y junto al d20 se ve 1; pulsar «Tirar» tira esa fórmula.
+
+**Acceptance Scenarios**:
+
+1. **Given** el tirador, **When** el jugador pulsa un dado de la bandeja, **Then** se suma un dado de
+   ese tipo a la fórmula del campo de texto, sin tirar; pulsar el mismo dado otra vez aumenta su
+   número ("1d6" → "2d6").
+2. **Given** una fórmula con varios tipos, **When** se mira la bandeja, **Then** cada dado muestra
+   cuántos lleva la fórmula.
+3. **Given** la bandeja, **When** el jugador pulsa «+1» o «−1», **Then** cambia el modificador de
+   la fórmula; **When** pulsa «Limpiar», **Then** el campo queda vacío.
+4. **Given** una fórmula escrita a mano que la bandeja entiende ("2d6+3"), **When** se pulsa el d6,
+   **Then** queda "3d6+3"; **Given** una que no entiende (por ejemplo con un d3 o un dado restado),
+   **When** se pulsa un dado, **Then** empieza una fórmula nueva con ese dado y se avisa.
+5. **Given** una fórmula que ya llega al máximo de dados de FR-004, **When** se pulsa otro dado,
+   **Then** no se añade y se avisa del límite.
+
+---
+
 ### Edge Cases
 
 - Dados que no existen como objeto físico (d2, d3, d7, d1000…): no se dibujan en 3D; su resultado
@@ -142,6 +172,21 @@ dado extra que rueda después y queda marcado como dado de penetración.
   funcionar sin 3D y avisar una vez, sin perder la tirada.
 - **FR-012**: Sin 3D, el tirador DEBE comportarse exactamente como en F002.
 
+**Bandeja de dados (US4)**
+
+- **FR-017**: El tirador DEBE tener una bandeja con un botón por dado: d4, d6, d8, d10, d12, d20 y
+  d100, cada uno con su forma reconocible y el número de dados de ese tipo que lleva la fórmula.
+- **FR-018**: Pulsar un dado DEBE sumar uno de ese tipo a la fórmula del campo de texto, sin tirar.
+  Si la fórmula ya tiene dados de ese tipo, aumenta su número; si no, se añade al final, con los
+  dados ordenados de menos a más caras y el modificador al final.
+- **FR-019**: La bandeja DEBE tener «+1», «−1» (modificador) y «Limpiar» (vacía la fórmula).
+- **FR-020**: La bandeja DEBE partir de la fórmula escrita si la entiende (solo dados de la bandeja,
+  sumados, y números); si no la entiende, empieza una fórmula nueva y lo avisa.
+- **FR-021**: La bandeja NO DEBE pasar de los límites de FR-004 de F002; si un clic los pasaría, no
+  cambia nada y se avisa.
+- **FR-022**: La bandeja DEBE funcionar igual con y sin dados 3D y con la opción de penetración, y
+  sus botones DEBEN tener un tamaño cómodo para el dedo (44 px como mínimo) a 390 px.
+
 **Calidad**
 
 - **FR-013**: La animación DEBE ir a 30 fotogramas por segundo o más en un móvil de gama media
@@ -173,6 +218,8 @@ dado extra que rueda después y queda marcado como dado de penetración.
 - **SC-005**: Las páginas que no son el tirador no tardan más en cargar que antes de F003 (mismo
   tamaño de descarga inicial, con un margen del 5 %).
 - **SC-006**: Sin desbordamiento horizontal a 390 px ni a 820 px con los dados en pantalla.
+- **SC-007**: La fórmula "3d6+1d20+2" se compone con la bandeja en 6 pulsaciones (tres en el d6,
+  una en el d20 y dos en «+1»), sin escribir nada.
 
 ## Assumptions
 
