@@ -27,6 +27,22 @@ public class Dice3DFallbackTests : BunitContext
         _module.SetupVoid("dispose", _ => true).SetVoidResult();
     }
 
+    /// <summary>
+    /// Espera a que la página guarde el historial con ese valor de 3D y hace que localStorage devuelva
+    /// eso desde entonces, como el navegador. Sin esperar, en un equipo lento se tomaba el guardado
+    /// anterior y la página volvía a leer el valor viejo.
+    /// </summary>
+    private void StoreSaved(IRenderedComponent<Dice> cut, bool dice3d)
+    {
+        string? saved = null;
+        cut.WaitForAssertion(() =>
+        {
+            saved = (string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!;
+            Assert.Equal(dice3d, System.Text.Json.JsonDocument.Parse(saved).RootElement.GetProperty("dice3d").GetBoolean());
+        });
+        _stored.SetResult(saved);
+    }
+
     private static void Submit(IRenderedComponent<Dice> cut, string formula)
     {
         cut.Find("[data-testid=dice-formula]").Input(formula);
@@ -112,12 +128,12 @@ public class Dice3DFallbackTests : BunitContext
 
         // Se apaga antes de que el módulo responda; después responde.
         cut.Find("[data-testid=dice3d-toggle]").Change(false);
-        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        StoreSaved(cut, dice3d: false);
         supported.SetResult(true);
         Assert.Empty(_module.Invocations["create"]);
 
         cut.Find("[data-testid=dice3d-toggle]").Change(true);
-        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        StoreSaved(cut, dice3d: true);
         cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
         Assert.Single(_module.Invocations["create"]);
         Submit(cut, "1d6");
@@ -134,9 +150,9 @@ public class Dice3DFallbackTests : BunitContext
         cut.WaitForAssertion(() => Assert.Single(_module.Invocations["isSupported"]));
 
         cut.Find("[data-testid=dice3d-toggle]").Change(false);
-        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        StoreSaved(cut, dice3d: false);
         cut.Find("[data-testid=dice3d-toggle]").Change(true);
-        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        StoreSaved(cut, dice3d: true);
         supported.SetResult(true);
 
         cut.WaitForAssertion(() => Assert.Single(_module.Invocations["create"]));
@@ -150,8 +166,7 @@ public class Dice3DFallbackTests : BunitContext
         cut.WaitForAssertion(() => Assert.Equal("true", cut.Find("[data-testid=dice3d-toggle]").GetAttribute("data-ready")));
 
         cut.Find("[data-testid=dice3d-toggle]").Change(false);
-        // Como el navegador: la siguiente lectura devuelve lo que se acaba de guardar.
-        _stored.SetResult((string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!);
+        StoreSaved(cut, dice3d: false);
         Submit(cut, "2d6+3");
 
         Assert.Empty(_module.Invocations["roll"]);
