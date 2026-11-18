@@ -17,8 +17,10 @@ const MIN_PLAYBACK = 1.5;          // la reproducción no baja de 1,5 s aunque l
 const TABLE_WIDTH = 10;
 const DIE_COLOR = '#f4efe6';
 const DIE_INK = '#1f2328';
-const EXTRA_COLOR = '#e8b54a';     // dados extra por penetración (FR-006): dorados, se ven en las dos mesas de F007
-const EXTRA_INK = '#2a1608';
+// Dados extra por penetración: llevan el aspecto del jugador y un aura de este color, que se ve en
+// las dos mesas de F007 (F008, FR-007).
+const AURA_COLOR = '#e8b54a';
+const EFFECT_SECONDS = 0.6;        // duración de un efecto de penetración
 
 // ---------------------------------------------------------------------------------------------
 // Formas
@@ -622,15 +624,23 @@ function faceTexture(texts, positions, ink) {
  * Un dado: la malla redondeada (compartida por todos los dados de la forma) y, en cada cara, una
  * lámina con sus números en la parte plana de la cara (F008). El grupo se mueve como un dado.
  */
-function dieMesh(data, labels, look) {
-  const { geometry: rounded, s, r } = roundedGeometry(data);
+function dieMesh(data, labels, look, extra = false) {
+  const { geometry: rounded, s, r, h } = roundedGeometry(data);
   const group = new THREE.Group();
   const made = bodyMaterial(look);
   const body = new THREE.Mesh(rounded, made.material);
   // La malla redondeada y las texturas del material se comparten entre dados: no se liberan con el dado.
   body.userData.shared = true;
   group.add(body);
-  group.userData.look = { material: look.material, textured: made.textured, transmission: made.transmission };
+  group.userData.look = { material: look.material, textured: made.textured, transmission: made.transmission, aura: extra };
+  if (extra) {
+    // Aura de los dados extra por penetración: luz aditiva detrás del dado (FR-007).
+    const aura = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: AURA_COLOR, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.9 }));
+    aura.scale.setScalar(h * 5.5);
+    aura.userData.shared = true;
+    aura.renderOrder = -1;
+    group.add(aura);
+  }
 
   data.faces.forEach((face, faceIndex) => {
     const local = face.indices.map(index => {
@@ -667,6 +677,7 @@ function dieMesh(data, labels, look) {
 /** Libera las geometrías y materiales propios de un dado (no la malla redondeada compartida). */
 function disposeDie(group) {
   group.traverse(object => {
+    if (object.isSprite) { object.material.dispose(); return; }
     if (!object.isMesh) return;
     if (!object.userData.shared) {
       object.geometry.dispose();
@@ -682,16 +693,16 @@ const boards = new WeakMap();
 export function create(element) {
   dispose(element);
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
   element.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
   light(scene, renderer);
 
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-  const board = { element, renderer, scene, camera, meshes: [], depth: TABLE_WIDTH * 0.75, playing: null };
+  const board = { element, renderer, scene, camera, meshes: [], depth: TABLE_WIDTH * 0.75, playing: null, particles: [], stains: [], effects: [] };
 
   const resize = () => {
     const width = element.clientWidth || 300;
@@ -722,6 +733,108 @@ function clear(board) {
     disposeDie(mesh);
   }
   board.meshes = [];
+  clearParticles(board);
+  for (const stain of board.stains) {
+    board.scene.remove(stain);
+    stain.geometry.dispose();
+    stain.material.dispose();
+  }
+  board.stains = [];
+}
+
+// ---------------------------------------------------------------------------------------------
+// Efectos al penetrar (F008, research §4): partículas en el dado que penetró
+// ---------------------------------------------------------------------------------------------
+
+/** Mancha blanca difuminada, base de auras y partículas. */
+function glowTexture() {
+  return canvasTexture('glow', 128, (g, s) => {
+    const gradient = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(0.4, 'rgba(255,255,255,0.55)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = gradient;
+    g.fillRect(0, 0, s, s);
+  });
+}
+
+/** Cómo es cada efecto: cuántas partículas, de qué color, hacia dónde y si se suman a la luz. */
+const EFFECT_STYLES = {
+  Explosion: { count: 70, additive: true, gravity: 0, make: random => ({ hue: 0.05 + random() * 0.08, light: 0.5 + random() * 0.3, size: 0.25 + random() * 0.45, velocity: new THREE.Vector3(random() - 0.5, random() * 0.9, random() - 0.5).normalize().multiplyScalar(2.5 + random() * 4) }) },
+  Fire: { count: 80, additive: true, gravity: -3, make: random => ({ hue: 0.02 + random() * 0.09, light: 0.45 + random() * 0.25, size: 0.3 + random() * 0.4, velocity: new THREE.Vector3((random() - 0.5) * 1.2, 1.5 + random() * 3, (random() - 0.5) * 1.2) }) },
+  Blood: { count: 45, additive: false, gravity: 18, make: random => ({ hue: 0.99, light: 0.16 + random() * 0.14, size: 0.08 + random() * 0.18, velocity: new THREE.Vector3(random() - 0.5, 0.6 + random() * 0.8, random() - 0.5).normalize().multiplyScalar(3 + random() * 3) }) },
+  Flash: { count: 1, additive: true, gravity: 0, make: () => ({ hue: 0.11, light: 0.7, size: 3, velocity: new THREE.Vector3() }) },
+};
+
+/** Lanza un efecto en una posición de la mesa. */
+function spawnEffect(board, effect, position, now) {
+  const style = EFFECT_STYLES[effect];
+  const random = Math.random;
+  for (let i = 0; i < style.count; i++) {
+    const p = style.make(random);
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: glowTexture(),
+      color: new THREE.Color().setHSL(p.hue, 1, p.light),
+      blending: style.additive ? THREE.AdditiveBlending : THREE.NormalBlending,
+      transparent: true,
+      depthWrite: false,
+    }));
+    sprite.position.copy(position);
+    sprite.scale.setScalar(p.size);
+    sprite.userData = { velocity: p.velocity, born: now, size: p.size, gravity: style.gravity, effect };
+    board.scene.add(sprite);
+    board.particles.push(sprite);
+  }
+}
+
+/** Mueve y apaga las partículas; la sangre que toca la mesa deja una mancha. */
+function updateParticles(board, now) {
+  board.particles = board.particles.filter(sprite => {
+    const { velocity, born, size, gravity, effect, last } = sprite.userData;
+    const age = (now - born) / 1000;
+    const dt = Math.min(((now - (last ?? born)) / 1000), 0.05);
+    sprite.userData.last = now;
+    if (age >= EFFECT_SECONDS) {
+      board.scene.remove(sprite);
+      sprite.material.dispose();
+      return false;
+    }
+    velocity.y -= gravity * dt;
+    sprite.position.addScaledVector(velocity, dt);
+    const fade = 1 - age / EFFECT_SECONDS;
+    sprite.material.opacity = fade;
+    sprite.scale.setScalar(effect === 'Flash' ? size * (0.6 + age * 2) : size * (effect === 'Fire' ? 1 + age : 1));
+    if (effect === 'Blood' && sprite.position.y <= 0.02) {
+      stain(board, sprite.position, size);
+      board.scene.remove(sprite);
+      sprite.material.dispose();
+      return false;
+    }
+    return true;
+  });
+}
+
+function stain(board, position, size) {
+  const mark = new THREE.Mesh(new THREE.CircleGeometry(size * (0.8 + Math.random()), 14), new THREE.MeshBasicMaterial({ color: '#5e0a10', transparent: true, opacity: 0.9, depthWrite: false }));
+  mark.rotation.x = -Math.PI / 2;
+  mark.position.set(position.x, 0.01, position.z);
+  board.scene.add(mark);
+  board.stains.push(mark);
+}
+
+function clearParticles(board) {
+  for (const sprite of board.particles) {
+    board.scene.remove(sprite);
+    sprite.material.dispose();
+  }
+  board.particles = [];
+}
+
+/** Efecto que se verá: el elegido, o un destello si la calidad es baja o se pide menos movimiento (FR-018). */
+function effectFor(look) {
+  if (look.effect === 'None') return null;
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  return look.quality === 'Low' || reduced ? 'Flash' : look.effect;
 }
 
 function place(mesh, frame) {
@@ -745,28 +858,41 @@ export function roll(element, plan, look) {
   // La simulación también cuenta para los 4 s de FR-004: la reproducción se acorta lo que tardó.
   const simulationSeconds = (performance.now() - simulationStarted) / 1000;
   board.meshes = items.map(entry => {
-    const mesh = dieMesh(entry.data, entry.labels, shownLook);
+    const mesh = dieMesh(entry.data, entry.labels, shownLook, Boolean(entry.item.penetration));
     mesh.visible = false;
     mesh.userData.entry = entry;
     board.scene.add(mesh);
     return mesh;
   });
 
+  // Efectos de penetración: uno por dado extra, en su dado padre, cuando el extra aparece (FR-017).
+  const effect = effectFor(shownLook);
+  const parentOf = entry => (Number.isInteger(entry.item.parent) ? entry.item.parent : null);
+  board.effects = effect ? items.filter(entry => parentOf(entry) !== null).map(entry => ({ effect, parent: parentOf(entry) })) : [];
+
   const duration = Math.min(steps * STEP, Math.max(MAX_PLAYBACK - simulationSeconds, MIN_PLAYBACK)) * 1000;
   return new Promise(resolve => {
     const startedAt = performance.now();
-    const show = (frameIndex) => {
+    const show = (frameIndex, animate) => {
+      const now = performance.now();
       for (const mesh of board.meshes) {
         const { entry } = mesh.userData;
         const local = frameIndex - entry.start;
+        const appeared = !mesh.visible && local >= 0;
         mesh.visible = local >= 0;
         if (mesh.visible) place(mesh, entry.frames[Math.min(local, entry.frames.length - 1)]);
+        const parent = parentOf(entry);
+        if (animate && appeared && effect && parent !== null && board.meshes[parent]) {
+          spawnEffect(board, effect, board.meshes[parent].position, now);
+        }
       }
+      updateParticles(board, now);
       board.renderer.render(board.scene, board.camera);
     };
     const end = () => {
       clearTimeout(playing.timer);
-      show(steps);
+      clearParticles(board);
+      show(steps, false);
       board.playing = null;
       resolve();
     };
@@ -774,7 +900,7 @@ export function roll(element, plan, look) {
       if (board.playing !== playing) return;
       const progress = Math.min((now - startedAt) / Math.max(duration, 1), 1);
       if (progress >= 1) { end(); return; }
-      show(Math.floor(progress * steps));
+      show(Math.floor(progress * steps), true);
       playing.frame = requestAnimationFrame(tick);
     };
     const playing = { end, frame: 0, timer: 0 };
@@ -905,4 +1031,9 @@ export function unlockAudio() {
   } catch {
     audio = null;
   }
+}
+
+/** Efectos de penetración de la última tirada: [{ effect, parent }] (pruebas, FR-017). */
+export function shownEffects(element) {
+  return boards.get(element)?.effects ?? [];
 }

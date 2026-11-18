@@ -113,11 +113,11 @@ marcha, reiniciándola tras cada compilación.
 
 ### Tests (primero)
 
-- [ ] T013 [US5] Añadir a `E2E/DiceLookTests.cs`: con una tirada que penetra, `shownEffects` tiene el efecto elegido con el índice del padre; los dados extra tienen `aura`; con «ninguno» no hay efecto pero sí aura; con movimiento reducido o calidad baja, efecto simplificado; la tirada termina en menos de 4 s (FR-017, FR-018)
+- [X] T013 [US5] Añadir a `E2E/DiceLookTests.cs`: con una tirada que penetra, `shownEffects` tiene el efecto elegido con el índice del padre; los dados extra tienen `aura`; con «ninguno» no hay efecto pero sí aura; con movimiento reducido o calidad baja, efecto simplificado; la tirada termina en menos de 4 s (FR-017, FR-018)
 
 ### Implementation
 
-- [ ] T014 [US5] En `dice3d.js`: aura y sistemas de partículas de explosión, fuego y sangre (research §4), hasta pasar T013; el efecto se elige en el panel (`DiceLookPanel`)
+- [X] T014 [US5] En `dice3d.js`: aura y sistemas de partículas de explosión, fuego y sangre (research §4), hasta pasar T013; el efecto se elige en el panel (`DiceLookPanel`)
 
 ---
 
