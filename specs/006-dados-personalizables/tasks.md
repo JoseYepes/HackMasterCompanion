@@ -73,11 +73,11 @@ marcha, reiniciándola tras cada compilación.
 
 ### Tests (primero)
 
-- [ ] T007 [US2] Ampliar `tests/HackMaster.Web.Tests/E2E/Dice3DTests.cs`: en las 1 000 tiradas, además, la cara de arriba de la malla redondeada está a la misma distancia del centro que la del poliedro (`plane`, contrato) y la malla es redondeada (más vértices que el poliedro); verla fallar
+- [X] T007 [US2] Ampliar `tests/HackMaster.Web.Tests/E2E/Dice3DTests.cs`: en las 1 000 tiradas, además, la cara de arriba de la malla redondeada está a la misma distancia del centro que la del poliedro (`plane`, contrato) y la malla es redondeada (más vértices que el poliedro); verla fallar
 
 ### Implementation
 
-- [ ] T008 [US2] En `src/HackMaster.Web/wwwroot/js/dice3d.js`: malla redondeada por suma de Minkowski con los planos de las caras en su sitio (research §1) y números en láminas sobre cada cara (también los tres del d4), hasta pasar T007 y las pruebas de F003
+- [X] T008 [US2] En `src/HackMaster.Web/wwwroot/js/dice3d.js`: malla redondeada por suma de Minkowski con los planos de las caras en su sitio (research §1) y números en láminas sobre cada cara (también los tres del d4), hasta pasar T007 y las pruebas de F003
 
 ---
 

@@ -329,6 +329,9 @@ export function inspect(plan, seed) {
         labels: entry.labels.length,
         unique: new Set(entry.labels).size === entry.labels.length,
         inside: Math.abs(last[0]) < TABLE_WIDTH / 2 && Math.abs(last[2]) < TABLE_WIDTH * 0.375 && last[1] > 0,
+        // F008: la malla que se ve es redondeada y sus caras están en los planos del poliedro.
+        roundedVertices: roundedGeometry(entry.data).geometry.attributes.position.count,
+        planeError: planeErrorOf(entry.data),
       };
     }),
   };
@@ -365,14 +368,76 @@ export function isSupported() {
   }
 }
 
-/** Textura de una cara: fondo, y su número (o los tres del d4, cerca de cada esquina). */
+// ---------------------------------------------------------------------------------------------
+// Aristas redondeadas (F008, research §1)
+// ---------------------------------------------------------------------------------------------
+
+/** Cuánto se redondea cada forma: parte de la distancia del centro a las caras. */
+const ROUNDNESS = { D4: 0.2, D6: 0.22, D8: 0.18, D10: 0.16, D10Tens: 0.16, D12: 0.14, D20: 0.14 };
+const SPHERE_DETAIL = 4;
+
+/**
+ * Malla redondeada de una forma: suma de Minkowski del poliedro encogido (factor s) y una esfera de
+ * radio r = h·(1 − s), donde h es la distancia del centro a las caras (igual en todas las caras de
+ * cada forma). Así las caras quedan en los mismos planos que las del poliedro con el que rueda: se
+ * apoya igual y la física no cambia. Para cada dirección d de una esfera muy subdividida, el punto
+ * es el vértice encogido que más avanza en d, más r·d; la normal es d.
+ */
+function roundedGeometry(data) {
+  if (data.rounded) return data.rounded;
+  const roundness = ROUNDNESS[data.name];
+  const first = data.faces[0];
+  const h = first.normal.dot(data.vertices[first.indices[0]]);
+  const s = 1 - roundness;
+  const r = h * roundness;
+  const shrunk = data.vertices.map(v => v.clone().multiplyScalar(s));
+  const geometry = new THREE.IcosahedronGeometry(1, SPHERE_DETAIL);
+  const position = geometry.attributes.position;
+  const normals = new Float32Array(position.count * 3);
+  const uvs = new Float32Array(position.count * 2);
+  const d = new THREE.Vector3();
+  for (let i = 0; i < position.count; i++) {
+    d.fromBufferAttribute(position, i).normalize();
+    let best = shrunk[0];
+    let bestDot = -Infinity;
+    for (const v of shrunk) {
+      const dot = v.dot(d);
+      if (dot > bestDot) { bestDot = dot; best = v; }
+    }
+    position.setXYZ(i, best.x + d.x * r, best.y + d.y * r, best.z + d.z * r);
+    normals.set([d.x, d.y, d.z], i * 3);
+    // Texturas proyectadas desde el centro: en materiales de ruido la costura no se nota.
+    uvs.set([0.5 + Math.atan2(d.z, d.x) / (2 * Math.PI), 0.5 + Math.asin(Math.max(-1, Math.min(1, d.y))) / Math.PI], i * 2);
+  }
+  geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
+  geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  geometry.computeBoundingSphere();
+  data.rounded = { geometry, s, r, h };
+  return data.rounded;
+}
+
+/** Cuánto se separan los planos de las caras de la malla redondeada de los del poliedro (pruebas). */
+function planeErrorOf(data) {
+  if (data.planeError !== undefined) return data.planeError;
+  const { geometry, h } = roundedGeometry(data);
+  const position = geometry.attributes.position;
+  const p = new THREE.Vector3();
+  let worst = 0;
+  for (const face of data.faces) {
+    let max = -Infinity;
+    for (let i = 0; i < position.count; i++) max = Math.max(max, p.fromBufferAttribute(position, i).dot(face.normal));
+    worst = Math.max(worst, Math.abs(max - h));
+  }
+  data.planeError = worst;
+  return worst;
+}
+
+/** Textura de los números de una cara, sobre fondo transparente (o los tres del d4, cerca de cada esquina). */
 function faceTexture(texts, positions, extra) {
   const size = 128;
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = size;
   const context = canvas.getContext('2d');
-  context.fillStyle = extra ? EXTRA_COLOR : DIE_COLOR;
-  context.fillRect(0, 0, size, size);
   context.fillStyle = extra ? EXTRA_INK : DIE_INK;
   context.textAlign = 'center';
   context.textBaseline = 'middle';
@@ -390,13 +455,17 @@ function faceTexture(texts, positions, extra) {
   return texture;
 }
 
-/** Malla de un dado con sus etiquetas: un material por cara, coordenadas de textura por cara. */
+/**
+ * Un dado: la malla redondeada (compartida por todos los dados de la forma) y, en cada cara, una
+ * lámina con sus números en la parte plana de la cara (F008). El grupo se mueve como un dado.
+ */
 function dieMesh(data, labels, extra) {
-  const positions = [];
-  const uvs = [];
-  const geometry = new THREE.BufferGeometry();
-  const materials = [];
-  let offset = 0;
+  const { geometry: rounded, s, r } = roundedGeometry(data);
+  const group = new THREE.Group();
+  const body = new THREE.Mesh(rounded, new THREE.MeshStandardMaterial({ color: extra ? EXTRA_COLOR : DIE_COLOR, roughness: 0.45, metalness: 0.05 }));
+  body.userData.sharedGeometry = true;
+  group.add(body);
+
   data.faces.forEach((face, faceIndex) => {
     const local = face.indices.map(index => {
       const p = new THREE.Vector3().subVectors(data.vertices[index], face.center);
@@ -404,25 +473,41 @@ function dieMesh(data, labels, extra) {
     });
     const radius = Math.max(...local.map(([a, b]) => Math.hypot(a, b)));
     const uv = local.map(([a, b]) => [0.5 + (a / radius) * 0.46, 0.5 + (b / radius) * 0.46]);
+    // La parte plana de la cara es el polígono encogido, en el plano de la cara; la lámina va
+    // apenas por encima para que no parpadee.
+    const corner = index => data.vertices[index].clone().multiplyScalar(s).addScaledVector(face.normal, r + 0.003);
+    const positions = [];
+    const uvs = [];
     for (let i = 1; i < face.indices.length - 1; i++) {
-      for (const corner of [0, i, i + 1]) {
-        const p = data.vertices[face.indices[corner]];
+      for (const c of [0, i, i + 1]) {
+        const p = corner(face.indices[c]);
         positions.push(p.x, p.y, p.z);
-        uvs.push(...uv[corner]);
+        uvs.push(...uv[c]);
       }
     }
-    const count = (face.indices.length - 2) * 3;
-    geometry.addGroup(offset, count, faceIndex);
-    offset += count;
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+    geometry.computeVertexNormals();
 
     const texts = data.shape.byVertex ? face.indices.map(index => labels[index]) : [labels[faceIndex]];
     const where = data.shape.byVertex ? uv.map(([u, v]) => [0.5 + (u - 0.5) * 0.62, 0.5 + (v - 0.5) * 0.62]) : [[0.5, 0.5]];
-    materials.push(new THREE.MeshStandardMaterial({ map: faceTexture(texts, where, extra), roughness: 0.55, metalness: 0.05, flatShading: true }));
+    const material = new THREE.MeshStandardMaterial({ map: faceTexture(texts, where, extra), transparent: true, roughness: 0.5, depthWrite: false });
+    group.add(new THREE.Mesh(geometry, material));
   });
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-  geometry.computeVertexNormals();
-  return new THREE.Mesh(geometry, materials);
+  return group;
+}
+
+/** Libera las geometrías y materiales propios de un dado (no la malla redondeada compartida). */
+function disposeDie(group) {
+  group.traverse(object => {
+    if (!object.isMesh) return;
+    if (!object.userData.sharedGeometry) object.geometry.dispose();
+    for (const material of [object.material].flat()) {
+      material.map?.dispose();
+      material.dispose();
+    }
+  });
 }
 
 const boards = new WeakMap();
@@ -470,8 +555,7 @@ export function create(element) {
 function clear(board) {
   for (const mesh of board.meshes) {
     board.scene.remove(mesh);
-    mesh.geometry.dispose();
-    for (const material of mesh.material) { material.map?.dispose(); material.dispose(); }
+    disposeDie(mesh);
   }
   board.meshes = [];
 }
