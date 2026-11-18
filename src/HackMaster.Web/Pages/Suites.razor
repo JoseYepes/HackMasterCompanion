@@ -1,10 +1,13 @@
 @page "/conjuntos"
 @inject GameData Data
+@inject PlayerSuites PlayerSuites
 @inject NavigationManager Navigation
 
 <PageTitle>Conjuntos · @AppInfo.Name</PageTitle>
 
 <h1>Conjuntos</h1>
+
+<p><a class="button-link" href="conjuntos/nuevo" data-testid="suite-create">Crear conjunto</a></p>
 
 <div class="search">
     <label for="suite-search">Buscar por nombre</label>
@@ -28,6 +31,13 @@
     private string? _shownUri;
     private IReadOnlyList<SkillSuite> _custom = [];
     private IReadOnlyList<SkillSuite> _official = [];
+
+    /// <summary>Los conjuntos del jugador se leen del dispositivo; al llegar se vuelve a filtrar.</summary>
+    protected override async Task OnInitializedAsync()
+    {
+        await PlayerSuites.LoadAsync();
+        Show(_text);
+    }
 
     protected override void OnParametersSet()
     {
@@ -65,8 +75,8 @@
     {
         _text = text;
         var normalized = TextNormalizer.Normalize(text);
-        var matches = Data.Suites.Where(suite => suite.SearchName.Contains(normalized, StringComparison.Ordinal)).ToList();
-        _custom = matches.Where(suite => suite.Kind == SuiteKind.Custom).ToList();
-        _official = matches.Where(suite => suite.Kind == SuiteKind.Official).ToList();
+        bool Matches(SkillSuite suite) => suite.SearchName.Contains(normalized, StringComparison.Ordinal);
+        _custom = PlayerSuites.CustomSuites.Where(Matches).ToList();
+        _official = Data.Suites.Where(suite => suite.Kind == SuiteKind.Official && Matches(suite)).ToList();
     }
 }

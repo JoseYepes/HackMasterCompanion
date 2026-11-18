@@ -30,6 +30,12 @@
   `IRandom` con `Random.Shared`; `localStorage` por `IJSRuntime` sin paquetes (IndexedDB sigue en
   F004); los valores de los conjuntos del jugador se calculan al mostrarlos; una prueba recalcula
   los 36 conjuntos de `data/`. Siguiente paso: `/speckit-tasks`.
+- **Calculador de conjuntos (2026-11-18)**: recalcula los 36 conjuntos de la hoja; coinciden salvo
+  excepciones con nombre (`SuiteRulesMatchSheetTests`). Cerrajero coincide con la regla aunque su
+  dado esté escrito a mano. **Tareas del usuario en la hoja**: (1) en la tabla de Actor, borrar
+  «C86=» del principio de la fórmula de PC de «Imitar voces» (fila 85, columna C), que hoy vale 0;
+  (2) Mantenimiento: sus 3 habilidades tienen dado «*» y la regla no da dado; dejarlo como en el
+  manual o borrarlo. Al corregirlas, quitar sus excepciones de la prueba (falla si sobran).
 - **Nota**: en esta sesión la app no encontraba los comandos `/speckit-…` como skills; se
   siguieron sus instrucciones leyendo `.claude/skills/*/SKILL.md`. El HJ 4.05 que tiene el usuario está escaneado: las reglas se toman de las fórmulas
   de la hoja (PC = suma − 1; precio = suma × 1,1 redondeado; dificultad = mayor + 5).

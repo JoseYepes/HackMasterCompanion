@@ -12,6 +12,7 @@ public class F002PagesTests : BunitContext
     {
         Services.AddSingleton(TestData.Create());
         Services.AddSingleton<BrowserStore>();
+        Services.AddSingleton<PlayerSuites>();
         Services.AddSingleton<HackMaster.Domain.IRandom>(new LoopRandom(1));
         JSInterop.Mode = JSRuntimeMode.Loose;
     }

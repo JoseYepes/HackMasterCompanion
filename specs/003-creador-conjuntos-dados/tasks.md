@@ -146,7 +146,7 @@ del jugador aparecen con los 36.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T017 [P] [US2] Escribir `tests/HackMaster.Domain.Tests/SuiteCalculatorTests.cs`, una prueba por regla:
+- [X] T017 [P] [US2] Escribir `tests/HackMaster.Domain.Tests/SuiteCalculatorTests.cs`, una prueba por regla:
   - PC = suma − 1 (`__HJ405`);
   - precio = redondear(suma × 1,1) con los medios alejándose de cero (`__HJ405`);
   - dificultad = mayor + 5 (`__HJ405`);
@@ -155,7 +155,7 @@ del jugador aparecen con los 36.
   - clases: "Todas" neutro, iguales se conservan, distintas quedan pendientes (FR-012b);
   - `CanSave` solo con 2 a 5 componentes, sin repetidos ni ciclos (FR-010, FR-011);
   - un conjunto componente aporta sus valores (FR-011)
-- [ ] T018 [P] [US2] Escribir `tests/HackMaster.Domain.Tests/SuiteRulesMatchSheetTests.cs`:
+- [X] T018 [P] [US2] Escribir `tests/HackMaster.Domain.Tests/SuiteRulesMatchSheetTests.cs`:
   - lee `data/` como `DataIntegrityTests`;
   - recalcula los 36 conjuntos de habilidades a partir de sus componentes;
   - compara coste, precio, dificultad y dado;
@@ -165,14 +165,14 @@ del jugador aparecen con los 36.
     - dado de Capitán de compañía y Líder de escuadrón (Liderazgo básico y Liderazgo de pequeños grupos tienen el dado «5» pendiente, y la aplicación lo deja pendiente, FR-013);
   - cualquier otra diferencia hace fallar la prueba;
   - (SC-001, FR-015)
-- [ ] T019 [P] [US2] Escribir `tests/HackMaster.Web.Tests/PlayerSuitesTests.cs` (bUnit con `JSInterop`):
+- [X] T019 [P] [US2] Escribir `tests/HackMaster.Web.Tests/PlayerSuitesTests.cs` (bUnit con `JSInterop`):
   - guardar, cambiar el nombre, modificar y borrar;
   - la lista combinada incluye los 36 y los del jugador, ordenados por nombre;
   - un nombre cuyo `slug` ya existe, o los reservados "nuevo" y "oficiales", se rechaza;
   - borrar un conjunto que es componente de otro lista los afectados;
   - un componente que ya no existe en los datos se señala;
   - (FR-014)
-- [ ] T020 [P] [US2] Escribir `tests/HackMaster.Web.Tests/SuiteEditorTests.cs`:
+- [X] T020 [P] [US2] Escribir `tests/HackMaster.Web.Tests/SuiteEditorTests.cs`:
   - buscar sin acentos añade componentes (`suite-search`, `suite-component`);
   - cada componente muestra su coste, precio, dificultad y dado (US2-1);
   - añadir un componente que ya está no lo duplica y avisa (caso límite);
@@ -185,11 +185,11 @@ del jugador aparecen con los 36.
 
 ### Implementation
 
-- [ ] T021 [US2] Crear `src/HackMaster.Domain/SuiteCalculator.cs` (`SuiteComponentValues`, `SuiteCalculation`) hasta pasar T017
-- [ ] T022 [US2] Ajustar `SuiteCalculator` hasta pasar T018. Si aparecen diferencias no previstas, parar y consultarlas con el usuario antes de añadir excepciones
-- [ ] T023 [US2] Crear `src/HackMaster.Domain/PlayerSuite.cs` (`SuiteComponentRef`) y `src/HackMaster.Web/PlayerSuites.cs` (carga desde `BrowserStore`, lista combinada, validación de nombres y ciclos) hasta pasar T019
-- [ ] T024 [US2] Crear `src/HackMaster.Web/Components/SuiteSummary.razor` y completar `SuiteEditor.razor` hasta pasar T020
-- [ ] T025 [US2] Mostrar los conjuntos del jugador en `src/HackMaster.Web/Pages/Suites.razor` (mismo aspecto, botón "Crear conjunto") y en `src/HackMaster.Web/Pages/SuiteDetail.razor` (valores calculados; botones Editar y Borrar solo si es del jugador), con pruebas nuevas en `tests/HackMaster.Web.Tests/SuitesPageTests.cs`, escritas primero
+- [X] T021 [US2] Crear `src/HackMaster.Domain/SuiteCalculator.cs` (`SuiteComponentValues`, `SuiteCalculation`) hasta pasar T017
+- [X] T022 [US2] Ajustar `SuiteCalculator` hasta pasar T018. Si aparecen diferencias no previstas, parar y consultarlas con el usuario antes de añadir excepciones
+- [X] T023 [US2] Crear `src/HackMaster.Domain/PlayerSuite.cs` (`SuiteComponentRef`) y `src/HackMaster.Web/PlayerSuites.cs` (carga desde `BrowserStore`, lista combinada, validación de nombres y ciclos) hasta pasar T019
+- [X] T024 [US2] Crear `src/HackMaster.Web/Components/SuiteSummary.razor` y completar `SuiteEditor.razor` hasta pasar T020
+- [X] T025 [US2] Mostrar los conjuntos del jugador en `src/HackMaster.Web/Pages/Suites.razor` (mismo aspecto, botón "Crear conjunto") y en `src/HackMaster.Web/Pages/SuiteDetail.razor` (valores calculados; botones Editar y Borrar solo si es del jugador), con pruebas nuevas en `tests/HackMaster.Web.Tests/SuitesPageTests.cs`, escritas primero
 
 ---
 

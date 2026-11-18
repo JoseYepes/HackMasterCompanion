@@ -8,7 +8,13 @@ namespace HackMaster.Web.Tests;
 
 public class SuitesPageTests : BunitContext
 {
-    public SuitesPageTests() => Services.AddSingleton(TestData.Create());
+    public SuitesPageTests()
+    {
+        Services.AddSingleton(TestData.Create());
+        Services.AddSingleton<BrowserStore>();
+        Services.AddSingleton<PlayerSuites>();
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
 
     private NavigationManager Navigation => Services.GetRequiredService<NavigationManager>();
 

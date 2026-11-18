@@ -18,8 +18,15 @@ Decisiones técnicas del plan. Formato: decisión, por qué, alternativas descar
 - **Excepciones observadas** (se registran como duda en la hoja; las pruebas las excluyen con
   nombre y motivo):
   - Dado con media + 1: Zoólogo, Escribano y Hechicero.
-  - Dado escrito a mano: Cerrajero.
+  - Dado escrito a mano: Cerrajero. Al recalcular (2026-11-18) coincide con la regla, así que no
+    es una excepción.
   - Más de 5 componentes: Forjador de armaduras y Trovador, con 6.
+  - Actor, coste en PC: la hoja da 12 y la regla 14. En la tabla de Actor, la celda de PC de
+    «Imitar voces» tiene la fórmula `C86=VLOOKUP(…)`, que da FALSO (0). Error de la hoja que
+    corregirá el usuario (2026-11-18).
+  - Mantenimiento, dado: sus 3 habilidades tienen dado «*» y la hoja pone «*». Decisión del
+    usuario (2026-11-18): se aplica siempre la regla; si no da un dado, el conjunto está mal y hay
+    que dejarlo como en el manual o borrarlo. La aplicación lo deja pendiente de verificar.
   - Dado pendiente en la aplicación: Capitán de compañía y Líder de escuadrón, porque Liderazgo
     básico y Liderazgo de pequeños grupos tienen el dado «5», que no existe; la hoja lo usa como
     número y la aplicación deja pendiente el dado del conjunto (§3).
