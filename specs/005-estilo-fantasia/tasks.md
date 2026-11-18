@@ -151,7 +151,7 @@ contraste, se ajusta el color y se anota en `research.md`.
 - [X] T016 Medir la primera carga sin caché y compararla con los 2837 KB de antes (SC-005); anotarlo en `research.md` §6
 - [X] T017 [P] Actualizar `tests/README.md` (pruebas nuevas) y `docs/ESTADO.md`
 - [X] T018 Revisión independiente del diff (subagente con contexto limpio): regresiones, pruebas débiles, contraste, FR-013 y constitución; corregir lo que encuentre
-- [ ] T019 Pull request en castellano; tras fusionar, comprobar el sitio publicado en los dos modos
+- [X] T019 Pull request en castellano; tras fusionar, comprobar el sitio publicado en los dos modos
 - [ ] T020 Comprobación manual del usuario en su móvil: reconoce las maquetas A y B (SC-007)
 
 ---
