@@ -38,6 +38,20 @@ public class ThemeTogglePageTests : BunitContext
     }
 
     [Fact]
+    public void If_The_Mode_Script_Fails_The_Button_Keeps_Saying_The_Truth__Review()
+    {
+        // Revisión de F007: con un index.html viejo en caché, hackmasterTheme no existe.
+        JSInterop.Setup<string>("hackmasterTheme.current").SetResult("light");
+        JSInterop.SetupVoid("hackmasterTheme.set", "dark").SetException(new Microsoft.JSInterop.JSException("hackmasterTheme is not defined"));
+        var cut = Render<ThemeToggle>();
+        cut.WaitForAssertion(() => Assert.Equal("Cambiar a modo noche", cut.Find("[data-testid=theme-toggle]").GetAttribute("aria-label")));
+
+        cut.Find("[data-testid=theme-toggle]").Click();
+
+        Assert.Equal("Cambiar a modo noche", cut.Find("[data-testid=theme-toggle]").GetAttribute("aria-label"));
+    }
+
+    [Fact]
     public void The_Button_Is_In_The_Navigation_Bar_Of_Every_Screen__FR003()
     {
         Services.AddSingleton(TestData.Create());

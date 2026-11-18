@@ -48,7 +48,7 @@ usan variables, nunca colores sueltos.
 | Bordes de controles | `#8a6a3a` | `#8a6a36` | 4,1 / 3,2 (mínimo 3) |
 | Aviso | `#f6e3a8` con texto `#5a3d00` | `#3d3010` con texto `#f5d98b` | 7,8 / 9,3 |
 | Error | `#8b1a1a` | `#ff9b85` | 8,1 / 7,8 sobre tarjeta |
-| Mesa de dados | cuero `#4a1a16` | madera `#3a2717` | dados marfil 12,3 / 12,0 |
+| Mesa de dados | cuero `#4a1a16` | madera `#3a2717` | dados marfil 12,3 / 12,0; dados extra dorados `#e8b54a` (antes rojos `#b42318`, 2,2:1 sobre el cuero) |
 
 El borde de la maqueta B (`#7a5a2a`) daba 2,8 sobre el fondo de noche: se aclara a `#8a6a36`.
 
@@ -90,8 +90,13 @@ verde actual es el fondo CSS de `.dice-board`. Se cambia por:
   costura dorada en el borde.
 - **Noche**: madera oscura (`#3a2717`) con vetas hechas con `repeating-linear-gradient`.
 
-**Por qué**: no hay que tocar el módulo 3D, no se descargan imágenes y cambiar de modo a mitad de
+**Por qué**: la mesa no toca el módulo 3D, no se descargan imágenes y cambiar de modo a mitad de
 tirada no afecta a la animación (US3, escenario 3).
+
+La revisión independiente (T018) vio que los dados extra por penetración, rojos (`#b42318`), casi
+desaparecían sobre el cuero (2,2:1). Se cambió esa única constante de `dice3d.js` a dorado
+(`#e8b54a`, números `#2a1608`). `ThemeContrastTests` lee ahora los colores del propio módulo y los
+compara con las dos mesas, en vez de una variable `--die` que nada usaba.
 
 **Descartado**: texturas de imagen o generadas en el módulo 3D (más peso; quedan para F008).
 

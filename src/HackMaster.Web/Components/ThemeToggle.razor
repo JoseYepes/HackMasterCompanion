@@ -48,7 +48,15 @@
 
     private async Task ToggleAsync()
     {
-        _dark = !_dark;
-        await JS.InvokeVoidAsync("hackmasterTheme.set", _dark ? "dark" : "light");
+        try
+        {
+            await JS.InvokeVoidAsync("hackmasterTheme.set", _dark ? "light" : "dark");
+            _dark = !_dark;
+        }
+        catch (JSException)
+        {
+            // Sin el script del modo (por ejemplo, un index.html viejo en caché) no cambia nada: el
+            // botón sigue diciendo la verdad y la aplicación no muestra el aviso de error.
+        }
     }
 }

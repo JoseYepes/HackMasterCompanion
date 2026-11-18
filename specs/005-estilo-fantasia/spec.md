@@ -40,7 +40,7 @@ borde dorado y los títulos de inscripción de la propuesta A, y todo se lee bie
    fondo de pergamino claro, texto de color tinta, barra de navegación granate con borde dorado y
    títulos con letras de inscripción, como la maqueta A.
 2. **Given** la lista de habilidades, **When** se muestra, **Then** cada habilidad es una tarjeta
-   de pergamino con su nombre como título y sus datos (tipo, precio, dificultad, libro) como
+   de pergamino con su nombre destacado y sus datos (tipo, precio, dificultad, libro) como
    etiquetas, como en la maqueta A.
 3. **Given** formularios (búsqueda, filtros, editor de conjuntos, fórmula de dados), **When** se
    usan, **Then** los campos, botones y mensajes de error siguen el mismo estilo y se distingue
@@ -180,7 +180,7 @@ siguen leyendo.
 - Las letras serán de licencia libre que permita incluirlas en la aplicación (por ejemplo, la
   licencia SIL Open Font License); su elección y descarga se deciden en el plan, con permiso del
   usuario para descargarlas.
-- Los dados 3D siguen siendo de color marfil con números oscuros; solo cambia la mesa. Elegir
+- Los dados 3D siguen siendo de color marfil con números oscuros; los extra por penetración pasan de rojo a dorado porque el rojo no se distinguía del cuero granate (revisión, 2026-11-18). Elegir
   colores, materiales, bordes y sonido de los dados es F008, fuera de esta funcionalidad.
 - No se añaden ilustraciones, logotipos ni iconos nuevos de la aplicación: el estilo se consigue
   con colores, letras, bordes y texturas sencillas. Un logotipo propio podría ser una

@@ -29,8 +29,13 @@ Definido por el script de `<head>` de `index.html`.
 Si `localStorage` falla (modo privado, almacenamiento lleno), `set` cambia el modo igualmente y
 solo pierde el recuerdo.
 
+Las pestañas no se avisan entre sí: si se cambia el modo en una, las demás lo toman al recargar.
+Cada pestaña es coherente consigo misma (anotado en la revisión, 2026-11-18).
+
 ## `ThemeToggle`
 
 - `data-testid="theme-toggle"`.
 - `aria-label`: «Cambiar a modo noche» en modo normal; «Cambiar a modo normal» en modo noche.
 - Al arrancar, pregunta `current()`; al pulsar, llama a `set` con el otro modo.
+- Si `hackmasterTheme` no existe o falla (por ejemplo, un `index.html` viejo en caché), el botón no
+  cambia ni muestra el aviso de error de la aplicación.

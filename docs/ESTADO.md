@@ -37,10 +37,15 @@
   `ThemeToggle`; mesa de cuero o madera solo con CSS. En el análisis se descartó la clase
   `ThemePreference` (nadie la usaría; constitución III). Al verlo en el móvil se cambió la letra de
   los nombres de habilidades, conjuntos y estilos a Garamond: en Cinzel (todo mayúsculas) los
-  nombres largos se partían mal. Descarga inicial +3,7 %. Pruebas: 552 unitarias y 27 de
-  navegador. Las pruebas de navegador nuevas no se vieron fallar antes de implementar (sí las
-  unitarias y las de bUnit). **Falta**: revisión independiente (T018), pull request (T019) y la
-  comprobación del usuario en su móvil (T020).
+  nombres largos se partían mal. Descarga inicial +3,7 %. Las pruebas de navegador nuevas no se
+  vieron fallar antes de implementar (sí las unitarias y las de bUnit). **Revisión independiente
+  (T018)**: corregido que el foco no se veía en la barra (granate sobre granate; ahora dorado), que
+  los dados extra rojos casi desaparecían sobre el cuero (ahora dorados; la prueba lee los colores
+  de `dice3d.js`), que el botón podía romper la página sin el script del modo, y ampliada la
+  prueba de colores sueltos a todas las funciones y nombres de color de CSS. **Sin corregir**
+  (menor): las pestañas no se avisan del cambio de modo; las demás lo toman al recargar.
+  Pruebas: 556 unitarias y 27 de navegador. **Falta**: pull request (T019) y la comprobación del
+  usuario en su móvil (T020).
 - **Pendiente sin funcionalidad asignada**: hacer la aplicación instalable y que funcione sin
   conexión (PWA: trabajador de servicio y manifiesto), que pide `PRODUCTO.md` A1 y A2.
 - **Nueva: F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18 para después

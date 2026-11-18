@@ -16,7 +16,7 @@ Nuevo aspecto para toda la aplicación, sin cambiar su contenido ni su comportam
   noche; las reglas de cada pantalla solo usan variables.
 - **Botón ☀/☾** en la barra (`ThemeToggle`). Un script en el `<head>` de `index.html` aplica el modo
   guardado antes de pintar, para que no haya destello.
-- **Mesa de dados**: cuero granate o madera oscura, solo con CSS; el módulo 3D no cambia.
+- **Mesa de dados**: cuero granate o madera oscura, solo con CSS. Del módulo 3D solo cambia el color de los dados extra (rojo → dorado), que no se veía sobre el cuero (revisión T018).
 
 ## Technical Context
 

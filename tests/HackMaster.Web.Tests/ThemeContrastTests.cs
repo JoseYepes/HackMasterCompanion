@@ -35,6 +35,7 @@ public sealed partial class ThemeContrastTests
         { "--nav-active", "--nav-bg" },
         { "--button-ink", "--button-bg" },
         { "--warning-ink", "--warning-bg" },
+        { "--accent", "--warning-bg" },
         { "--error", "--card" },
         { "--error", "--error-bg" },
     };
@@ -46,9 +47,35 @@ public sealed partial class ThemeContrastTests
         { "--line", "--card" },
         { "--focus", "--paper" },
         { "--focus", "--card" },
-        { "--die", "--table" },
-        { "--die", "--table-light" },
+        { "--nav-focus", "--nav-bg" },
+        { "--gold", "--nav-bg" },
     };
+
+    /// <summary>
+    /// Los colores con los que el módulo 3D pinta los dados (normales y extra por penetración) se
+    /// distinguen de la mesa de los dos modos (3:1) y sus números se leen (4,5:1). Se leen del propio
+    /// módulo para probar lo que de verdad se dibuja (revisión de F007).
+    /// </summary>
+    [Theory]
+    [InlineData("DIE_COLOR", "DIE_INK")]
+    [InlineData("EXTRA_COLOR", "EXTRA_INK")]
+    public void Dice_Stand_Out_On_The_Table_In_Both_Modes__FR006_FR012(string body, string ink)
+    {
+        var dice = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "js", "dice3d.js"));
+        string Constant(string name) => Regex.Match(dice, $@"const {name} = '(?<value>#[0-9a-fA-F]{{6}})'").Groups["value"].Value;
+        var color = Constant(body);
+
+        foreach (var selector in new[] { LightBlock, DarkBlock })
+        {
+            foreach (var table in new[] { "--table", "--table-light" })
+            {
+                var ratio = Contrast(color, Variables(selector)[table]);
+                Assert.True(ratio >= 3, $"{selector}: {body} ({color}) sobre {table} tiene {ratio:0.00}:1; hace falta 3:1.");
+            }
+        }
+
+        Assert.True(Contrast(Constant(ink), color) >= 4.5, $"{ink} sobre {body} no llega a 4,5:1.");
+    }
 
     [Theory]
     [MemberData(nameof(TextPairs))]
@@ -145,7 +172,7 @@ public sealed partial class ThemeContrastTests
     [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
     private static partial Regex Comments();
 
-    /// <summary>Hexadecimales, funciones de color y nombres de color habituales.</summary>
-    [GeneratedRegex(@"#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\(|(?<![\w-])(?:white|black|red|green|blue|yellow|lightyellow|gray|grey|orange)(?![\w-])", RegexOptions.IgnoreCase)]
+    /// <summary>Hexadecimales, todas las funciones de color de CSS y los 148 nombres de color de CSS.</summary>
+    [GeneratedRegex(@"#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color|color-mix|light-dark)\(|(?<![\w-])(?:aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|rebeccapurple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen)(?![\w-])", RegexOptions.IgnoreCase)]
     private static partial Regex LooseColors();
 }

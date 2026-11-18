@@ -27,6 +27,7 @@
   --line-soft: #d8c393;
   --shadow: #cdb27a;
   --focus: #5a1f1b;
+  --nav-focus: #f0c75e;
   --warning-bg: #f6e3a8;
   --warning-ink: #5a3d00;
   --error: #8b1a1a;
@@ -34,7 +35,6 @@
   --table: #4a1a16;
   --table-light: #6b2a22;
   --table-seam: #c9a24a;
-  --die: #f4ecd8;
 }
 
 html[data-theme="dark"] {
@@ -57,6 +57,7 @@ html[data-theme="dark"] {
   --line-soft: #4a3826;
   --shadow: #0d0905;
   --focus: #f2b544;
+  --nav-focus: #f2b544;
   --warning-bg: #3d3010;
   --warning-ink: #f5d98b;
   --error: #ff9b85;
@@ -64,7 +65,6 @@ html[data-theme="dark"] {
   --table: #3a2717;
   --table-light: #4d3520;
   --table-seam: #8a6a36;
-  --die: #f4ecd8;
 }
 
 /* Letras propias (wwwroot/fonts, licencia OFL). Con swap el texto se ve con la letra de reserva
@@ -190,6 +190,11 @@ button {
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
+}
+
+/* En la barra el foco granate no se vería sobre el granate: va en dorado. */
+.site-header :focus-visible {
+  outline-color: var(--nav-focus);
 }
 
 /* Aviso cuando el navegador no deja guardar */

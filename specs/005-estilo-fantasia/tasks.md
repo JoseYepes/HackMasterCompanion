@@ -90,7 +90,7 @@ contraste, se ajusta el color y se anota en `research.md`.
 
 ### Implementation
 
-- [X] T008 [US1] Dar el aspecto de la maqueta A en `app.css`: letras (Cinzel solo en títulos, nombre de la aplicación y nombres de tarjeta), barra granate con borde dorado, tarjetas de pergamino en las listas, campos, botones, etiquetas, avisos, foco visible (FR-010) y botones de 44 px, hasta pasar T006 y T007
+- [X] T008 [US1] Dar el aspecto de la maqueta A en `app.css`: letras (Cinzel solo en títulos, nombre de la aplicación; los nombres de las tarjetas van en Garamond seminegrita porque en Cinzel los largos se partían mal), barra granate con borde dorado, tarjetas de pergamino en las listas, campos, botones, etiquetas, avisos, foco visible (FR-010) y botones de 44 px, hasta pasar T006 y T007
 - [X] T009 [US1] En `src/HackMaster.Web/wwwroot/index.html`: precargar Cinzel 600 y EB Garamond 400; adaptar los colores de la pantalla de carga y del aviso de error de Blazor a las variables
 
 **Checkpoint**: la aplicación ya tiene el aspecto A; el modo noche aún no se puede elegir.
@@ -150,7 +150,7 @@ contraste, se ajusta el color y se anota en `research.md`.
 
 - [X] T016 Medir la primera carga sin caché y compararla con los 2837 KB de antes (SC-005); anotarlo en `research.md` §6
 - [X] T017 [P] Actualizar `tests/README.md` (pruebas nuevas) y `docs/ESTADO.md`
-- [ ] T018 Revisión independiente del diff (subagente con contexto limpio): regresiones, pruebas débiles, contraste, FR-013 y constitución; corregir lo que encuentre
+- [X] T018 Revisión independiente del diff (subagente con contexto limpio): regresiones, pruebas débiles, contraste, FR-013 y constitución; corregir lo que encuentre
 - [ ] T019 Pull request en castellano; tras fusionar, comprobar el sitio publicado en los dos modos
 - [ ] T020 Comprobación manual del usuario en su móvil: reconoce las maquetas A y B (SC-007)
 
