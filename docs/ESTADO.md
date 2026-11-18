@@ -22,9 +22,12 @@
   Queda T028 (dudas en la hoja, del usuario).
 - **F003 (Dados 3D): terminada y publicada.** Pull request #7 fusionado el 2026-11-18 (a88806b);
   CI en verde, incluidas las pruebas de navegador del 3D con WebGL por software. Sitio publicado
-  comprobado (T021, aún sin marcar en `tasks.md`): 7 tipos de dado con las caras del detalle, 3,7 s.
-  **Pendiente**: T018 (fotogramas por segundo en el móvil del usuario) y marcar T018 y T021.
-- **En curso: F007 (Estilo de fantasía heroica)**, antes de F004 por decisión del usuario. Rama
+  comprobado (T021): 7 tipos de dado con las caras del detalle, 3,7 s. T018: el usuario lo probó en
+  su Samsung Galaxy (modelo desconocido) y «se ven muy bien»; fotogramas no medidos
+  (`specs/004-dados-3d/research.md` §8). Todas las tareas cerradas.
+- **F007 (Estilo de fantasía heroica): terminada y publicada.** Pull request #8 fusionado el
+  2026-11-18 (9482acb); CI en verde; sitio publicado comprobado en los dos modos; el usuario lo
+  probó en su móvil y «va muy bien» (T020). Se hizo antes de F004 por decisión del usuario. Rama
   `005-estilo-fantasia`, `specs/005-estilo-fantasia/`. Elegido sobre tres maquetas: «A con modo
   noche B» (pergamino y tinta; noche de taberna). Aclarado: mismas letras en los dos modos; un solo
   botón ☀/☾ que la primera vez sigue al dispositivo; mesa de dados de cuero granate (normal) y
@@ -44,13 +47,17 @@
   de `dice3d.js`), que el botón podía romper la página sin el script del modo, y ampliada la
   prueba de colores sueltos a todas las funciones y nombres de color de CSS. **Sin corregir**
   (menor): las pestañas no se avisan del cambio de modo; las demás lo toman al recargar.
-  Pruebas: 556 unitarias y 27 de navegador. **Falta**: pull request (T019) y la comprobación del
-  usuario en su móvil (T020).
+  Pruebas: 556 unitarias y 27 de navegador.
 - **Pendiente sin funcionalidad asignada**: hacer la aplicación instalable y que funcione sin
   conexión (PWA: trabajador de servicio y manifiesto), que pide `PRODUCTO.md` A1 y A2.
 - **Nueva: F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18 para después
   de F007: color, bordes redondeados, materiales y sonido, «como los de Baldur's Gate 3» en calidad
-  pero sin copiar sus diseños.
+  pero sin copiar sus diseños. **Es la siguiente.**
+- **Orden acordado (2026-11-18)**: F008 → F004 → F005 → F006. Los números son identificadores, no
+  el orden: F007 y F008 se añadieron después y tomaron el siguiente número libre para no renumerar
+  las demás. **F006 ampliada** a petición del usuario: cuentas propias para guardar en la nube
+  fichas, historial de tiradas, configuración de dados, conjuntos y modo de pantalla; sin sesión,
+  todo sigue funcionando en el dispositivo.
 - Historia de F003: rama `004-dados-3d`, spec en `specs/004-dados-3d/`.
   Aclarado con el usuario: d100 como dos d10; como mucho 20 dados en pantalla; los dados 3D
   empiezan desactivados. Plan (2026-11-18): three.js 0.187.0 + cannon-es 0.20.0 copiadas en

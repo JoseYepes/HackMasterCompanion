@@ -48,8 +48,8 @@ Como jugador, quiero costes, PC disponibles y tiradas de habilidad desde la fich
 **Aceptación:** un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test.
 
 ### F006 — Backend y cuentas en Azure
-Como jugador, quiero ver mis fichas en cualquier dispositivo tras iniciar sesión.
-**Aceptación:** la ficha creada en un dispositivo aparece en otro; tests de integración; despliegue repetible por CI; solo servicios gratuitos, con alerta de presupuesto.
+Como jugador, quiero tener mi propia cuenta e iniciar sesión para ver mis datos en cualquier dispositivo: fichas, historial de tiradas, configuración de los dados (F008), conjuntos propios y modo de pantalla.
+**Aceptación:** lo creado o cambiado en un dispositivo aparece en otro con la misma cuenta; dos personas en el mismo dispositivo ven cada una sus datos; sin sesión, la aplicación sigue funcionando con los datos del dispositivo, como hasta ahora; tests de integración; despliegue repetible por CI; solo servicios gratuitos, con alerta de presupuesto. Ampliada por el usuario el 2026-11-18 (antes solo hablaba de fichas); se mantiene el orden F008 → F004 → F005 → F006.
 
 ## A5. Dudas abiertas
 Desde F001 la lista viva está en la pestaña "Dudas" de la hoja y se publica en `docs/dudas.md` (generado por `DataImport`); estas son las dudas de partida, ya trasladadas a la hoja.
