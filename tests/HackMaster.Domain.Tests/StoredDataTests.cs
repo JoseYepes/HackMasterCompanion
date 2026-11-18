@@ -7,7 +7,7 @@ public class StoredDataTests
 {
     private static readonly DateTimeOffset At = new(2026, 11, 18, 10, 0, 0, TimeSpan.FromHours(1));
 
-    private static PlayerSuitesFile SampleSuites() => new(StoredData.CurrentVersion,
+    private static PlayerSuitesFile SampleSuites() => new(StoredData.SuitesVersion,
     [
         new PlayerSuite
         {
@@ -20,7 +20,7 @@ public class StoredDataTests
         },
     ]);
 
-    private static RollHistoryFile SampleRolls() => new(StoredData.CurrentVersion, Penetrating: true,
+    private static RollHistoryFile SampleRolls() => new(StoredData.RollsVersion, Penetrating: true,
     [
         new StoredRoll("2d6+3", Penetrating: false, Total: 10, RolledAt: At, Constant: 3,
             Groups: [new StoredGroup(Count: 2, Sides: 6, Sign: 1, Subtotal: 7, Capped: false, Dice: [new StoredDie(3, false), new StoredDie(4, false)])]),
@@ -55,9 +55,65 @@ public class StoredDataTests
     }
 
     [Fact]
-    public void Written_Data_Carries_The_Schema_Version__FR018()
+    public void Written_Data_Carries_The_Current_Schema_Version_Of_Each_Format__FR018()
     {
+        // Cada formato tiene su versión: el historial cambió en F003 (dice3d) y los conjuntos no, así
+        // que una versión anterior de la aplicación abierta en otra pestaña sigue leyendo los conjuntos.
+        Assert.Equal(1, StoredData.SuitesVersion);
+        Assert.Equal(2, StoredData.RollsVersion);
         Assert.Contains("\"schemaVersion\": 1", StoredData.Write(SampleSuites()), StringComparison.Ordinal);
+        Assert.Contains("\"schemaVersion\": 2", StoredData.Write(SampleRolls()), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Suites_Of_A_Newer_Version_Are_Rejected_With_A_Reason__FR018()
+    {
+        var read = StoredData.ReadSuites("{ \"schemaVersion\": 2, \"suites\": [] }");
+
+        Assert.Null(read.Value);
+        Assert.Contains("más reciente", read.Error, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Dice3D_Option_Is_Written_And_Read_Back__FR009()
+    {
+        var read = StoredData.ReadRolls(StoredData.Write(SampleRolls() with { Dice3D = true }));
+
+        Assert.True(read.Value!.Dice3D);
+        Assert.Contains("\"dice3d\": true", StoredData.Write(SampleRolls() with { Dice3D = true }), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Version_1_History_Is_Migrated_Keeping_Every_Roll_And_Dice3D_Off__F003()
+    {
+        const string Version1 = """
+            { "schemaVersion": 1, "penetrating": true, "rolls": [
+              { "formula": "1d20+2", "penetrating": false, "total": 17, "rolledAt": "2026-11-18T10:05:00+01:00", "constant": 2,
+                "groups": [ { "count": 1, "sides": 20, "sign": 1, "subtotal": 15, "capped": false, "dice": [ { "value": 15, "penetration": false } ] } ] } ] }
+            """;
+
+        var read = StoredData.ReadRolls(Version1);
+
+        Assert.Null(read.Error);
+        Assert.True(read.Value!.Penetrating);
+        Assert.False(read.Value.Dice3D);
+        Assert.Equal(17, Assert.Single(read.Value.Rolls).Total);
+        Assert.Equal(StoredData.RollsVersion, read.Value.SchemaVersion);
+    }
+
+    [Fact]
+    public void Version_1_Suites_Are_Read_Unchanged__F003()
+    {
+        const string Version1 = """
+            { "schemaVersion": 1, "suites": [ { "slug": "mio", "name": "Mío",
+              "components": [ { "kind": "Skill", "slug": "botanica" }, { "kind": "Skill", "slug": "lucha" } ],
+              "abilities": ["INT"], "createdAt": "2026-11-18T10:00:00+01:00", "updatedAt": "2026-11-18T10:00:00+01:00" } ] }
+            """;
+
+        var read = StoredData.ReadSuites(Version1);
+
+        Assert.Null(read.Error);
+        Assert.Equal("Mío", Assert.Single(read.Value!.Suites).Name);
     }
 
     [Theory]
@@ -100,7 +156,7 @@ public class StoredDataTests
     [Fact]
     public void Data_From_A_Newer_Version_Is_Rejected_With_A_Reason__FR018()
     {
-        var read = StoredData.ReadRolls("{ \"schemaVersion\": 2, \"penetrating\": false, \"rolls\": [] }");
+        var read = StoredData.ReadRolls("{ \"schemaVersion\": 3, \"penetrating\": false, \"rolls\": [] }");
 
         Assert.Null(read.Value);
         Assert.Contains("más reciente", read.Error, StringComparison.Ordinal);

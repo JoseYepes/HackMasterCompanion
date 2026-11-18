@@ -1,5 +1,6 @@
 @page "/dados"
 @using System.Globalization
+@using Microsoft.JSInterop
 @inject IRandom Random
 @inject BrowserStore Store
 
@@ -21,11 +22,26 @@
                value="@_text" @oninput="args => _text = args.Value?.ToString() ?? string.Empty" />
         <button type="submit" data-testid="dice-roll">Tirar</button>
     </div>
+    <DiceTrayView Formula="@_text" FormulaChanged="text => { _text = text; _error = null; }" />
     <label class="dice-option">
         <input type="checkbox" data-testid="dice-penetrating" checked="@_history.Penetrating" @onchange="OnPenetratingChanged" />
         Los dados penetran
     </label>
+    <label class="dice-option">
+        <input type="checkbox" data-testid="dice3d-toggle" data-ready="@(_boardReady ? "true" : "false")" checked="@Use3D" disabled="@_dice3dUnavailable" @onchange="OnDice3DChanged" />
+        Dados 3D
+    </label>
 </form>
+
+@if (_dice3dWarning is not null)
+{
+    <p class="section-note" role="status" data-testid="dice3d-warning">@_dice3dWarning</p>
+}
+
+@if (Use3D)
+{
+    <DiceBoardView @ref="_board" />
+}
 
 @if (_error is not null)
 {
@@ -46,14 +62,14 @@
         <p class="section-note" role="status">No se pudo leer el historial guardado (@_historyError). Las tiradas nuevas no se guardarán para no borrarlo.</p>
     }
 
-    @if (_history.Rolls.Count == 0)
+    @if (ShownHistory.Count == 0)
     {
         <p class="section-note">Todavía no hay tiradas.</p>
     }
     else
     {
         <ol class="history-list">
-            @foreach (var roll in _history.Rolls)
+            @foreach (var roll in ShownHistory)
             {
                 <li class="history-row" data-testid="history-row">
                     <button type="button" class="history-formula" title="Usar esta fórmula" @onclick="() => UseFormula(roll.Formula)">@roll.Formula</button>
@@ -90,6 +106,27 @@
     private bool _confirmClear;
     private bool _loaded;
 
+    // Dados 3D (F003). El resultado lo decide siempre DiceRoller; el componente solo lo anima.
+    private DiceBoardView? _board;
+    private bool _boardReady;
+    private bool _boardStarting;
+    private bool _dice3dUnavailable;
+    private string? _dice3dWarning;
+    private RollResult? _rolling;
+
+    /// <summary>Los dados 3D se usan si el jugador los ha activado y el navegador puede mostrarlos.</summary>
+    private bool Use3D => _history.Dice3D && !_dice3dUnavailable;
+
+    /// <summary>
+    /// Historial que se muestra: la tirada que aún rueda ya está guardada (FR-002), pero no se enseña
+    /// hasta que los dados se paran (FR-005).
+    /// </summary>
+    private IReadOnlyList<StoredRoll> ShownHistory =>
+        _rolling is not null && _history.Rolls.Count > 0
+            && _history.Rolls[0].RolledAt == _rolling.RolledAt && _history.Rolls[0].Formula == _rolling.Formula.Text
+            ? [.. _history.Rolls.Skip(1)]
+            : _history.Rolls;
+
     /// <summary>
     /// Fórmula inicial desde la dirección (<c>/dados?f=2d6%2B3</c>); no se tira sola y, si no es
     /// válida, se muestra con su error (contracts/rutas.md).
@@ -111,10 +148,100 @@
         _loaded = true;
     }
 
+    /// <summary>Cuando la zona de los dados 3D está en la página, carga el módulo y crea la mesa.</summary>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!Use3D || _board is null || _boardReady || _boardStarting)
+        {
+            return;
+        }
+
+        var board = _board;
+        _boardStarting = true;
+        try
+        {
+            var ready = await board.StartAsync();
+            // Si mientras cargaba el jugador apagó el 3D (y quizá lo volvió a encender, con otra
+            // mesa), esta respuesta ya no cuenta.
+            if (!ReferenceEquals(board, _board) || !Use3D)
+            {
+                // Se vuelve a pintar para que, si hay una mesa nueva, arranque ahora.
+                _boardStarting = false;
+                StateHasChanged();
+                return;
+            }
+
+            _boardReady = ready;
+            if (!ready)
+            {
+                Unavailable("Este navegador no puede mostrar dados 3D: se tira sin animación.");
+            }
+        }
+        catch (JSException)
+        {
+            if (ReferenceEquals(board, _board) && Use3D)
+            {
+                Unavailable("No se pudieron cargar los dados 3D: se tira sin animación.");
+            }
+        }
+        finally
+        {
+            _boardStarting = false;
+        }
+
+        StateHasChanged();
+    }
+
+    /// <summary>Avisos de una tirada en 3D: demasiados dados (FR-007) y dados sin forma física (FR-008).</summary>
+    private static string? Warning(BoardPlan plan)
+    {
+        var notes = new List<string>();
+        if (plan.TooMany)
+        {
+            notes.Add($"Más de {DiceBoard.MaxDice} dados: esta tirada se muestra sin animación.");
+        }
+        else if (plan.Truncated)
+        {
+            notes.Add($"Solo caben {DiceBoard.MaxDice} dados en pantalla: el resto de dados extra está en el detalle.");
+        }
+
+        if (plan.Unshaped.Count > 0)
+        {
+            var names = string.Join(", ", plan.Unshaped.Select(term => term.ToString()));
+            notes.Add(plan.Unshaped.Count == 1
+                ? $"{names} no tiene forma 3D: su resultado está en el detalle."
+                : $"{names} no tienen forma 3D: su resultado está en el detalle.");
+        }
+
+        return notes.Count == 0 ? null : string.Join(" ", notes);
+    }
+
+    private void Unavailable(string warning)
+    {
+        _dice3dUnavailable = true;
+        _boardReady = false;
+        _dice3dWarning = warning;
+    }
+
+    private static bool Checked(ChangeEventArgs args) =>
+        args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+
     private async Task OnPenetratingChanged(ChangeEventArgs args)
     {
-        var penetrating = args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+        var penetrating = Checked(args);
         await UpdateAsync(history => history with { Penetrating = penetrating });
+    }
+
+    private async Task OnDice3DChanged(ChangeEventArgs args)
+    {
+        var dice3d = Checked(args);
+        _dice3dWarning = null;
+        if (!dice3d)
+        {
+            _boardReady = false;
+        }
+
+        await UpdateAsync(history => history with { Dice3D = dice3d });
     }
 
     private static string ErrorText(DiceFormulaError error)
@@ -164,8 +291,48 @@
     private async Task RollAsync(DiceFormula formula)
     {
         var roll = DiceRoller.Roll(formula, _history.Penetrating, Random, DateTimeOffset.Now);
-        _last = roll;
+        // El historial se guarda igual con y sin 3D, antes de animar nada (FR-002).
         await UpdateAsync(history => RollHistory.Add(history, roll));
+
+        if (!Use3D || !_boardReady || _board is null)
+        {
+            _last = roll;
+            return;
+        }
+
+        if (_rolling is not null)
+        {
+            await _board.FinishAsync();
+        }
+
+        var plan = DiceBoard.Plan(roll);
+        _dice3dWarning = Warning(plan);
+        if (plan.TooMany)
+        {
+            _last = roll;
+            return;
+        }
+
+        _last = null;
+        _rolling = roll;
+        StateHasChanged();
+        try
+        {
+            await _board.RollAsync(plan);
+        }
+        catch (JSException)
+        {
+            Unavailable("Los dados 3D han fallado: se tira sin animación.");
+        }
+        finally
+        {
+            // Si mientras tanto empezó otra tirada, esa mostrará su propio resultado.
+            if (ReferenceEquals(_rolling, roll))
+            {
+                _rolling = null;
+                _last = roll;
+            }
+        }
     }
 
     private async Task ClearAsync()

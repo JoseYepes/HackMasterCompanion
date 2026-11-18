@@ -43,7 +43,8 @@ public sealed class BrowserFixture : IAsyncLifetime
         try
         {
             _playwright ??= await Playwright.CreateAsync();
-            _browser ??= await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true });
+            // WebGL por software (SwiftShader): el CI no tiene tarjeta gráfica y los dados 3D lo necesitan.
+            _browser ??= await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = true, Args = ["--enable-unsafe-swiftshader"] });
         }
         finally
         {

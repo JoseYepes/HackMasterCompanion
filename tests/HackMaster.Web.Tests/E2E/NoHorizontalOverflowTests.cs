@@ -64,6 +64,14 @@ public sealed class NoHorizontalOverflowTests(BrowserFixture browser) : IClassFi
             await BrowserFixture.GoToAsync(page, "conjuntos/prueba-de-ancho");
             await AssertNoOverflowAsync(page, $"ficha de un conjunto del jugador a {size}");
 
+            // F003: /dados con los dados 3D en pantalla y la bandeja (SC-006).
+            await page.EvaluateAsync("""() => localStorage.setItem('hackmaster.rolls', '{"schemaVersion":2,"penetrating":true,"dice3d":true,"rolls":[]}')""");
+            await BrowserFixture.GoToAsync(page, "dados?f=" + Uri.EscapeDataString("6d6+1d20+1d100+1d3"));
+            await page.Locator("[data-testid=dice3d-toggle][data-ready=true]").WaitForAsync();
+            await page.Locator("[data-testid=dice-roll]").ClickAsync();
+            await page.Locator("[data-testid=dice-total]").WaitForAsync();
+            await AssertNoOverflowAsync(page, $"/dados con los dados 3D a {size}");
+
             await page.CloseAsync();
         }
     }
