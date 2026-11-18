@@ -1,0 +1,264 @@
+@page "/conjuntos/nuevo"
+@page "/conjuntos/{Slug}/editar"
+@inject PlayerSuites Suites
+@inject GameData Data
+@inject NavigationManager Navigation
+
+@if (_notFound)
+{
+    <NotFound />
+}
+else
+{
+    <PageTitle>@Title · @AppInfo.Name</PageTitle>
+
+    <p class="back-link"><a href="conjuntos">← Conjuntos</a></p>
+
+    <h1>@Title</h1>
+
+    <PlayerSuitesError />
+
+    @if (!_loaded)
+    {
+        <p>Cargando…</p>
+    }
+    else
+    {
+        <div class="search">
+            <label for="suite-search">Añadir habilidades o conjuntos</label>
+            <input id="suite-search" type="search" autocomplete="off" placeholder="Buscar por nombre" data-testid="suite-search"
+                   value="@_search" @oninput="args => _search = args.Value?.ToString() ?? string.Empty" />
+        </div>
+
+        @if (Results.Count > 0)
+        {
+            <ul class="suite-results">
+                @foreach (var result in Results)
+                {
+                    <li data-testid="suite-result">
+                        <span>@result.Name <span class="result-kind">(@result.KindText)</span></span>
+                        <button type="button" @onclick="() => AddComponent(result.Ref)">Añadir</button>
+                    </li>
+                }
+            </ul>
+        }
+
+        @if (_notice is not null)
+        {
+            <p class="section-note" role="status" data-testid="suite-notice">@_notice</p>
+        }
+
+        <h2>Componentes (@_components.Count)</h2>
+        @if (_components.Count == 0)
+        {
+            <p class="section-note">Todavía no hay componentes: busca habilidades o conjuntos y añádelos.</p>
+        }
+        else
+        {
+            <ul class="suite-components">
+                @foreach (var component in _components)
+                {
+                    var values = Suites.ValuesOf(component);
+                    <li data-testid="suite-component">
+                        <span class="component-name">@(values?.Name ?? $"{component.Slug} (ya no existe)")</span>
+                        @if (values is not null)
+                        {
+                            <span class="component-values">@Display.Number(values.Cost) PC · @Display.Number(values.Price) po · @Display.Percent(values.Difficulty) · @(values.MasteryDie ?? Display.Missing)</span>
+                        }
+                        <button type="button" @onclick="() => RemoveComponent(component)">Quitar</button>
+                    </li>
+                }
+            </ul>
+        }
+
+        <h2>Resumen</h2>
+        <SuiteSummary Calculation="Calculation" />
+
+        <div data-testid="suite-prerequisites">
+            <h2>Requisitos</h2>
+            <p>@PlayerSuites.PrerequisiteText:</p>
+            <ul>
+                @foreach (var component in _components)
+                {
+                    <li><strong>@(Suites.NameOf(component) ?? component.Slug):</strong> <PrerequisiteView Prerequisite="PrerequisiteOf(component)" /></li>
+                }
+            </ul>
+        </div>
+
+        @if (Calculation.AvailableAbilities.Count > 0)
+        {
+            <fieldset class="suite-abilities">
+                <legend>Características relevantes</legend>
+                @foreach (var ability in Calculation.AvailableAbilities.Order())
+                {
+                    <label data-testid="suite-ability">
+                        <input type="checkbox" value="@ability" checked="@_abilities.Contains(ability)" @onchange="args => ToggleAbility(ability, args)" />
+                        @ability
+                    </label>
+                }
+            </fieldset>
+        }
+
+        <div class="search">
+            <label for="suite-name">Nombre</label>
+            <input id="suite-name" type="text" autocomplete="off" data-testid="suite-name"
+                   value="@_name" @oninput="args => _name = args.Value?.ToString() ?? string.Empty" />
+        </div>
+
+        @if (Problem is not null)
+        {
+            <p class="section-note" role="status" data-testid="suite-cannot-save">No se puede guardar: @Problem</p>
+        }
+
+        <p class="suite-actions">
+            <button type="button" class="primary" data-testid="suite-save" disabled="@(Problem is not null)" @onclick="SaveAsync">Guardar</button>
+            @if (Slug is not null)
+            {
+                <button type="button" data-testid="suite-delete" @onclick="() => _confirmDelete = true">Borrar</button>
+            }
+        </p>
+
+        @if (_confirmDelete)
+        {
+            <div class="doubt-notice" role="alert">
+                <p>¿Borrar el conjunto «@_name»? No se puede deshacer.</p>
+                @if (Suites.UsedBy(Slug!) is { Count: > 0 } usedBy)
+                {
+                    <p data-testid="suite-delete-warning">Lo usan como componente: @string.Join(", ", usedBy). Esos conjuntos lo señalarán como un componente que ya no existe.</p>
+                }
+                <button type="button" data-testid="suite-delete-confirm" @onclick="DeleteAsync">Sí, borrar</button>
+                <button type="button" @onclick="() => _confirmDelete = false">Cancelar</button>
+            </div>
+        }
+    }
+}
+
+@code {
+    /// <summary>Conjunto del jugador que se edita; nulo al crear uno nuevo.</summary>
+    [Parameter]
+    public string? Slug { get; set; }
+
+    private const int MaxResults = 12;
+
+    private readonly List<SuiteComponentRef> _components = [];
+    private readonly HashSet<Ability> _abilities = [];
+    private string _name = string.Empty;
+    private string _search = string.Empty;
+    private string? _notice;
+    private string? _saveProblem;
+    private bool _confirmDelete;
+    private bool _loaded;
+    private bool _notFound;
+
+    private string Title => Slug is null ? "Crear conjunto" : "Editar conjunto";
+
+    private SuiteCalculation Calculation => Suites.Calculate(_components);
+
+    private string? Problem => _saveProblem ?? Suites.CheckSave(_name, _components, Slug);
+
+    private sealed record Result(string Name, string KindText, SuiteComponentRef Ref);
+
+    /// <summary>Habilidades y conjuntos cuyo nombre contiene lo buscado, sin acentos ni mayúsculas.</summary>
+    private IReadOnlyList<Result> Results
+    {
+        get
+        {
+            var text = TextNormalizer.Normalize(_search);
+            if (text.Length == 0)
+            {
+                return [];
+            }
+
+            var skills = Data.Skills
+                .Where(skill => skill.SearchName.Contains(text, StringComparison.Ordinal))
+                .Select(skill => new Result(skill.Name, "habilidad", new SuiteComponentRef(ElementKind.Skill, skill.Slug)));
+            var suites = Suites.CustomSuites
+                .Where(suite => suite.Slug != Slug && suite.SearchName.Contains(text, StringComparison.Ordinal))
+                .Select(suite => new Result(suite.Name, "conjunto", new SuiteComponentRef(ElementKind.Suite, suite.Slug)));
+            var official = Data.Suites
+                .Where(suite => suite.Kind == SuiteKind.Official && suite.SearchName.Contains(text, StringComparison.Ordinal))
+                .Select(suite => new Result(suite.Name, "conjunto oficial", new SuiteComponentRef(ElementKind.OfficialSuite, suite.Slug)));
+            return [.. skills.Concat(suites).Concat(official).Take(MaxResults)];
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Suites.LoadAsync();
+        if (Slug is not null)
+        {
+            if (Suites.Find(Slug) is not { } suite)
+            {
+                _notFound = true;
+                return;
+            }
+
+            _name = suite.Name;
+            _components.AddRange(suite.Components);
+            _abilities.UnionWith(suite.Abilities);
+        }
+
+        _loaded = true;
+    }
+
+    private Prerequisite PrerequisiteOf(SuiteComponentRef component) => component.Kind switch
+    {
+        ElementKind.Skill => Data.FindSkill(component.Slug)?.Prerequisite,
+        ElementKind.Suite => Suites.FindCustomSuite(component.Slug)?.Prerequisite,
+        ElementKind.OfficialSuite => Data.FindSuite(SuiteKind.Official, component.Slug)?.Prerequisite,
+        _ => null,
+    } ?? Prerequisite.None;
+
+    private void AddComponent(SuiteComponentRef component)
+    {
+        _saveProblem = null;
+        if (_components.Contains(component))
+        {
+            _notice = $"«{Suites.NameOf(component)}» ya está en el conjunto.";
+            return;
+        }
+
+        _components.Add(component);
+        _notice = null;
+        _search = string.Empty;
+    }
+
+    private void RemoveComponent(SuiteComponentRef component)
+    {
+        _saveProblem = null;
+        _components.Remove(component);
+        _abilities.IntersectWith(Calculation.AvailableAbilities);
+    }
+
+    private void ToggleAbility(Ability ability, ChangeEventArgs args)
+    {
+        var chosen = args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+        if (chosen)
+        {
+            _abilities.Add(ability);
+        }
+        else
+        {
+            _abilities.Remove(ability);
+        }
+    }
+
+    private async Task SaveAsync()
+    {
+        var abilities = Calculation.AvailableAbilities.Where(_abilities.Contains).Order().ToList();
+        var result = await Suites.SaveAsync(_name, [.. _components], abilities, Slug, DateTimeOffset.Now);
+        if (result.Saved is null)
+        {
+            _saveProblem = result.Problem;
+            return;
+        }
+
+        Navigation.NavigateTo($"conjuntos/{result.Saved.Slug}");
+    }
+
+    private async Task DeleteAsync()
+    {
+        await Suites.DeleteAsync(Slug!);
+        Navigation.NavigateTo("conjuntos");
+    }
+}

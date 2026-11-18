@@ -4,19 +4,54 @@
 > las specs: decisiones tomadas de palabra, hallazgos y lo que queda por decidir. Actualízala al
 > terminar cada sesión.
 
-Última actualización: 2026-11-17
+Última actualización: 2026-11-18
 
 ## Dónde estamos
 
 - **F000 (Base del proyecto): terminada.** 28 de 28 tareas cerradas (`specs/001-base-proyecto/`).
   Pull requests #1, #2 y #3 fusionados. Sitio publicado en
   https://joseyepes.github.io/HackMasterCompanion/
-- **F001 (Datos y consulta de habilidades): implementada, a falta de revisión y fusión.** Rama
-  `002-consulta-habilidades`, `specs/002-consulta-habilidades/`. Hechas 67 de 71 tareas. Quedan:
-  T035 (paso 3 de `quickstart.md`: el usuario busca una frase del texto de manual con `git grep`),
-  T068 (el usuario coteja unas filas con el Excel; un programa ya comparó 30 habilidades y 10
-  conjuntos al azar sin diferencias), T070 (pull request) y T071 (validar el sitio publicado tras
-  fusionar).
+- **F001 (Datos y consulta de habilidades): terminada y publicada.** Pull request #5 fusionado el
+  2026-11-17; CI en verde, incluidas las 8 pruebas de navegador. Sitio publicado comprobado a
+  tamaño de móvil (T071). Hechas 69 de 71 tareas. **Pospuestas por el usuario** (no bloquean):
+  T035 (paso 3 de `quickstart.md`: buscar con `git grep` una frase del texto de manual) y T068
+  (cotejar a mano unas filas con el Excel; un programa ya comparó 30 habilidades y 10 conjuntos al
+  azar sin diferencias).
+- **En curso: F002 (Creador de conjuntos y tirador 2D).** Rama `003-creador-conjuntos-dados`,
+  `specs/003-creador-conjuntos-dados/spec.md` escrita el 2026-11-18. Resuelto con el usuario: los
+  dados que penetran son una opción que el jugador activa (regla del MJ, «Daño de penetración»), y
+  el dado de maestría de un conjunto es la media redondeada a la baja a un dado real; un conjunto
+  tiene entre 2 y 5 habilidades (según recuerda el usuario del HJ 4.05). **Tareas del usuario**:
+  añadir a la pestaña "Dudas" de la hoja dos dudas: el dado de Zoólogo, Escribano y Hechicero,
+  que no siguen esa regla, y Forjador de armaduras y Trovador, que tienen 6 habilidades (T028). Aclarado después (`/speckit-clarify`): los conjuntos del jugador van en la misma
+  lista que los 36, sin distinguirse, y sus clases permitidas se calculan solas.
+- **Plan de F002 (2026-11-18)**, detalle en `research.md`: analizador de fórmulas propio;
+  `IRandom` con `Random.Shared`; `localStorage` por `IJSRuntime` sin paquetes (IndexedDB sigue en
+  F004); los valores de los conjuntos del jugador se calculan al mostrarlos; una prueba recalcula
+  los 36 conjuntos de `data/`. Siguiente paso: `/speckit-tasks`.
+- **Calculador de conjuntos (2026-11-18)**: recalcula los 36 conjuntos de la hoja; coinciden salvo
+  excepciones con nombre (`SuiteRulesMatchSheetTests`). Cerrajero coincide con la regla aunque su
+  dado esté escrito a mano. **Tareas del usuario en la hoja**: (1) en la tabla de Actor, borrar
+  «C86=» del principio de la fórmula de PC de «Imitar voces» (fila 85, columna C), que hoy vale 0;
+  (2) Mantenimiento: sus 3 habilidades tienen dado «*» y la regla no da dado; dejarlo como en el
+  manual o borrarlo. Al corregirlas, quitar sus excepciones de la prueba (falla si sobran).
+- **Implementación de F002 (2026-11-18)**: fases 1 a 5 hechas y probadas en el navegador a
+  390 px (tirador con penetración, historial, creador; Alquimista rehecho da 16 PC, 1403 po, 15 %
+  y d8). 10 pruebas de navegador en verde. SC-004 medido: unos 3 s tirar y 4 s crear y guardar un
+  conjunto, sin contar lo que tarda una persona.
+- **Revisión independiente de F002 (T030, 2026-11-18)**: corregido:
+  - la página de dados podía guardar antes de cargar el historial;
+  - dos pestañas se borraban lo guardado: ahora se relee antes de escribir;
+  - un conjunto oficial (sin clases en los datos) daba «Todas»: ahora queda pendiente;
+  - no se avisaba si los conjuntos guardados no se podían leer;
+  - reutilizar el nombre de un conjunto borrado podía cerrar un ciclo;
+  - espacios y mensajes del analizador; `?f=` no válido sin error; azar real sin prueba; datos
+    guardados con nulos.
+  **Sin corregir** (menores): si una reimportación añade a la hoja un conjunto con el mismo slug
+  que uno del jugador, los dos comparten dirección sin aviso.
+- **Nota**: en esta sesión la app no encontraba los comandos `/speckit-…` como skills; se
+  siguieron sus instrucciones leyendo `.claude/skills/*/SKILL.md`. El HJ 4.05 que tiene el usuario está escaneado: las reglas se toman de las fórmulas
+  de la hoja (PC = suma − 1; precio = suma × 1,1 redondeado; dificultad = mayor + 5).
 - **Decisiones del plan de F001** (detalle en `research.md`): ClosedXML para leer la hoja; JSON en
   `data/` incrustado en la aplicación; modelo y búsqueda en `Domain`; proyecto de pruebas nuevo
   `tests/HackMaster.DataImport.Tests`; Playwright dentro de `Web.Tests`; CSS propio sin librería.

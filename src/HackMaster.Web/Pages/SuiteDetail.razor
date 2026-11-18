@@ -1,13 +1,39 @@
 @page "/conjuntos/{Slug}"
-@inject GameData Data
+@inject PlayerSuites PlayerSuites
+@inject NavigationManager Navigation
 
-@if (_suite is null)
+@if (!_loaded)
+{
+    <p>Cargando…</p>
+}
+else if (_suite is null)
 {
     <NotFound />
 }
 else
 {
     <SuiteView Suite="_suite" />
+
+    @if (_mine)
+    {
+        <p class="suite-actions">
+            <a class="button-link" href="conjuntos/@_suite.Slug/editar" data-testid="suite-edit">Editar</a>
+            <button type="button" data-testid="suite-delete" @onclick="() => _confirmDelete = true">Borrar</button>
+        </p>
+
+        @if (_confirmDelete)
+        {
+            <div class="doubt-notice" role="alert">
+                <p>¿Borrar el conjunto «@_suite.Name»? No se puede deshacer.</p>
+                @if (PlayerSuites.UsedBy(_suite.Slug) is { Count: > 0 } usedBy)
+                {
+                    <p data-testid="suite-delete-warning">Lo usan como componente: @string.Join(", ", usedBy). Esos conjuntos lo señalarán como un componente que ya no existe.</p>
+                }
+                <button type="button" data-testid="suite-delete-confirm" @onclick="DeleteAsync">Sí, borrar</button>
+                <button type="button" @onclick="() => _confirmDelete = false">Cancelar</button>
+            </div>
+        }
+    }
 }
 
 @code {
@@ -16,6 +42,22 @@ else
     public string Slug { get; set; } = string.Empty;
 
     private SkillSuite? _suite;
+    private bool _mine;
+    private bool _loaded;
+    private bool _confirmDelete;
 
-    protected override void OnParametersSet() => _suite = Data.FindSuite(SuiteKind.Custom, Slug);
+    protected override async Task OnParametersSetAsync()
+    {
+        await PlayerSuites.LoadAsync();
+        _suite = PlayerSuites.FindCustomSuite(Slug);
+        _mine = PlayerSuites.IsPlayerSuite(Slug);
+        _confirmDelete = false;
+        _loaded = true;
+    }
+
+    private async Task DeleteAsync()
+    {
+        await PlayerSuites.DeleteAsync(Slug);
+        Navigation.NavigateTo("conjuntos");
+    }
 }

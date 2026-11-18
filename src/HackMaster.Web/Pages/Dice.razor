@@ -1,0 +1,197 @@
+@page "/dados"
+@using System.Globalization
+@inject IRandom Random
+@inject BrowserStore Store
+
+<PageTitle>Dados · @AppInfo.Name</PageTitle>
+
+<h1>Dados</h1>
+
+@if (!_loaded)
+{
+    <p>Cargando…</p>
+    return;
+}
+
+<form class="dice-form" @onsubmit="RollTyped">
+    <label for="dice-formula">Fórmula</label>
+    <div class="dice-input">
+        <input id="dice-formula" type="text" inputmode="text" autocomplete="off" spellcheck="false"
+               placeholder="2d6+3" data-testid="dice-formula"
+               value="@_text" @oninput="args => _text = args.Value?.ToString() ?? string.Empty" />
+        <button type="submit" data-testid="dice-roll">Tirar</button>
+    </div>
+    <label class="dice-option">
+        <input type="checkbox" data-testid="dice-penetrating" checked="@_history.Penetrating" @onchange="OnPenetratingChanged" />
+        Los dados penetran
+    </label>
+</form>
+
+@if (_error is not null)
+{
+    <p class="dice-error" role="alert" data-testid="dice-error">@ErrorText(_error)</p>
+}
+
+@if (_last is not null)
+{
+    <RollView Result="_last" />
+    <button type="button" class="dice-repeat" data-testid="dice-repeat" @onclick="Repeat">Repetir @_last.Formula.Text</button>
+}
+
+<section class="roll-history" aria-labelledby="history-title" data-testid="roll-history">
+    <h2 id="history-title">Historial</h2>
+
+    @if (_historyError is not null)
+    {
+        <p class="section-note" role="status">No se pudo leer el historial guardado (@_historyError). Las tiradas nuevas no se guardarán para no borrarlo.</p>
+    }
+
+    @if (_history.Rolls.Count == 0)
+    {
+        <p class="section-note">Todavía no hay tiradas.</p>
+    }
+    else
+    {
+        <ol class="history-list">
+            @foreach (var roll in _history.Rolls)
+            {
+                <li class="history-row" data-testid="history-row">
+                    <button type="button" class="history-formula" title="Usar esta fórmula" @onclick="() => UseFormula(roll.Formula)">@roll.Formula</button>
+                    <span class="history-total">= @roll.Total</span>
+                    <span class="history-detail">@Detail(roll)</span>
+                    <time class="history-date" datetime="@roll.RolledAt.ToString("O", CultureInfo.InvariantCulture)">@roll.RolledAt.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture)</time>
+                </li>
+            }
+        </ol>
+
+        @if (_confirmClear)
+        {
+            <p class="history-confirm">
+                ¿Borrar todo el historial?
+                <button type="button" data-testid="history-clear-confirm" @onclick="ClearAsync">Sí, borrar</button>
+                <button type="button" @onclick="() => _confirmClear = false">Cancelar</button>
+            </p>
+        }
+        else
+        {
+            <button type="button" class="history-clear" data-testid="history-clear" @onclick="() => _confirmClear = true">Borrar historial</button>
+        }
+    }
+</section>
+
+@code {
+    private const string HistoryKey = "hackmaster.rolls";
+
+    private string _text = string.Empty;
+    private DiceFormulaError? _error;
+    private RollResult? _last;
+    private RollHistoryFile _history = RollHistoryFile.Empty;
+    private string? _historyError;
+    private bool _confirmClear;
+    private bool _loaded;
+
+    /// <summary>
+    /// Fórmula inicial desde la dirección (<c>/dados?f=2d6%2B3</c>); no se tira sola y, si no es
+    /// válida, se muestra con su error (contracts/rutas.md).
+    /// </summary>
+    [SupplyParameterFromQuery(Name = "f")]
+    public string? InitialFormula { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _text = InitialFormula ?? string.Empty;
+        if (!string.IsNullOrWhiteSpace(_text))
+        {
+            _error = DiceFormula.Parse(_text).Error;
+        }
+
+        var read = StoredData.ReadRolls(await Store.GetAsync(HistoryKey));
+        _history = read.Value ?? RollHistoryFile.Empty;
+        _historyError = read.Error;
+        _loaded = true;
+    }
+
+    private async Task OnPenetratingChanged(ChangeEventArgs args)
+    {
+        var penetrating = args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+        await UpdateAsync(history => history with { Penetrating = penetrating });
+    }
+
+    private static string ErrorText(DiceFormulaError error)
+    {
+        var where = error.Fragment.Length > 0 ? $" Está en «{error.Fragment}», posición {error.Position + 1}." : string.Empty;
+        return $"{error.Message}{where} Ejemplo: {DiceFormulaError.Example}";
+    }
+
+    /// <summary>Detalle corto de una tirada guardada: "2d6: 3 4; +2". Los dados extra llevan ↻.</summary>
+    private static string Detail(StoredRoll roll)
+    {
+        var groups = roll.Groups.Select(group =>
+            $"{(group.Sign < 0 ? "−" : string.Empty)}{group.Count}d{group.Sides}: " +
+            string.Join(' ', group.Dice.Select(die => die.Penetration ? $"↻{die.Value}" : die.Value.ToString(CultureInfo.InvariantCulture))));
+        var constant = roll.Constant == 0 ? [] : new[] { roll.Constant > 0 ? $"+{roll.Constant}" : $"−{-roll.Constant}" };
+        return string.Join("; ", groups.Concat(constant));
+    }
+
+    private async Task RollTyped()
+    {
+        var parsed = DiceFormula.Parse(_text);
+        _error = parsed.Error;
+        if (parsed.Formula is null)
+        {
+            _last = null;
+            return;
+        }
+
+        await RollAsync(parsed.Formula);
+    }
+
+    private async Task Repeat()
+    {
+        if (_last is not null)
+        {
+            _error = null;
+            await RollAsync(_last.Formula);
+        }
+    }
+
+    private void UseFormula(string formula)
+    {
+        _text = formula;
+        _error = null;
+    }
+
+    private async Task RollAsync(DiceFormula formula)
+    {
+        var roll = DiceRoller.Roll(formula, _history.Penetrating, Random, DateTimeOffset.Now);
+        _last = roll;
+        await UpdateAsync(history => RollHistory.Add(history, roll));
+    }
+
+    private async Task ClearAsync()
+    {
+        _confirmClear = false;
+        await UpdateAsync(RollHistory.Clear);
+    }
+
+    /// <summary>
+    /// Aplica el cambio sobre el historial guardado, que se vuelve a leer justo antes para no borrar
+    /// lo que haya guardado otra pestaña (SC-005). Si no hay nada guardado, se parte de lo que hay en
+    /// la página. Si lo guardado no se puede leer, el cambio se queda en la página y no se escribe
+    /// nada, para no perderlo (FR-019).
+    /// </summary>
+    private async Task UpdateAsync(Func<RollHistoryFile, RollHistoryFile> change)
+    {
+        var json = await Store.GetAsync(HistoryKey);
+        var read = json is null ? new StoredRead<RollHistoryFile>(_history, null) : StoredData.ReadRolls(json);
+        _historyError = read.Error;
+        if (read.Value is null)
+        {
+            _history = change(_history);
+            return;
+        }
+
+        _history = change(read.Value);
+        await Store.SetAsync(HistoryKey, StoredData.Write(_history));
+    }
+}

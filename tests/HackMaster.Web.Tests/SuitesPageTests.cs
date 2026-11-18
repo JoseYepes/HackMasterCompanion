@@ -8,7 +8,13 @@ namespace HackMaster.Web.Tests;
 
 public class SuitesPageTests : BunitContext
 {
-    public SuitesPageTests() => Services.AddSingleton(TestData.Create());
+    public SuitesPageTests()
+    {
+        Services.AddSingleton(TestData.Create());
+        Services.AddSingleton<BrowserStore>();
+        Services.AddSingleton<PlayerSuites>();
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
 
     private NavigationManager Navigation => Services.GetRequiredService<NavigationManager>();
 
@@ -30,6 +36,26 @@ public class SuitesPageTests : BunitContext
 
     private IRenderedComponent<OfficialSuiteDetail> RenderOfficial(string slug) =>
         Render<OfficialSuiteDetail>(parameters => parameters.Add(page => page.Slug, slug));
+
+    [Fact]
+    public void List_Warns_When_The_Player_Suites_Cannot_Be_Read__FR019()
+    {
+        JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.suites").SetResult("{ dañado");
+
+        var cut = RenderList();
+
+        cut.WaitForAssertion(() => Assert.Contains("No se pudieron leer tus conjuntos", cut.Find("[data-testid=player-suites-error]").TextContent, StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Editor_Warns_When_The_Player_Suites_Cannot_Be_Read__FR019()
+    {
+        JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.suites").SetResult("{ dañado");
+
+        var cut = Render<SuiteEditor>();
+
+        cut.WaitForAssertion(() => Assert.Contains("No se pudieron leer tus conjuntos", cut.Find("[data-testid=player-suites-error]").TextContent, StringComparison.Ordinal));
+    }
 
     [Fact]
     public void List_Separates_Custom_And_Official_Suites__FR021()

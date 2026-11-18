@@ -1,0 +1,36 @@
+@* Valores calculados de un conjunto en creación; lo que no se puede calcular lleva la marca y el motivo (FR-013). *@
+
+<dl class="fields suite-summary" data-testid="suite-summary">
+    <dt>Coste (PC)</dt>
+    <dd>@Value(Calculation.Cost is null ? null : $"{Calculation.Cost} PC", Calculation.CostPending)</dd>
+    <dt>Precio (po)</dt>
+    <dd>@Value(Calculation.Price is null ? null : $"{Calculation.Price} po", Calculation.PricePending)</dd>
+    <dt>Dificultad</dt>
+    <dd>@Value(Calculation.Difficulty is null ? null : Display.Percent(Calculation.Difficulty), Calculation.DifficultyPending)</dd>
+    <dt>Dado de maestría</dt>
+    <dd>@Value(Calculation.MasteryDie, Calculation.MasteryDiePending)</dd>
+    <dt>Clases permitidas</dt>
+    <dd>@Value(Calculation.Classes.Count == 0 ? null : string.Join(", ", Calculation.Classes), Calculation.ClassesPending)</dd>
+</dl>
+
+@code {
+    /// <summary>Cálculo que se muestra.</summary>
+    [Parameter, EditorRequired]
+    public SuiteCalculation Calculation { get; set; } = default!;
+
+    private static RenderFragment Value(string? text, string? pending) => builder =>
+    {
+        if (pending is null)
+        {
+            builder.AddContent(0, text ?? Display.Missing);
+            return;
+        }
+
+        builder.OpenComponent<PendingMark>(1);
+        builder.CloseComponent();
+        builder.OpenElement(2, "span");
+        builder.AddAttribute(3, "class", "pending-reason");
+        builder.AddContent(4, " " + pending);
+        builder.CloseElement();
+    };
+}
