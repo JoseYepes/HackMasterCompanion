@@ -26,16 +26,18 @@ public sealed record StoredRoll(
     IReadOnlyList<StoredGroup> Groups);
 
 /// <summary>
-/// Historial de tiradas y opciones del tirador: dados que penetran y, desde la versión 2, dados 3D
-/// (clave <c>hackmaster.rolls</c>).
+/// Historial de tiradas y opciones del tirador: dados que penetran, desde la versión 2 dados 3D y
+/// desde la 3 el aspecto de los dados (F008) (clave <c>hackmaster.rolls</c>). Al leer,
+/// <see cref="Look"/> siempre está puesto.
 /// </summary>
 public sealed record RollHistoryFile(
     int SchemaVersion,
     bool Penetrating,
     IReadOnlyList<StoredRoll> Rolls,
-    [property: JsonPropertyName("dice3d")] bool Dice3D = false)
+    [property: JsonPropertyName("dice3d")] bool Dice3D = false,
+    DiceLook? Look = null)
 {
-    public static RollHistoryFile Empty { get; } = new(StoredData.RollsVersion, false, []);
+    public static RollHistoryFile Empty { get; } = new(StoredData.RollsVersion, false, [], Look: DiceLook.Default);
 }
 
 /// <summary>Resultado de leer algo guardado: el valor, o el motivo por el que no se pudo leer.</summary>
@@ -54,8 +56,11 @@ public static class StoredData
     /// </summary>
     public const int SuitesVersion = 1;
 
-    /// <summary>Versión del formato del historial: la 2 (F003) añade la opción de dados 3D.</summary>
-    public const int RollsVersion = 2;
+    /// <summary>
+    /// Versión del formato del historial: la 2 (F003) añade la opción de dados 3D y la 3 (F008) el
+    /// aspecto de los dados.
+    /// </summary>
+    public const int RollsVersion = 3;
 
     public static StoredRead<PlayerSuitesFile> ReadSuites(string? json) =>
         Read(json, PlayerSuitesFile.Empty, IsComplete, SuitesVersion, (root, _) => root);
@@ -121,11 +126,6 @@ public static class StoredData
     /// </summary>
     private static JsonElement MigrateRolls(JsonElement root, int version)
     {
-        if (version == RollsVersion)
-        {
-            return root;
-        }
-
         var node = JsonNode.Parse(root.GetRawText())?.AsObject()
             ?? throw new JsonException("Los datos guardados no son un objeto.");
         for (; version < RollsVersion; version++)
@@ -136,6 +136,10 @@ public static class StoredData
                     // 1 → 2 (F003): el historial gana la opción de dados 3D, desactivada.
                     node["dice3d"] ??= false;
                     break;
+                case 2:
+                    // 2 → 3 (F008): el aspecto de los dados, el de por defecto (lo completa RepairLook).
+                    node["look"] = null;
+                    break;
                 default:
                     throw new JsonException($"No se sabe migrar la versión {version} del formato.");
             }
@@ -143,6 +147,37 @@ public static class StoredData
             node["schemaVersion"] = version + 1;
         }
 
+        node["look"] = RepairLook(node["look"]);
         return JsonSerializer.SerializeToElement(node);
+    }
+
+    /// <summary>
+    /// El aspecto guardado, con los valores que falten o no se entiendan cambiados por los de por
+    /// defecto: un aspecto roto no debe hacer perder el historial (FR-012 de F008).
+    /// </summary>
+    private static JsonObject RepairLook(JsonNode? stored)
+    {
+        var look = stored as JsonObject;
+        var material = Enumerated(look?["material"], DiceLook.Default.Material);
+        var colors = DiceLook.DefaultColors(material);
+        var repaired = DiceLook.Default with
+        {
+            Material = material,
+            Color = Color(look?["color"]) ?? colors.Color,
+            Ink = Color(look?["ink"]) ?? colors.Ink,
+            Effect = Enumerated(look?["effect"], DiceLook.Default.Effect),
+            Sound = look?["sound"] is JsonValue sound && sound.TryGetValue<bool>(out var on) ? on : DiceLook.Default.Sound,
+            Quality = Enumerated(look?["quality"], DiceLook.Default.Quality),
+        };
+        return JsonSerializer.SerializeToNode(repaired, GameDataJson.Options)!.AsObject();
+
+        static T Enumerated<T>(JsonNode? value, T fallback)
+            where T : struct, Enum =>
+            value is JsonValue text && text.TryGetValue<string>(out var name) && Enum.TryParse<T>(name, ignoreCase: false, out var parsed) && Enum.IsDefined(parsed)
+                ? parsed
+                : fallback;
+
+        static string? Color(JsonNode? value) =>
+            value is JsonValue text && text.TryGetValue<string>(out var color) && DiceLook.IsColor(color) ? color : null;
     }
 }

@@ -10,15 +10,19 @@ import * as CANNON from '../lib/cannon-es.js';
 const STEP = 1 / 60;
 const WAVE_STEPS = 60 * 3;         // una ola espera como mucho 3 s a que se pare la anterior
 const LAST_WAVE_STEPS = 60 * 5;    // la última ola, como mucho 5 s
-const MAX_PLAYBACK = 3.6;          // reproducción: como mucho 3,6 s (FR-004: menos de 4 s)
+const MAX_PLAYBACK = 3.3;          // reproducción: como mucho 3,3 s; con lo que hace la página antes y después, menos de 4 s (FR-004)
 const REST_STEPS = 20;             // pasos seguidos casi quietos para dar un dado por parado
 const SETTLE_STEPS = 15;           // pasos para asentar un dado que acabó inclinado
 const MIN_PLAYBACK = 1.5;          // la reproducción no baja de 1,5 s aunque la simulación tarde
 const TABLE_WIDTH = 10;
 const DIE_COLOR = '#f4efe6';
 const DIE_INK = '#1f2328';
-const EXTRA_COLOR = '#e8b54a';     // dados extra por penetración (FR-006): dorados, se ven en las dos mesas de F007
-const EXTRA_INK = '#2a1608';
+// Dados extra por penetración: llevan el aspecto del jugador y un aura de este color, que se ve en
+// las dos mesas de F007 (F008, FR-007).
+const AURA_COLOR = '#e8b54a';
+// En dados de color parecido al aura (oro viejo, amarillos), el aura es azul para que se distinga.
+const AURA_ALT_COLOR = '#5fd0ff';
+const EFFECT_SECONDS = 0.6;        // duración de un efecto de penetración
 
 // ---------------------------------------------------------------------------------------------
 // Formas
@@ -217,11 +221,26 @@ function atRest(body) {
 function run(plan, seed, depth) {
   const random = seeded(seed);
   const world = createWorld(depth);
+  // Choques grabados para el sonido (F008, research §3): paso y fuerza del golpe.
+  const collisions = new Map();
+  const clock = { step: 0 };
   const items = plan.dice.map((item, index) => {
     const data = shapeData(item.shape);
     const body = new CANNON.Body({ mass: 1, shape: data.physics, sleepSpeedLimit: 0.15, sleepTimeLimit: 0.4 });
     body.linearDamping = 0.1;
     body.angularDamping = 0.1;
+    body.addEventListener('collide', event => {
+      const strength = Math.abs(event.contact.getImpactVelocityAlongNormal());
+      if (strength <= 0.8) return;
+      // Un golpe es un sonido: cannon avisa a los dos dados de un choque entre ellos y una vez por
+      // cada esquina que toca. Se guarda uno por dado (o pareja de dados) y paso, el más fuerte.
+      const other = event.body;
+      const key = other.mass === 0
+        ? `${clock.step}:${body.id}`
+        : `${clock.step}:${Math.min(body.id, other.id)}-${Math.max(body.id, other.id)}`;
+      const previous = collisions.get(key);
+      if (!previous || previous.strength < strength) collisions.set(key, { step: clock.step, strength });
+    });
     return { item, data, body, labels: baseLabels(item, plan.dice[index - 1]), start: -1, frames: [] };
   });
 
@@ -247,6 +266,7 @@ function run(plan, seed, depth) {
   // Cada ola sale cuando la anterior se para o, como mucho, a los WAVE_STEPS pasos; así todas las
   // olas salen siempre y la simulación termina aunque algún dado siga moviéndose un poco.
   for (; step < maxSteps && items.length > 0; step++) {
+    clock.step = step;
     world.step(STEP);
     for (const entry of items) {
       if (entry.start >= 0) {
@@ -270,7 +290,7 @@ function run(plan, seed, depth) {
   }
 
   const longest = Math.max(0, ...items.map(entry => entry.start + entry.frames.length));
-  return { items, steps: longest };
+  return { items, steps: longest, collisions: [...collisions.values()] };
 }
 
 /**
@@ -329,6 +349,9 @@ export function inspect(plan, seed) {
         labels: entry.labels.length,
         unique: new Set(entry.labels).size === entry.labels.length,
         inside: Math.abs(last[0]) < TABLE_WIDTH / 2 && Math.abs(last[2]) < TABLE_WIDTH * 0.375 && last[1] > 0,
+        // F008: la malla que se ve es redondeada y sus caras están en los planos del poliedro.
+        roundedVertices: roundedGeometry(entry.data).geometry.attributes.position.count,
+        planeError: planeErrorOf(entry.data),
       };
     }),
   };
@@ -365,15 +388,250 @@ export function isSupported() {
   }
 }
 
-/** Textura de una cara: fondo, y su número (o los tres del d4, cerca de cada esquina). */
-function faceTexture(texts, positions, extra) {
+// ---------------------------------------------------------------------------------------------
+// Aristas redondeadas (F008, research §1)
+// ---------------------------------------------------------------------------------------------
+
+/** Cuánto se redondea cada forma: parte de la distancia del centro a las caras. */
+const ROUNDNESS = { D4: 0.2, D6: 0.22, D8: 0.18, D10: 0.16, D10Tens: 0.16, D12: 0.14, D20: 0.14 };
+const SPHERE_DETAIL = 4;
+
+/**
+ * Malla redondeada de una forma: suma de Minkowski del poliedro encogido (factor s) y una esfera de
+ * radio r = h·(1 − s), donde h es la distancia del centro a las caras (igual en todas las caras de
+ * cada forma). Así las caras quedan en los mismos planos que las del poliedro con el que rueda: se
+ * apoya igual y la física no cambia. Para cada dirección d de una esfera muy subdividida, el punto
+ * es el vértice encogido que más avanza en d, más r·d; la normal es d.
+ */
+function roundedGeometry(data) {
+  if (data.rounded) return data.rounded;
+  const roundness = ROUNDNESS[data.name];
+  const first = data.faces[0];
+  const h = first.normal.dot(data.vertices[first.indices[0]]);
+  const s = 1 - roundness;
+  const r = h * roundness;
+  const shrunk = data.vertices.map(v => v.clone().multiplyScalar(s));
+  const geometry = new THREE.IcosahedronGeometry(1, SPHERE_DETAIL);
+  const position = geometry.attributes.position;
+  const normals = new Float32Array(position.count * 3);
+  const uvs = new Float32Array(position.count * 2);
+  const d = new THREE.Vector3();
+  for (let i = 0; i < position.count; i++) {
+    d.fromBufferAttribute(position, i).normalize();
+    let best = shrunk[0];
+    let bestDot = -Infinity;
+    for (const v of shrunk) {
+      const dot = v.dot(d);
+      if (dot > bestDot) { bestDot = dot; best = v; }
+    }
+    position.setXYZ(i, best.x + d.x * r, best.y + d.y * r, best.z + d.z * r);
+    normals.set([d.x, d.y, d.z], i * 3);
+    // Texturas proyectadas desde el centro: en materiales de ruido la costura no se nota.
+    uvs.set([0.5 + Math.atan2(d.z, d.x) / (2 * Math.PI), 0.5 + Math.asin(Math.max(-1, Math.min(1, d.y))) / Math.PI], i * 2);
+  }
+  geometry.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
+  geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  geometry.computeBoundingSphere();
+  data.rounded = { geometry, s, r, h };
+  return data.rounded;
+}
+
+/** Cuánto se separan los planos de las caras de la malla redondeada de los del poliedro (pruebas). */
+function planeErrorOf(data) {
+  if (data.planeError !== undefined) return data.planeError;
+  const { geometry, h } = roundedGeometry(data);
+  const position = geometry.attributes.position;
+  const p = new THREE.Vector3();
+  let worst = 0;
+  for (const face of data.faces) {
+    let max = -Infinity;
+    for (let i = 0; i < position.count; i++) max = Math.max(max, p.fromBufferAttribute(position, i).dot(face.normal));
+    worst = Math.max(worst, Math.abs(max - h));
+  }
+  data.planeError = worst;
+  return worst;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Materiales (F008, research §2): todos generados con código, sin descargar imágenes
+// ---------------------------------------------------------------------------------------------
+
+const MATERIALS = ['Ivory', 'Marble', 'OldGold', 'BlackIron', 'Ruby', 'Obsidian', 'Bone', 'Amethyst', 'Wood', 'Stone', 'Crystal'];
+const EFFECTS = ['Explosion', 'Fire', 'Blood', 'None'];
+const DEFAULT_LOOK = { material: 'Ivory', color: DIE_COLOR, ink: DIE_INK, effect: 'Explosion', sound: true, quality: 'High' };
+const HEX = /^#[0-9a-fA-F]{6}$/;
+
+/** El aspecto con lo que falte o no se entienda cambiado por lo de por defecto (contrato). */
+function normalizeLook(look) {
+  const value = look || {};
+  return {
+    material: MATERIALS.includes(value.material) ? value.material : DEFAULT_LOOK.material,
+    color: HEX.test(value.color) ? value.color : DEFAULT_LOOK.color,
+    ink: HEX.test(value.ink) ? value.ink : DEFAULT_LOOK.ink,
+    effect: EFFECTS.includes(value.effect) ? value.effect : DEFAULT_LOOK.effect,
+    sound: typeof value.sound === 'boolean' ? value.sound : DEFAULT_LOOK.sound,
+    quality: value.quality === 'Low' ? 'Low' : 'High',
+  };
+}
+
+/** Generador con semilla fija para las texturas: el mismo material se ve siempre igual. */
+function textureRandom() {
+  return seeded(20261118);
+}
+
+const textureCache = new Map();
+
+/** Textura de lienzo cacheada por clave; draw(contexto, tamaño, azar). */
+function canvasTexture(key, size, draw, color = true) {
+  if (textureCache.has(key)) return textureCache.get(key);
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  draw(canvas.getContext('2d'), size, textureRandom());
+  const texture = new THREE.CanvasTexture(canvas);
+  if (color) texture.colorSpace = THREE.SRGBColorSpace;
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  textureCache.set(key, texture);
+  // Cada color nuevo de un material con textura crea una; se guardan las últimas (revisión de F008).
+  const colored = [...textureCache.keys()].filter(name => !PERMANENT_TEXTURES.includes(name));
+  if (colored.length > MAX_CACHED_TEXTURES) {
+    const oldest = colored[0];
+    textureCache.get(oldest).dispose();
+    textureCache.delete(oldest);
+  }
+  return texture;
+}
+
+const PERMANENT_TEXTURES = ['glow', 'scratches'];
+const MAX_CACHED_TEXTURES = 12;
+
+/** Mezcla un color #rrggbb con blanco (t > 0) o negro (t < 0). */
+function shade(hex, t) {
+  const c = new THREE.Color(hex);
+  return `#${c.lerp(new THREE.Color(t > 0 ? '#ffffff' : '#000000'), Math.abs(t)).getHexString()}`;
+}
+
+const TEXTURES = {
+  Marble: color => canvasTexture(`marble${color}`, 512, (g, s, random) => {
+    g.fillStyle = color; g.fillRect(0, 0, s, s);
+    for (let k = 0; k < 26; k++) {
+      g.strokeStyle = shade(color, 0.7); g.globalAlpha = 0.15 + random() * 0.4; g.lineWidth = 0.6 + random() * 3;
+      g.beginPath(); let x = random() * s, y = 0; g.moveTo(x, y);
+      while (y < s) { x += (random() - 0.5) * 50; y += 16 + random() * 28; g.lineTo(x, y); }
+      g.stroke();
+    }
+    g.globalAlpha = 1;
+  }),
+  Bone: color => canvasTexture(`bone${color}`, 512, (g, s, random) => {
+    g.fillStyle = color; g.fillRect(0, 0, s, s);
+    for (let k = 0; k < 3000; k++) { g.fillStyle = `rgba(110,80,40,${random() * 0.07})`; g.fillRect(random() * s, random() * s, 2 + random() * 6, 1 + random() * 2); }
+    g.strokeStyle = 'rgba(80,55,25,0.3)'; g.lineWidth = 0.8;
+    for (let k = 0; k < 8; k++) {
+      g.beginPath(); let x = random() * s, y = random() * s; g.moveTo(x, y);
+      for (let j = 0; j < 6; j++) { x += (random() - 0.5) * 50; y += (random() - 0.5) * 50; g.lineTo(x, y); }
+      g.stroke();
+    }
+  }),
+  Wood: color => canvasTexture(`wood${color}`, 512, (g, s, random) => {
+    g.fillStyle = color; g.fillRect(0, 0, s, s);
+    for (let y = 0; y < s; y += 2) {
+      const wave = Math.sin(y / 23) * 6 + Math.sin(y / 7) * 2;
+      g.fillStyle = shade(color, (Math.sin((y + wave * 3) / 9) > 0.55 ? -0.28 : 0.04) + (random() - 0.5) * 0.06);
+      g.globalAlpha = 0.55; g.fillRect(0, y, s, 2);
+    }
+    g.globalAlpha = 1;
+  }),
+  Stone: color => canvasTexture(`stone${color}`, 256, (g, s, random) => {
+    g.fillStyle = color; g.fillRect(0, 0, s, s);
+    for (let k = 0; k < 5000; k++) {
+      g.fillStyle = shade(color, (random() - 0.5) * 0.5); g.globalAlpha = 0.5;
+      g.fillRect(random() * s, random() * s, 1 + random() * 3, 1 + random() * 3);
+    }
+    g.globalAlpha = 1;
+  }),
+};
+
+/** Arañazos en la rugosidad de los metales. */
+function scratches() {
+  return canvasTexture('scratches', 256, (g, s, random) => {
+    g.fillStyle = '#808080'; g.fillRect(0, 0, s, s);
+    for (let k = 0; k < 400; k++) {
+      const v = random() > 0.5 ? 255 : 0;
+      g.strokeStyle = `rgba(${v},${v},${v},0.12)`;
+      g.beginPath(); const x = random() * s, y = random() * s; g.moveTo(x, y); g.lineTo(x + (random() - 0.5) * 40, y + (random() - 0.5) * 8); g.stroke();
+    }
+  }, false);
+}
+
+const GEMS = { Ruby: 1.7, Amethyst: 1.55, Crystal: 1.5 };
+
+/**
+ * Material del cuerpo de un dado. Calidad baja: color liso, sin texturas, reflejos ni transmisión
+ * (FR-011). Devuelve también si lleva textura o transmisión, para las pruebas.
+ */
+function bodyMaterial(look) {
+  const { material, color, quality } = look;
+  if (quality === 'Low') {
+    const gem = material in GEMS;
+    return { material: new THREE.MeshLambertMaterial({ color, transparent: gem, opacity: gem ? 0.85 : 1 }), textured: false, transmission: false };
+  }
+  if (material in TEXTURES) {
+    const map = TEXTURES[material](color);
+    const roughness = { Marble: 0.25, Bone: 0.75, Wood: 0.6, Stone: 0.9 }[material];
+    return { material: new THREE.MeshStandardMaterial({ map, roughness }), textured: true, transmission: false };
+  }
+  if (material === 'OldGold' || material === 'BlackIron') {
+    return { material: new THREE.MeshStandardMaterial({ color, metalness: 1, roughness: material === 'OldGold' ? 0.32 : 0.4, roughnessMap: scratches() }), textured: true, transmission: false };
+  }
+  if (material in GEMS) {
+    return {
+      material: new THREE.MeshPhysicalMaterial({ color, roughness: 0.05, transmission: material === 'Crystal' ? 0.95 : 0.85, thickness: 1.2, ior: GEMS[material], clearcoat: 1 }),
+      textured: false,
+      transmission: true,
+    };
+  }
+  if (material === 'Obsidian') {
+    return { material: new THREE.MeshPhysicalMaterial({ color, roughness: 0.08, clearcoat: 1, clearcoatRoughness: 0.05 }), textured: false, transmission: false };
+  }
+  return { material: new THREE.MeshStandardMaterial({ color, roughness: 0.45, metalness: 0.05 }), textured: false, transmission: false };
+}
+
+/** Entorno para los reflejos: un degradado cálido generado con código (research §2). */
+function environment(renderer) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 128;
+  const g = canvas.getContext('2d');
+  const gradient = g.createLinearGradient(0, 0, 0, 128);
+  gradient.addColorStop(0, '#fff3d6'); gradient.addColorStop(0.45, '#c08a4a'); gradient.addColorStop(0.55, '#3a2214'); gradient.addColorStop(1, '#120a06');
+  g.fillStyle = gradient; g.fillRect(0, 0, 256, 128);
+  g.fillStyle = '#ffffff';
+  g.beginPath(); g.ellipse(70, 30, 18, 10, 0, 0, Math.PI * 2); g.fill();
+  g.beginPath(); g.ellipse(190, 40, 10, 6, 0, 0, Math.PI * 2); g.fill();
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.mapping = THREE.EquirectangularReflectionMapping;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  const generator = new THREE.PMREMGenerator(renderer);
+  const result = generator.fromEquirectangular(texture).texture;
+  texture.dispose();
+  generator.dispose();
+  return result;
+}
+
+/** Luces y entorno de una escena de dados. */
+function light(scene, renderer) {
+  scene.add(new THREE.HemisphereLight(0xfff4dd, 0x3a1a10, 0.9));
+  const sun = new THREE.DirectionalLight(0xffffff, 2);
+  sun.position.set(4, 12, 6);
+  scene.add(sun);
+  scene.environment = environment(renderer);
+}
+
+/** Textura de los números de una cara, sobre fondo transparente (o los tres del d4, cerca de cada esquina). */
+function faceTexture(texts, positions, ink) {
   const size = 128;
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = size;
   const context = canvas.getContext('2d');
-  context.fillStyle = extra ? EXTRA_COLOR : DIE_COLOR;
-  context.fillRect(0, 0, size, size);
-  context.fillStyle = extra ? EXTRA_INK : DIE_INK;
+  context.fillStyle = ink;
   context.textAlign = 'center';
   context.textBaseline = 'middle';
   texts.forEach((text, index) => {
@@ -390,13 +648,32 @@ function faceTexture(texts, positions, extra) {
   return texture;
 }
 
-/** Malla de un dado con sus etiquetas: un material por cara, coordenadas de textura por cara. */
-function dieMesh(data, labels, extra) {
-  const positions = [];
-  const uvs = [];
-  const geometry = new THREE.BufferGeometry();
-  const materials = [];
-  let offset = 0;
+/**
+ * Un dado: la malla redondeada (compartida por todos los dados de la forma) y, en cada cara, una
+ * lámina con sus números en la parte plana de la cara (F008). El grupo se mueve como un dado.
+ */
+function dieMesh(data, labels, look, extra = false) {
+  const { geometry: rounded, s, r, h } = roundedGeometry(data);
+  const group = new THREE.Group();
+  const made = bodyMaterial(look);
+  const body = new THREE.Mesh(rounded, made.material);
+  // La malla redondeada y las texturas del material se comparten entre dados: no se liberan con el dado.
+  body.userData.shared = true;
+  group.add(body);
+  const auraColor = auraFor(look.color);
+  const low = look.quality === 'Low';
+  group.userData.look = {
+    material: look.material, textured: made.textured, transmission: made.transmission, reflective: !low, aura: extra, auraColor: extra ? auraColor : null,
+  };
+  if (extra) {
+    // Aura de los dados extra por penetración: luz aditiva detrás del dado (FR-007).
+    const aura = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture(), color: auraColor, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.9 }));
+    aura.scale.setScalar(h * 5.5);
+    aura.userData.shared = true;
+    aura.renderOrder = -1;
+    group.add(aura);
+  }
+
   data.faces.forEach((face, faceIndex) => {
     const local = face.indices.map(index => {
       const p = new THREE.Vector3().subVectors(data.vertices[index], face.center);
@@ -404,25 +681,59 @@ function dieMesh(data, labels, extra) {
     });
     const radius = Math.max(...local.map(([a, b]) => Math.hypot(a, b)));
     const uv = local.map(([a, b]) => [0.5 + (a / radius) * 0.46, 0.5 + (b / radius) * 0.46]);
+    // La parte plana de la cara es el polígono encogido, en el plano de la cara; la lámina va
+    // apenas por encima para que no parpadee.
+    const corner = index => data.vertices[index].clone().multiplyScalar(s).addScaledVector(face.normal, r + 0.003);
+    const positions = [];
+    const uvs = [];
     for (let i = 1; i < face.indices.length - 1; i++) {
-      for (const corner of [0, i, i + 1]) {
-        const p = data.vertices[face.indices[corner]];
+      for (const c of [0, i, i + 1]) {
+        const p = corner(face.indices[c]);
         positions.push(p.x, p.y, p.z);
-        uvs.push(...uv[corner]);
+        uvs.push(...uv[c]);
       }
     }
-    const count = (face.indices.length - 2) * 3;
-    geometry.addGroup(offset, count, faceIndex);
-    offset += count;
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+    geometry.computeVertexNormals();
 
     const texts = data.shape.byVertex ? face.indices.map(index => labels[index]) : [labels[faceIndex]];
     const where = data.shape.byVertex ? uv.map(([u, v]) => [0.5 + (u - 0.5) * 0.62, 0.5 + (v - 0.5) * 0.62]) : [[0.5, 0.5]];
-    materials.push(new THREE.MeshStandardMaterial({ map: faceTexture(texts, where, extra), roughness: 0.55, metalness: 0.05, flatShading: true }));
+    // Con calidad baja, los números tampoco reflejan el entorno (FR-011).
+    const material = low
+      ? new THREE.MeshBasicMaterial({ map: faceTexture(texts, where, look.ink), transparent: true, depthWrite: false })
+      : new THREE.MeshStandardMaterial({ map: faceTexture(texts, where, look.ink), transparent: true, roughness: 0.5, depthWrite: false });
+    group.add(new THREE.Mesh(geometry, material));
   });
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-  geometry.computeVertexNormals();
-  return new THREE.Mesh(geometry, materials);
+  return group;
+}
+
+/** Color del aura: dorado, o azul si el dado es de un color parecido al dorado (FR-007). */
+function auraFor(color) {
+  const luminance = hex => {
+    const c = new THREE.Color(hex);
+    return 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b; // THREE.Color ya está en espacio lineal
+  };
+  const a = luminance(AURA_COLOR);
+  const b = luminance(color);
+  const contrast = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  const hue = new THREE.Color(color).getHSL({}).h;
+  const goldish = hue > 0.08 && hue < 0.17;
+  return contrast < 1.6 || (goldish && contrast < 2.5) ? AURA_ALT_COLOR : AURA_COLOR;
+}
+
+/** Libera las geometrías y materiales propios de un dado (no la malla redondeada compartida). */
+function disposeDie(group) {
+  group.traverse(object => {
+    if (object.isSprite) { object.material.dispose(); return; }
+    if (!object.isMesh) return;
+    if (!object.userData.shared) {
+      object.geometry.dispose();
+      object.material.map?.dispose();
+    }
+    object.material.dispose();
+  });
 }
 
 const boards = new WeakMap();
@@ -433,16 +744,14 @@ export function create(element) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
   element.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8f99, 1.6));
-  const sun = new THREE.DirectionalLight(0xffffff, 1.6);
-  sun.position.set(4, 12, 6);
-  scene.add(sun);
+  light(scene, renderer);
 
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-  const board = { element, renderer, scene, camera, meshes: [], depth: TABLE_WIDTH * 0.75, playing: null };
+  const board = { element, renderer, scene, camera, meshes: [], depth: TABLE_WIDTH * 0.75, playing: null, particles: [], stains: [], effects: [] };
 
   const resize = () => {
     const width = element.clientWidth || 300;
@@ -470,10 +779,111 @@ export function create(element) {
 function clear(board) {
   for (const mesh of board.meshes) {
     board.scene.remove(mesh);
-    mesh.geometry.dispose();
-    for (const material of mesh.material) { material.map?.dispose(); material.dispose(); }
+    disposeDie(mesh);
   }
   board.meshes = [];
+  clearParticles(board);
+  for (const stain of board.stains) {
+    board.scene.remove(stain);
+    stain.geometry.dispose();
+    stain.material.dispose();
+  }
+  board.stains = [];
+}
+
+// ---------------------------------------------------------------------------------------------
+// Efectos al penetrar (F008, research §4): partículas en el dado que penetró
+// ---------------------------------------------------------------------------------------------
+
+/** Mancha blanca difuminada, base de auras y partículas. */
+function glowTexture() {
+  return canvasTexture('glow', 128, (g, s) => {
+    const gradient = g.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    gradient.addColorStop(0, 'rgba(255,255,255,1)');
+    gradient.addColorStop(0.4, 'rgba(255,255,255,0.55)');
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    g.fillStyle = gradient;
+    g.fillRect(0, 0, s, s);
+  });
+}
+
+/** Cómo es cada efecto: cuántas partículas, de qué color, hacia dónde y si se suman a la luz. */
+const EFFECT_STYLES = {
+  Explosion: { count: 70, additive: true, gravity: 0, make: random => ({ hue: 0.05 + random() * 0.08, light: 0.5 + random() * 0.3, size: 0.25 + random() * 0.45, velocity: new THREE.Vector3(random() - 0.5, random() * 0.9, random() - 0.5).normalize().multiplyScalar(2.5 + random() * 4) }) },
+  Fire: { count: 80, additive: true, gravity: -3, make: random => ({ hue: 0.02 + random() * 0.09, light: 0.45 + random() * 0.25, size: 0.3 + random() * 0.4, velocity: new THREE.Vector3((random() - 0.5) * 1.2, 1.5 + random() * 3, (random() - 0.5) * 1.2) }) },
+  Blood: { count: 45, additive: false, gravity: 18, make: random => ({ hue: 0.99, light: 0.16 + random() * 0.14, size: 0.08 + random() * 0.18, velocity: new THREE.Vector3(random() - 0.5, 0.6 + random() * 0.8, random() - 0.5).normalize().multiplyScalar(3 + random() * 3) }) },
+  Flash: { count: 1, additive: true, gravity: 0, make: () => ({ hue: 0.11, light: 0.7, size: 3, velocity: new THREE.Vector3() }) },
+};
+
+/** Lanza un efecto en una posición de la mesa. */
+function spawnEffect(board, effect, position, now) {
+  const style = EFFECT_STYLES[effect];
+  const random = Math.random;
+  for (let i = 0; i < style.count; i++) {
+    const p = style.make(random);
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: glowTexture(),
+      color: new THREE.Color().setHSL(p.hue, 1, p.light),
+      blending: style.additive ? THREE.AdditiveBlending : THREE.NormalBlending,
+      transparent: true,
+      depthWrite: false,
+    }));
+    sprite.position.copy(position);
+    sprite.scale.setScalar(p.size);
+    sprite.userData = { velocity: p.velocity, born: now, size: p.size, gravity: style.gravity, effect };
+    board.scene.add(sprite);
+    board.particles.push(sprite);
+  }
+}
+
+/** Mueve y apaga las partículas; la sangre que toca la mesa deja una mancha. */
+function updateParticles(board, now) {
+  board.particles = board.particles.filter(sprite => {
+    const { velocity, born, size, gravity, effect, last } = sprite.userData;
+    const age = (now - born) / 1000;
+    const dt = Math.min(((now - (last ?? born)) / 1000), 0.05);
+    sprite.userData.last = now;
+    if (age >= EFFECT_SECONDS) {
+      board.scene.remove(sprite);
+      sprite.material.dispose();
+      return false;
+    }
+    velocity.y -= gravity * dt;
+    sprite.position.addScaledVector(velocity, dt);
+    const fade = 1 - age / EFFECT_SECONDS;
+    sprite.material.opacity = fade;
+    sprite.scale.setScalar(effect === 'Flash' ? size * (0.6 + age * 2) : size * (effect === 'Fire' ? 1 + age : 1));
+    if (effect === 'Blood' && sprite.position.y <= 0.02) {
+      stain(board, sprite.position, size);
+      board.scene.remove(sprite);
+      sprite.material.dispose();
+      return false;
+    }
+    return true;
+  });
+}
+
+function stain(board, position, size) {
+  const mark = new THREE.Mesh(new THREE.CircleGeometry(size * (0.8 + Math.random()), 14), new THREE.MeshBasicMaterial({ color: '#5e0a10', transparent: true, opacity: 0.9, depthWrite: false }));
+  mark.rotation.x = -Math.PI / 2;
+  mark.position.set(position.x, 0.01, position.z);
+  board.scene.add(mark);
+  board.stains.push(mark);
+}
+
+function clearParticles(board) {
+  for (const sprite of board.particles) {
+    board.scene.remove(sprite);
+    sprite.material.dispose();
+  }
+  board.particles = [];
+}
+
+/** Efecto que se verá: el elegido, o un destello si la calidad es baja o se pide menos movimiento (FR-018). */
+function effectFor(look) {
+  if (look.effect === 'None') return null;
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  return look.quality === 'Low' || reduced ? 'Flash' : look.effect;
 }
 
 function place(mesh, frame) {
@@ -485,39 +895,63 @@ function place(mesh, frame) {
  * Tira el plan en pantalla. La promesa se cumple cuando los dados se paran o cuando se llama a
  * finish. Dura como mucho MAX_PLAYBACK segundos.
  */
-export function roll(element, plan) {
+export function roll(element, plan, look) {
   const board = boards.get(element);
   if (!board) throw new Error('La mesa de dados no está creada.');
   finish(element);
   clear(board);
+  const shownLook = normalizeLook(look);
 
   const simulationStarted = performance.now();
-  const { items, steps } = run(plan, Math.floor(Math.random() * 2 ** 31), board.depth);
-  // La simulación también cuenta para los 4 s de FR-004: la reproducción se acorta lo que tardó.
-  const simulationSeconds = (performance.now() - simulationStarted) / 1000;
+  const { items, steps, collisions } = run(plan, Math.floor(Math.random() * 2 ** 31), board.depth);
   board.meshes = items.map(entry => {
-    const mesh = dieMesh(entry.data, entry.labels, entry.item.penetration);
+    const mesh = dieMesh(entry.data, entry.labels, shownLook, Boolean(entry.item.penetration));
     mesh.visible = false;
-    mesh.userData = { entry };
+    mesh.userData.entry = entry;
     board.scene.add(mesh);
     return mesh;
   });
 
-  const duration = Math.min(steps * STEP, Math.max(MAX_PLAYBACK - simulationSeconds, MIN_PLAYBACK)) * 1000;
+  // Efectos de penetración: uno por dado que penetra (los dos d10 extra de un d100 comparten padre),
+  // en el dado padre, cuando aparece su primer dado extra (FR-017). launched dice si llegó a verse.
+  const effect = effectFor(shownLook);
+  const parentOf = entry => (Number.isInteger(entry.item.parent) ? entry.item.parent : null);
+  const parents = [...new Set(items.map(parentOf).filter(parent => parent !== null))];
+  board.effects = effect ? parents.map(parent => ({ effect, parent, launched: false })) : [];
+
+  // Todo lo que tarda preparar la tirada (simulación, mallas y la primera compilación de los
+  // materiales) cuenta para los 4 s de FR-004 de F003: la reproducción se acorta lo que tardó.
+  for (const mesh of board.meshes) mesh.visible = true; // compile solo mira lo visible
+  board.renderer.compile(board.scene, board.camera);
+  for (const mesh of board.meshes) mesh.visible = false;
+  const setupSeconds = (performance.now() - simulationStarted) / 1000;
+  const duration = Math.min(steps * STEP, Math.max(MAX_PLAYBACK - setupSeconds, MIN_PLAYBACK)) * 1000;
+  board.sounds = shownLook.sound ? planSounds(items, collisions, steps, duration / 1000, shownLook, effect) : [];
+  board.audioOutput = playSounds(board.sounds);
   return new Promise(resolve => {
     const startedAt = performance.now();
-    const show = (frameIndex) => {
+    const show = (frameIndex, animate) => {
+      const now = performance.now();
       for (const mesh of board.meshes) {
         const { entry } = mesh.userData;
         const local = frameIndex - entry.start;
+        const appeared = !mesh.visible && local >= 0;
         mesh.visible = local >= 0;
         if (mesh.visible) place(mesh, entry.frames[Math.min(local, entry.frames.length - 1)]);
+        const record = appeared ? board.effects.find(item => item.parent === parentOf(entry) && !item.launched) : null;
+        if (animate && record && board.meshes[record.parent]) {
+          spawnEffect(board, effect, board.meshes[record.parent].position, now);
+          record.launched = true;
+        }
       }
+      updateParticles(board, now);
       board.renderer.render(board.scene, board.camera);
     };
     const end = () => {
       clearTimeout(playing.timer);
-      show(steps);
+      clearParticles(board);
+      stopSounds(board);
+      show(steps, false);
       board.playing = null;
       resolve();
     };
@@ -525,7 +959,7 @@ export function roll(element, plan) {
       if (board.playing !== playing) return;
       const progress = Math.min((now - startedAt) / Math.max(duration, 1), 1);
       if (progress >= 1) { end(); return; }
-      show(Math.floor(progress * steps));
+      show(Math.floor(progress * steps), true);
       playing.frame = requestAnimationFrame(tick);
     };
     const playing = { end, frame: 0, timer: 0 };
@@ -561,7 +995,7 @@ export function shownDice(element) {
   if (!board) return [];
   return board.meshes.map(mesh => {
     const { entry } = mesh.userData;
-    return { face: entry.labels[topSlot(entry.data, mesh.quaternion)], penetration: Boolean(entry.item.penetration) };
+    return { face: entry.labels[topSlot(entry.data, mesh.quaternion)], penetration: Boolean(entry.item.penetration), ...mesh.userData.look };
   });
 }
 
@@ -572,9 +1006,226 @@ export function dispose(element) {
   finish(element);
   clear(board);
   board.observer.disconnect();
+  board.scene.environment?.dispose();
   board.renderer.dispose();
   // Devuelve el contexto WebGL al navegador: si no, encender y apagar el 3D muchas veces los acumula.
   board.renderer.forceContextLoss();
   board.renderer.domElement.remove();
   boards.delete(element);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Vista previa del aspecto (F008, FR-005)
+// ---------------------------------------------------------------------------------------------
+
+const previews = new WeakMap();
+
+/** Muestra un d20 que gira con ese aspecto. Llamarla otra vez solo cambia el aspecto. */
+export function preview(element, look) {
+  let view = previews.get(element);
+  if (!view) {
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    const size = Math.min(element.clientWidth || 160, 160);
+    renderer.setSize(size, size, false);
+    renderer.domElement.style.width = `${size}px`;
+    renderer.domElement.style.height = `${size}px`;
+    element.appendChild(renderer.domElement);
+    const scene = new THREE.Scene();
+    light(scene, renderer);
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 20);
+    camera.position.set(0, 1.2, 4.2);
+    camera.lookAt(0, 0, 0);
+    view = { renderer, scene, camera, die: null, frame: 0 };
+    const spin = (now) => {
+      if (view.die) {
+        view.die.rotation.set(0.5 + Math.sin(now / 2400) * 0.3, now / 1600, 0.2);
+        renderer.render(scene, camera);
+      }
+      view.frame = requestAnimationFrame(spin);
+    };
+    view.frame = requestAnimationFrame(spin);
+    previews.set(element, view);
+  }
+
+  if (view.die) {
+    view.scene.remove(view.die);
+    disposeDie(view.die);
+  }
+  const data = shapeData('D20');
+  view.die = dieMesh(data, [...SHAPES.D20.labels], normalizeLook(look));
+  view.die.scale.setScalar(1.05);
+  view.scene.add(view.die);
+  view.renderer.render(view.scene, view.camera);
+}
+
+/** Para la vista previa y la libera. */
+export function stopPreview(element) {
+  const view = previews.get(element);
+  if (!view) return;
+  cancelAnimationFrame(view.frame);
+  if (view.die) disposeDie(view.die);
+  view.scene.environment?.dispose();
+  view.renderer.dispose();
+  view.renderer.forceContextLoss();
+  view.renderer.domElement.remove();
+  previews.delete(element);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Sonido (F008, research §3)
+// ---------------------------------------------------------------------------------------------
+
+let audio = null;
+
+/** Crea o reanuda el contexto de audio; se llama al pulsar «Tirar». Nunca lanza excepciones. */
+export function unlockAudio() {
+  try {
+    const Context = window.AudioContext || window.webkitAudioContext;
+    if (!Context) return;
+    audio ??= new Context();
+    if (audio.state === 'suspended') audio.resume().catch(() => {});
+  } catch {
+    audio = null;
+  }
+}
+
+/** Efectos de penetración de la última tirada: [{ effect, parent }] (pruebas, FR-017). */
+export function shownEffects(element) {
+  return boards.get(element)?.effects ?? [];
+}
+
+const MAX_SOUNDS_PER_WINDOW = 4;   // como mucho 4 golpes…
+const SOUND_WINDOW = 0.05;         // …cada 50 ms (FR-008)
+
+/**
+ * Sonidos de una tirada, en segundos desde que empieza la animación: un golpe por choque (volumen
+ * según la fuerza, tipo = material) y el del efecto cuando aparece cada dado extra.
+ */
+function planSounds(items, collisions, steps, seconds, look, effect) {
+  const at = step => (steps > 0 ? (step / steps) * seconds : 0);
+  const planned = collisions.map(hit => ({ at: at(hit.step), volume: Math.min(1, hit.strength / 12), kind: look.material }));
+  if (effect) {
+    // Un sonido por dado que penetra (como el efecto): cuando aparece su primer dado extra.
+    const first = new Map();
+    for (const entry of items) {
+      const parent = entry.item.parent;
+      if (Number.isInteger(parent) && (!first.has(parent) || entry.start < first.get(parent))) first.set(parent, entry.start);
+    }
+    for (const start of first.values()) planned.push({ at: at(start), volume: 0.8, kind: effect });
+  }
+  planned.sort((a, b) => a.at - b.at);
+  const kept = [];
+  for (const sound of planned) {
+    const recent = kept.filter(other => sound.at - other.at < SOUND_WINDOW).length;
+    if (recent < MAX_SOUNDS_PER_WINDOW || sound.kind === effect) {
+      if (recent >= MAX_SOUNDS_PER_WINDOW) kept.splice(kept.findLastIndex(other => other.kind !== effect && sound.at - other.at < SOUND_WINDOW), 1);
+      kept.push(sound);
+    }
+  }
+  return kept;
+}
+
+/** Tono de cada material: frecuencia del golpe (Hz), cuánto resuena (s) y cuánto ruido lleva. */
+const TONES = {
+  Ivory: [900, 0.06, 0.8], Marble: [1500, 0.09, 0.6], OldGold: [2300, 0.4, 0.3], BlackIron: [1700, 0.35, 0.35],
+  Ruby: [3300, 0.28, 0.3], Obsidian: [2100, 0.14, 0.5], Bone: [650, 0.05, 0.9], Amethyst: [3000, 0.28, 0.3],
+  Wood: [320, 0.08, 0.9], Stone: [550, 0.05, 1], Crystal: [3800, 0.35, 0.25],
+};
+
+let noiseBuffer = null;
+
+function noise(context) {
+  if (noiseBuffer) return noiseBuffer;
+  noiseBuffer = context.createBuffer(1, context.sampleRate * 0.8, context.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  return noiseBuffer;
+}
+
+/** Ruido filtrado con envolvente: la base de golpes, estallidos y soplos. */
+function burst(context, output, time, { volume, type, frequency, length, q = 1 }) {
+  const source = context.createBufferSource();
+  source.buffer = noise(context);
+  const filter = context.createBiquadFilter();
+  filter.type = type;
+  filter.frequency.value = frequency;
+  filter.Q.value = q;
+  const gain = context.createGain();
+  gain.gain.setValueAtTime(volume, time);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
+  source.connect(filter).connect(gain).connect(output);
+  source.start(time);
+  source.stop(time + length + 0.05);
+}
+
+/** Tono que resuena y se apaga: el «clic» o el «clinc» del material. */
+function ring(context, output, time, { volume, frequency, length }) {
+  const oscillator = context.createOscillator();
+  oscillator.frequency.value = frequency * (0.92 + Math.random() * 0.16);
+  const gain = context.createGain();
+  gain.gain.setValueAtTime(volume, time);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
+  oscillator.connect(gain).connect(output);
+  oscillator.start(time);
+  oscillator.stop(time + length + 0.05);
+}
+
+/**
+ * Programa los sonidos de una tirada en el contexto de audio, todos a través de una salida propia
+ * de la tirada (con un compresor para que los golpes juntos no saturen), que se apaga al terminar
+ * la tirada. Si no hay audio o falla, no pasa nada (FR-010). Devuelve esa salida, o null.
+ */
+function playSounds(sounds) {
+  if (!audio || sounds.length === 0) return null;
+  try {
+    const output = audio.createGain();
+    const compressor = audio.createDynamicsCompressor();
+    output.connect(compressor).connect(audio.destination);
+    const start = audio.currentTime + 0.02;
+    for (const sound of sounds) {
+      const time = start + sound.at;
+      const tone = TONES[sound.kind];
+      if (tone) {
+        const [frequency, length, grit] = tone;
+        burst(audio, output, time, { volume: sound.volume * 0.5 * grit, type: 'bandpass', frequency: frequency * 1.5, length: 0.04 });
+        ring(audio, output, time, { volume: sound.volume * 0.25, frequency, length });
+      } else if (sound.kind === 'Explosion') {
+        burst(audio, output, time, { volume: 0.9, type: 'lowpass', frequency: 500, length: 0.6 });
+        ring(audio, output, time, { volume: 0.3, frequency: 70, length: 0.4 });
+      } else if (sound.kind === 'Fire') {
+        burst(audio, output, time, { volume: 0.5, type: 'bandpass', frequency: 900, length: 0.7, q: 0.6 });
+      } else if (sound.kind === 'Blood') {
+        burst(audio, output, time, { volume: 0.6, type: 'lowpass', frequency: 350, length: 0.25 });
+        burst(audio, output, time + 0.08, { volume: 0.4, type: 'lowpass', frequency: 250, length: 0.2 });
+      } else {
+        ring(audio, output, time, { volume: 0.3, frequency: 1800, length: 0.3 });
+      }
+    }
+    return output;
+  } catch {
+    // Sin audio la tirada sigue igual.
+    return null;
+  }
+}
+
+/** Corta los sonidos que queden de la tirada (al terminar, tocar la mesa o tirar otra vez). */
+function stopSounds(board) {
+  const output = board.audioOutput;
+  board.audioOutput = null;
+  if (!output || !audio) return;
+  try {
+    output.gain.cancelScheduledValues(audio.currentTime);
+    output.gain.setTargetAtTime(0, audio.currentTime, 0.03);
+    setTimeout(() => output.disconnect(), 300);
+  } catch {
+    // Nada que cortar.
+  }
+}
+
+/** Sonidos programados en la última tirada: [{ at, volume, kind }] (pruebas, FR-008). */
+export function heardSounds(element) {
+  return boards.get(element)?.sounds ?? [];
 }

@@ -72,6 +72,32 @@ public class DiceBoardTests
     }
 
     [Fact]
+    public void Each_Extra_Die_Knows_Which_Die_Penetrated__F008_FR017()
+    {
+        // 2d4: primer dado 4 → extra 4 → extra 2; segundo dado 1. Orden dibujado: 4, 1, 4 (ola 1), 2 (ola 2).
+        var plan = Plan("2d4", true, 4, 4, 2, 1);
+
+        Assert.Equal([null, null, 0, 2], plan.Dice.Select(die => die.Parent));
+    }
+
+    [Fact]
+    public void Extra_Dice_Of_Different_Groups_Point_To_Their_Own_Die__F008_FR017()
+    {
+        // 1d6+1d8: el d6 saca 6 → extra 3; el d8 saca 8 → extra 5.
+        var plan = Plan("1d6+1d8", true, 6, 3, 8, 5);
+
+        Assert.Equal([(DieShape.D6, (int?)null), (DieShape.D8, null), (DieShape.D6, 0), (DieShape.D8, 1)], plan.Dice.Select(die => (die.Shape, die.Parent)));
+    }
+
+    [Fact]
+    public void The_Extra_Dice_Of_A_D100_Point_To_Its_Units_Die__F008_FR017()
+    {
+        var plan = Plan("1d100", true, 100, 37);
+
+        Assert.Equal([null, null, 1, 1], plan.Dice.Select(die => die.Parent));
+    }
+
+    [Fact]
     public void A_Penetrating_D100_Adds_Two_D10_In_The_Next_Wave__FR006()
     {
         var plan = Plan("1d100", true, 100, 37);

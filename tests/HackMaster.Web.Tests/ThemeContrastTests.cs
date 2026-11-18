@@ -56,14 +56,21 @@ public sealed partial class ThemeContrastTests
     /// distinguen de la mesa de los dos modos (3:1) y sus números se leen (4,5:1). Se leen del propio
     /// módulo para probar lo que de verdad se dibuja (revisión de F007).
     /// </summary>
+    /// <remarks>
+    /// F008: los dados extra ya no tienen un color propio (llevan el aspecto del jugador) sino un
+    /// aura de color <c>AURA_COLOR</c>, que es lo que debe destacar sobre la mesa; el color del dado y
+    /// de los números lo comprueban las reglas de <c>DiceLook</c> (FR-003).
+    /// </remarks>
     [Theory]
     [InlineData("DIE_COLOR", "DIE_INK")]
-    [InlineData("EXTRA_COLOR", "EXTRA_INK")]
-    public void Dice_Stand_Out_On_The_Table_In_Both_Modes__FR006_FR012(string body, string ink)
+    [InlineData("AURA_COLOR", null)]
+    [InlineData("AURA_ALT_COLOR", null)]
+    public void Dice_Stand_Out_On_The_Table_In_Both_Modes__FR006_FR012(string body, string? ink)
     {
         var dice = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "js", "dice3d.js"));
         string Constant(string name) => Regex.Match(dice, $@"const {name} = '(?<value>#[0-9a-fA-F]{{6}})'").Groups["value"].Value;
         var color = Constant(body);
+        Assert.False(string.IsNullOrEmpty(color), $"Falta la constante {body} en dice3d.js.");
 
         foreach (var selector in new[] { LightBlock, DarkBlock })
         {
@@ -74,7 +81,10 @@ public sealed partial class ThemeContrastTests
             }
         }
 
-        Assert.True(Contrast(Constant(ink), color) >= 4.5, $"{ink} sobre {body} no llega a 4,5:1.");
+        if (ink is not null)
+        {
+            Assert.True(Contrast(Constant(ink), color) >= 4.5, $"{ink} sobre {body} no llega a 4,5:1.");
+        }
     }
 
     [Theory]

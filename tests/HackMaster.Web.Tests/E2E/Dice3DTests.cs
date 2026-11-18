@@ -41,10 +41,13 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
             }
             // Además de la cara, comprueba lo que la hace legible y fiable: el dado queda plano
             // (la cara de arriba mira hacia arriba), dentro de la mesa, con tantas caras como
-            // etiquetas y sin etiquetas repetidas.
+            // etiquetas y sin etiquetas repetidas. F008: la malla que se ve es redondeada (muchos
+            // más vértices que el poliedro) y sus caras están en los mismos planos que las del
+            // poliedro con el que rueda, así que se apoya igual.
             const result = dice3d.inspect({ dice }, roll + 1);
             result.dice.forEach((shown, i) => {
-              const ok = shown.face === dice[i].face && shown.up > 0.99 && shown.inside && shown.unique && shown.slots === shown.labels;
+              const ok = shown.face === dice[i].face && shown.up > 0.99 && shown.inside && shown.unique && shown.slots === shown.labels
+                && shown.roundedVertices > 10 * shown.slots && shown.planeError < 0.005;
               if (!ok) failures.push({ roll, die: dice[i], shown });
             });
           }
@@ -109,10 +112,11 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
                 { shape: 'D6', face: '6', wave: 0, penetration: false },
                 { shape: 'D6', face: '2', wave: 1, penetration: true },
               ] });
-              return JSON.stringify(dice3d.shownDice(board));
+              return JSON.stringify(dice3d.shownDice(board).map(die => ({ face: die.face, penetration: die.penetration })));
             }
             """);
 
+        // F008 añade a cada dado su material; aquí solo importan la cara y la marca de dado extra.
         Assert.Equal("""[{"face":"6","penetration":false},{"face":"2","penetration":true}]""", dice);
     }
 

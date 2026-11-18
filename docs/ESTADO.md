@@ -50,9 +50,29 @@
   Pruebas: 556 unitarias y 27 de navegador.
 - **Pendiente sin funcionalidad asignada**: hacer la aplicación instalable y que funcione sin
   conexión (PWA: trabajador de servicio y manifiesto), que pide `PRODUCTO.md` A1 y A2.
-- **Nueva: F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18 para después
-  de F007: color, bordes redondeados, materiales y sonido, «como los de Baldur's Gate 3» en calidad
-  pero sin copiar sus diseños. **Es la siguiente.**
+- **En curso: F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18. Rama
+  `006-dados-personalizables`, `specs/006-dados-personalizables/`. Aclarado con el usuario sobre un
+  prototipo 3D: 11 materiales (los 8 del prototipo más madera, piedra y cristal), un aspecto para
+  todos los dados, aura en los dados extra, sonido activado al empezar, efecto al penetrar
+  («explotar») con explosión por defecto, fuego, sangre o ninguno. **Implementado (2026-11-18)**:
+  aristas redondeadas sin cambiar la física (las caras quedan en los planos del poliedro);
+  materiales, texturas y sonidos generados con código, sin descargas; panel «Aspecto de los
+  dados» con vista previa; historial versión 3 con el aspecto; `BoardDie.Parent` para lanzar el
+  efecto en el dado que penetró; toda la preparación de la tirada cuenta para los 4 s. Sin 3D la
+  descarga crece un 0,25 % (SC-005 se ajustó de «no crece» a «menos de un 1 %»). Las pruebas de
+  navegador se vieron fallar antes de implementar, salvo la de calidad baja (se hizo con los
+  materiales). **Sin comprobar a ojo**: los efectos en movimiento (el panel del navegador no deja
+  capturarlos); los verá el usuario. **Revisión independiente (T021)**, con prueba para cada
+  corrección: el panel podía deshacer un instante la elección mientras la página guardaba (y
+  perderla al pulsar rápido); un golpe sonaba varias veces (una por esquina y dos por choque entre
+  dados); los sonidos seguían al cortar la tirada (ahora cada tirada tiene su salida de audio, que se
+  apaga, con compresor); un d100 que penetra daba dos efectos; la vista previa podía quedar viva si
+  se cerraba el panel mientras cargaba; el audio se activaba aunque el sonido estuviera apagado;
+  el aura no destacaba en dados dorados (ahora es azul en esos); los números reflejaban el
+  entorno con calidad baja; la caché de texturas no tenía tope; `shownEffects` dice ahora si el
+  efecto llegó a verse. La animación máxima baja de 3,6 a 3,3 s: con lo que hace la página antes y
+  después, una tirada llegó a 4,007 s. **Falta**: pull request (T022) y la prueba del usuario en su
+  móvil (T023).
 - **Orden acordado (2026-11-18)**: F008 → F004 → F005 → F006. Los números son identificadores, no
   el orden: F007 y F008 se añadieron después y tomaron el siguiente número libre para no renumerar
   las demás. **F006 ampliada** a petición del usuario: cuentas propias para guardar en la nube
