@@ -138,6 +138,94 @@ public sealed class DiceLookTests(BrowserFixture browser) : IClassFixture<Browse
         Assert.All(calmResult.GetProperty("effects").EnumerateArray(), effect => Assert.Equal("Flash", effect.GetProperty("effect").GetString()));
     }
 
+    /// <summary>Tira 6d6 (con una penetración) en la mesa con el aspecto indicado; devuelve los sonidos programados.</summary>
+    private const string NoisyRoll = """
+        async look => {
+          const dice3d = await import('./js/dice3d.js');
+          const board = document.querySelector('[data-testid=dice-board]');
+          dice3d.unlockAudio();
+          const dice = [1, 2, 3, 4, 5, 6].map(face => ({ shape: 'D6', face: String(face), wave: 0, penetration: false, parent: null }));
+          dice.push({ shape: 'D6', face: '3', wave: 1, penetration: true, parent: 5 });
+          const started = performance.now();
+          await dice3d.roll(board, { dice }, look);
+          return JSON.parse(JSON.stringify({ ms: performance.now() - started, sounds: dice3d.heardSounds(board), faces: dice3d.shownFaces(board) }));
+        }
+        """;
+
+    private static object SoundLook(bool sound, string material = "BlackIron", string effect = "Explosion") =>
+        new { material, color = "#4a4c52", ink = "#e8b54a", effect, sound, quality = "High" };
+
+    [E2EFact]
+    public async Task Collisions_Sound_With_Their_Strength_And_Material_At_Most_4_Every_50_Ms__FR008()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("BlackIron"));
+
+        var result = await page.EvaluateAsync<JsonElement>(NoisyRoll, SoundLook(sound: true));
+
+        var sounds = result.GetProperty("sounds").EnumerateArray().ToList();
+        var hits = sounds.Where(sound => sound.GetProperty("kind").GetString() == "BlackIron").ToList();
+        Assert.NotEmpty(hits);
+        Assert.All(hits, hit => Assert.InRange(hit.GetProperty("volume").GetDouble(), 0.01, 1));
+        Assert.True(hits.Select(hit => hit.GetProperty("volume").GetDouble()).Distinct().Count() > 1, "Todos los golpes suenan igual de fuerte.");
+        var times = sounds.Select(sound => sound.GetProperty("at").GetDouble()).Order().ToList();
+        for (var i = 4; i < times.Count; i++)
+        {
+            Assert.True(times[i] - times[i - 4] >= 0.05, $"Más de 4 sonidos en 50 ms alrededor de {times[i]:0.000} s.");
+        }
+
+        Assert.Contains(sounds, sound => sound.GetProperty("kind").GetString() == "Explosion");
+        Assert.InRange(result.GetProperty("ms").GetDouble(), 0, 4000);
+    }
+
+    [E2EFact]
+    public async Task Muted_Dice_Make_No_Sound__FR009()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("BlackIron"));
+
+        var result = await page.EvaluateAsync<JsonElement>(NoisyRoll, SoundLook(sound: false));
+
+        Assert.Equal(0, result.GetProperty("sounds").GetArrayLength());
+    }
+
+    [E2EFact]
+    public async Task If_Audio_Fails_The_Roll_Still_Ends__FR010()
+    {
+        var page = await browser.NewPageAsync(Viewports.Phone);
+        await page.AddInitScriptAsync("window.AudioContext = function () { throw new Error('NotAllowedError'); }; window.webkitAudioContext = undefined;");
+        await BrowserFixture.GoToAsync(page, "dados");
+        await page.EvaluateAsync("value => localStorage.setItem('hackmaster.rolls', value)", History("BlackIron"));
+        await BrowserFixture.GoToAsync(page, "dados");
+        await page.Locator("[data-testid=dice3d-toggle][data-ready=true]").WaitForAsync();
+
+        var result = await page.EvaluateAsync<JsonElement>(NoisyRoll, SoundLook(sound: true));
+
+        Assert.Equal(7, result.GetProperty("faces").GetArrayLength());
+    }
+
+    [E2EFact]
+    public async Task Low_Quality_Draws_Plain_Colors_Without_Textures_Or_Transparency__FR011()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("Ivory"));
+
+        foreach (var material in new[] { "Marble", "Crystal", "OldGold" })
+        {
+            var dice = await page.EvaluateAsync<JsonElement>("""
+                async material => {
+                  const dice3d = await import('./js/dice3d.js');
+                  const board = document.querySelector('[data-testid=dice-board]');
+                  await dice3d.roll(board, { dice: [{ shape: 'D20', face: '13', wave: 0, penetration: false, parent: null }] },
+                    { material, color: '#808080', ink: '#000000', effect: 'None', sound: false, quality: 'Low' });
+                  return JSON.parse(JSON.stringify(dice3d.shownDice(board)));
+                }
+                """, material);
+
+            var die = dice[0];
+            Assert.Equal("13", die.GetProperty("face").GetString());
+            Assert.False(die.GetProperty("textured").GetBoolean(), $"{material} con calidad baja lleva textura.");
+            Assert.False(die.GetProperty("transmission").GetBoolean(), $"{material} con calidad baja es translúcido.");
+        }
+    }
+
     [E2EFact]
     public async Task The_Open_Panel_Does_Not_Overflow_And_Its_Buttons_Measure_44_Pixels__FR016()
     {

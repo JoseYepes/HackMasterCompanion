@@ -219,11 +219,18 @@ function atRest(body) {
 function run(plan, seed, depth) {
   const random = seeded(seed);
   const world = createWorld(depth);
+  // Choques grabados para el sonido (F008, research §3): paso y fuerza del golpe.
+  const collisions = [];
+  const clock = { step: 0 };
   const items = plan.dice.map((item, index) => {
     const data = shapeData(item.shape);
     const body = new CANNON.Body({ mass: 1, shape: data.physics, sleepSpeedLimit: 0.15, sleepTimeLimit: 0.4 });
     body.linearDamping = 0.1;
     body.angularDamping = 0.1;
+    body.addEventListener('collide', event => {
+      const strength = Math.abs(event.contact.getImpactVelocityAlongNormal());
+      if (strength > 0.8) collisions.push({ step: clock.step, strength });
+    });
     return { item, data, body, labels: baseLabels(item, plan.dice[index - 1]), start: -1, frames: [] };
   });
 
@@ -249,6 +256,7 @@ function run(plan, seed, depth) {
   // Cada ola sale cuando la anterior se para o, como mucho, a los WAVE_STEPS pasos; así todas las
   // olas salen siempre y la simulación termina aunque algún dado siga moviéndose un poco.
   for (; step < maxSteps && items.length > 0; step++) {
+    clock.step = step;
     world.step(STEP);
     for (const entry of items) {
       if (entry.start >= 0) {
@@ -272,7 +280,7 @@ function run(plan, seed, depth) {
   }
 
   const longest = Math.max(0, ...items.map(entry => entry.start + entry.frames.length));
-  return { items, steps: longest };
+  return { items, steps: longest, collisions };
 }
 
 /**
@@ -854,9 +862,7 @@ export function roll(element, plan, look) {
   const shownLook = normalizeLook(look);
 
   const simulationStarted = performance.now();
-  const { items, steps } = run(plan, Math.floor(Math.random() * 2 ** 31), board.depth);
-  // La simulación también cuenta para los 4 s de FR-004: la reproducción se acorta lo que tardó.
-  const simulationSeconds = (performance.now() - simulationStarted) / 1000;
+  const { items, steps, collisions } = run(plan, Math.floor(Math.random() * 2 ** 31), board.depth);
   board.meshes = items.map(entry => {
     const mesh = dieMesh(entry.data, entry.labels, shownLook, Boolean(entry.item.penetration));
     mesh.visible = false;
@@ -870,7 +876,15 @@ export function roll(element, plan, look) {
   const parentOf = entry => (Number.isInteger(entry.item.parent) ? entry.item.parent : null);
   board.effects = effect ? items.filter(entry => parentOf(entry) !== null).map(entry => ({ effect, parent: parentOf(entry) })) : [];
 
-  const duration = Math.min(steps * STEP, Math.max(MAX_PLAYBACK - simulationSeconds, MIN_PLAYBACK)) * 1000;
+  // Todo lo que tarda preparar la tirada (simulación, mallas y la primera compilación de los
+  // materiales) cuenta para los 4 s de FR-004 de F003: la reproducción se acorta lo que tardó.
+  for (const mesh of board.meshes) mesh.visible = true; // compile solo mira lo visible
+  board.renderer.compile(board.scene, board.camera);
+  for (const mesh of board.meshes) mesh.visible = false;
+  const setupSeconds = (performance.now() - simulationStarted) / 1000;
+  const duration = Math.min(steps * STEP, Math.max(MAX_PLAYBACK - setupSeconds, MIN_PLAYBACK)) * 1000;
+  board.sounds = shownLook.sound ? planSounds(items, collisions, steps, duration / 1000, shownLook, effect) : [];
+  playSounds(board.sounds);
   return new Promise(resolve => {
     const startedAt = performance.now();
     const show = (frameIndex, animate) => {
@@ -1036,4 +1050,110 @@ export function unlockAudio() {
 /** Efectos de penetración de la última tirada: [{ effect, parent }] (pruebas, FR-017). */
 export function shownEffects(element) {
   return boards.get(element)?.effects ?? [];
+}
+
+const MAX_SOUNDS_PER_WINDOW = 4;   // como mucho 4 golpes…
+const SOUND_WINDOW = 0.05;         // …cada 50 ms (FR-008)
+
+/**
+ * Sonidos de una tirada, en segundos desde que empieza la animación: un golpe por choque (volumen
+ * según la fuerza, tipo = material) y el del efecto cuando aparece cada dado extra.
+ */
+function planSounds(items, collisions, steps, seconds, look, effect) {
+  const at = step => (steps > 0 ? (step / steps) * seconds : 0);
+  const planned = collisions.map(hit => ({ at: at(hit.step), volume: Math.min(1, hit.strength / 12), kind: look.material }));
+  if (effect) {
+    for (const entry of items) {
+      if (Number.isInteger(entry.item.parent)) planned.push({ at: at(entry.start), volume: 0.8, kind: effect });
+    }
+  }
+  planned.sort((a, b) => a.at - b.at);
+  const kept = [];
+  for (const sound of planned) {
+    const recent = kept.filter(other => sound.at - other.at < SOUND_WINDOW).length;
+    if (recent < MAX_SOUNDS_PER_WINDOW || sound.kind === effect) {
+      if (recent >= MAX_SOUNDS_PER_WINDOW) kept.splice(kept.findLastIndex(other => other.kind !== effect && sound.at - other.at < SOUND_WINDOW), 1);
+      kept.push(sound);
+    }
+  }
+  return kept;
+}
+
+/** Tono de cada material: frecuencia del golpe (Hz), cuánto resuena (s) y cuánto ruido lleva. */
+const TONES = {
+  Ivory: [900, 0.06, 0.8], Marble: [1500, 0.09, 0.6], OldGold: [2300, 0.4, 0.3], BlackIron: [1700, 0.35, 0.35],
+  Ruby: [3300, 0.28, 0.3], Obsidian: [2100, 0.14, 0.5], Bone: [650, 0.05, 0.9], Amethyst: [3000, 0.28, 0.3],
+  Wood: [320, 0.08, 0.9], Stone: [550, 0.05, 1], Crystal: [3800, 0.35, 0.25],
+};
+
+let noiseBuffer = null;
+
+function noise(context) {
+  if (noiseBuffer) return noiseBuffer;
+  noiseBuffer = context.createBuffer(1, context.sampleRate * 0.8, context.sampleRate);
+  const data = noiseBuffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+  return noiseBuffer;
+}
+
+/** Ruido filtrado con envolvente: la base de golpes, estallidos y soplos. */
+function burst(context, time, { volume, type, frequency, length, q = 1 }) {
+  const source = context.createBufferSource();
+  source.buffer = noise(context);
+  const filter = context.createBiquadFilter();
+  filter.type = type;
+  filter.frequency.value = frequency;
+  filter.Q.value = q;
+  const gain = context.createGain();
+  gain.gain.setValueAtTime(volume, time);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
+  source.connect(filter).connect(gain).connect(context.destination);
+  source.start(time);
+  source.stop(time + length + 0.05);
+}
+
+/** Tono que resuena y se apaga: el «clic» o el «clinc» del material. */
+function ring(context, time, { volume, frequency, length }) {
+  const oscillator = context.createOscillator();
+  oscillator.frequency.value = frequency * (0.92 + Math.random() * 0.16);
+  const gain = context.createGain();
+  gain.gain.setValueAtTime(volume, time);
+  gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
+  oscillator.connect(gain).connect(context.destination);
+  oscillator.start(time);
+  oscillator.stop(time + length + 0.05);
+}
+
+/** Programa los sonidos en el contexto de audio; si no hay audio o falla, no pasa nada (FR-010). */
+function playSounds(sounds) {
+  if (!audio || sounds.length === 0) return;
+  try {
+    const start = audio.currentTime + 0.02;
+    for (const sound of sounds) {
+      const time = start + sound.at;
+      const tone = TONES[sound.kind];
+      if (tone) {
+        const [frequency, length, grit] = tone;
+        burst(audio, time, { volume: sound.volume * 0.5 * grit, type: 'bandpass', frequency: frequency * 1.5, length: 0.04 });
+        ring(audio, time, { volume: sound.volume * 0.25, frequency, length });
+      } else if (sound.kind === 'Explosion') {
+        burst(audio, time, { volume: 0.9, type: 'lowpass', frequency: 500, length: 0.6 });
+        ring(audio, time, { volume: 0.3, frequency: 70, length: 0.4 });
+      } else if (sound.kind === 'Fire') {
+        burst(audio, time, { volume: 0.5, type: 'bandpass', frequency: 900, length: 0.7, q: 0.6 });
+      } else if (sound.kind === 'Blood') {
+        burst(audio, time, { volume: 0.6, type: 'lowpass', frequency: 350, length: 0.25 });
+        burst(audio, time + 0.08, { volume: 0.4, type: 'lowpass', frequency: 250, length: 0.2 });
+      } else {
+        ring(audio, time, { volume: 0.3, frequency: 1800, length: 0.3 });
+      }
+    }
+  } catch {
+    // Sin audio la tirada sigue igual.
+  }
+}
+
+/** Sonidos programados en la última tirada: [{ at, volume, kind }] (pruebas, FR-008). */
+export function heardSounds(element) {
+  return boards.get(element)?.sounds ?? [];
 }

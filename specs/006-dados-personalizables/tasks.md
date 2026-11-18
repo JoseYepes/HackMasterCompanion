@@ -125,11 +125,11 @@ marcha, reiniciándola tras cada compilación.
 
 ### Tests (primero)
 
-- [ ] T015 [US3] Añadir a `E2E/DiceLookTests.cs`: con sonido, `heardSounds` tiene golpes con volumen según la fuerza, como mucho 4 cada 50 ms y del tipo del material; con silencio, ninguno; si el audio falla, la tirada termina igual; el efecto de penetración suena (FR-008 a FR-010)
+- [X] T015 [US3] Añadir a `E2E/DiceLookTests.cs`: con sonido, `heardSounds` tiene golpes con volumen según la fuerza, como mucho 4 cada 50 ms y del tipo del material; con silencio, ninguno; si el audio falla, la tirada termina igual; el efecto de penetración suena (FR-008 a FR-010)
 
 ### Implementation
 
-- [ ] T016 [US3] En `dice3d.js`: choques grabados en la simulación, síntesis con Web Audio por material y por efecto, límite de golpes, `unlockAudio` y `heardSounds`; botón de silencio junto a la mesa y en el panel, hasta pasar T015
+- [X] T016 [US3] En `dice3d.js`: choques grabados en la simulación, síntesis con Web Audio por material y por efecto, límite de golpes, `unlockAudio` y `heardSounds`; botón de silencio junto a la mesa y en el panel, hasta pasar T015
 
 ---
 
@@ -137,11 +137,11 @@ marcha, reiniciándola tras cada compilación.
 
 ### Tests (primero)
 
-- [ ] T017 [US4] Añadir a `E2E/DiceLookTests.cs`: con calidad baja, los dados no usan texturas, reflejos ni transmisión (`shownDice`) y el resultado y la duración no cambian (FR-011)
+- [X] T017 [US4] Añadir a `E2E/DiceLookTests.cs`: con calidad baja, los dados no usan texturas, reflejos ni transmisión (`shownDice`) y el resultado y la duración no cambian (FR-011)
 
 ### Implementation
 
-- [ ] T018 [US4] En `dice3d.js` y el panel: calidad baja con color liso, hasta pasar T017
+- [X] T018 [US4] En `dice3d.js` y el panel: calidad baja con color liso, hasta pasar T017
 
 ---
 
