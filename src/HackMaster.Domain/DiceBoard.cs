@@ -18,9 +18,11 @@ public enum DieShape
 
 /// <summary>
 /// Un dado que se dibuja: su forma, la cara que debe quedar arriba, la ola en la que rueda (0 la
-/// tirada inicial; 1, 2… los dados extra por penetración) y si es un dado extra.
+/// tirada inicial; 1, 2… los dados extra por penetración) y si es un dado extra. <c>Parent</c> (F008):
+/// en un dado extra, el índice en <see cref="BoardPlan.Dice"/> del dado que penetró (en un d100, el
+/// d10 de las unidades); nulo en los demás.
 /// </summary>
-public sealed record BoardDie(DieShape Shape, string Face, int Wave, bool IsPenetration);
+public sealed record BoardDie(DieShape Shape, string Face, int Wave, bool IsPenetration, int? Parent = null);
 
 /// <summary>
 /// Lo que se dibuja de una tirada. <see cref="TooMany"/>: la tirada empieza con más de
@@ -39,7 +41,8 @@ public static class DiceBoard
     {
         var unshaped = new List<DiceTerm>();
         // Cada «tirada física» es un dado, o los dos d10 de un d100, que no se separan.
-        var throws = new List<(int Wave, IReadOnlyList<BoardDie> Dice)>();
+        // Parent: la tirada física anterior de la misma cadena de penetración (índice en throws).
+        var throws = new List<(int Wave, IReadOnlyList<BoardDie> Dice, int? Parent)>();
 
         foreach (var group in result.Groups)
         {
@@ -57,19 +60,21 @@ public static class DiceBoard
             foreach (var die in group.Dice)
             {
                 wave = die.IsPenetration ? wave + 1 : 0;
-                throws.Add((wave, Draw(die, wave)));
+                throws.Add((wave, Draw(die, wave), die.IsPenetration ? throws.Count - 1 : null));
             }
         }
 
-        var ordered = throws.OrderBy(item => item.Wave).ToList(); // OrderBy es estable: respeta el orden de la tirada.
+        // OrderBy es estable: respeta el orden de la tirada.
+        var ordered = throws.Select((item, index) => (item.Wave, item.Dice, item.Parent, Index: index)).OrderBy(item => item.Wave).ToList();
         if (ordered.Where(item => item.Wave == 0).Sum(item => item.Dice.Count) > MaxDice)
         {
             return new BoardPlan([], unshaped, TooMany: true, Truncated: false);
         }
 
         var dice = new List<BoardDie>();
+        var lastDieOfThrow = new Dictionary<int, int>();
         var truncated = false;
-        foreach (var (_, items) in ordered)
+        foreach (var (_, items, parent, index) in ordered)
         {
             if (dice.Count + items.Count > MaxDice)
             {
@@ -77,7 +82,10 @@ public static class DiceBoard
                 break;
             }
 
-            dice.AddRange(items);
+            // La tirada padre tiene una ola menos, así que ya está dibujada.
+            int? parentDie = parent is int p ? lastDieOfThrow[p] : null;
+            dice.AddRange(items.Select(item => item with { Parent = parentDie }));
+            lastDieOfThrow[index] = dice.Count - 1;
         }
 
         return new BoardPlan(dice, unshaped, TooMany: false, truncated);

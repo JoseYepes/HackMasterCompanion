@@ -57,12 +57,12 @@ public class StoredDataTests
     [Fact]
     public void Written_Data_Carries_The_Current_Schema_Version_Of_Each_Format__FR018()
     {
-        // Cada formato tiene su versión: el historial cambió en F003 (dice3d) y los conjuntos no, así
+        // Cada formato tiene su versión: el historial cambió en F003 (dice3d) y en F008 (look) y los conjuntos no, así
         // que una versión anterior de la aplicación abierta en otra pestaña sigue leyendo los conjuntos.
         Assert.Equal(1, StoredData.SuitesVersion);
-        Assert.Equal(2, StoredData.RollsVersion);
+        Assert.Equal(3, StoredData.RollsVersion);
         Assert.Contains("\"schemaVersion\": 1", StoredData.Write(SampleSuites()), StringComparison.Ordinal);
-        Assert.Contains("\"schemaVersion\": 2", StoredData.Write(SampleRolls()), StringComparison.Ordinal);
+        Assert.Contains("\"schemaVersion\": 3", StoredData.Write(SampleRolls()), StringComparison.Ordinal);
     }
 
     [Fact]
@@ -99,6 +99,82 @@ public class StoredDataTests
         Assert.False(read.Value.Dice3D);
         Assert.Equal(17, Assert.Single(read.Value.Rolls).Total);
         Assert.Equal(StoredData.RollsVersion, read.Value.SchemaVersion);
+    }
+
+    private const string Version2 = """
+        { "schemaVersion": 2, "penetrating": true, "dice3d": true, "rolls": [
+          { "formula": "1d20+2", "penetrating": false, "total": 17, "rolledAt": "2026-11-18T10:05:00+01:00", "constant": 2,
+            "groups": [ { "count": 1, "sides": 20, "sign": 1, "subtotal": 15, "capped": false, "dice": [ { "value": 15, "penetration": false } ] } ] } ] }
+        """;
+
+    [Fact]
+    public void Version_2_History_Is_Migrated_Keeping_Every_Roll_With_The_Default_Look__F008_FR012()
+    {
+        var read = StoredData.ReadRolls(Version2);
+
+        Assert.Null(read.Error);
+        Assert.True(read.Value!.Dice3D);
+        Assert.Equal(17, Assert.Single(read.Value.Rolls).Total);
+        Assert.Equal(DiceLook.Default, read.Value.Look);
+        Assert.Equal(StoredData.RollsVersion, read.Value.SchemaVersion);
+    }
+
+    [Fact]
+    public void Version_1_History_Is_Migrated_Through_Version_2_To_The_Default_Look__F008_FR012()
+    {
+        var read = StoredData.ReadRolls("""{ "schemaVersion": 1, "penetrating": false, "rolls": [] }""");
+
+        Assert.Null(read.Error);
+        Assert.Equal(DiceLook.Default, read.Value!.Look);
+    }
+
+    [Fact]
+    public void The_Look_Is_Written_And_Read_Back__F008_FR012()
+    {
+        var look = DiceLook.Default.ForMaterial(DiceMaterial.Marble) with { Effect = PenetrationEffect.Fire, Sound = false, Quality = DiceQuality.Low };
+
+        var json = StoredData.Write(SampleRolls() with { Look = look });
+
+        Assert.Contains("\"look\":", json, StringComparison.Ordinal);
+        Assert.Contains("\"material\": \"Marble\"", json, StringComparison.Ordinal);
+        Assert.Equal(look, StoredData.ReadRolls(json).Value!.Look);
+    }
+
+    [Theory]
+    [InlineData("""{ "material": "Plastico", "color": "#2f5a46", "ink": "#f1e5c4", "effect": "Fire", "sound": false, "quality": "Low" }""", "material")]
+    [InlineData("""{ "material": "Marble", "color": "verde", "ink": "#f1e5c4", "effect": "Fire", "sound": false, "quality": "Low" }""", "color")]
+    [InlineData("""{ "material": "Marble", "color": "#2f5a46", "ink": "#f1e5c4", "effect": "Lightning", "sound": false, "quality": "Low" }""", "effect")]
+    [InlineData("""{ "material": "Marble", "color": "#2f5a46", "ink": "#f1e5c4", "effect": "Fire", "sound": "sí", "quality": "Ultra" }""", "sound+quality")]
+    [InlineData("""null""", "all")]
+    [InlineData("""[1, 2]""", "all")]
+    public void A_Broken_Look_Is_Completed_With_Defaults_Without_Losing_Rolls__F008_FR012(string look, string broken)
+    {
+        var json = Version2.Replace("\"schemaVersion\": 2,", "\"schemaVersion\": 3, \"look\": " + look + ",", StringComparison.Ordinal);
+
+        var read = StoredData.ReadRolls(json);
+
+        Assert.Null(read.Error);
+        Assert.Single(read.Value!.Rolls);
+        var value = read.Value.Look!;
+        switch (broken)
+        {
+            case "material":
+                Assert.Equal(DiceMaterial.Ivory, value.Material);
+                Assert.Equal(PenetrationEffect.Fire, value.Effect);
+                break;
+            case "color":
+                Assert.Equal((DiceMaterial.Marble, "#2f5a46"), (value.Material, value.Color));
+                break;
+            case "effect":
+                Assert.Equal((DiceMaterial.Marble, PenetrationEffect.Explosion), (value.Material, value.Effect));
+                break;
+            case "sound+quality":
+                Assert.Equal((true, DiceQuality.High, PenetrationEffect.Fire), (value.Sound, value.Quality, value.Effect));
+                break;
+            default:
+                Assert.Equal(DiceLook.Default, value);
+                break;
+        }
     }
 
     [Fact]
@@ -156,7 +232,7 @@ public class StoredDataTests
     [Fact]
     public void Data_From_A_Newer_Version_Is_Rejected_With_A_Reason__FR018()
     {
-        var read = StoredData.ReadRolls("{ \"schemaVersion\": 3, \"penetrating\": false, \"rolls\": [] }");
+        var read = StoredData.ReadRolls("{ \"schemaVersion\": 4, \"penetrating\": false, \"rolls\": [] }");
 
         Assert.Null(read.Value);
         Assert.Contains("más reciente", read.Error, StringComparison.Ordinal);

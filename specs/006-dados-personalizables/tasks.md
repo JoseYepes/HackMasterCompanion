@@ -44,14 +44,14 @@ marcha, reiniciándola tras cada compilación.
 
 ### Tests (primero)
 
-- [ ] T001 [P] Escribir `tests/HackMaster.Domain.Tests/DiceLookTests.cs` (data-model):
+- [X] T001 [P] Escribir `tests/HackMaster.Domain.Tests/DiceLookTests.cs` (data-model):
   - `DiceLook.Default` es marfil `#f4efe6`, números `#1f2328`, explosión, sonido activado y calidad alta;
   - `ForMaterial` da el color y los números por defecto de cada uno de los 11 materiales y conserva efecto, sonido y calidad;
   - `InkContrast` con la fórmula de WCAG (blanco sobre negro = 21);
   - `ReadableInk` elige el claro o el oscuro, el que contraste más;
   - los 11 colores por defecto tienen números con contraste ≥ 3 (FR-003)
-- [ ] T002 [P] Añadir a `tests/HackMaster.Domain.Tests/DiceBoardTests.cs`: `Parent` de cada dado extra es el índice del dado que penetró (también en olas encadenadas y en un d100: el d10 de las unidades); nulo en los demás
-- [ ] T003 [P] Añadir a `tests/HackMaster.Domain.Tests/StoredDataTests.cs`:
+- [X] T002 [P] Añadir a `tests/HackMaster.Domain.Tests/DiceBoardTests.cs`: `Parent` de cada dado extra es el índice del dado que penetró (también en olas encadenadas y en un d100: el d10 de las unidades); nulo en los demás
+- [X] T003 [P] Añadir a `tests/HackMaster.Domain.Tests/StoredDataTests.cs`:
   - un historial versión 2 se lee con todas sus tiradas y `Look = DiceLook.Default` (y uno de la versión 1, encadenando);
   - lo escrito lleva `schemaVersion: 3` y `look`;
   - un `look` con material desconocido o color roto se completa con los valores por defecto sin perder tiradas;
@@ -59,9 +59,9 @@ marcha, reiniciándola tras cada compilación.
 
 ### Implementation
 
-- [ ] T004 Crear `src/HackMaster.Domain/DiceLook.cs` hasta pasar T001
-- [ ] T005 Añadir `Parent` a `BoardDie` en `src/HackMaster.Domain/DiceBoard.cs` hasta pasar T002; revisar que las pruebas de F003 siguen en verde
-- [ ] T006 `StoredData.RollsVersion` = 3, `Look` en `RollHistoryFile` y migración 2 → 3 en `src/HackMaster.Domain/StoredData.cs` hasta pasar T003
+- [X] T004 Crear `src/HackMaster.Domain/DiceLook.cs` hasta pasar T001
+- [X] T005 Añadir `Parent` a `BoardDie` en `src/HackMaster.Domain/DiceBoard.cs` hasta pasar T002; revisar que las pruebas de F003 siguen en verde
+- [X] T006 `StoredData.RollsVersion` = 3, `Look` en `RollHistoryFile` y migración 2 → 3 en `src/HackMaster.Domain/StoredData.cs` hasta pasar T003
 
 ---
 
