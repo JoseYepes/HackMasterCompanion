@@ -103,3 +103,11 @@ jsDelivr consultados el 2026-11-18.
   - La prueba `Without_3D_Nothing_Of_The_3D_Part_Is_Downloaded__FR016` comprueba que, con el 3D
     desactivado, ni `/habilidades` ni `/dados` piden nada de `lib/` ni `dice3d.js`.
   - Una tirada de 7 dados en pantalla termina en menos de 4 s (`Dice3DTests`, SC-004).
+
+## 8. Comprobación en el móvil del usuario (T018, SC-003)
+
+- **2026-11-18**, con la web publicada: el usuario probó los dados 3D en su Samsung Galaxy (no
+  sabe el modelo exacto) y dice que «se ven muy bien».
+- **Limitación**: es una comprobación a simple vista. No se midieron los fotogramas por segundo
+  ni se conoce el modelo, así que SC-003 (≥ 30 fps en un móvil medio) queda aceptado por el
+  usuario, no medido. Si algún día va a tirones, medirlo con las herramientas del navegador.
