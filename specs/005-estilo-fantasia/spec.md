@@ -8,6 +8,19 @@
 
 **Input**: User description: "Dar a la aplicación un estilo de fantasía heroica. De tres maquetas (A · Pergamino y tinta, B · Taberna a la luz de las velas, C · Grimorio heroico), el usuario eligió «A con modo noche B»: el aspecto normal es el pergamino y el modo noche es la taberna. Se hace antes de F004 (Fichas de PJ)."
 
+## Clarifications
+
+### Session 2026-11-18
+
+- Q: ¿Qué letras usa el modo noche? → A: Las mismas que el modo normal (títulos de inscripción y
+  texto clásico); al cambiar de modo solo cambian los colores y la mesa de dados.
+- Q: ¿Cómo se elige el modo? → A: Con un solo botón (☀/☾) que alterna entre normal y noche. La
+  primera vez sigue al dispositivo; en cuanto el jugador pulsa, manda su elección. No hay opción
+  «Automático».
+- Q: ¿Cómo es la mesa de los dados 3D en modo normal? → A: Cuero granate oscuro, del color de la
+  barra de navegación; en modo noche, madera oscura. Elegir colores, materiales y sonido de los
+  dados (y quizá la mesa) es una funcionalidad aparte, F008, pedida por el usuario el mismo día.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Aspecto de pergamino y tinta (Priority: P1)
@@ -76,7 +89,7 @@ siguen leyendo.
 **Acceptance Scenarios**:
 
 1. **Given** el tirador en modo normal, **When** se tira con dados 3D, **Then** la mesa tiene un
-   aspecto acorde con el pergamino (por ejemplo, tapete o cuero) y los números de los dados se leen.
+   aspecto de cuero granate oscuro y los números de los dados se leen.
 2. **Given** el tirador en modo noche, **When** se tira con dados 3D, **Then** la mesa tiene un
    aspecto de madera oscura y los números de los dados se leen.
 3. **Given** una tirada en curso, **When** el jugador cambia de modo, **Then** la tirada termina
@@ -104,9 +117,11 @@ siguen leyendo.
   modo normal: fondo de pergamino claro, texto de color tinta, granate como color principal,
   dorado para bordes y detalles, y letras de inscripción en los títulos.
 - **FR-002**: La aplicación DEBE ofrecer un modo noche con el estilo «taberna» de la maqueta B:
-  fondo de madera oscura, texto crema, ámbar como color principal y las mismas letras de los
-  títulos que en el modo normal o unas de la misma familia de fantasía.
-- **FR-003**: DEBE haber un control visible en todas las pantallas para pasar de un modo a otro.
+  fondo de madera oscura, texto crema y ámbar como color principal. Las letras DEBEN ser las
+  mismas que en el modo normal: solo cambian los colores (y la mesa de dados, FR-012).
+- **FR-003**: DEBE haber un único botón visible en la barra de navegación de todas las pantallas
+  que pase de modo normal a noche y viceversa, con un nombre accesible que diga a qué modo
+  cambia. No hay opción «Automático».
 - **FR-004**: La elección de modo DEBE recordarse en el dispositivo; si el jugador nunca ha
   elegido, se DEBE usar el modo claro u oscuro que pida el dispositivo.
 - **FR-005**: El cambio de modo DEBE aplicarse al momento, sin recargar la página ni perder lo
@@ -123,7 +138,7 @@ siguen leyendo.
   teclado DEBE verse claramente en los dos modos.
 - **FR-011**: Ninguna pantalla DEBE desbordarse en horizontal a 390 px ni a 820 px en ninguno de
   los dos modos.
-- **FR-012**: La mesa de los dados 3D DEBE cambiar de aspecto con el modo (US3), y los números de
+- **FR-012**: La mesa de los dados 3D DEBE ser de cuero granate oscuro en modo normal y de madera oscura en modo noche (US3), y los números de
   los dados DEBEN leerse en los dos.
 - **FR-013**: El estilo NO DEBE cambiar el contenido, el orden de la información ni el
   comportamiento de ninguna pantalla: solo su aspecto y el nuevo control de modo.
@@ -162,7 +177,8 @@ siguen leyendo.
 - Las letras serán de licencia libre que permita incluirlas en la aplicación (por ejemplo, la
   licencia SIL Open Font License); su elección y descarga se deciden en el plan, con permiso del
   usuario para descargarlas.
-- Los dados 3D siguen siendo de color marfil con números oscuros; solo cambia la mesa.
+- Los dados 3D siguen siendo de color marfil con números oscuros; solo cambia la mesa. Elegir
+  colores, materiales, bordes y sonido de los dados es F008, fuera de esta funcionalidad.
 - No se añaden ilustraciones, logotipos ni iconos nuevos de la aplicación: el estilo se consigue
   con colores, letras, bordes y texturas sencillas. Un logotipo propio podría ser una
   funcionalidad aparte.
