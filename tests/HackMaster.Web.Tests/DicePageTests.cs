@@ -111,6 +111,82 @@ public class DicePageTests : BunitContext
         Assert.Single(cut.FindAll("[data-testid=dice-detail] .penetration"));
     }
 
+    private const string StoredHistory = """
+        { "schemaVersion": 1, "penetrating": true, "rolls": [
+          { "formula": "1d20+2", "penetrating": false, "total": 17, "rolledAt": "2026-11-18T10:05:00+01:00", "constant": 2,
+            "groups": [ { "count": 1, "sides": 20, "sign": 1, "subtotal": 15, "capped": false, "dice": [ { "value": 15, "penetration": false } ] } ] },
+          { "formula": "2d6", "penetrating": false, "total": 7, "rolledAt": "2026-11-18T10:00:00+01:00", "constant": 0,
+            "groups": [ { "count": 2, "sides": 6, "sign": 1, "subtotal": 7, "capped": false, "dice": [ { "value": 3, "penetration": false }, { "value": 4, "penetration": false } ] } ] } ] }
+        """;
+
+    private IRenderedComponent<Dice> RenderWithHistory()
+    {
+        JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.rolls").SetResult(StoredHistory);
+        var cut = Render<Dice>();
+        cut.WaitForState(() => cut.FindAll("[data-testid=history-row]").Count == 2);
+        return cut;
+    }
+
+    [Fact]
+    public void History_Lists_Stored_Rolls_Newest_First_With_Formula_Detail_Total_And_Date__FR016()
+    {
+        var cut = RenderWithHistory();
+
+        var rows = cut.FindAll("[data-testid=history-row]");
+        Assert.Contains("1d20+2", rows[0].TextContent, StringComparison.Ordinal);
+        Assert.Contains("17", rows[0].TextContent, StringComparison.Ordinal);
+        Assert.Contains("15", rows[0].TextContent, StringComparison.Ordinal);
+        Assert.Contains("18/11/2026 10:05", rows[0].TextContent, StringComparison.Ordinal);
+        Assert.Contains("2d6", rows[1].TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Penetrating_Option_Is_Restored_From_The_Device__FR017()
+    {
+        var cut = RenderWithHistory();
+
+        Assert.True(cut.Find("[data-testid=dice-penetrating]").HasAttribute("checked"));
+    }
+
+    [Fact]
+    public void A_New_Roll_Is_Saved_First_In_The_History__FR017()
+    {
+        var cut = RenderWithHistory();
+        cut.Find("[data-testid=dice-formula]").Input("1d6");
+
+        cut.Find("form").Submit();
+
+        Assert.Equal(3, cut.FindAll("[data-testid=history-row]").Count);
+        Assert.Contains("1d6", cut.FindAll("[data-testid=history-row]")[0].TextContent, StringComparison.Ordinal);
+        var saved = JSInterop.Invocations["localStorage.setItem"].Last().Arguments;
+        Assert.Equal("hackmaster.rolls", saved[0]);
+        Assert.Contains("\"formula\": \"1d6\"", (string)saved[1]!, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Choosing_A_History_Row_Copies_Its_Formula_Without_Rolling__FR016()
+    {
+        var cut = RenderWithHistory();
+
+        cut.FindAll("[data-testid=history-row] button")[1].Click();
+
+        Assert.Equal("2d6", cut.Find("[data-testid=dice-formula]").GetAttribute("value"));
+        Assert.Empty(cut.FindAll("[data-testid=dice-total]"));
+    }
+
+    [Fact]
+    public void Clearing_The_History_Asks_First_And_Then_Empties_It__FR016()
+    {
+        var cut = RenderWithHistory();
+
+        cut.Find("[data-testid=history-clear]").Click();
+        Assert.Equal(2, cut.FindAll("[data-testid=history-row]").Count);
+        cut.Find("[data-testid=history-clear-confirm]").Click();
+
+        Assert.Empty(cut.FindAll("[data-testid=history-row]"));
+        Assert.Contains("\"rolls\": []", (string)JSInterop.Invocations["localStorage.setItem"].Last().Arguments[1]!, StringComparison.Ordinal);
+    }
+
     [Fact]
     public void Formula_In_The_Address_Fills_The_Box_Without_Rolling__FR001()
     {

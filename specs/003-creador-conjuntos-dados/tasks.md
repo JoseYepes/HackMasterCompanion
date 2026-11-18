@@ -114,11 +114,11 @@ navegador, que todas las historias usan.
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T013 [P] [US3] Escribir `tests/HackMaster.Domain.Tests/RollHistoryTests.cs`:
+- [X] T013 [P] [US3] Escribir `tests/HackMaster.Domain.Tests/RollHistoryTests.cs`:
   - añadir pone la tirada la primera;
   - la número 101 descarta la más antigua;
   - borrar vacía la lista (FR-016)
-- [ ] T014 [P] [US3] Añadir a `tests/HackMaster.Web.Tests/DicePageTests.cs`:
+- [X] T014 [P] [US3] Añadir a `tests/HackMaster.Web.Tests/DicePageTests.cs`:
   - `roll-history` lista las tiradas de la más reciente a la más antigua, con fórmula, detalle, total y fecha;
   - elegir una fila (`history-row`) copia la fórmula;
   - `history-clear` pide confirmación y vacía;
@@ -126,8 +126,8 @@ navegador, que todas las historias usan.
 
 ### Implementation
 
-- [ ] T015 [US3] Crear `src/HackMaster.Domain/RollHistory.cs` (lista inmutable con máximo 100) hasta pasar T013
-- [ ] T016 [US3] Conectar el historial en `Dice.razor` con `BrowserStore` hasta pasar T014
+- [X] T015 [US3] Crear `src/HackMaster.Domain/RollHistory.cs` (lista inmutable con máximo 100) hasta pasar T013
+- [X] T016 [US3] Conectar el historial en `Dice.razor` con `BrowserStore` hasta pasar T014
 
 ---
 

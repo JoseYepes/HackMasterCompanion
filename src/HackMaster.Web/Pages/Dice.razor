@@ -1,5 +1,7 @@
 @page "/dados"
+@using System.Globalization
 @inject IRandom Random
+@inject BrowserStore Store
 
 <PageTitle>Dados · @AppInfo.Name</PageTitle>
 
@@ -14,7 +16,7 @@
         <button type="submit" data-testid="dice-roll">Tirar</button>
     </div>
     <label class="dice-option">
-        <input type="checkbox" data-testid="dice-penetrating" checked="@_penetrating" @onchange="OnPenetratingChanged" />
+        <input type="checkbox" data-testid="dice-penetrating" checked="@_history.Penetrating" @onchange="OnPenetratingChanged" />
         Los dados penetran
     </label>
 </form>
@@ -30,20 +32,75 @@
     <button type="button" class="dice-repeat" data-testid="dice-repeat" @onclick="Repeat">Repetir @_last.Formula.Text</button>
 }
 
+<section class="roll-history" aria-labelledby="history-title" data-testid="roll-history">
+    <h2 id="history-title">Historial</h2>
+
+    @if (_historyError is not null)
+    {
+        <p class="section-note" role="status">No se pudo leer el historial guardado (@_historyError). Las tiradas nuevas no se guardarán para no borrarlo.</p>
+    }
+
+    @if (_history.Rolls.Count == 0)
+    {
+        <p class="section-note">Todavía no hay tiradas.</p>
+    }
+    else
+    {
+        <ol class="history-list">
+            @foreach (var roll in _history.Rolls)
+            {
+                <li class="history-row" data-testid="history-row">
+                    <button type="button" class="history-formula" title="Usar esta fórmula" @onclick="() => UseFormula(roll.Formula)">@roll.Formula</button>
+                    <span class="history-total">= @roll.Total</span>
+                    <span class="history-detail">@Detail(roll)</span>
+                    <time class="history-date" datetime="@roll.RolledAt.ToString("O", CultureInfo.InvariantCulture)">@roll.RolledAt.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture)</time>
+                </li>
+            }
+        </ol>
+
+        @if (_confirmClear)
+        {
+            <p class="history-confirm">
+                ¿Borrar todo el historial?
+                <button type="button" data-testid="history-clear-confirm" @onclick="ClearAsync">Sí, borrar</button>
+                <button type="button" @onclick="() => _confirmClear = false">Cancelar</button>
+            </p>
+        }
+        else
+        {
+            <button type="button" class="history-clear" data-testid="history-clear" @onclick="() => _confirmClear = true">Borrar historial</button>
+        }
+    }
+</section>
+
 @code {
+    private const string HistoryKey = "hackmaster.rolls";
+
     private string _text = string.Empty;
-    private bool _penetrating;
     private DiceFormulaError? _error;
     private RollResult? _last;
+    private RollHistoryFile _history = RollHistoryFile.Empty;
+    private string? _historyError;
+    private bool _confirmClear;
 
     /// <summary>Fórmula inicial desde la dirección (<c>/dados?f=2d6%2B3</c>); no se tira sola.</summary>
     [SupplyParameterFromQuery(Name = "f")]
     public string? InitialFormula { get; set; }
 
-    protected override void OnInitialized() => _text = InitialFormula ?? string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        _text = InitialFormula ?? string.Empty;
+        var read = StoredData.ReadRolls(await Store.GetAsync(HistoryKey));
+        _history = read.Value ?? RollHistoryFile.Empty;
+        _historyError = read.Error;
+    }
 
-    private void OnPenetratingChanged(ChangeEventArgs args) =>
-        _penetrating = args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+    private async Task OnPenetratingChanged(ChangeEventArgs args)
+    {
+        var penetrating = args.Value is bool value ? value : bool.TryParse(args.Value?.ToString(), out var parsed) && parsed;
+        _history = _history with { Penetrating = penetrating };
+        await SaveAsync();
+    }
 
     private static string ErrorText(DiceFormulaError error)
     {
@@ -51,7 +108,17 @@
         return $"{error.Message}{where} Ejemplo: {DiceFormulaError.Example}";
     }
 
-    private void RollTyped()
+    /// <summary>Detalle corto de una tirada guardada: "2d6: 3 4; +2". Los dados extra llevan ↻.</summary>
+    private static string Detail(StoredRoll roll)
+    {
+        var groups = roll.Groups.Select(group =>
+            $"{(group.Sign < 0 ? "−" : string.Empty)}{group.Count}d{group.Sides}: " +
+            string.Join(' ', group.Dice.Select(die => die.Penetration ? $"↻{die.Value}" : die.Value.ToString(CultureInfo.InvariantCulture))));
+        var constant = roll.Constant == 0 ? [] : new[] { roll.Constant > 0 ? $"+{roll.Constant}" : $"−{-roll.Constant}" };
+        return string.Join("; ", groups.Concat(constant));
+    }
+
+    private async Task RollTyped()
     {
         var parsed = DiceFormula.Parse(_text);
         _error = parsed.Error;
@@ -61,18 +128,38 @@
             return;
         }
 
-        Roll(parsed.Formula);
+        await RollAsync(parsed.Formula);
     }
 
-    private void Repeat()
+    private async Task Repeat()
     {
         if (_last is not null)
         {
             _error = null;
-            Roll(_last.Formula);
+            await RollAsync(_last.Formula);
         }
     }
 
-    private void Roll(DiceFormula formula) =>
-        _last = DiceRoller.Roll(formula, _penetrating, Random, DateTimeOffset.Now);
+    private void UseFormula(string formula)
+    {
+        _text = formula;
+        _error = null;
+    }
+
+    private async Task RollAsync(DiceFormula formula)
+    {
+        _last = DiceRoller.Roll(formula, _history.Penetrating, Random, DateTimeOffset.Now);
+        _history = RollHistory.Add(_history, _last);
+        await SaveAsync();
+    }
+
+    private async Task ClearAsync()
+    {
+        _history = RollHistory.Clear(_history);
+        _confirmClear = false;
+        await SaveAsync();
+    }
+
+    /// <summary>Guarda el historial, salvo si el guardado no se pudo leer: así no se pierde.</summary>
+    private Task SaveAsync() => _historyError is null ? Store.SetAsync(HistoryKey, StoredData.Write(_history)) : Task.CompletedTask;
 }
