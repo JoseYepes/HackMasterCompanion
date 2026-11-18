@@ -137,8 +137,8 @@ aplicación en marcha (`tests/README.md`).
 **Verificación**: verificación común; pasa la prueba nueva de `Dice3DTests`.
 **Restricciones**: el orden de las olas lo decide `DiceBoard.Plan`.
 
-- [ ] T013 [P] [US3] Añadir a `tests/HackMaster.Web.Tests/E2E/Dice3DTests.cs`: un plan con olas de penetración se simula con las caras correctas en cada ola, y los dados extra llevan la marca de penetración (atributo de depuración del módulo) (FR-006)
-- [ ] T014 [US3] Implementar en `dice3d.js` las olas (los extra ruedan cuando se para la ola anterior) y el aspecto distinto de los dados extra hasta pasar T013
+- [X] T013 [P] [US3] Añadir a `tests/HackMaster.Web.Tests/E2E/Dice3DTests.cs`: un plan con olas de penetración se simula con las caras correctas en cada ola, y los dados extra llevan la marca de penetración (atributo de depuración del módulo) (FR-006)
+- [X] T014 [US3] Implementar en `dice3d.js` las olas (los extra ruedan cuando se para la ola anterior) y el aspecto distinto de los dados extra hasta pasar T013
 
 ---
 
@@ -175,9 +175,9 @@ renumerar las anteriores.
 **Objetivo**: calidad medida, documentación al día y pull request.
 **Verificación**: verificación común; CI en verde en el pull request.
 
-- [ ] T015 [P] Añadir a `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs` `/dados` con «Dados 3D» activado y una tirada en pantalla, a 390 y 820 px (SC-006)
-- [ ] T016 [P] Añadir a `Dice3DTests` que una tirada en pantalla de `6d6` termina en menos de 4 s (SC-004) y que las caras de arriba de los dados en pantalla al pararse (consulta de depuración del módulo) coinciden con el detalle de la tirada (SC-001, FR-001)
-- [ ] T017 Medir con Playwright los bytes descargados al abrir `/habilidades` y `/dados` sin 3D, comparar con `main` y anotarlo en `research.md` (SC-005)
+- [X] T015 [P] Añadir a `tests/HackMaster.Web.Tests/E2E/NoHorizontalOverflowTests.cs` `/dados` con «Dados 3D» activado y una tirada en pantalla, a 390 y 820 px (SC-006)
+- [X] T016 [P] Añadir a `Dice3DTests` que una tirada en pantalla de `6d6` termina en menos de 4 s (SC-004) y que las caras de arriba de los dados en pantalla al pararse (consulta de depuración del módulo) coinciden con el detalle de la tirada (SC-001, FR-001)
+- [X] T017 Medir con Playwright los bytes descargados al abrir `/habilidades` y `/dados` sin 3D, comparar con `main` y anotarlo en `research.md` (SC-005)
 - [ ] T018 Medir con el usuario los fotogramas por segundo en su móvil con `6d6` y anotar modelo y resultado en `research.md` (SC-003, FR-013)
 - [ ] T019 Revisión independiente del diff por un subagente con contexto limpio y aplicar lo que encuentre
 - [ ] T020 Actualizar `docs/ESTADO.md` y `tests/README.md`; abrir el pull request en castellano

@@ -95,3 +95,11 @@ jsDelivr consultados el 2026-11-18.
 
 - **Decision**: medir con Playwright los bytes descargados al abrir `/habilidades` antes y después
   de F003; el 3D no debe aparecer porque solo se importa al activarlo.
+- **Medido el 2026-11-18 (T017)**:
+  - Publicando `main` y la rama en Release, la descarga comprimida (Brotli) sin `lib/` ni
+    `dice3d.js` pasa de 2827 KB a 2837 KB (+0,35 %): `HackMaster.Domain` 31 → 35 KB y
+    `HackMaster.Web` 98 → 103 KB.
+  - `lib/` comprimida ocupa 368 KB y solo se descarga al activar «Dados 3D».
+  - La prueba `Without_3D_Nothing_Of_The_3D_Part_Is_Downloaded__FR016` comprueba que, con el 3D
+    desactivado, ni `/habilidades` ni `/dados` piden nada de `lib/` ni `dice3d.js`.
+  - Una tirada de 7 dados en pantalla termina en menos de 4 s (`Dice3DTests`, SC-004).

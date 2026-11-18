@@ -82,6 +82,76 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
         Assert.Equal(["6", "2", "6", "3"], shown);
     }
 
+    /// <summary>Activa los dados 3D antes de abrir el tirador, como si el jugador ya lo hubiera elegido.</summary>
+    private static async Task<IPage> OpenWith3DAsync(BrowserFixture browser, ViewportSize viewport, string formula)
+    {
+        var page = await browser.NewPageAsync(viewport);
+        await BrowserFixture.GoToAsync(page, "dados");
+        await page.EvaluateAsync("""() => localStorage.setItem('hackmaster.rolls', '{"schemaVersion":2,"penetrating":false,"dice3d":true,"rolls":[]}')""");
+        await BrowserFixture.GoToAsync(page, "dados?f=" + Uri.EscapeDataString(formula));
+        await page.Locator("[data-testid=dice-board] canvas").WaitForAsync();
+        return page;
+    }
+
+    [E2EFact]
+    public async Task Extra_Dice_Are_Marked_On_Screen__FR006()
+    {
+        var page = await OpenWith3DAsync(browser, Viewports.Phone, "1d6");
+
+        var dice = await page.EvaluateAsync<string>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              const board = document.querySelector('[data-testid=dice-board]');
+              await dice3d.roll(board, { dice: [
+                { shape: 'D6', face: '6', wave: 0, penetration: false },
+                { shape: 'D6', face: '2', wave: 1, penetration: true },
+              ] });
+              return JSON.stringify(dice3d.shownDice(board));
+            }
+            """);
+
+        Assert.Equal("""[{"face":"6","penetration":false},{"face":"2","penetration":true}]""", dice);
+    }
+
+    [E2EFact]
+    public async Task A_Roll_On_Screen_Ends_In_Under_4_Seconds_Showing_The_Detail_Values__SC004()
+    {
+        var page = await OpenWith3DAsync(browser, Viewports.Phone, "1d4+1d6+1d8+1d10+1d12+1d20+1d100");
+
+        var result = await page.EvaluateAsync<JsonElement>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              const started = performance.now();
+              document.querySelector('[data-testid=dice-roll]').click();
+              while (!document.querySelector('[data-testid=dice-total]') && performance.now() - started < 10000) {
+                await new Promise(resolve => setTimeout(resolve, 20));
+              }
+              const ms = performance.now() - started;
+              const shown = dice3d.shownFaces(document.querySelector('[data-testid=dice-board]'));
+              const detail = [...document.querySelectorAll('[data-testid=dice-detail] .die')].map(die => die.textContent.trim());
+              const percentile = (Number(shown[6]) + Number(shown[7])) || 100;
+              return { ms, shown: [...shown.slice(0, 6), String(percentile)], detail };
+            }
+            """);
+
+        Assert.InRange(result.GetProperty("ms").GetDouble(), 0, 4000);
+        Assert.Equal(result.GetProperty("detail").GetRawText(), result.GetProperty("shown").GetRawText());
+    }
+
+    [E2EFact]
+    public async Task Without_3D_Nothing_Of_The_3D_Part_Is_Downloaded__FR016()
+    {
+        var page = await browser.NewPageAsync(Viewports.Phone);
+        var requested = new List<string>();
+        page.Request += (_, request) => requested.Add(request.Url);
+
+        await BrowserFixture.GoToAsync(page, "habilidades");
+        await BrowserFixture.GoToAsync(page, "dados");
+        await page.Locator("[data-testid=dice-formula]").WaitForAsync();
+
+        Assert.DoesNotContain(requested, url => url.Contains("/lib/", StringComparison.Ordinal) || url.Contains("dice3d", StringComparison.Ordinal));
+    }
+
     [E2EFact]
     public async Task The_Module_Reports_Whether_3D_Is_Available__FR011()
     {

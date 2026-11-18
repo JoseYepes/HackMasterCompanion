@@ -481,6 +481,16 @@ export function shownFaces(element) {
   });
 }
 
+/** Dados en pantalla con su cara de arriba y si son dados extra por penetración (pruebas, FR-006). */
+export function shownDice(element) {
+  const board = boards.get(element);
+  if (!board) return [];
+  return board.meshes.map(mesh => {
+    const { entry } = mesh.userData;
+    return { face: entry.labels[topSlot(entry.data, mesh.quaternion)], penetration: Boolean(entry.item.penetration) };
+  });
+}
+
 /** Libera la mesa al salir de la página. */
 export function dispose(element) {
   const board = boards.get(element);
