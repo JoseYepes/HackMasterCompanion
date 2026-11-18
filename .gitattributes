@@ -9,3 +9,7 @@
 # Datos generados: mismos bytes en Windows y en CI
 data/*.json text eol=lf
 docs/dudas.md text eol=lf
+
+# Librerías de terceros: se guardan sin tocar, byte a byte (wwwroot/lib/README.md)
+src/HackMaster.Web/wwwroot/lib/*.js -text
+src/HackMaster.Web/wwwroot/lib/*.LICENSE -text
