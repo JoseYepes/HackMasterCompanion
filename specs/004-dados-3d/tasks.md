@@ -54,7 +54,7 @@ aplicación en marcha (`tests/README.md`).
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T002 [P] Escribir `tests/HackMaster.Domain.Tests/DiceBoardTests.cs` (data-model):
+- [X] T002 [P] Escribir `tests/HackMaster.Domain.Tests/DiceBoardTests.cs` (data-model):
   - un dado por d4, d6, d8, d10, d12 y d20, con su cara;
   - d100 como `D10Tens` y `D10`: 100 → "00" y "0", 7 → "00" y "7", 70 → "70" y "0", 10 → "10" y "0";
   - d2, d3 y d1000 van a `Unshaped`;
@@ -62,7 +62,7 @@ aplicación en marcha (`tests/README.md`).
   - más de 20 dados al empezar (un d100 cuenta 2) → `TooMany` y nada que dibujar;
   - más de 20 con los extra → se cortan y `Truncated`;
   - los modificadores no se dibujan
-- [ ] T003 [P] Añadir a `tests/HackMaster.Domain.Tests/StoredDataTests.cs`:
+- [X] T003 [P] Añadir a `tests/HackMaster.Domain.Tests/StoredDataTests.cs`:
   - un historial de la versión 1 se lee con todas sus tiradas y `dice3d = false`;
   - lo escrito lleva `schemaVersion: 2` y `dice3d`;
   - una versión 3 se rechaza con motivo;
@@ -70,8 +70,8 @@ aplicación en marcha (`tests/README.md`).
 
 ### Implementation
 
-- [ ] T004 Crear `src/HackMaster.Domain/DiceBoard.cs` (`DieShape`, `BoardDie`, `BoardPlan`, `Plan`) hasta pasar T002
-- [ ] T005 Subir `StoredData.CurrentVersion` a 2, añadir `Dice3D` a `RollHistoryFile` y la migración 1 → 2 en `Migrate` hasta pasar T003; revisar que las pruebas de F002 siguen en verde
+- [X] T004 Crear `src/HackMaster.Domain/DiceBoard.cs` (`DieShape`, `BoardDie`, `BoardPlan`, `Plan`) hasta pasar T002
+- [X] T005 Subir `StoredData.CurrentVersion` a 2, añadir `Dice3D` a `RollHistoryFile` y la migración 1 → 2 en `Migrate` hasta pasar T003; revisar que las pruebas de F002 siguen en verde
 
 ---
 

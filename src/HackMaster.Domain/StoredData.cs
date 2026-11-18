@@ -1,4 +1,6 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace HackMaster.Domain;
 
@@ -23,8 +25,15 @@ public sealed record StoredRoll(
     int Constant,
     IReadOnlyList<StoredGroup> Groups);
 
-/// <summary>Historial de tiradas y opción de dados que penetran (clave <c>hackmaster.rolls</c>).</summary>
-public sealed record RollHistoryFile(int SchemaVersion, bool Penetrating, IReadOnlyList<StoredRoll> Rolls)
+/// <summary>
+/// Historial de tiradas y opciones del tirador: dados que penetran y, desde la versión 2, dados 3D
+/// (clave <c>hackmaster.rolls</c>).
+/// </summary>
+public sealed record RollHistoryFile(
+    int SchemaVersion,
+    bool Penetrating,
+    IReadOnlyList<StoredRoll> Rolls,
+    [property: JsonPropertyName("dice3d")] bool Dice3D = false)
 {
     public static RollHistoryFile Empty { get; } = new(StoredData.CurrentVersion, false, []);
 }
@@ -40,7 +49,7 @@ public sealed record StoredRead<T>(T? Value, string? Error)
 public static class StoredData
 {
     /// <summary>Versión del formato que escribe esta aplicación.</summary>
-    public const int CurrentVersion = 1;
+    public const int CurrentVersion = 2;
 
     public static StoredRead<PlayerSuitesFile> ReadSuites(string? json) => Read(json, PlayerSuitesFile.Empty, IsComplete);
 
@@ -99,12 +108,37 @@ public static class StoredData
     }
 
     /// <summary>
-    /// Lleva los datos de <paramref name="version"/> a la versión actual. Con la versión 1 no hay
-    /// nada que migrar; cada versión nueva añade aquí su paso, con su prueba.
+    /// Lleva los datos de <paramref name="version"/> a la versión actual, paso a paso. Cada versión
+    /// nueva añade aquí su paso, con su prueba.
     /// </summary>
-    private static JsonElement Migrate(JsonElement root, int version) => version switch
+    private static JsonElement Migrate(JsonElement root, int version)
     {
-        CurrentVersion => root,
-        _ => throw new JsonException($"No se sabe migrar la versión {version} del formato."),
-    };
+        if (version == CurrentVersion)
+        {
+            return root;
+        }
+
+        var node = JsonNode.Parse(root.GetRawText())?.AsObject()
+            ?? throw new JsonException("Los datos guardados no son un objeto.");
+        for (; version < CurrentVersion; version++)
+        {
+            switch (version)
+            {
+                case 1:
+                    // 1 → 2 (F003): el historial gana la opción de dados 3D, desactivada. Los conjuntos no cambian.
+                    if (node.ContainsKey("rolls") && !node.ContainsKey("dice3d"))
+                    {
+                        node["dice3d"] = false;
+                    }
+
+                    break;
+                default:
+                    throw new JsonException($"No se sabe migrar la versión {version} del formato.");
+            }
+
+            node["schemaVersion"] = version + 1;
+        }
+
+        return JsonSerializer.SerializeToElement(node);
+    }
 }

@@ -55,9 +55,53 @@ public class StoredDataTests
     }
 
     [Fact]
-    public void Written_Data_Carries_The_Schema_Version__FR018()
+    public void Written_Data_Carries_The_Current_Schema_Version__FR018()
     {
-        Assert.Contains("\"schemaVersion\": 1", StoredData.Write(SampleSuites()), StringComparison.Ordinal);
+        Assert.Equal(2, StoredData.CurrentVersion);
+        Assert.Contains("\"schemaVersion\": 2", StoredData.Write(SampleSuites()), StringComparison.Ordinal);
+        Assert.Contains("\"schemaVersion\": 2", StoredData.Write(SampleRolls()), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Dice3D_Option_Is_Written_And_Read_Back__FR009()
+    {
+        var read = StoredData.ReadRolls(StoredData.Write(SampleRolls() with { Dice3D = true }));
+
+        Assert.True(read.Value!.Dice3D);
+        Assert.Contains("\"dice3d\": true", StoredData.Write(SampleRolls() with { Dice3D = true }), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Version_1_History_Is_Migrated_Keeping_Every_Roll_And_Dice3D_Off__F003()
+    {
+        const string Version1 = """
+            { "schemaVersion": 1, "penetrating": true, "rolls": [
+              { "formula": "1d20+2", "penetrating": false, "total": 17, "rolledAt": "2026-11-18T10:05:00+01:00", "constant": 2,
+                "groups": [ { "count": 1, "sides": 20, "sign": 1, "subtotal": 15, "capped": false, "dice": [ { "value": 15, "penetration": false } ] } ] } ] }
+            """;
+
+        var read = StoredData.ReadRolls(Version1);
+
+        Assert.Null(read.Error);
+        Assert.True(read.Value!.Penetrating);
+        Assert.False(read.Value.Dice3D);
+        Assert.Equal(17, Assert.Single(read.Value.Rolls).Total);
+        Assert.Equal(StoredData.CurrentVersion, read.Value.SchemaVersion);
+    }
+
+    [Fact]
+    public void Version_1_Suites_Are_Read_Unchanged__F003()
+    {
+        const string Version1 = """
+            { "schemaVersion": 1, "suites": [ { "slug": "mio", "name": "Mío",
+              "components": [ { "kind": "Skill", "slug": "botanica" }, { "kind": "Skill", "slug": "lucha" } ],
+              "abilities": ["INT"], "createdAt": "2026-11-18T10:00:00+01:00", "updatedAt": "2026-11-18T10:00:00+01:00" } ] }
+            """;
+
+        var read = StoredData.ReadSuites(Version1);
+
+        Assert.Null(read.Error);
+        Assert.Equal("Mío", Assert.Single(read.Value!.Suites).Name);
     }
 
     [Theory]
@@ -100,7 +144,7 @@ public class StoredDataTests
     [Fact]
     public void Data_From_A_Newer_Version_Is_Rejected_With_A_Reason__FR018()
     {
-        var read = StoredData.ReadRolls("{ \"schemaVersion\": 2, \"penetrating\": false, \"rolls\": [] }");
+        var read = StoredData.ReadRolls("{ \"schemaVersion\": 3, \"penetrating\": false, \"rolls\": [] }");
 
         Assert.Null(read.Value);
         Assert.Contains("más reciente", read.Error, StringComparison.Ordinal);
