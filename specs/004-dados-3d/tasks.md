@@ -84,10 +84,10 @@ aplicación en marcha (`tests/README.md`).
 
 ### Tests (primero; deben fallar antes de implementar)
 
-- [ ] T006 [P] [US1] Escribir `tests/HackMaster.Web.Tests/E2E/Dice3DTests.cs`:
+- [X] T006 [P] [US1] Escribir `tests/HackMaster.Web.Tests/E2E/Dice3DTests.cs`:
   - en la página `/dados`, importar `js/dice3d.js` y llamar 1 000 veces a `simulate(plan, semilla)` con planes de todas las formas (d4 a d20, d100 como dos d10) y caras al azar;
   - comprobar que la cara de arriba coincide siempre (SC-001)
-- [ ] T007 [P] [US1] Añadir a `tests/HackMaster.Web.Tests/DicePageTests.cs` (bUnit, JSInterop simulado):
+- [X] T007 [P] [US1] Añadir a `tests/HackMaster.Web.Tests/DicePageTests.cs` (bUnit, JSInterop simulado):
   - `dice3d-toggle` desactivado al entrar la primera vez (FR-010);
   - activarlo lo guarda (FR-009);
   - con 3D, al tirar se importa el módulo y se llama a `roll` con el plan de `DiceBoard.Plan`;
@@ -98,13 +98,13 @@ aplicación en marcha (`tests/README.md`).
 
 ### Implementation
 
-- [ ] T008 [US1] Escribir en `src/HackMaster.Web/wwwroot/js/dice3d.js`:
+- [X] T008 [US1] Escribir en `src/HackMaster.Web/wwwroot/js/dice3d.js`:
   - las formas de los dados con sus caras numeradas (d4, d6, d8, d10, d10 de decenas, d12, d20);
   - la física con paso fijo;
   - `simulate`, que fuerza la cara (research §2);
   - hasta pasar T006
-- [ ] T009 [US1] Completar `dice3d.js` con `isSupported`, `create`, `roll` (reproducción en pantalla, como mucho 4 s), `finish` y `dispose` según `contracts/dice3d-js.md`
-- [ ] T010 [US1] Crear `src/HackMaster.Web/Components/DiceBoard.razor` y conectar la opción «Dados 3D» en `src/HackMaster.Web/Pages/Dice.razor` hasta pasar T007, con CSS pensado para 390 px
+- [X] T009 [US1] Completar `dice3d.js` con `isSupported`, `create`, `roll` (reproducción en pantalla, como mucho 4 s), `finish` y `dispose` según `contracts/dice3d-js.md`
+- [X] T010 [US1] Crear `src/HackMaster.Web/Components/DiceBoardView.razor` (se llama así para no chocar con `Domain.DiceBoard`) y conectar la opción «Dados 3D» en `src/HackMaster.Web/Pages/Dice.razor` hasta pasar T007, con CSS pensado para 390 px
 
 ---
 

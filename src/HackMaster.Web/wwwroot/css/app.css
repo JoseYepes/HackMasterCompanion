@@ -764,3 +764,21 @@ a {
   align-items: center;
   gap: 0.25rem;
 }
+
+/* Dados 3D (F003) */
+
+.dice-board {
+  width: 100%;
+  max-width: 100%;
+  margin: 0.5rem 0 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: radial-gradient(circle at 50% 40%, #2f6b4f, #1d4634);
+  overflow: hidden;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.dice-board canvas {
+  display: block;
+}

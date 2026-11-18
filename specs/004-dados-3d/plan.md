@@ -96,7 +96,7 @@ src/
 │   ├── DiceBoard.cs                DieShape, BoardDie, BoardPlan, Plan()
 │   └── StoredData.cs               versión 2 de hackmaster.rolls (dice3d) y migración
 └── HackMaster.Web/
-    ├── Components/DiceBoard.razor  importa dice3d.js, tira, espera, cae al modo sin 3D
+    ├── Components/DiceBoardView.razor importa dice3d.js, tira, espera, cae al modo sin 3D
     ├── Pages/Dice.razor            opción «Dados 3D», muestra el texto al acabar
     └── wwwroot/
         ├── js/dice3d.js            módulo propio (contracts/dice3d-js.md)
@@ -118,7 +118,7 @@ terceros en `wwwroot/lib`, con su licencia.
 3. **Módulo `dice3d.js`**:
    - `simulate`, primero, para la prueba de SC-001;
    - después `create`, `roll`, `finish` y `dispose`.
-4. **Componente y página**: opción «Dados 3D», componente `DiceBoard`, avisos y respaldo.
+4. **Componente y página**: opción «Dados 3D», componente `DiceBoardView`, avisos y respaldo.
 5. **Playwright**, medición de SC-003 y SC-005 a mano y revisión independiente.
 
 ## Riesgos

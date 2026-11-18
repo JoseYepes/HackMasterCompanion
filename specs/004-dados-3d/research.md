@@ -62,7 +62,7 @@ jsDelivr consultados el 2026-11-18.
   - los dados sin forma (d2, d3, d1000…) aparte;
   - y si la tirada cabe en 20 dados.
 
-  El componente Blazor `DiceBoard` pasa ese plan al módulo JavaScript y espera a que termine.
+  El componente Blazor `DiceBoardView` pasa ese plan al módulo JavaScript y espera a que termine.
 - **Rationale**: las reglas (d100, límite de 20, qué se dibuja) se prueban con TDD en el
   dominio; el JavaScript solo dibuja.
 - **Alternatives considered**: decidirlo en JavaScript (sin pruebas en .NET y con reglas
