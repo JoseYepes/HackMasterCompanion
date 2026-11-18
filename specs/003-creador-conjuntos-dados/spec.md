@@ -23,6 +23,13 @@
 - Q: ¿Cuántas habilidades puede tener un conjunto? → A: Entre 2 y 5, según HJ 4.05 tal como lo
   recuerda el usuario (pendiente de verificar en el HJ, que está escaneado). En la hoja,
   Forjador de armaduras y Trovador tienen 6: se registra como duda.
+- Q: ¿Dónde aparecen los conjuntos que crea el jugador? → A: Junto a los 36 conjuntos de
+  habilidades, en la misma lista y sin distinguirlos: todos son conjuntos del usuario (los 36 los
+  hizo él con las reglas de HJ 4.05). Se pueden usar como componente de otro conjunto. Solo se
+  diferencian en que los creados en la aplicación se pueden modificar y borrar desde ella; los 36
+  se cambian en la hoja. Los 23 conjuntos oficiales siguen como en F001.
+- Q: ¿Qué clases pueden comprar un conjunto creado? → A: Se calcula sola: solo las clases que
+  pueden comprar todas sus habilidades ("Todas" si ninguna tiene restricción).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -84,9 +91,10 @@ PC, el precio, la dificultad y el dado de maestría calculados coinciden con los
    dado), **When** forma parte del conjunto, **Then** el valor del conjunto que depende de él se
    muestra también como "pendiente de verificar", sin inventar el dato que falta.
 5. **Given** un conjunto creado, **When** el jugador le pone nombre y lo guarda, **Then** aparece en
-   la lista de sus conjuntos, puede abrirlo, cambiarlo o borrarlo, y sigue ahí tras cerrar y
-   volver a abrir la aplicación en el mismo dispositivo.
-6. **Given** un conjunto existente de la consulta (de habilidades u oficial), **When** el jugador lo
+   la lista de conjuntos de habilidades junto a los 36, con el mismo aspecto; puede abrirlo,
+   cambiarlo o borrarlo, y sigue ahí tras cerrar y volver a abrir la aplicación en el mismo
+   dispositivo.
+6. **Given** otro conjunto (de los 36, creado en la aplicación u oficial), **When** el jugador lo
    añade como componente, **Then** cuenta con sus propios valores, como hace la hoja en los
    conjuntos que incluyen otro conjunto.
 
@@ -173,16 +181,25 @@ las tres aparecen en el historial en orden, con fórmula, detalle, total y hora.
   pendiente de verificar). Con otro número se sigue calculando, pero no se puede guardar y se
   explica por qué. Los conjuntos de 6 componentes de la hoja (Forjador de armaduras, Trovador) se
   siguen consultando como hasta ahora y quedan registrados como duda.
-- **FR-011**: Los componentes DEBEN poder ser habilidades y conjuntos de la consulta (de habilidades
-  u oficiales); un conjunto como componente aporta sus propios valores. No se permite repetir un
-  componente.
+- **FR-011**: Los componentes DEBEN poder ser habilidades y conjuntos (los 36 de la hoja, los
+  creados en la aplicación y los oficiales); un conjunto como componente aporta sus propios
+  valores. No se permite repetir un componente ni que un conjunto se incluya a sí mismo, directa
+  o indirectamente.
 - **FR-012**: Las características relevantes del conjunto las DEBE elegir el jugador entre las de
   sus componentes; el requisito del conjunto DEBE mostrarse como "las de las habilidades que lo
   componen", con la lista de requisitos de cada componente.
+- **FR-012b**: Las clases permitidas del conjunto DEBEN calcularse solas: las que pueden comprar
+  todos sus componentes; si ningún componente tiene restricción, "Todas". Si las restricciones no
+  se pueden combinar con los datos disponibles (por ejemplo, una clase concreta y un grupo de
+  clases distinto, sin saber si la clase pertenece al grupo), las clases del conjunto se muestran
+  como "pendiente de verificar" junto con la lista de restricciones de los componentes.
 - **FR-013**: Un valor que dependa de un dato "pendiente de verificar" DEBE mostrarse como
   "pendiente de verificar" (principio I).
 - **FR-014**: El jugador DEBE poder guardar, abrir, cambiar el nombre, modificar y borrar sus
-  conjuntos; borrar pide confirmación. Los conjuntos guardados se distinguen de los de la consulta.
+  conjuntos; borrar pide confirmación. Los conjuntos creados en la aplicación DEBEN aparecer en la
+  lista de conjuntos de habilidades junto a los 36 de la hoja, sin distinguirse de ellos salvo
+  por poder modificarse y borrarse. Un nombre igual al de otro conjunto de habilidades no se
+  permite. Borrar un conjunto que es componente de otro avisa de cuáles se verán afectados.
 - **FR-015**: El cálculo del conjunto DEBE coincidir con los 36 conjuntos de habilidades de la
   hoja en coste, precio, dificultad y dado (salvo los que la aclaración de FR-008 deje como
   excepción documentada).
