@@ -18,6 +18,11 @@
 - Q: ¿El sonido empieza activado o silenciado la primera vez? → A: Activado.
 - Nota del usuario: en la mesa a los dados de penetración también se les llama «dados que
   explotan». Pide, si es posible, un efecto al penetrar: explosión, fuego o incluso sangre (US5).
+- Q: ¿Qué materiales se incluyen? → A: Los 8 del prototipo enseñado el 2026-11-18 (marfil, mármol
+  verde, oro viejo, hierro negro, rubí, obsidiana, hueso y amatista) más madera, piedra y cristal:
+  11 en total. Cada uno con su color por defecto, que el jugador puede cambiar.
+- Q: ¿Qué efecto de penetración sale por defecto? → A: Explosión (el recomendado); fuego, sangre y
+  «ninguno» se pueden elegir.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -152,9 +157,9 @@ en ese dado se ve el efecto elegido y el dado extra aparece con su aura.
 
 ### Functional Requirements
 
-- **FR-001**: El jugador DEBE poder elegir el material de sus dados entre al menos 4 materiales
-  (por ejemplo, marfil, piedra, metal y gema translúcida), con el marfil actual como opción por
-  defecto.
+- **FR-001**: El jugador DEBE poder elegir el material de sus dados entre estos 11: marfil, mármol,
+  oro viejo, hierro negro, rubí, obsidiana, hueso, amatista, madera, piedra y cristal. El marfil
+  actual es la opción por defecto.
 - **FR-002**: El jugador DEBE poder elegir el color del dado y el color de los números.
 - **FR-003**: Si el color de los números no contrasta lo suficiente con el del dado (menos de
   3:1), la aplicación DEBE avisarlo antes de guardar o proponer un color que se lea.
@@ -184,7 +189,7 @@ en ese dado se ve el efecto elegido y el dado extra aparece con su aura.
 - **FR-016**: Los controles nuevos DEBEN cumplir lo de F007: contraste en los dos modos, botones
   de 44 px y sin desbordamiento a 390 y 820 px.
 - **FR-017**: Cuando un dado penetra, DEBE verse sobre él un efecto de penetración elegido por el
-  jugador entre al menos explosión, fuego, sangre y «ninguno», con su sonido si el sonido está
+  jugador entre explosión (por defecto), fuego, sangre y «ninguno», con su sonido si el sonido está
   activado (US5). El efecto NO DEBE alargar la tirada más allá de los 4 s.
 - **FR-018**: Si el dispositivo pide menos animación o la calidad es baja, el efecto de
   penetración DEBE simplificarse (destello breve o solo el aura).
