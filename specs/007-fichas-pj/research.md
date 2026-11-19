@@ -41,8 +41,8 @@
 ## 4. Identificadores y fechas
 
 - **Decision**: cada ficha tiene un `Id` (GUID en texto) que la página genera con `Guid.NewGuid()`;
-  el dominio lo recibe ya hecho (determinista). Fechas de creación y cambio con `TimeProvider`
-  como en los conjuntos (`DateTimeOffset` que pasa la página).
+  el dominio lo recibe ya hecho (determinista). Fechas de creación y cambio con `DateTimeOffset.Now`
+  en la página, como en los conjuntos; el dominio las recibe hechas.
 - **Rationale**: los nombres pueden repetirse (caso límite) y la dirección `/fichas/{id}` no debe
   cambiar al renombrar.
 

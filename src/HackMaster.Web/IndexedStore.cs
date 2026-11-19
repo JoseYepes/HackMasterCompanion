@@ -2,6 +2,9 @@ using Microsoft.JSInterop;
 
 namespace HackMaster.Web;
 
+/// <summary>Texto leído del dispositivo: el valor (nulo si no hay nada) o que el navegador no dejó leerlo.</summary>
+public sealed record StoredText(string? Value, bool Failed);
+
 /// <summary>
 /// Guarda texto en IndexedDB con el módulo <c>js/characters.js</c> (F004, research §1). Como
 /// <see cref="BrowserStore"/>: si el navegador no deja guardar, no falla, conserva los valores en
@@ -21,24 +24,27 @@ public sealed class IndexedStore(IJSRuntime js)
     /// <summary>Se lanza cuando <see cref="IsAvailable"/> cambia.</summary>
     public event Action? AvailabilityChanged;
 
-    /// <summary>Valor guardado con esa clave, o nulo; mientras el navegador deje, se lee de él (otra pestaña puede haber guardado).</summary>
-    public async Task<string?> GetAsync(string key)
+    /// <summary>
+    /// Valor guardado con esa clave; mientras el navegador deje, se lee de él (otra pestaña puede
+    /// haber guardado). Si el navegador no deja leer y en memoria no hay nada de esa clave, el
+    /// resultado lo dice (<see cref="StoredText.Failed"/>), para no confundirlo con «no hay nada».
+    /// </summary>
+    public async Task<StoredText> GetAsync(string key)
     {
-        if (!IsAvailable)
+        if (IsAvailable)
         {
-            return _memory.GetValueOrDefault(key);
+            try
+            {
+                var module = await ModuleAsync();
+                return new StoredText(await module.InvokeAsync<string?>("get", key), Failed: false);
+            }
+            catch (JSException)
+            {
+                MarkUnavailable();
+            }
         }
 
-        try
-        {
-            var module = await ModuleAsync();
-            return await module.InvokeAsync<string?>("get", key);
-        }
-        catch (JSException)
-        {
-            MarkUnavailable();
-            return _memory.GetValueOrDefault(key);
-        }
+        return _memory.TryGetValue(key, out var value) ? new StoredText(value, Failed: false) : new StoredText(null, Failed: true);
     }
 
     /// <summary>Guarda el valor; si el navegador no deja, lo conserva en memoria y avisa.</summary>

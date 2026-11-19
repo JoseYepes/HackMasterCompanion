@@ -131,7 +131,7 @@ public static class StoredData
             return new StoredRead<CharacterFile>(null, $"El archivo está dañado: {exception.Message}");
         }
 
-        return Read<CharacterFile>(json, null!, file => file.Character is not null && IsComplete(file.Character), CharactersVersion, MigrateCharacterFile);
+        return Read<CharacterFile>(json, null!, file => file.Character is not null && IsComplete(file.Character), CharactersVersion, MigrateCharacterFile, isFile: true);
     }
 
     /// <summary>Archivo de exportar de una ficha, en la versión actual.</summary>
@@ -210,7 +210,7 @@ public static class StoredData
     private static JsonObject ToObject(JsonElement root) =>
         JsonNode.Parse(root.GetRawText())?.AsObject() ?? throw new JsonException("Los datos guardados no son un objeto.");
 
-    private static StoredRead<T> Read<T>(string? json, T empty, Func<T, bool> isComplete, int currentVersion, Func<JsonElement, int, JsonElement> migrate)
+    private static StoredRead<T> Read<T>(string? json, T empty, Func<T, bool> isComplete, int currentVersion, Func<JsonElement, int, JsonElement> migrate, bool isFile = false)
         where T : class
     {
         if (string.IsNullOrWhiteSpace(json))
@@ -226,23 +226,23 @@ public static class StoredData
                 || versionElement.ValueKind != JsonValueKind.Number
                 || !versionElement.TryGetInt32(out var version))
             {
-                return new StoredRead<T>(null, "Los datos guardados no indican su versión de formato.");
+                return new StoredRead<T>(null, isFile ? "El archivo no indica su versión de formato." : "Los datos guardados no indican su versión de formato.");
             }
 
             if (version > currentVersion)
             {
-                return new StoredRead<T>(null, $"Los datos guardados son de una versión más reciente de la aplicación ({version}); esta entiende hasta la {currentVersion}.");
+                return new StoredRead<T>(null, $"{(isFile ? "El archivo es" : "Los datos guardados son")} de una versión más reciente de la aplicación ({version}); esta entiende hasta la {currentVersion}.");
             }
 
             var migrated = migrate(document.RootElement, version);
             var value = migrated.Deserialize<T>(GameDataJson.Options);
             return value is not null && isComplete(value)
                 ? new StoredRead<T>(value, null)
-                : new StoredRead<T>(null, "Los datos guardados están incompletos.");
+                : new StoredRead<T>(null, isFile ? "El archivo está incompleto." : "Los datos guardados están incompletos.");
         }
         catch (JsonException exception)
         {
-            return new StoredRead<T>(null, $"Los datos guardados están dañados: {exception.Message}");
+            return new StoredRead<T>(null, $"{(isFile ? "El archivo está dañado" : "Los datos guardados están dañados")}: {exception.Message}");
         }
     }
 

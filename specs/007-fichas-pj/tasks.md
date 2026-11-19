@@ -40,8 +40,8 @@
 ## Phase 6: Polish
 
 - [X] T015 [P] Pruebas de navegador en `tests/HackMaster.Web.Tests/E2E/CharacterTests.cs`: crear, recargar y ver (IndexedDB real); exportar e importar idéntica (descarga de Playwright); sin peticiones fuera del sitio (SC-003); sin desbordamiento a 390 y 820 px (SC-005)
-- [ ] T016 Actualizar `tests/README.md`, `docs/ESTADO.md` y marcar tareas; `dotnet format`, todas las pruebas
-- [ ] T017 Revisión independiente (subagente) del diff y corrección de lo que encuentre
+- [X] T016 Actualizar `tests/README.md`, `docs/ESTADO.md` y marcar tareas; `dotnet format`, todas las pruebas
+- [X] T017 Revisión independiente (subagente) del diff y corrección de lo que encuentre
 - [ ] T018 Pull request, CI en verde y fusión con el visto bueno del usuario
 - [ ] T019 Comprobación del usuario en su móvil (quickstart, comprobación a mano)
 

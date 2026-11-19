@@ -33,10 +33,10 @@ else
                 <label>Nombre <input type="text" autocomplete="off" data-testid="character-name" value="@_character.Name" @oninput="args => Change(_character with { Name = Text(args) ?? string.Empty })" /></label>
                 <label>Raza <input type="text" autocomplete="off" data-testid="character-race" value="@_character.Race" @oninput="args => Change(_character with { Race = Text(args) })" /></label>
                 <label>Clase <input type="text" autocomplete="off" data-testid="character-class" value="@_character.Class" @oninput="args => Change(_character with { Class = Text(args) })" /></label>
-                <label>Nivel <input type="number" inputmode="numeric" min="0" data-testid="character-level" value="@_character.Level" @oninput="args => Change(_character with { Level = Number(args) })" /></label>
+                <label>Nivel <input type="number" inputmode="numeric" min="0" data-testid="character-level" value="@_character.Level" @oninput='args => Change(_character with { Level = Number(args, "level", "Nivel") })' /></label>
                 <label>Alineamiento <input type="text" autocomplete="off" data-testid="character-alignment" value="@_character.Alignment" @oninput="args => Change(_character with { Alignment = Text(args) })" /></label>
-                <label>PG <input type="number" inputmode="numeric" data-testid="character-hp" value="@_character.HitPoints" @oninput="args => Change(_character with { HitPoints = Number(args) })" /></label>
-                <label>Honor <input type="number" inputmode="numeric" data-testid="character-honor" value="@_character.Honor" @oninput="args => Change(_character with { Honor = Number(args) })" /></label>
+                <label>PG <input type="number" inputmode="numeric" data-testid="character-hp" value="@_character.HitPoints" @oninput='args => Change(_character with { HitPoints = Number(args, "hp", "PG") })' /></label>
+                <label>Honor <input type="number" inputmode="numeric" data-testid="character-honor" value="@_character.Honor" @oninput='args => Change(_character with { Honor = Number(args, "honor", "Honor") })' /></label>
             </fieldset>
 
             <fieldset class="character-abilities">
@@ -44,13 +44,14 @@ else
                 @foreach (var ability in Enum.GetValues<Ability>())
                 {
                     var score = _character.Abilities[ability];
+                    var name = AbilityNames[ability];
                     <div class="character-ability">
-                        <label for="ability-@ability" title="@AbilityNames[ability]">@ability</label>
-                        <input id="ability-@ability" type="number" inputmode="numeric" min="0" aria-label="@AbilityNames[ability]" data-testid="character-ability-@ability"
-                               value="@score.Score" @oninput="args => ChangeAbility(ability, _character.Abilities[ability] with { Score = Number(args) })" />
+                        <label for="ability-@ability" title="@name">@ability</label>
+                        <input id="ability-@ability" type="number" inputmode="numeric" min="0" aria-label="@name" data-testid="character-ability-@ability"
+                               value="@score.Score" @oninput='args => ChangeAbility(ability, _character.Abilities[ability] with { Score = Number(args, $"score-{ability}", name) })' />
                         <span aria-hidden="true">/</span>
-                        <input type="number" inputmode="numeric" min="0" max="99" aria-label="Fracción de @AbilityNames[ability]" data-testid="character-fraction-@ability"
-                               value="@score.Fraction" @oninput="args => ChangeAbility(ability, _character.Abilities[ability] with { Fraction = Number(args) })" />
+                        <input type="number" inputmode="numeric" min="0" max="99" aria-label="Fracción de @name" data-testid="character-fraction-@ability"
+                               value="@score.Fraction" @oninput='args => ChangeAbility(ability, _character.Abilities[ability] with { Fraction = Number(args, $"fraction-{ability}", $"Fracción de {name}") })' />
                     </div>
                 }
             </fieldset>
@@ -69,7 +70,7 @@ else
                     {
                         <li data-testid="character-skill-result">
                             <span>@skill.Name</span>
-                            <button type="button" @onclick="() => AddSkill(skill)">Añadir</button>
+                            <button type="button" aria-label="Añadir @skill.Name" @onclick="() => AddSkill(skill)">Añadir</button>
                         </li>
                     }
                 </ul>
@@ -87,8 +88,10 @@ else
             else
             {
                 <ul class="suite-components character-skills">
-                    @foreach (var skill in _character.Skills)
+                    @for (var i = 0; i < _character.Skills.Count; i++)
                     {
+                        var index = i;
+                        var skill = _character.Skills[index];
                         <li data-testid="character-skill">
                             <span class="component-name">
                                 @if (Data.FindSkill(skill.Slug) is not null)
@@ -101,9 +104,11 @@ else
                                     <span class="pending-reason" data-testid="character-skill-missing"> (no encontrada en los datos)</span>
                                 }
                             </span>
-                            <label>Maestría <input type="number" inputmode="numeric" min="0" data-testid="character-skill-mastery" value="@skill.Mastery" @oninput="args => ChangeSkill(skill, skill with { Mastery = Number(args) })" /></label>
-                            <label>Puntos <input type="number" inputmode="numeric" min="0" data-testid="character-skill-points" value="@skill.Points" @oninput="args => ChangeSkill(skill, skill with { Points = Number(args) })" /></label>
-                            <button type="button" data-testid="character-skill-remove" @onclick="() => RemoveSkill(skill)">Quitar</button>
+                            <label>Maestría <input type="number" inputmode="numeric" min="0" aria-label="Maestría de @skill.Name" data-testid="character-skill-mastery" value="@skill.Mastery"
+                                                   @oninput='args => ChangeSkill(index, _character.Skills[index] with { Mastery = Number(args, $"mastery-{index}", $"Maestría de {skill.Name}") })' /></label>
+                            <label>Puntos <input type="number" inputmode="numeric" min="0" aria-label="Puntos de @skill.Name" data-testid="character-skill-points" value="@skill.Points"
+                                                 @oninput='args => ChangeSkill(index, _character.Skills[index] with { Points = Number(args, $"points-{index}", $"Puntos de {skill.Name}") })' /></label>
+                            <button type="button" aria-label="Quitar @skill.Name" data-testid="character-skill-remove" @onclick="() => RemoveSkill(index)">Quitar</button>
                         </li>
                     }
                 </ul>
@@ -123,12 +128,12 @@ else
         }
 
         <p class="suite-actions">
-            <button type="button" class="primary" data-testid="character-save" @onclick="SaveAsync">Guardar</button>
+            <button type="button" class="primary" data-testid="character-save" disabled="@_busy" @onclick="SaveAsync">Guardar</button>
             @if (Id is not null)
             {
-                <button type="button" data-testid="character-export" @onclick="ExportAsync">Exportar</button>
-                <button type="button" data-testid="character-duplicate" @onclick="DuplicateAsync">Duplicar</button>
-                <button type="button" data-testid="character-delete" @onclick="() => _confirmDelete = true">Borrar</button>
+                <button type="button" data-testid="character-export" disabled="@_busy" @onclick="ExportAsync">Exportar</button>
+                <button type="button" data-testid="character-duplicate" disabled="@_busy" @onclick="DuplicateAsync">Duplicar</button>
+                <button type="button" data-testid="character-delete" disabled="@_busy" @onclick="AskDelete">Borrar</button>
             }
         </p>
 
@@ -136,7 +141,7 @@ else
         {
             <div class="doubt-notice" role="alert">
                 <p data-testid="character-delete-question">¿Borrar la ficha «@(PlayerCharacters.Find(Id!)?.Name ?? _character.Name)»? No se puede deshacer; si quieres conservarla, expórtala antes.</p>
-                <button type="button" data-testid="character-delete-confirm" @onclick="DeleteAsync">Sí, borrar</button>
+                <button type="button" data-testid="character-delete-confirm" @ref="_deleteConfirm" @onclick="DeleteAsync">Sí, borrar</button>
                 <button type="button" data-testid="character-delete-cancel" @onclick="() => _confirmDelete = false">Cancelar</button>
             </div>
         }
@@ -157,13 +162,19 @@ else
         [Ability.ASP] = "Aspecto",
     };
 
+    /// <summary>Campos con un texto que no es un número entero: clave del campo → nombre que se muestra (revisión H7).</summary>
+    private readonly Dictionary<string, string> _invalid = new(StringComparer.Ordinal);
+
     private Character? _character;
     private string? _loadedId;
     private string _search = string.Empty;
     private string? _notice;
     private string? _problem;
     private bool _confirmDelete;
+    private bool _focusDelete;
     private bool _notFound;
+    private bool _busy;
+    private ElementReference _deleteConfirm;
 
     /// <summary>Ficha que se edita; nulo al crear una nueva.</summary>
     [Parameter]
@@ -181,9 +192,16 @@ else
         }
     }
 
+    /// <summary>Lo que impide guardar o exportar lo que hay en pantalla, o nulo.</summary>
+    private string? Problem =>
+        _invalid.Count > 0 ? $"«{_invalid.Values.First()}» debe ser un número entero." : _character!.Problems().FirstOrDefault();
+
     protected override void OnInitialized() => Store.AvailabilityChanged += OnAvailabilityChanged;
 
-    /// <summary>Carga la ficha cada vez que cambia la dirección (por ejemplo, al abrir la copia recién hecha).</summary>
+    /// <summary>
+    /// Carga la ficha cada vez que cambia la dirección (por ejemplo, al abrir la copia recién hecha).
+    /// Una ficha nueva recibe aquí su identificador, para que pulsar dos veces «Guardar» no cree dos.
+    /// </summary>
     protected override async Task OnParametersSetAsync()
     {
         if (_character is not null && _loadedId == Id)
@@ -198,10 +216,11 @@ else
         _problem = null;
         _confirmDelete = false;
         _notFound = false;
+        _invalid.Clear();
         if (Id is null)
         {
             var now = DateTimeOffset.Now;
-            _character = new Character { Id = string.Empty, Name = string.Empty, CreatedAt = now, UpdatedAt = now };
+            _character = new Character { Id = Guid.NewGuid().ToString("N"), Name = string.Empty, CreatedAt = now, UpdatedAt = now };
         }
         else if (PlayerCharacters.Find(Id) is { } saved)
         {
@@ -214,10 +233,35 @@ else
         }
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focusDelete && _confirmDelete)
+        {
+            _focusDelete = false;
+            await _deleteConfirm.FocusAsync();
+        }
+    }
+
     private static string? Text(ChangeEventArgs args) => args.Value?.ToString() is { Length: > 0 } text ? text : null;
 
-    private static int? Number(ChangeEventArgs args) =>
-        int.TryParse(args.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var value) ? value : null;
+    /// <summary>El número escrito, o nulo si está vacío; si no es un entero, lo apunta como problema.</summary>
+    private int? Number(ChangeEventArgs args, string key, string label)
+    {
+        var text = args.Value?.ToString()?.Trim();
+        _invalid.Remove(key);
+        if (string.IsNullOrEmpty(text))
+        {
+            return null;
+        }
+
+        if (int.TryParse(text, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var value))
+        {
+            return value;
+        }
+
+        _invalid[key] = label;
+        return null;
+    }
 
     private void Change(Character character)
     {
@@ -227,8 +271,9 @@ else
 
     private void ChangeAbility(Ability ability, AbilityScore score) => Change(_character! with { Abilities = _character.Abilities.With(ability, score) });
 
-    private void ChangeSkill(CharacterSkill old, CharacterSkill changed) =>
-        Change(_character! with { Skills = [.. _character.Skills.Select(skill => skill == old ? changed : skill)] });
+    /// <summary>Cambia la habilidad de esa posición (por posición: un archivo puede traer dos iguales).</summary>
+    private void ChangeSkill(int index, CharacterSkill changed) =>
+        Change(_character! with { Skills = [.. _character.Skills.Select((skill, i) => i == index ? changed : skill)] });
 
     private void AddSkill(Skill skill)
     {
@@ -243,53 +288,109 @@ else
         _search = string.Empty;
     }
 
-    private void RemoveSkill(CharacterSkill skill) =>
-        Change(_character! with { Skills = [.. _character.Skills.Where(other => other != skill)] });
-
-    private async Task SaveAsync()
+    private void RemoveSkill(int index)
     {
-        var now = DateTimeOffset.Now;
-        var character = _character! with
+        // Las claves de las habilidades van por posición: al quitar una, dejan de corresponder.
+        foreach (var key in _invalid.Keys.Where(key => key.StartsWith("mastery-", StringComparison.Ordinal) || key.StartsWith("points-", StringComparison.Ordinal)).ToList())
         {
-            Id = Id ?? Guid.NewGuid().ToString("N"),
-            Name = _character.Name.Trim(),
-            CreatedAt = Id is null ? now : _character.CreatedAt,
-            UpdatedAt = now,
-        };
-        _problem = await PlayerCharacters.SaveAsync(character);
+            _invalid.Remove(key);
+        }
+
+        Change(_character! with { Skills = [.. _character.Skills.Where((_, i) => i != index)] });
+    }
+
+    private void AskDelete()
+    {
+        _confirmDelete = true;
+        _focusDelete = true;
+    }
+
+    /// <summary>Lo que hay en pantalla, listo para guardar, o nulo con <see cref="_problem"/> puesto.</summary>
+    private Character? Ready()
+    {
+        _problem = Problem;
+        return _problem is null ? _character! with { Name = _character.Name.Trim() } : null;
+    }
+
+    private async Task<bool> SaveCurrentAsync()
+    {
+        if (Ready() is not { } character)
+        {
+            return false;
+        }
+
+        character = character with { UpdatedAt = DateTimeOffset.Now };
+        _problem = await PlayerCharacters.SaveAsync(character, Id is null ? SaveMode.Create : SaveMode.Update);
         if (_problem is null)
+        {
+            _character = character;
+        }
+
+        return _problem is null;
+    }
+
+    private async Task SaveAsync() => await BusyAsync(async () =>
+    {
+        if (await SaveCurrentAsync())
         {
             Navigation.NavigateTo("fichas");
         }
-    }
+    });
 
-    private async Task ExportAsync()
+    /// <summary>Exporta lo que hay en pantalla, aunque no se haya guardado todavía (revisión H4).</summary>
+    private async Task ExportAsync() => await BusyAsync(async () =>
     {
-        if (PlayerCharacters.Find(Id!) is { } saved)
+        if (Ready() is { } character)
         {
-            await PlayerCharacters.ExportAsync(saved);
+            _problem = await PlayerCharacters.ExportAsync(character);
         }
-    }
+    });
 
-    private async Task DuplicateAsync()
+    /// <summary>Guarda los cambios de la pantalla y luego copia la ficha (revisión H4).</summary>
+    private async Task DuplicateAsync() => await BusyAsync(async () =>
     {
-        var copy = await PlayerCharacters.DuplicateAsync(Id!, Guid.NewGuid().ToString("N"), DateTimeOffset.Now);
-        if (copy is null)
+        if (!IsSaved() && !await SaveCurrentAsync())
         {
-            _problem = PlayerCharacters.LoadError is { } error ? $"no se pudieron leer las fichas guardadas ({error})." : "no se pudo hacer la copia.";
             return;
         }
 
-        Navigation.NavigateTo($"fichas/{Uri.EscapeDataString(copy.Id)}");
-    }
+        var (copy, problem) = await PlayerCharacters.DuplicateAsync(Id!, Guid.NewGuid().ToString("N"), DateTimeOffset.Now);
+        _problem = problem;
+        if (copy is not null)
+        {
+            Navigation.NavigateTo($"fichas/{Uri.EscapeDataString(copy.Id)}");
+        }
+    });
 
-    private async Task DeleteAsync()
+    private bool IsSaved() =>
+        _invalid.Count == 0 && PlayerCharacters.Find(Id!) is { } saved && saved.HasSameData(_character!);
+
+    private async Task DeleteAsync() => await BusyAsync(async () =>
     {
         _problem = await PlayerCharacters.DeleteAsync(Id!);
         _confirmDelete = false;
         if (_problem is null)
         {
             Navigation.NavigateTo("fichas");
+        }
+    });
+
+    /// <summary>Hace la acción con los botones desactivados, para que un doble clic no la repita.</summary>
+    private async Task BusyAsync(Func<Task> action)
+    {
+        if (_busy)
+        {
+            return;
+        }
+
+        _busy = true;
+        try
+        {
+            await action();
+        }
+        finally
+        {
+            _busy = false;
         }
     }
 

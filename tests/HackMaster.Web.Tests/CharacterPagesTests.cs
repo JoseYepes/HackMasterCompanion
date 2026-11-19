@@ -292,4 +292,83 @@ public class CharacterPagesTests : BunitContext
 
         Assert.Contains("No se pudieron leer tus fichas", cut.Find("[data-testid=characters-error]").TextContent, StringComparison.Ordinal);
     }
+
+    [Fact]
+    public void Export_Uses_What_Is_On_Screen_Even_If_Not_Saved_Yet__Review()
+    {
+        Save(Grimbold());
+        var cut = Edit("ficha-1");
+        cut.Find("[data-testid=character-notes]").Input("Sin guardar todavía");
+
+        cut.Find("[data-testid=character-export]").Click();
+
+        var exported = StoredData.ReadCharacterFile((string)_module.Invocations["download"].Single().Arguments[1]!).Value!.Character;
+        Assert.Equal("Sin guardar todavía", exported.Notes);
+    }
+
+    [Fact]
+    public void Duplicate_Saves_The_Changes_On_Screen_First__Review()
+    {
+        Save(Grimbold());
+        var cut = Edit("ficha-1");
+        cut.Find("[data-testid=character-notes]").Input("Cambio antes de copiar");
+
+        cut.Find("[data-testid=character-duplicate]").Click();
+
+        Assert.All(_characters.Characters, character => Assert.Equal("Cambio antes de copiar", character.Notes));
+        Assert.Equal(2, _characters.Characters.Count);
+    }
+
+    [Theory]
+    [InlineData("character-level", "1.5", "«Nivel» debe ser un número entero.")]
+    [InlineData("character-hp", "abc", "«PG» debe ser un número entero.")]
+    [InlineData("character-fraction-FUE", "99999999999", "«Fracción de Fuerza» debe ser un número entero.")]
+    public void A_Number_That_Is_Not_Whole_Is_Reported_Instead_Of_Being_Lost__Review(string field, string text, string problem)
+    {
+        Save(Grimbold());
+        var cut = Edit("ficha-1");
+
+        cut.Find($"[data-testid={field}]").Input(text);
+        cut.Find("[data-testid=character-save]").Click();
+
+        Assert.Contains(problem, cut.Find("[data-testid=character-problem]").TextContent, StringComparison.Ordinal);
+        Assert.True(Grimbold().HasSameData(_characters.Find("ficha-1")!));
+    }
+
+    [Fact]
+    public void Repeated_Skills_From_A_File_Are_Changed_And_Removed_One_By_One__Review()
+    {
+        var skill = new CharacterSkill("rastrear", "Rastrear", 10, 1);
+        Save(Grimbold() with { Skills = [skill, skill] });
+        var cut = Edit("ficha-1");
+
+        cut.FindAll("[data-testid=character-skill-mastery]")[1].Input("40");
+        cut.FindAll("[data-testid=character-skill-remove]")[0].Click();
+        cut.Find("[data-testid=character-save]").Click();
+
+        Assert.Equal([skill with { Mastery = 40 }], _characters.Find("ficha-1")!.Skills);
+    }
+
+    [Fact]
+    public void Skill_Controls_Say_Which_Skill_They_Belong_To__Review()
+    {
+        Save(Grimbold());
+        var cut = Edit("ficha-1");
+        cut.Find("[data-testid=character-skill-search]").Input("botani");
+
+        Assert.Equal("Añadir Botánica", cut.Find("[data-testid=character-skill-result] button").GetAttribute("aria-label"));
+        Assert.Equal("Maestría de Rastrear", cut.Find("[data-testid=character-skill-mastery]").GetAttribute("aria-label"));
+        Assert.Equal("Puntos de Rastrear", cut.Find("[data-testid=character-skill-points]").GetAttribute("aria-label"));
+        Assert.Equal("Quitar Rastrear", cut.Find("[data-testid=character-skill-remove]").GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void A_Character_Added_By_Another_Tab_Appears_In_The_List__Review()
+    {
+        _module.Setup<string?>("get", "hackmaster.characters").SetResult(StoredData.Write(new CharactersFile(2, [Grimbold()])));
+
+        var cut = Render<Characters>();
+
+        Assert.Single(cut.FindAll("[data-testid=character-row]"));
+    }
 }

@@ -1303,7 +1303,7 @@ html[data-theme="dark"] .dice-board {
 
 .character-abilities {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
   gap: 0.5rem 1rem;
 }
 

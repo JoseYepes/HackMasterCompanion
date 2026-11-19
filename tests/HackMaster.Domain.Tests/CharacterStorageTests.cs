@@ -211,4 +211,16 @@ public class CharacterStorageTests
         Assert.Null(read.Value);
         Assert.Contains("versión más reciente", read.Error, StringComparison.Ordinal);
     }
+
+    [Theory]
+    [InlineData("""{ "kind": "hackmaster.character", "character": {} }""")]
+    [InlineData("""{ "schemaVersion": 3, "kind": "hackmaster.character" }""")]
+    [InlineData("""{ "schemaVersion": 2, "kind": "hackmaster.character" }""")]
+    [InlineData("""{ "schemaVersion": 2, "kind": "hackmaster.character", "character": { "id": "a", "name": "b", "level": "tres" } }""")]
+    public void Import_Messages_Talk_About_The_File_Not_The_Saved_Data__Review(string json)
+    {
+        var read = StoredData.ReadCharacterFile(json);
+
+        Assert.StartsWith("El archivo ", read.Error, StringComparison.Ordinal);
+    }
 }

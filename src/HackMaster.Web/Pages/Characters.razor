@@ -33,8 +33,8 @@
 {
     <div class="doubt-notice" role="alert" data-testid="character-import-conflict">
         <p>Ya tienes la ficha «@(PlayerCharacters.Find(_pending.Id)?.Name ?? _pending.Name)» en este dispositivo. ¿Qué quieres hacer con la del archivo?</p>
-        <button type="button" data-testid="character-import-replace" @onclick="() => FinishImportAsync(asCopy: false)">Sustituir la que tengo</button>
-        <button type="button" data-testid="character-import-copy" @onclick="() => FinishImportAsync(asCopy: true)">Añadirla como copia</button>
+        <button type="button" data-testid="character-import-replace" @onclick="() => FinishImportAsync(asCopy: false, replace: true)">Sustituir la que tengo</button>
+        <button type="button" data-testid="character-import-copy" @ref="_conflictFirst" @onclick="() => FinishImportAsync(asCopy: true, replace: false)">Añadirla como copia</button>
         <button type="button" @onclick="() => _pending = null">Cancelar</button>
     </div>
 }
@@ -68,6 +68,8 @@ else
     private string? _importError;
     private string? _importDone;
     private Character? _pending;
+    private bool _focusConflict;
+    private ElementReference _conflictFirst;
 
     protected override async Task OnInitializedAsync()
     {
@@ -101,8 +103,7 @@ else
             return;
         }
 
-        await PlayerCharacters.LoadAsync();
-        var import = PlayerCharacters.ReadImport(text);
+        var import = await PlayerCharacters.ReadImportAsync(text);
         if (import.Character is null)
         {
             _importError = import.Error;
@@ -110,24 +111,46 @@ else
         }
 
         _pending = import.Character;
-        if (!import.AlreadyExists)
+        if (import.AlreadyExists)
         {
-            await FinishImportAsync(asCopy: false);
+            _focusConflict = true;
+        }
+        else
+        {
+            await FinishImportAsync(asCopy: false, replace: false);
         }
     }
 
-    private async Task FinishImportAsync(bool asCopy)
+    /// <summary>
+    /// Importa la ficha pendiente. Sin <paramref name="replace"/> nunca sustituye: si otra pestaña
+    /// la añadió entretanto, vuelve a preguntar (FR-008).
+    /// </summary>
+    private async Task FinishImportAsync(bool asCopy, bool replace)
     {
         var character = _pending!;
         _pending = null;
-        var problem = await PlayerCharacters.ImportAsync(character, asCopy, Guid.NewGuid().ToString("N"), DateTimeOffset.Now);
+        var problem = await PlayerCharacters.ImportAsync(character, asCopy, Guid.NewGuid().ToString("N"), DateTimeOffset.Now, replace);
         if (problem is null)
         {
             _importDone = $"Importada la ficha «{character.Name}».";
         }
+        else if (problem == PlayerCharacters.AlreadyExists)
+        {
+            _pending = character;
+            _focusConflict = true;
+        }
         else
         {
             _importError = problem;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focusConflict && _pending is not null)
+        {
+            _focusConflict = false;
+            await _conflictFirst.FocusAsync();
         }
     }
 
