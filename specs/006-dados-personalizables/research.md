@@ -53,23 +53,67 @@ adelante si algún material no convence).
 
 ## 3. Sonido
 
-**Decisión**: sonido **sintetizado con Web Audio**, sin archivos:
+**Decisión (2026-11-19)**: **grabaciones CC0** en `wwwroot/sounds/`, que suenan con Web Audio.
+Sustituye al sonido sintetizado de la primera versión: el usuario lo probó en su móvil y le pareció
+«demasiado cutre».
 
 - Durante la simulación (que se hace antes de animar, F003 research §2) se apuntan los choques
   con su paso y su fuerza. Al reproducir, cada choque suena en su momento, escalado al tiempo de la
-  animación.
-- Cada golpe es un ruido corto filtrado más un tono resonante que depende del material (madera
-  grave y seca, metal agudo con eco, cristal y gemas tintineo, piedra y hueso chasquido).
-- Volumen según la fuerza del choque; como mucho 4 golpes cada 50 ms y nada por debajo de un umbral
-  (FR-008).
-- Efectos de penetración: estallido (explosión), soplo (fuego), chapoteo (sangre).
+  animación. Esto no cambia.
+- Cada golpe usa una grabación al azar del grupo de su material, de golpe suave o fuerte según la
+  fuerza (desde 0,3 de la fuerza llena, 5,4 m/s), con un tono algo distinto cada vez (±6 %) y uno propio por material (el oro,
+  más grave que el hierro; el cristal, el más agudo).
+
+| Material | Grabaciones | Origen |
+|---|---|---|
+| Madera | `impactWood_*` | Kenney, Impact Sounds 1.0 |
+| Oro viejo, hierro negro | `impactMetal_*` | Kenney, Impact Sounds 1.0 |
+| Rubí, amatista, cristal | `impactGlass_*` | Kenney, Impact Sounds 1.0 |
+| Mármol | `impactPlate_*` (cerámica) | Kenney, Impact Sounds 1.0 |
+| Piedra | `impactMining_*` | Kenney, Impact Sounds 1.0 |
+| Marfil, hueso, obsidiana | `die-throw-*` (un dado de verdad cayendo en la mesa) | Kenney, Casino Audio 1.1 |
+
+- Efectos de penetración: explosión `bang_08`/`bang_09` (rubberduck), fuego `flame_0`
+  (themightyglider) y sangre `squish*` (EZduzziteh), de OpenGameArt.
+- Las 38 grabaciones pesan 326 KB. Se descargan la primera vez que se tira con sonido (al llamar a
+  `unlockAudio`), no al abrir la aplicación ni con el sonido silenciado. La tirada no espera a la
+  descarga (SC-004): lo que no haya llegado no suena en esa tirada y lo que falló se vuelve a pedir
+  en la siguiente. Con calidad baja o menos movimiento, el destello suena con el efecto elegido.
+- Si la tirada acaba sola, los últimos golpes se dejan sonar 0,6 s más; si el jugador toca la mesa
+  o tira otra vez, se cortan enseguida.
+- **Según la fuerza (comprobación del usuario, 2026-11-19: «el sonido no se modifica según la
+  fuerza»)**: la fuerza llena a 18 m/s (antes 12, y un 14 % de los golpes salía al máximo). El
+  volumen crece como la fuerza elevada a 1,6 (del golpe más flojo al más fuerte, unas 25 veces),
+  los golpes flojos pasan por un filtro que quita los agudos (de 700 Hz a 16 kHz según la fuerza) y
+  los fuertes suenan algo más agudos. Las grabaciones de golpe fuerte se usan desde 5,4 m/s (0,3 de la
+  fuerza llena; antes 0,45 de 12, la misma fuerza). El compresor ya no iguala los golpes (umbral −12 dB, 3:1); solo
+  evita que saturen muchos juntos.
+- Como mucho 4 golpes cada 50 ms y nada por debajo de un umbral (FR-008). Esto no cambia.
 - El contexto de audio se crea al pulsar «Tirar» (los navegadores no dejan sonar sin un gesto del
   usuario). Si falla, se ignora (FR-010).
+- Licencias, origen, tamaño y SHA-256 de cada archivo en `wwwroot/sounds/README.md`. Los archivos
+  están sin modificar. La descarga se hizo con el permiso del usuario.
 
-**Por qué**: sin descargas ni licencias que comprobar, y el sonido depende del material.
+**Por qué**: suenan a dados de verdad y a cada material. Son CC0, así que no hay que citar a nadie
+(aun así se deja constancia del origen), y pesan poco.
 
-**Descartado**: grabaciones CC0 (habría que descargarlas con permiso; quedan como mejora si el
-sintetizado no convence al usuario).
+**Descartado**: el sonido sintetizado (primera versión, rechazada por el usuario). También grabar
+el sonido de cada material por separado o usar paquetes de pago.
+
+## 3 bis. Giro de los dados (comprobación del usuario, 2026-11-19)
+
+«Los dados no giran mucho»: salían con giros al azar que no tenían que ver con la marcha. Medidas
+como vueltas de campana (cuánto gira la dirección «arriba» vista desde el dado; girar en plano como
+una peonza no cuenta), el d4 daba 0,9 de mediana.
+
+**Decisión**: el dado sale rodando hacia donde va (giro sobre el eje perpendicular a la marcha,
+4 rad/s por cada m/s, ±20 %, más un poco al azar). Ahora da entre 2,4 (d4) y 3,2 (d8) vueltas de
+campana de mediana; todos acaban dentro de la mesa y la mediana del tiempo hasta pararse casi no
+cambia. Se probó también más rozamiento (0,6): no cambiaba el giro y se descartó (revisión).
+**Pendiente**: el d20 llega algo más a menudo al tope de 5 s de simulación (7 de 60 tiradas, antes
+1), y el d12 llega casi siempre, ya antes de este cambio (no llega a quedarse quieto). No rompe
+nada (la animación sigue durando como mucho 3,3 s), pero el final de esas tiradas se ve acelerado. La cara de arriba se sigue forzando igual (SC-001 de F003 pasa).
+`inspect` devuelve `turns` (vueltas de campana de cada dado) y `strengths` (fuerza de cada golpe).
 
 ## 4. Efectos al penetrar
 

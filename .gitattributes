@@ -5,6 +5,8 @@
 *.ico binary
 *.woff binary
 *.woff2 binary
+*.ogg binary
+*.mp3 binary
 
 # Datos generados: mismos bytes en Windows y en CI
 data/*.json text eol=lf
@@ -14,3 +16,4 @@ docs/dudas.md text eol=lf
 src/HackMaster.Web/wwwroot/lib/*.js -text
 src/HackMaster.Web/wwwroot/lib/*.LICENSE -text
 src/HackMaster.Web/wwwroot/fonts/*.LICENSE -text
+src/HackMaster.Web/wwwroot/sounds/*.LICENSE -text

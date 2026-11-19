@@ -74,5 +74,7 @@ Dados personalizables y sonido (F008):
 - `DiceLookPanelTests` (bUnit): el panel «Aspecto de los dados» con el módulo 3D simulado.
 - `E2E/DiceLookTests`: materiales, efectos al penetrar, aura, sonidos programados (el módulo los
   apunta en `heardSounds`, así que no hace falta oírlos) y calidad baja.
+- `SoundFilesTests`: las grabaciones de `wwwroot/sounds/` que usa el módulo existen, están en su README
+  con licencia CC0, ninguna sobra y pesan menos de 400 KB.
 - `E2E/Dice3DTests`: las 1 000 tiradas comprueban además que la malla redondeada apoya en los
   mismos planos que el poliedro con el que rueda.

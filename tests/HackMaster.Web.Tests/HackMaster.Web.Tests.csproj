@@ -21,6 +21,7 @@
   <ItemGroup>
     <None Include="..\..\src\HackMaster.Web\wwwroot\css\app.css" Link="css\app.css" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\src\HackMaster.Web\wwwroot\js\dice3d.js" Link="js\dice3d.js" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\HackMaster.Web\wwwroot\sounds\*" Link="sounds\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

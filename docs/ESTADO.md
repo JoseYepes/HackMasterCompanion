@@ -4,7 +4,7 @@
 > las specs: decisiones tomadas de palabra, hallazgos y lo que queda por decidir. Actualízala al
 > terminar cada sesión.
 
-Última actualización: 2026-11-18
+Última actualización: 2026-11-19
 
 ## Dónde estamos
 
@@ -50,7 +50,7 @@
   Pruebas: 556 unitarias y 27 de navegador.
 - **Pendiente sin funcionalidad asignada**: hacer la aplicación instalable y que funcione sin
   conexión (PWA: trabajador de servicio y manifiesto), que pide `PRODUCTO.md` A1 y A2.
-- **En curso: F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18. Rama
+- **F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18. Rama
   `006-dados-personalizables`, `specs/006-dados-personalizables/`. Aclarado con el usuario sobre un
   prototipo 3D: 11 materiales (los 8 del prototipo más madera, piedra y cristal), un aspecto para
   todos los dados, aura en los dados extra, sonido activado al empezar, efecto al penetrar
@@ -71,8 +71,21 @@
   el aura no destacaba en dados dorados (ahora es azul en esos); los números reflejaban el
   entorno con calidad baja; la caché de texturas no tenía tope; `shownEffects` dice ahora si el
   efecto llegó a verse. La animación máxima baja de 3,6 a 3,3 s: con lo que hace la página antes y
-  después, una tirada llegó a 4,007 s. **Falta**: pull request (T022) y la prueba del usuario en su
-  móvil (T023).
+  después, una tirada llegó a 4,007 s. Fusionada (pull request #10). **Sonido grabado (2026-11-19)**:
+  el usuario la probó en su móvil y dijo que los sonidos eran «demasiado cutres». Con su permiso se
+  descargaron grabaciones CC0 (Kenney: Impact Sounds y Casino Audio; OpenGameArt: explosión,
+  fuego y sangre), 38 archivos y 326 KB en `wwwroot/sounds/` con su README de licencias. Cada
+  material tiene sus golpes (research §3) y solo se descargan al tirar con sonido. **Sin comprobar
+  de oído**: Claude no puede escuchar; lo comprueba el usuario (T027). Ojo: los de piedra
+  (`impactMining`) duran casi 1 s; si suenan largos, cambiarlos. **Revisión independiente**, con prueba para cada
+  corrección: la tirada esperaba hasta 0,8 s a la descarga (podía pasar de 4 s; ahora no espera); con
+  calidad baja la penetración no sonaba; lo que fallaba al descargar no se volvía a pedir; los últimos
+  golpes se cortaban de golpe al acabar. Queda por comprobar en el móvil del usuario: si su navegador
+  decodifica `.ogg` (los iPhone antiguos no). El usuario dijo que «no es del todo realista»: los dados giraban poco
+  (el d4, 0,9 vueltas de campana; ahora entre 2,4 y 3,2, saliendo rodando) y el sonido apenas cambiaba con
+  la fuerza (ahora el volumen varía unas 25 veces, los golpes flojos suenan apagados y el compresor
+  ya no los iguala); research §3 y §3 bis. **Falta**: pull request y la prueba del usuario en su
+  móvil (T023 y T027).
 - **Orden acordado (2026-11-18)**: F008 → F004 → F005 → F006. Los números son identificadores, no
   el orden: F007 y F008 se añadieron después y tomaron el siguiente número libre para no renumerar
   las demás. **F006 ampliada** a petición del usuario: cuentas propias para guardar en la nube

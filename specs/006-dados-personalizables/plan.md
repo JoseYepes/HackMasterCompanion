@@ -12,7 +12,8 @@ Los dados 3D de F003 pasan a ser personalizables, suenan y celebran las penetrac
   física y la forma de forzar la cara de F003 no cambian (research §1).
 - **11 materiales** generados con código (sin descargas), con color del dado y de los números
   elegibles y aviso de contraste (research §2 y §6).
-- **Sonido sintetizado** con Web Audio a partir de los choques de la simulación (research §3).
+- **Sonido con grabaciones CC0** (Kenney y OpenGameArt) en `wwwroot/sounds`, que suenan con Web Audio
+  en los choques de la simulación (research §3; antes era sintetizado).
 - **Efecto al penetrar** (explosión, fuego, sangre o ninguno) y **aura** en los dados extra; el
   dominio indica el dado padre (research §4).
 - **Calidad baja** sin texturas, reflejos ni transmisión.

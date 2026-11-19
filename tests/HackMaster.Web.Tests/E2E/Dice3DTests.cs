@@ -67,6 +67,37 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
     }
 
     [E2EFact]
+    public async Task Every_Kind_Of_Die_Rolls_Over_Several_Times_Not_Just_Slides__User()
+    {
+        // Comprobación del usuario (2026-11-19): «los dados no giran mucho». Antes de cambiar el
+        // lanzamiento, el d4 daba 0,9 vueltas de campana de mediana en toda la tirada.
+        var page = await browser.NewPageAsync(Viewports.Phone);
+        await BrowserFixture.GoToAsync(page, "dados");
+
+        var medians = JsonDocument.Parse(await page.EvaluateAsync<string>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              const medians = {};
+              for (const shape of ['D4', 'D6', 'D8', 'D10', 'D12', 'D20']) {
+                const turns = [];
+                for (let seed = 1; seed <= 30; seed++) {
+                  const dice = [0, 1, 2].map(() => ({ shape, face: '1', wave: 0, penetration: false, parent: null }));
+                  turns.push(...dice3d.inspect({ dice }, seed).dice.map(die => die.turns));
+                }
+                turns.sort((a, b) => a - b);
+                medians[shape] = turns[Math.floor(turns.length / 2)];
+              }
+              return JSON.stringify(medians);
+            }
+            """)).RootElement;
+
+        foreach (var shape in medians.EnumerateObject())
+        {
+            Assert.True(shape.Value.GetDouble() >= 2.2, $"{shape.Name}: {shape.Value.GetDouble():0.00} vueltas de mediana.");
+        }
+    }
+
+    [E2EFact]
     public async Task Penetration_Waves_Are_Simulated_With_Their_Faces__FR006()
     {
         var page = await browser.NewPageAsync(Viewports.Phone);
@@ -156,7 +187,7 @@ public sealed class Dice3DTests(BrowserFixture browser) : IClassFixture<BrowserF
         await BrowserFixture.GoToAsync(page, "dados");
         await page.Locator("[data-testid=dice-formula]").WaitForAsync();
 
-        Assert.DoesNotContain(requested, url => url.Contains("/lib/", StringComparison.Ordinal) || url.Contains("dice3d", StringComparison.Ordinal));
+        Assert.DoesNotContain(requested, url => url.Contains("/lib/", StringComparison.Ordinal) || url.Contains("dice3d", StringComparison.Ordinal) || url.Contains("/sounds/", StringComparison.Ordinal));
     }
 
     [E2EFact]

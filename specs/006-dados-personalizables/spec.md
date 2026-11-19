@@ -24,6 +24,12 @@
 - Q: ¿Qué efecto de penetración sale por defecto? → A: Explosión (el recomendado); fuego, sangre y
   «ninguno» se pueden elegir.
 
+### Session 2026-11-19
+
+- Nota del usuario tras probar F008 en su móvil: «los sonidos son demasiado cutres». Q: ¿Se cambian
+  los sonidos sintetizados por grabaciones CC0? → A: Sí: golpes de Kenney (Impact Sounds y Casino
+  Audio) por material, y explosión, fuego y sangre de OpenGameArt, descargados con su permiso.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Elegir el aspecto de mis dados (Priority: P1)
@@ -172,7 +178,9 @@ en ese dado se ve el efecto elegido y el dado extra aparece con su aura.
 - **FR-007**: Los dados extra por penetración DEBEN llevar un brillo o aura que los distinga de los
   normales con cualquier aspecto elegido (aclaración 1).
 - **FR-008**: Los choques de los dados entre sí y con la mesa DEBEN sonar, con un volumen que
-  depende de la fuerza del choque, y sin que suenen decenas de golpes a la vez.
+  depende de la fuerza del choque, y sin que suenen decenas de golpes a la vez. Los golpes y los
+  efectos DEBEN ser grabaciones reales de su material (aclaración del 2026-11-19), que solo se
+  descargan si se usan los dados 3D con sonido.
 - **FR-009**: DEBE haber un control para silenciar el sonido, que se recuerda. La primera vez el
   sonido está activado (aclaración 3).
 - **FR-010**: Sin permiso para reproducir sonido, o si el sonido falla, la tirada DEBE funcionar
