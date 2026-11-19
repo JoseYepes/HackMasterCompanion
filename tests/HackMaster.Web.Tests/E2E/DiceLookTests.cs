@@ -256,6 +256,184 @@ public sealed class DiceLookTests(BrowserFixture browser) : IClassFixture<Browse
     }
 
     [E2EFact]
+    public async Task Each_Material_And_Effect_Has_Recordings_Of_Its_Kind__FR008()
+    {
+        // research §3: madera suena a madera, metal a metal, gemas a cristal, mármol a cerámica,
+        // piedra a piedra, y marfil, hueso y obsidiana a dados de verdad.
+        var page = await OpenAsync(browser, Viewports.Phone, History("Ivory"));
+        var expected = new Dictionary<string, string>
+        {
+            ["Wood"] = "impactWood",
+            ["OldGold"] = "impactMetal",
+            ["BlackIron"] = "impactMetal",
+            ["Ruby"] = "impactGlass",
+            ["Amethyst"] = "impactGlass",
+            ["Crystal"] = "impactGlass",
+            ["Marble"] = "impactPlate",
+            ["Stone"] = "impactMining",
+            ["Ivory"] = "die-throw",
+            ["Bone"] = "die-throw",
+            ["Obsidian"] = "die-throw",
+            ["Explosion"] = "bang",
+            ["Fire"] = "flame",
+            ["Blood"] = "squish",
+        };
+
+        var recordings = await page.EvaluateAsync<JsonElement>(
+            "async kinds => { const dice3d = await import('./js/dice3d.js'); return Object.fromEntries(kinds.map(kind => [kind, [...dice3d.recordingsFor(kind, 0.1), ...dice3d.recordingsFor(kind, 1)]])); }",
+            expected.Keys.ToArray());
+
+        foreach (var (kind, prefix) in expected)
+        {
+            var names = recordings.GetProperty(kind).EnumerateArray().Select(name => name.GetString()!).ToList();
+            Assert.NotEmpty(names);
+            Assert.All(names, name => Assert.StartsWith(prefix, name, StringComparison.Ordinal));
+        }
+    }
+
+    [E2EFact]
+    public async Task A_Roll_With_Sound_Plays_Real_Recordings__FR008()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("BlackIron"));
+
+        var sounds = await page.EvaluateAsync<JsonElement>("""
+            async look => {
+              const dice3d = await import('./js/dice3d.js');
+              const board = document.querySelector('[data-testid=dice-board]');
+              dice3d.unlockAudio();
+              await dice3d.recordingsReady();
+              const dice = [1, 2, 3, 4, 5, 6].map(face => ({ shape: 'D6', face: String(face), wave: 0, penetration: false, parent: null }));
+              dice.push({ shape: 'D6', face: '3', wave: 1, penetration: true, parent: 5 });
+              await dice3d.roll(board, { dice }, look);
+              return JSON.parse(JSON.stringify(dice3d.heardSounds(board)));
+            }
+            """, SoundLook(sound: true));
+
+        var all = sounds.EnumerateArray().ToList();
+        Assert.NotEmpty(all);
+        Assert.All(all, sound => Assert.Equal(JsonValueKind.String, sound.GetProperty("sample").ValueKind));
+        Assert.All(all.Where(sound => sound.GetProperty("kind").GetString() == "BlackIron"),
+            hit => Assert.StartsWith("impactMetal", hit.GetProperty("sample").GetString(), StringComparison.Ordinal));
+        Assert.Contains(all, sound => sound.GetProperty("sample").GetString()!.StartsWith("bang", StringComparison.Ordinal));
+    }
+
+    [E2EFact]
+    public async Task Muted_Dice_Download_No_Recordings__FR008_FR009()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("Wood", sound: false), formula: "6d6");
+        var requested = new List<string>();
+        page.Request += (_, request) => requested.Add(request.Url);
+
+        await RollAsync(page);
+
+        Assert.DoesNotContain(requested, url => url.Contains("/sounds/", StringComparison.Ordinal));
+    }
+
+    [E2EFact]
+    public async Task Harder_Hits_Sound_Much_Louder_And_Brighter_Than_Soft_Ones__FR008_User()
+    {
+        // Comprobación del usuario (2026-11-19): «el sonido no se modifica según la fuerza». Un golpe
+        // flojo debe sonar bastante más bajo y más apagado (sin agudos) que uno fuerte.
+        var page = await OpenAsync(browser, Viewports.Phone, History("Wood"));
+
+        var sounds = await page.EvaluateAsync<JsonElement>("""
+            async look => {
+              const dice3d = await import('./js/dice3d.js');
+              const board = document.querySelector('[data-testid=dice-board]');
+              dice3d.unlockAudio();
+              await dice3d.recordingsReady();
+              const dice = [1, 2, 3, 4, 5, 6].map(face => ({ shape: 'D6', face: String(face), wave: 0, penetration: false, parent: null }));
+              await dice3d.roll(board, { dice }, look);
+              return JSON.parse(JSON.stringify(dice3d.heardSounds(board)));
+            }
+            """, SoundLook(sound: true, material: "Wood", effect: "None"));
+
+        var hits = sounds.EnumerateArray()
+            .Where(hit => hit.GetProperty("sample").ValueKind == JsonValueKind.String)
+            .Select(hit => (Volume: hit.GetProperty("volume").GetDouble(), Gain: hit.GetProperty("gain").GetDouble(), Cutoff: hit.GetProperty("cutoff").GetDouble()))
+            .OrderBy(hit => hit.Volume)
+            .ToList();
+        Assert.True(hits.Count >= 6, $"Solo {hits.Count} golpes.");
+        for (var i = 1; i < hits.Count; i++)
+        {
+            Assert.True(hits[i].Gain >= hits[i - 1].Gain && hits[i].Cutoff >= hits[i - 1].Cutoff, "Un golpe más fuerte no suena más alto ni más brillante.");
+        }
+
+        Assert.True(hits[^1].Gain / hits[0].Gain >= 8, $"Del más flojo al más fuerte el volumen solo cambia {hits[^1].Gain / hits[0].Gain:0.0} veces.");
+        Assert.True(hits[^1].Cutoff / hits[0].Cutoff >= 4, "Los golpes flojos suenan igual de brillantes que los fuertes.");
+        Assert.True(hits.Count(hit => hit.Volume >= 1) <= hits.Count / 4, "Demasiados golpes al volumen máximo: no se distinguen.");
+    }
+
+    [E2EFact]
+    public async Task With_Low_Quality_A_Penetration_Still_Sounds_With_The_Chosen_Effect__Review()
+    {
+        // Revisión: con calidad baja el efecto es un destello y no tenía grabaciones, así que callaba.
+        var page = await OpenAsync(browser, Viewports.Phone, History("Bone", effect: "Blood", quality: "Low"));
+
+        var sounds = await page.EvaluateAsync<JsonElement>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              const board = document.querySelector('[data-testid=dice-board]');
+              dice3d.unlockAudio();
+              await dice3d.recordingsReady();
+              await dice3d.roll(board, { dice: [
+                { shape: 'D6', face: '6', wave: 0, penetration: false, parent: null },
+                { shape: 'D6', face: '2', wave: 1, penetration: true, parent: 0 },
+              ] }, { material: 'Bone', color: '#e6dcc3', ink: '#3a2a1a', effect: 'Blood', sound: true, quality: 'Low' });
+              return JSON.parse(JSON.stringify(dice3d.heardSounds(board)));
+            }
+            """);
+
+        Assert.Contains(sounds.EnumerateArray(), sound => sound.GetProperty("sample").GetString()?.StartsWith("squish", StringComparison.Ordinal) == true);
+    }
+
+    [E2EFact]
+    public async Task A_Slow_Download_Of_The_Recordings_Does_Not_Delay_The_Roll__SC004()
+    {
+        // Revisión: la tirada esperaba hasta 0,8 s a las grabaciones y podía pasar de 4 s.
+        var page = await OpenAsync(browser, Viewports.Phone, History("Wood"), formula: "6d6");
+        await page.RouteAsync("**/sounds/**", _ => Task.Delay(TimeSpan.FromSeconds(30)));
+
+        var result = await page.EvaluateAsync<JsonElement>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              let started = performance.now();
+              await dice3d.unlockAudio();
+              const unlock = performance.now() - started;
+              started = performance.now();
+              document.querySelector('[data-testid=dice-roll]').click();
+              while (!document.querySelector('[data-testid=dice-total]') && performance.now() - started < 10000) {
+                await new Promise(resolve => setTimeout(resolve, 20));
+              }
+              return { unlock, roll: performance.now() - started };
+            }
+            """);
+
+        Assert.InRange(result.GetProperty("unlock").GetDouble(), 0, 100);
+        Assert.InRange(result.GetProperty("roll").GetDouble(), 0, 4000);
+    }
+
+    [E2EFact]
+    public async Task Recordings_That_Failed_To_Download_Are_Tried_Again_On_The_Next_Roll__Review()
+    {
+        var page = await OpenAsync(browser, Viewports.Phone, History("Wood"));
+        await page.RouteAsync("**/sounds/**", route => route.AbortAsync());
+        await page.EvaluateAsync("async () => { const dice3d = await import('./js/dice3d.js'); dice3d.unlockAudio(); await dice3d.recordingsReady(); }");
+        await page.UnrouteAllAsync();
+
+        var loaded = await page.EvaluateAsync<int>("""
+            async () => {
+              const dice3d = await import('./js/dice3d.js');
+              dice3d.unlockAudio();
+              await dice3d.recordingsReady();
+              return dice3d.loadedRecordings().length;
+            }
+            """);
+
+        Assert.Equal(38, loaded);
+    }
+
+    [E2EFact]
     public async Task If_Audio_Fails_The_Roll_Still_Ends__FR010()
     {
         var page = await browser.NewPageAsync(Viewports.Phone);

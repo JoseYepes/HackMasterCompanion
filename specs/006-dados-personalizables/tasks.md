@@ -153,6 +153,14 @@ marcha, reiniciándola tras cada compilación.
 - [X] T022 Pull request; tras fusionar, comprobar el sitio publicado
 - [ ] T023 Comprobación del usuario en su móvil: fluidez en calidad alta y si le gustan los dados (SC-003, SC-006)
 
+### Sonido grabado (aclaración del 2026-11-19: «los sonidos son demasiado cutres»)
+
+- [X] T024 Tests primero: `SoundFilesTests.cs` (cada grabación usada existe, está en el README con su licencia CC0, ninguna sobra y pesan menos de 400 KB) y en `E2E/DiceLookTests.cs` las grabaciones de cada material y efecto (`recordingsFor`), que una tirada con sonido usa grabaciones (`sample`) y que con silencio no se descarga ninguna; en `E2E/Dice3DTests.cs`, que sin 3D tampoco (FR-008, FR-009, SC-005)
+- [X] T025 Copiar las grabaciones elegidas de Kenney y OpenGameArt a `wwwroot/sounds/` con sus licencias y un README (origen, tamaño y SHA-256); marcarlas como binarias en `.gitattributes`
+- [X] T026 En `dice3d.js`: cargar las grabaciones en `unlockAudio`, reproducir una al azar por golpe según material y fuerza, y quitar la síntesis, hasta pasar T024
+- [X] T028 Comprobación del usuario (2026-11-19: «no es del todo realista; los dados no giran mucho y el sonido no cambia con la fuerza»): tests primero (`Every_Kind_Of_Die_Rolls_Over_Several_Times_Not_Just_Slides__User`, `Harder_Hits_Sound_Much_Louder_And_Brighter_Than_Soft_Ones__FR008_User`); lanzamiento rodando; volumen, filtro y tono según la fuerza; compresor suave (research §3 y §3 bis)
+- [ ] T027 Revisión independiente (hecha: corregidos la espera a la descarga, el silencio con calidad baja, los reintentos y el corte final, con pruebas), pull request y comprobación del usuario en su móvil (sustituye la parte de sonido de T023)
+
 ---
 
 ## Dependencies & Execution Order

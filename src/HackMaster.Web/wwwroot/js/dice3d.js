@@ -201,11 +201,19 @@ function createWorld(depth) {
   return world;
 }
 
+/** Giro inicial (rad/s) por cada unidad de velocidad al lanzar: cuánto rueda el dado. */
+const ROLL_SPIN = 4;
+
 function throwDie(body, random, depth) {
   body.position.set((random() - 0.5) * (TABLE_WIDTH - 3), 3 + random() * 2, depth / 2 - 1.2 - random());
   body.quaternion.setFromEuler(random() * 6.28, random() * 6.28, random() * 6.28);
-  body.velocity.set((random() - 0.5) * 6, 0, -(7 + random() * 5));
-  body.angularVelocity.set((random() - 0.5) * 30, (random() - 0.5) * 30, (random() - 0.5) * 30);
+  const vx = (random() - 0.5) * 6;
+  const vz = -(7 + random() * 5);
+  body.velocity.set(vx, 0, vz);
+  // Sale de la mano rodando hacia donde va (giro sobre el eje perpendicular a la marcha, como una
+  // rueda: arriba × velocidad) más un poco de giro al azar, para que dé vueltas y no resbale.
+  const roll = ROLL_SPIN * (0.8 + random() * 0.4);
+  body.angularVelocity.set(vz * roll + (random() - 0.5) * 12, (random() - 0.5) * 12, -vx * roll + (random() - 0.5) * 12);
   body.wakeUp();
 }
 
@@ -329,11 +337,13 @@ function settle(entry) {
  */
 export function inspect(plan, seed) {
   const started = performance.now();
-  const { items, steps } = run(plan, seed, TABLE_WIDTH * 0.75);
+  const { items, steps, collisions } = run(plan, seed, TABLE_WIDTH * 0.75);
   const ms = performance.now() - started;
   return {
     ms,
     steps,
+    // Fuerza de cada golpe (para el sonido) en el orden en que ocurren.
+    strengths: collisions.map(hit => hit.strength),
     dice: items.map(entry => {
       const last = entry.frames[entry.frames.length - 1];
       const q = new THREE.Quaternion(last[3], last[4], last[5], last[6]);
@@ -343,6 +353,8 @@ export function inspect(plan, seed) {
         ? flatnessOfVertex(entry.data, q, slot)
         : entry.data.faces[slot].normal.clone().applyQuaternion(q).y;
       return {
+        // Vueltas que da el dado en toda la tirada (cuánto rueda).
+        turns: turnsOf(entry.frames),
         face: entry.labels[slot],
         up,
         slots,
@@ -355,6 +367,23 @@ export function inspect(plan, seed) {
       };
     }),
   };
+}
+
+/**
+ * Vueltas de campana que da un dado: cuánto gira la dirección «arriba» vista desde el dado, paso a
+ * paso. Girar en plano sobre la mesa (como una peonza) no cuenta; rodar y voltearse, sí.
+ */
+function turnsOf(frames) {
+  const up = new THREE.Vector3();
+  const previous = new THREE.Vector3();
+  const q = new THREE.Quaternion();
+  let angle = 0;
+  frames.forEach(([, , , x, y, z, w], i) => {
+    up.set(0, 1, 0).applyQuaternion(q.set(x, y, z, w).invert());
+    if (i > 0) angle += previous.angleTo(up);
+    previous.copy(up);
+  });
+  return angle / (2 * Math.PI);
 }
 
 /** En el d4: la cara de abajo (la opuesta al vértice de arriba) debe mirar hacia abajo. */
@@ -947,10 +976,10 @@ export function roll(element, plan, look) {
       updateParticles(board, now);
       board.renderer.render(board.scene, board.camera);
     };
-    const end = () => {
+    const end = (ringOut = false) => {
       clearTimeout(playing.timer);
       clearParticles(board);
-      stopSounds(board);
+      stopSounds(board, ringOut);
       show(steps, false);
       board.playing = null;
       resolve();
@@ -958,7 +987,7 @@ export function roll(element, plan, look) {
     const tick = (now) => {
       if (board.playing !== playing) return;
       const progress = Math.min((now - startedAt) / Math.max(duration, 1), 1);
-      if (progress >= 1) { end(); return; }
+      if (progress >= 1) { end(true); return; }
       show(Math.floor(progress * steps), true);
       playing.frame = requestAnimationFrame(tick);
     };
@@ -967,7 +996,7 @@ export function roll(element, plan, look) {
     playing.frame = requestAnimationFrame(tick);
     // Si la página no se ve, el navegador no da fotogramas: el temporizador termina la tirada
     // igualmente, para que al volver ya esté el resultado.
-    playing.timer = setTimeout(() => { if (board.playing === playing) { cancelAnimationFrame(playing.frame); end(); } }, duration + 250);
+    playing.timer = setTimeout(() => { if (board.playing === playing) { cancelAnimationFrame(playing.frame); end(true); } }, duration + 250);
   });
 }
 
@@ -1079,22 +1108,70 @@ export function stopPreview(element) {
 // ---------------------------------------------------------------------------------------------
 
 let audio = null;
+let loading = null;                 // descarga de las grabaciones en curso, o null
+const recordings = new Map();       // nombre del archivo → sonido ya decodificado
 
-/** Crea o reanuda el contexto de audio; se llama al pulsar «Tirar». Nunca lanza excepciones. */
+/**
+ * Crea o reanuda el contexto de audio y empieza a descargar las grabaciones (wwwroot/sounds); se
+ * llama al pulsar «Tirar» y solo si hay sonido, así que sin sonido no se descarga nada. No espera a
+ * la descarga (la tirada no se retrasa, SC-004): lo que no haya llegado no suena en esa tirada, y lo
+ * que falló se vuelve a pedir en la siguiente. Nunca lanza excepciones (FR-010).
+ */
 export function unlockAudio() {
   try {
     const Context = window.AudioContext || window.webkitAudioContext;
     if (!Context) return;
     audio ??= new Context();
     if (audio.state === 'suspended') audio.resume().catch(() => {});
+    loading ??= loadRecordings(audio).then(() => { loading = null; });
   } catch {
     audio = null;
   }
 }
 
+/** Espera a la descarga en curso de las grabaciones, si la hay (pruebas). */
+export async function recordingsReady() {
+  await loading;
+}
+
+/** Grabaciones ya listas para sonar (pruebas). */
+export function loadedRecordings() {
+  return [...recordings.keys()];
+}
+
+/** Descarga y decodifica las grabaciones que falten; la que falle se queda sin sonar. */
+function loadRecordings(context) {
+  const names = new Set(Object.values(RECORDINGS).flatMap(group => [...group.light, ...group.heavy]));
+  return Promise.all([...names].filter(name => !recordings.has(name)).map(async name => {
+    try {
+      const response = await fetch(new URL(`../sounds/${name}`, import.meta.url));
+      if (!response.ok) return;
+      recordings.set(name, await context.decodeAudioData(await response.arrayBuffer()));
+    } catch {
+      // Sin esa grabación: los demás golpes siguen sonando.
+    }
+  }));
+}
+
 /** Efectos de penetración de la última tirada: [{ effect, parent }] (pruebas, FR-017). */
 export function shownEffects(element) {
   return boards.get(element)?.effects ?? [];
+}
+
+/** Fuerza de choque (m/s contra la normal) que suena al volumen máximo: el primer golpe contra la mesa suele llegar; los demás (un 94 %), no. */
+const FULL_STRENGTH = 18;
+
+/**
+ * Cómo suena un golpe según su fuerza (0–1), como un golpe de verdad: el volumen crece más deprisa
+ * que la fuerza (un golpe flojo es casi un roce), los flojos suenan apagados (filtro de agudos
+ * cerrado) y los fuertes, brillantes y un poco más agudos.
+ */
+function hitTone(volume) {
+  return {
+    gain: 0.03 + 0.97 * volume ** 1.6,
+    cutoff: 700 * 2 ** (volume * 4.5),
+    pitch: 0.97 + 0.08 * volume,
+  };
 }
 
 const MAX_SOUNDS_PER_WINDOW = 4;   // como mucho 4 golpes…
@@ -1106,7 +1183,7 @@ const SOUND_WINDOW = 0.05;         // …cada 50 ms (FR-008)
  */
 function planSounds(items, collisions, steps, seconds, look, effect) {
   const at = step => (steps > 0 ? (step / steps) * seconds : 0);
-  const planned = collisions.map(hit => ({ at: at(hit.step), volume: Math.min(1, hit.strength / 12), kind: look.material }));
+  const planned = collisions.map(hit => ({ at: at(hit.step), volume: Math.min(1, hit.strength / FULL_STRENGTH), kind: look.material }));
   if (effect) {
     // Un sonido por dado que penetra (como el efecto): cuando aparece su primer dado extra.
     const first = new Map();
@@ -1114,7 +1191,8 @@ function planSounds(items, collisions, steps, seconds, look, effect) {
       const parent = entry.item.parent;
       if (Number.isInteger(parent) && (!first.has(parent) || entry.start < first.get(parent))) first.set(parent, entry.start);
     }
-    for (const start of first.values()) planned.push({ at: at(start), volume: 0.8, kind: effect });
+    // Con el destello (calidad baja o menos movimiento) suena el efecto que eligió el jugador.
+    for (const start of first.values()) planned.push({ at: at(start), volume: 0.8, kind: effect, recording: look.effect });
   }
   planned.sort((a, b) => a.at - b.at);
   const kept = [];
@@ -1128,81 +1206,90 @@ function planSounds(items, collisions, steps, seconds, look, effect) {
   return kept;
 }
 
-/** Tono de cada material: frecuencia del golpe (Hz), cuánto resuena (s) y cuánto ruido lleva. */
-const TONES = {
-  Ivory: [900, 0.06, 0.8], Marble: [1500, 0.09, 0.6], OldGold: [2300, 0.4, 0.3], BlackIron: [1700, 0.35, 0.35],
-  Ruby: [3300, 0.28, 0.3], Obsidian: [2100, 0.14, 0.5], Bone: [650, 0.05, 0.9], Amethyst: [3000, 0.28, 0.3],
-  Wood: [320, 0.08, 0.9], Stone: [550, 0.05, 1], Crystal: [3800, 0.35, 0.25],
+/**
+ * Grabaciones CC0 de cada material y efecto (wwwroot/sounds/README.md): unas para golpes suaves y
+ * otras para los fuertes. Madera, metal, cristal (gemas), cerámica (mármol), piedra y, para marfil,
+ * hueso y obsidiana, dados de verdad cayendo en la mesa.
+ */
+const WOOD = {
+  light: ['impactWood_light_000.ogg', 'impactWood_light_001.ogg', 'impactWood_light_002.ogg'],
+  heavy: ['impactWood_heavy_000.ogg', 'impactWood_heavy_001.ogg', 'impactWood_heavy_002.ogg'],
+};
+const METAL = {
+  light: ['impactMetal_light_000.ogg', 'impactMetal_light_001.ogg', 'impactMetal_light_002.ogg'],
+  heavy: ['impactMetal_heavy_000.ogg', 'impactMetal_heavy_001.ogg', 'impactMetal_heavy_002.ogg'],
+};
+const GLASS = {
+  light: ['impactGlass_light_000.ogg', 'impactGlass_light_001.ogg', 'impactGlass_light_002.ogg'],
+  heavy: ['impactGlass_heavy_000.ogg', 'impactGlass_heavy_001.ogg', 'impactGlass_heavy_002.ogg'],
+};
+const PLATE = {
+  light: ['impactPlate_light_000.ogg', 'impactPlate_light_001.ogg', 'impactPlate_light_002.ogg'],
+  heavy: ['impactPlate_heavy_000.ogg', 'impactPlate_heavy_001.ogg', 'impactPlate_heavy_002.ogg'],
+};
+const STONE = { light: ['impactMining_000.ogg', 'impactMining_001.ogg'], heavy: ['impactMining_002.ogg', 'impactMining_003.ogg'] };
+const DICE = { light: ['die-throw-1.ogg', 'die-throw-4.ogg'], heavy: ['die-throw-2.ogg', 'die-throw-3.ogg'] };
+const BANG = ['bang_08.ogg', 'bang_09.ogg'];
+const FLAME = ['flame_0.ogg'];
+const SQUISH = ['squishsplat_impact.mp3', 'squish_01_0.mp3', 'squish_03.mp3'];
+
+const RECORDINGS = {
+  Wood: WOOD, OldGold: METAL, BlackIron: METAL, Ruby: GLASS, Amethyst: GLASS, Crystal: GLASS, Marble: PLATE,
+  Stone: STONE, Ivory: DICE, Bone: DICE, Obsidian: DICE,
+  Explosion: { light: BANG, heavy: BANG }, Fire: { light: FLAME, heavy: FLAME }, Blood: { light: SQUISH, heavy: SQUISH },
 };
 
-let noiseBuffer = null;
+/** Desde qué fuerza (0–1) un golpe usa las grabaciones fuertes: 0,3 × 18 = 5,4 m/s. */
+const HEAVY_FROM = 0.3;
 
-function noise(context) {
-  if (noiseBuffer) return noiseBuffer;
-  noiseBuffer = context.createBuffer(1, context.sampleRate * 0.8, context.sampleRate);
-  const data = noiseBuffer.getChannelData(0);
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-  return noiseBuffer;
-}
+/** Tono de cada material sobre su grabación (velocidad de reproducción): oro más grave que hierro, etc. */
+const PITCH = { OldGold: 0.85, BlackIron: 1.1, Ruby: 1.05, Amethyst: 0.95, Crystal: 1.2, Marble: 1.1, Bone: 0.9, Obsidian: 1.15 };
 
-/** Ruido filtrado con envolvente: la base de golpes, estallidos y soplos. */
-function burst(context, output, time, { volume, type, frequency, length, q = 1 }) {
-  const source = context.createBufferSource();
-  source.buffer = noise(context);
-  const filter = context.createBiquadFilter();
-  filter.type = type;
-  filter.frequency.value = frequency;
-  filter.Q.value = q;
-  const gain = context.createGain();
-  gain.gain.setValueAtTime(volume, time);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
-  source.connect(filter).connect(gain).connect(output);
-  source.start(time);
-  source.stop(time + length + 0.05);
-}
-
-/** Tono que resuena y se apaga: el «clic» o el «clinc» del material. */
-function ring(context, output, time, { volume, frequency, length }) {
-  const oscillator = context.createOscillator();
-  oscillator.frequency.value = frequency * (0.92 + Math.random() * 0.16);
-  const gain = context.createGain();
-  gain.gain.setValueAtTime(volume, time);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + length);
-  oscillator.connect(gain).connect(output);
-  oscillator.start(time);
-  oscillator.stop(time + length + 0.05);
+/** Grabaciones posibles de un sonido según su tipo (material o efecto) y su fuerza (pruebas, FR-008). */
+export function recordingsFor(kind, volume) {
+  const group = RECORDINGS[kind];
+  if (!group) return [];
+  return [...(volume >= HEAVY_FROM ? group.heavy : group.light)];
 }
 
 /**
  * Programa los sonidos de una tirada en el contexto de audio, todos a través de una salida propia
  * de la tirada (con un compresor para que los golpes juntos no saturen), que se apaga al terminar
- * la tirada. Si no hay audio o falla, no pasa nada (FR-010). Devuelve esa salida, o null.
+ * la tirada. Cada sonido usa una grabación al azar de las suyas, con un tono un poco distinto cada
+ * vez, más alta, brillante y aguda cuanto más fuerte es el golpe (hitTone), y apunta en `sample`,
+ * `gain` y `cutoff` cuál y cómo. Si no hay audio o falla, no pasa nada (FR-010). Devuelve esa
+ * salida, o null.
  */
 function playSounds(sounds) {
   if (!audio || sounds.length === 0) return null;
   try {
     const output = audio.createGain();
+    // Compresor suave: solo evita que muchos golpes juntos saturen, sin igualar flojos y fuertes.
     const compressor = audio.createDynamicsCompressor();
+    compressor.threshold.value = -12;
+    compressor.knee.value = 6;
+    compressor.ratio.value = 3;
     output.connect(compressor).connect(audio.destination);
     const start = audio.currentTime + 0.02;
     for (const sound of sounds) {
-      const time = start + sound.at;
-      const tone = TONES[sound.kind];
-      if (tone) {
-        const [frequency, length, grit] = tone;
-        burst(audio, output, time, { volume: sound.volume * 0.5 * grit, type: 'bandpass', frequency: frequency * 1.5, length: 0.04 });
-        ring(audio, output, time, { volume: sound.volume * 0.25, frequency, length });
-      } else if (sound.kind === 'Explosion') {
-        burst(audio, output, time, { volume: 0.9, type: 'lowpass', frequency: 500, length: 0.6 });
-        ring(audio, output, time, { volume: 0.3, frequency: 70, length: 0.4 });
-      } else if (sound.kind === 'Fire') {
-        burst(audio, output, time, { volume: 0.5, type: 'bandpass', frequency: 900, length: 0.7, q: 0.6 });
-      } else if (sound.kind === 'Blood') {
-        burst(audio, output, time, { volume: 0.6, type: 'lowpass', frequency: 350, length: 0.25 });
-        burst(audio, output, time + 0.08, { volume: 0.4, type: 'lowpass', frequency: 250, length: 0.2 });
-      } else {
-        ring(audio, output, time, { volume: 0.3, frequency: 1800, length: 0.3 });
-      }
+      const names = recordingsFor(sound.recording ?? sound.kind, sound.volume).filter(name => recordings.has(name));
+      const tone = hitTone(sound.volume);
+      sound.gain = tone.gain;
+      sound.cutoff = tone.cutoff;
+      sound.sample = null;
+      if (names.length === 0) continue;
+      const name = names[Math.floor(Math.random() * names.length)];
+      const source = audio.createBufferSource();
+      source.buffer = recordings.get(name);
+      source.playbackRate.value = (PITCH[sound.kind] ?? 1) * tone.pitch * (0.95 + Math.random() * 0.1);
+      const gain = audio.createGain();
+      gain.gain.value = tone.gain;
+      const filter = audio.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = Math.min(tone.cutoff, audio.sampleRate / 2 - 100);
+      source.connect(filter).connect(gain).connect(output);
+      source.start(start + sound.at);
+      sound.sample = name;
     }
     return output;
   } catch {
@@ -1211,21 +1298,25 @@ function playSounds(sounds) {
   }
 }
 
-/** Corta los sonidos que queden de la tirada (al terminar, tocar la mesa o tirar otra vez). */
-function stopSounds(board) {
+/**
+ * Apaga los sonidos que queden de la tirada. Si la tirada acabó sola, los últimos golpes se dejan
+ * sonar un momento; si el jugador tocó la mesa o tiró otra vez, se cortan enseguida.
+ */
+function stopSounds(board, ringOut = false) {
   const output = board.audioOutput;
   board.audioOutput = null;
   if (!output || !audio) return;
   try {
-    output.gain.cancelScheduledValues(audio.currentTime);
-    output.gain.setTargetAtTime(0, audio.currentTime, 0.03);
-    setTimeout(() => output.disconnect(), 300);
+    const now = audio.currentTime;
+    output.gain.cancelScheduledValues(now);
+    output.gain.setTargetAtTime(0, ringOut ? now + 0.6 : now, ringOut ? 0.15 : 0.03);
+    setTimeout(() => output.disconnect(), ringOut ? 1600 : 300);
   } catch {
     // Nada que cortar.
   }
 }
 
-/** Sonidos programados en la última tirada: [{ at, volume, kind }] (pruebas, FR-008). */
+/** Sonidos programados en la última tirada: [{ at, volume, kind, sample, gain, cutoff }] (pruebas, FR-008). */
 export function heardSounds(element) {
   return boards.get(element)?.sounds ?? [];
 }
