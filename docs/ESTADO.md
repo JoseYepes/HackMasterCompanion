@@ -127,8 +127,11 @@
   - características en columnas más anchas.
   Las pruebas nuevas de la revisión se escribieron antes de corregir, pero las del servicio solo se
   vieron fallar al compilar (cambiaba su interfaz). Pruebas: 297 de dominio, 253 bUnit, 143 del
-  importador y 52 de navegador, en verde. **Falta**: pull request y la prueba del usuario
-  (T018–T019).
+  importador y 52 de navegador, en verde. Pull request #12 fusionado el 2026-11-19 con la CI en
+  verde (T018). **Falta**: la prueba del usuario en su móvil (T019).
+- **F009 (Grimorio)**, pedida por el usuario el 2026-11-19: conjuros de clérigo y de mago y reglas de
+  grimorios y transcripción, desde el MJ en castellano y en inglés, las erratas y la SSG. Va después
+  de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»).
 - **Orden acordado (2026-11-18)**: F008 → F004 → F005 → F006. Los números son identificadores, no
   el orden: F007 y F008 se añadieron después y tomaron el siguiente número libre para no renumerar
   las demás. **F006 ampliada** a petición del usuario: cuentas propias para guardar en la nube
