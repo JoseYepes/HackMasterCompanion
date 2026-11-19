@@ -84,8 +84,29 @@
   decodifica `.ogg` (los iPhone antiguos no). El usuario dijo que «no es del todo realista»: los dados giraban poco
   (el d4, 0,9 vueltas de campana; ahora entre 2,4 y 3,2, saliendo rodando) y el sonido apenas cambiaba con
   la fuerza (ahora el volumen varía unas 25 veces, los golpes flojos suenan apagados y el compresor
-  ya no los iguala); research §3 y §3 bis. **Falta**: pull request y la prueba del usuario en su
-  móvil (T023 y T027).
+  ya no los iguala); research §3 y §3 bis. Pull request #11 fusionado el 2026-11-19 con la CI en
+  verde. **Falta**: la prueba del usuario en su móvil (T023 y T027).
+- **Forma de trabajar (2026-11-19)**: el usuario pidió más autonomía: el agente decide dentro de
+  cada fase o tarea y le pregunta solo al terminarla. Siguen necesitando su permiso las descargas,
+  las dependencias nuevas, ampliar el alcance, cambiar `CLAUDE.md` y crear recursos en Azure.
+- **F004 (Fichas de PJ)**, empezada el 2026-11-19. Rama `007-fichas-pj`, `specs/007-fichas-pj/`.
+  Aclaraciones decididas por el agente (el usuario puede cambiarlas): siete características (las
+  seis de `PRODUCTO.md` B3 más Aspecto, que ya usaba la aplicación); raza, clase y alineamiento en
+  texto libre (no hay listas en los datos y no se inventan); la versión 1 del formato es la del
+  borrador B3 y la 2 añade Aspecto; «sin conexión» se comprueba como en F007 (ninguna petición fuera
+  del sitio; el trabajador de servicio sigue pendiente); al importar una ficha que ya existe se
+  pregunta si sustituirla o añadirla como copia. Guardado en IndexedDB con un módulo propio
+  (`wwwroot/js/characters.js`), sin paquetes, como pide B1. **Implementado**: T001–T015; páginas
+  `/fichas` y `/fichas/{id}`. Pruebas del dominio y de las páginas vistas fallar antes del código
+  (las del servicio `PlayerCharacters` se compilaron junto con él). La migración 1 → 2 apenas hace
+  nada: una característica que falta ya se lee vacía; la prueba que obliga al paso de migración es
+  la de valores `null`. Los rangos de las características y de su fracción quedan pendientes de
+  verificar con el MJ en F005. Ojo: en una pasada completa con las pruebas de navegador a la vez
+  fallaron dos pruebas bUnit de los dados 3D que dependen del tiempo
+  (`The_History_Does_Not_Show_The_Result_Before_The_Dice_Stop__FR005` y
+  `Turning_3D_Off_And_On_Before_The_First_Load_Ends_Still_Starts_The_New_Board__FR011`); solas y
+  sin navegador pasan siempre (5 de 5). **Falta**: revisión independiente, pull request y la prueba del
+  usuario (T017–T019).
 - **Orden acordado (2026-11-18)**: F008 → F004 → F005 → F006. Los números son identificadores, no
   el orden: F007 y F008 se añadieron después y tomaron el siguiente número libre para no renumerar
   las demás. **F006 ampliada** a petición del usuario: cuentas propias para guardar en la nube

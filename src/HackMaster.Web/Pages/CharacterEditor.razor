@@ -1,0 +1,299 @@
+@page "/fichas/nueva"
+@page "/fichas/{Id}"
+@using System.Globalization
+@implements IDisposable
+@inject PlayerCharacters PlayerCharacters
+@inject IndexedStore Store
+@inject GameData Data
+@inject NavigationManager Navigation
+
+@if (_notFound)
+{
+    <NotFound />
+}
+else
+{
+    <PageTitle>@Title · @AppInfo.Name</PageTitle>
+
+    <p class="back-link"><a href="fichas">← Fichas</a></p>
+
+    <h1>@Title</h1>
+
+    <CharacterStorageNotice />
+
+    @if (_character is null)
+    {
+        <p>Cargando…</p>
+    }
+    else
+    {
+        <div class="character-form">
+            <fieldset class="character-fields">
+                <legend>Personaje</legend>
+                <label>Nombre <input type="text" autocomplete="off" data-testid="character-name" value="@_character.Name" @oninput="args => Change(_character with { Name = Text(args) ?? string.Empty })" /></label>
+                <label>Raza <input type="text" autocomplete="off" data-testid="character-race" value="@_character.Race" @oninput="args => Change(_character with { Race = Text(args) })" /></label>
+                <label>Clase <input type="text" autocomplete="off" data-testid="character-class" value="@_character.Class" @oninput="args => Change(_character with { Class = Text(args) })" /></label>
+                <label>Nivel <input type="number" inputmode="numeric" min="0" data-testid="character-level" value="@_character.Level" @oninput="args => Change(_character with { Level = Number(args) })" /></label>
+                <label>Alineamiento <input type="text" autocomplete="off" data-testid="character-alignment" value="@_character.Alignment" @oninput="args => Change(_character with { Alignment = Text(args) })" /></label>
+                <label>PG <input type="number" inputmode="numeric" data-testid="character-hp" value="@_character.HitPoints" @oninput="args => Change(_character with { HitPoints = Number(args) })" /></label>
+                <label>Honor <input type="number" inputmode="numeric" data-testid="character-honor" value="@_character.Honor" @oninput="args => Change(_character with { Honor = Number(args) })" /></label>
+            </fieldset>
+
+            <fieldset class="character-abilities">
+                <legend>Características</legend>
+                @foreach (var ability in Enum.GetValues<Ability>())
+                {
+                    var score = _character.Abilities[ability];
+                    <div class="character-ability">
+                        <label for="ability-@ability" title="@AbilityNames[ability]">@ability</label>
+                        <input id="ability-@ability" type="number" inputmode="numeric" min="0" aria-label="@AbilityNames[ability]" data-testid="character-ability-@ability"
+                               value="@score.Score" @oninput="args => ChangeAbility(ability, _character.Abilities[ability] with { Score = Number(args) })" />
+                        <span aria-hidden="true">/</span>
+                        <input type="number" inputmode="numeric" min="0" max="99" aria-label="Fracción de @AbilityNames[ability]" data-testid="character-fraction-@ability"
+                               value="@score.Fraction" @oninput="args => ChangeAbility(ability, _character.Abilities[ability] with { Fraction = Number(args) })" />
+                    </div>
+                }
+            </fieldset>
+
+            <h2>Habilidades (@_character.Skills.Count)</h2>
+            <div class="search">
+                <label for="character-skill-search">Añadir habilidades</label>
+                <input id="character-skill-search" type="search" autocomplete="off" placeholder="Buscar por nombre" data-testid="character-skill-search"
+                       value="@_search" @oninput="args => _search = Text(args) ?? string.Empty" />
+            </div>
+
+            @if (SkillResults.Count > 0)
+            {
+                <ul class="suite-results">
+                    @foreach (var skill in SkillResults)
+                    {
+                        <li data-testid="character-skill-result">
+                            <span>@skill.Name</span>
+                            <button type="button" @onclick="() => AddSkill(skill)">Añadir</button>
+                        </li>
+                    }
+                </ul>
+            }
+
+            @if (_notice is not null)
+            {
+                <p class="section-note" role="status">@_notice</p>
+            }
+
+            @if (_character.Skills.Count == 0)
+            {
+                <p class="section-note">Todavía no hay habilidades: búscalas y añádelas.</p>
+            }
+            else
+            {
+                <ul class="suite-components character-skills">
+                    @foreach (var skill in _character.Skills)
+                    {
+                        <li data-testid="character-skill">
+                            <span class="component-name">
+                                @if (Data.FindSkill(skill.Slug) is not null)
+                                {
+                                    <a href="habilidades/@skill.Slug">@skill.Name</a>
+                                }
+                                else
+                                {
+                                    @skill.Name
+                                    <span class="pending-reason" data-testid="character-skill-missing"> (no encontrada en los datos)</span>
+                                }
+                            </span>
+                            <label>Maestría <input type="number" inputmode="numeric" min="0" data-testid="character-skill-mastery" value="@skill.Mastery" @oninput="args => ChangeSkill(skill, skill with { Mastery = Number(args) })" /></label>
+                            <label>Puntos <input type="number" inputmode="numeric" min="0" data-testid="character-skill-points" value="@skill.Points" @oninput="args => ChangeSkill(skill, skill with { Points = Number(args) })" /></label>
+                            <button type="button" data-testid="character-skill-remove" @onclick="() => RemoveSkill(skill)">Quitar</button>
+                        </li>
+                    }
+                </ul>
+            }
+
+            <div class="character-text">
+                <label for="character-equipment">Equipo</label>
+                <textarea id="character-equipment" rows="4" data-testid="character-equipment" value="@_character.Equipment" @oninput="args => Change(_character with { Equipment = Text(args) })"></textarea>
+                <label for="character-notes">Notas</label>
+                <textarea id="character-notes" rows="4" data-testid="character-notes" value="@_character.Notes" @oninput="args => Change(_character with { Notes = Text(args) })"></textarea>
+            </div>
+        </div>
+
+        @if (_problem is not null)
+        {
+            <p class="dice-error" role="alert" data-testid="character-problem">No se puede guardar: @_problem</p>
+        }
+
+        <p class="suite-actions">
+            <button type="button" class="primary" data-testid="character-save" @onclick="SaveAsync">Guardar</button>
+            @if (Id is not null)
+            {
+                <button type="button" data-testid="character-export" @onclick="ExportAsync">Exportar</button>
+                <button type="button" data-testid="character-duplicate" @onclick="DuplicateAsync">Duplicar</button>
+                <button type="button" data-testid="character-delete" @onclick="() => _confirmDelete = true">Borrar</button>
+            }
+        </p>
+
+        @if (_confirmDelete)
+        {
+            <div class="doubt-notice" role="alert">
+                <p data-testid="character-delete-question">¿Borrar la ficha «@(PlayerCharacters.Find(Id!)?.Name ?? _character.Name)»? No se puede deshacer; si quieres conservarla, expórtala antes.</p>
+                <button type="button" data-testid="character-delete-confirm" @onclick="DeleteAsync">Sí, borrar</button>
+                <button type="button" data-testid="character-delete-cancel" @onclick="() => _confirmDelete = false">Cancelar</button>
+            </div>
+        }
+    }
+}
+
+@code {
+    private const int MaxResults = 12;
+
+    private static readonly Dictionary<Ability, string> AbilityNames = new()
+    {
+        [Ability.FUE] = "Fuerza",
+        [Ability.DES] = "Destreza",
+        [Ability.CON] = "Constitución",
+        [Ability.INT] = "Inteligencia",
+        [Ability.SAB] = "Sabiduría",
+        [Ability.CAR] = "Carisma",
+        [Ability.ASP] = "Aspecto",
+    };
+
+    private Character? _character;
+    private string? _loadedId;
+    private string _search = string.Empty;
+    private string? _notice;
+    private string? _problem;
+    private bool _confirmDelete;
+    private bool _notFound;
+
+    /// <summary>Ficha que se edita; nulo al crear una nueva.</summary>
+    [Parameter]
+    public string? Id { get; set; }
+
+    private string Title => Id is null ? "Nueva ficha" : PlayerCharacters.Find(Id)?.Name ?? "Ficha";
+
+    /// <summary>Habilidades cuyo nombre contiene lo buscado, sin acentos ni mayúsculas (FR-003).</summary>
+    private IReadOnlyList<Skill> SkillResults
+    {
+        get
+        {
+            var text = TextNormalizer.Normalize(_search);
+            return text.Length == 0 ? [] : [.. Data.Skills.Where(skill => skill.SearchName.Contains(text, StringComparison.Ordinal)).Take(MaxResults)];
+        }
+    }
+
+    protected override void OnInitialized() => Store.AvailabilityChanged += OnAvailabilityChanged;
+
+    /// <summary>Carga la ficha cada vez que cambia la dirección (por ejemplo, al abrir la copia recién hecha).</summary>
+    protected override async Task OnParametersSetAsync()
+    {
+        if (_character is not null && _loadedId == Id)
+        {
+            return;
+        }
+
+        await PlayerCharacters.LoadAsync();
+        _loadedId = Id;
+        _search = string.Empty;
+        _notice = null;
+        _problem = null;
+        _confirmDelete = false;
+        _notFound = false;
+        if (Id is null)
+        {
+            var now = DateTimeOffset.Now;
+            _character = new Character { Id = string.Empty, Name = string.Empty, CreatedAt = now, UpdatedAt = now };
+        }
+        else if (PlayerCharacters.Find(Id) is { } saved)
+        {
+            _character = saved;
+        }
+        else
+        {
+            _character = null;
+            _notFound = true;
+        }
+    }
+
+    private static string? Text(ChangeEventArgs args) => args.Value?.ToString() is { Length: > 0 } text ? text : null;
+
+    private static int? Number(ChangeEventArgs args) =>
+        int.TryParse(args.Value?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var value) ? value : null;
+
+    private void Change(Character character)
+    {
+        _character = character;
+        _problem = null;
+    }
+
+    private void ChangeAbility(Ability ability, AbilityScore score) => Change(_character! with { Abilities = _character.Abilities.With(ability, score) });
+
+    private void ChangeSkill(CharacterSkill old, CharacterSkill changed) =>
+        Change(_character! with { Skills = [.. _character.Skills.Select(skill => skill == old ? changed : skill)] });
+
+    private void AddSkill(Skill skill)
+    {
+        if (_character!.Skills.Any(existing => existing.Slug == skill.Slug))
+        {
+            _notice = $"«{skill.Name}» ya está en la ficha.";
+            return;
+        }
+
+        Change(_character with { Skills = [.. _character.Skills, new CharacterSkill(skill.Slug, skill.Name)] });
+        _notice = null;
+        _search = string.Empty;
+    }
+
+    private void RemoveSkill(CharacterSkill skill) =>
+        Change(_character! with { Skills = [.. _character.Skills.Where(other => other != skill)] });
+
+    private async Task SaveAsync()
+    {
+        var now = DateTimeOffset.Now;
+        var character = _character! with
+        {
+            Id = Id ?? Guid.NewGuid().ToString("N"),
+            Name = _character.Name.Trim(),
+            CreatedAt = Id is null ? now : _character.CreatedAt,
+            UpdatedAt = now,
+        };
+        _problem = await PlayerCharacters.SaveAsync(character);
+        if (_problem is null)
+        {
+            Navigation.NavigateTo("fichas");
+        }
+    }
+
+    private async Task ExportAsync()
+    {
+        if (PlayerCharacters.Find(Id!) is { } saved)
+        {
+            await PlayerCharacters.ExportAsync(saved);
+        }
+    }
+
+    private async Task DuplicateAsync()
+    {
+        var copy = await PlayerCharacters.DuplicateAsync(Id!, Guid.NewGuid().ToString("N"), DateTimeOffset.Now);
+        if (copy is null)
+        {
+            _problem = PlayerCharacters.LoadError is { } error ? $"no se pudieron leer las fichas guardadas ({error})." : "no se pudo hacer la copia.";
+            return;
+        }
+
+        Navigation.NavigateTo($"fichas/{Uri.EscapeDataString(copy.Id)}");
+    }
+
+    private async Task DeleteAsync()
+    {
+        _problem = await PlayerCharacters.DeleteAsync(Id!);
+        _confirmDelete = false;
+        if (_problem is null)
+        {
+            Navigation.NavigateTo("fichas");
+        }
+    }
+
+    private void OnAvailabilityChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose() => Store.AvailabilityChanged -= OnAvailabilityChanged;
+}

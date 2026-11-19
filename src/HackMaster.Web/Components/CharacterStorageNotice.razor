@@ -1,0 +1,19 @@
+@* Avisos de las fichas guardadas: no se pudieron leer (FR-010) o el navegador no deja guardar. *@
+@inject PlayerCharacters PlayerCharacters
+@inject IndexedStore Store
+
+@if (PlayerCharacters.LoadError is not null)
+{
+    <p class="doubt-notice" role="alert" data-testid="characters-error">
+        No se pudieron leer tus fichas guardadas en este dispositivo (@PlayerCharacters.LoadError).
+        No se guardará ningún cambio, para no borrarlas.
+    </p>
+}
+
+@if (!Store.IsAvailable)
+{
+    <p class="doubt-notice" role="status" data-testid="characters-unsaved">
+        El navegador no deja guardar datos: tus fichas se perderán al cerrar la página. Expórtalas a
+        un archivo para no perderlas.
+    </p>
+}
