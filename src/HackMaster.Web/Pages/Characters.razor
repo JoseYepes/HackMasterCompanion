@@ -1,0 +1,160 @@
+@page "/fichas"
+@implements IDisposable
+@using Microsoft.AspNetCore.Components.Forms
+@inject PlayerCharacters PlayerCharacters
+@inject IndexedStore Store
+
+<PageTitle>Fichas · @AppInfo.Name</PageTitle>
+
+<h1>Fichas</h1>
+
+<CharacterStorageNotice />
+
+<p class="suite-actions">
+    <a class="button-link primary" href="fichas/nueva" data-testid="character-new">Nueva ficha</a>
+</p>
+
+<div class="character-import">
+    <label for="character-import">Importar una ficha desde un archivo</label>
+    <InputFile id="character-import" accept=".json,application/json" data-testid="character-import" OnChange="ImportAsync" />
+</div>
+
+@if (_importError is not null)
+{
+    <p class="dice-error" role="alert" data-testid="character-import-error">No se pudo importar: @_importError</p>
+}
+
+@if (_importDone is not null)
+{
+    <p class="section-note" role="status" data-testid="character-import-done">@_importDone</p>
+}
+
+@if (_pending is not null)
+{
+    <div class="doubt-notice" role="alert" data-testid="character-import-conflict">
+        <p>Ya tienes la ficha «@(PlayerCharacters.Find(_pending.Id)?.Name ?? _pending.Name)» en este dispositivo. ¿Qué quieres hacer con la del archivo?</p>
+        <button type="button" data-testid="character-import-replace" @onclick="() => FinishImportAsync(asCopy: false, replace: true)">Sustituir la que tengo</button>
+        <button type="button" data-testid="character-import-copy" @ref="_conflictFirst" @onclick="() => FinishImportAsync(asCopy: true, replace: false)">Añadirla como copia</button>
+        <button type="button" @onclick="() => _pending = null">Cancelar</button>
+    </div>
+}
+
+@if (!_loaded)
+{
+    <p>Cargando…</p>
+}
+else if (PlayerCharacters.Characters.Count == 0)
+{
+    <p class="section-note" data-testid="characters-empty">Aún no hay fichas en este dispositivo. Crea una o importa un archivo.</p>
+}
+else
+{
+    <ul class="item-list">
+        @foreach (var character in PlayerCharacters.Characters)
+        {
+            <li class="item-row" data-testid="character-row">
+                <a class="item-name character-name" href="fichas/@Uri.EscapeDataString(character.Id)">@character.Name</a>
+                <span class="character-summary">@Summary(character)</span>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    /// <summary>Tamaño máximo de un archivo de ficha.</summary>
+    private const long MaxFileSize = 1024 * 1024;
+
+    private bool _loaded;
+    private string? _importError;
+    private string? _importDone;
+    private Character? _pending;
+    private bool _focusConflict;
+    private ElementReference _conflictFirst;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Store.AvailabilityChanged += OnAvailabilityChanged;
+        await PlayerCharacters.LoadAsync();
+        _loaded = true;
+    }
+
+    /// <summary>Raza, clase y nivel, separados por puntos medios; lo que falte no se muestra.</summary>
+    private static string Summary(Character character) => string.Join(" · ", new[]
+    {
+        character.Race,
+        character.Class,
+        character.Level is { } level ? $"nivel {level}" : null,
+    }.Where(part => !string.IsNullOrWhiteSpace(part)));
+
+    private async Task ImportAsync(InputFileChangeEventArgs args)
+    {
+        _importError = null;
+        _importDone = null;
+        _pending = null;
+        string text;
+        try
+        {
+            using var reader = new StreamReader(args.File.OpenReadStream(MaxFileSize));
+            text = await reader.ReadToEndAsync();
+        }
+        catch (IOException)
+        {
+            _importError = "el archivo es demasiado grande para ser una ficha (más de 1 MB).";
+            return;
+        }
+
+        var import = await PlayerCharacters.ReadImportAsync(text);
+        if (import.Character is null)
+        {
+            _importError = import.Error;
+            return;
+        }
+
+        _pending = import.Character;
+        if (import.AlreadyExists)
+        {
+            _focusConflict = true;
+        }
+        else
+        {
+            await FinishImportAsync(asCopy: false, replace: false);
+        }
+    }
+
+    /// <summary>
+    /// Importa la ficha pendiente. Sin <paramref name="replace"/> nunca sustituye: si otra pestaña
+    /// la añadió entretanto, vuelve a preguntar (FR-008).
+    /// </summary>
+    private async Task FinishImportAsync(bool asCopy, bool replace)
+    {
+        var character = _pending!;
+        _pending = null;
+        var problem = await PlayerCharacters.ImportAsync(character, asCopy, Guid.NewGuid().ToString("N"), DateTimeOffset.Now, replace);
+        if (problem is null)
+        {
+            _importDone = $"Importada la ficha «{character.Name}».";
+        }
+        else if (problem == PlayerCharacters.AlreadyExists)
+        {
+            _pending = character;
+            _focusConflict = true;
+        }
+        else
+        {
+            _importError = problem;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focusConflict && _pending is not null)
+        {
+            _focusConflict = false;
+            await _conflictFirst.FocusAsync();
+        }
+    }
+
+    private void OnAvailabilityChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose() => Store.AvailabilityChanged -= OnAvailabilityChanged;
+}

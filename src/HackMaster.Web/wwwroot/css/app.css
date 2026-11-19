@@ -1249,3 +1249,114 @@ html[data-theme="dark"] .dice-board {
     transition: none !important;
   }
 }
+
+/* Fichas de PJ (F004) */
+
+.character-import {
+  margin: 1rem 0;
+}
+
+.character-import label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--muted);
+}
+
+.character-import input {
+  max-width: 100%;
+}
+
+.character-summary {
+  color: var(--muted);
+}
+
+.character-fields,
+.character-abilities {
+  margin: 0 0 1.25rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 0.5rem;
+  min-width: 0;
+}
+
+.character-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  gap: 0.75rem;
+}
+
+.character-fields label,
+.character-skills label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--muted);
+}
+
+.character-fields input,
+.character-text textarea {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--ink);
+}
+
+.character-abilities {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+  gap: 0.5rem 1rem;
+}
+
+.character-ability {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.character-ability label {
+  width: 2.5rem;
+  font-weight: 600;
+}
+
+.character-ability input {
+  width: 3.5rem;
+  min-height: 2.75rem;
+  padding: 0.25rem 0.375rem;
+}
+
+.character-skills input {
+  width: 5rem;
+  min-height: 2.75rem;
+  padding: 0.25rem 0.375rem;
+  color: var(--ink);
+}
+
+.character-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 1.25rem 0;
+}
+
+.character-text label {
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
+.character-text textarea {
+  resize: vertical;
+}
+
+.character-skills .component-name {
+  flex-basis: 100%;
+}
+
+.character-skills label {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.character-skills input {
+  width: 4rem;
+}

@@ -40,6 +40,19 @@ public sealed record RollHistoryFile(
     public static RollHistoryFile Empty { get; } = new(StoredData.RollsVersion, false, [], Look: DiceLook.Default);
 }
 
+/// <summary>Fichas guardadas en el dispositivo (clave <c>hackmaster.characters</c>, IndexedDB; F004).</summary>
+public sealed record CharactersFile(int SchemaVersion, IReadOnlyList<Character> Characters)
+{
+    public static CharactersFile Empty { get; } = new(StoredData.CharactersVersion, []);
+}
+
+/// <summary>Archivo de una ficha para exportar e importar (contracts/character-file.md de F004).</summary>
+public sealed record CharacterFile(int SchemaVersion, string Kind, Character Character)
+{
+    /// <summary>Valor de <see cref="Kind"/> que identifica un archivo de ficha.</summary>
+    public const string CharacterKind = "hackmaster.character";
+}
+
 /// <summary>Resultado de leer algo guardado: el valor, o el motivo por el que no se pudo leer.</summary>
 public sealed record StoredRead<T>(T? Value, string? Error)
     where T : class;
@@ -84,7 +97,120 @@ public static class StoredData
 
     public static string Write(RollHistoryFile file) => JsonSerializer.Serialize(file with { SchemaVersion = RollsVersion }, GameDataJson.Options);
 
-    private static StoredRead<T> Read<T>(string? json, T empty, Func<T, bool> isComplete, int currentVersion, Func<JsonElement, int, JsonElement> migrate)
+    /// <summary>
+    /// Versión del formato de las fichas, el mismo en lo guardado y en el archivo de exportar. La 1 es
+    /// la del borrador de PRODUCTO.md B3 (seis características); la 2 añade Aspecto (F004).
+    /// </summary>
+    public const int CharactersVersion = 2;
+
+    public static StoredRead<CharactersFile> ReadCharacters(string? json) =>
+        Read(json, CharactersFile.Empty, IsComplete, CharactersVersion, MigrateCharacters);
+
+    public static string Write(CharactersFile file) => JsonSerializer.Serialize(file with { SchemaVersion = CharactersVersion }, GameDataJson.Options);
+
+    /// <summary>Lee un archivo de ficha importado; si no es una ficha o no se entiende, da el motivo (FR-009).</summary>
+    public static StoredRead<CharacterFile> ReadCharacterFile(string? json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return new StoredRead<CharacterFile>(null, "El archivo está vacío.");
+        }
+
+        try
+        {
+            using var document = JsonDocument.Parse(json);
+            var root = document.RootElement;
+            if (root.ValueKind == JsonValueKind.Object
+                && (!root.TryGetProperty("kind", out var kind) || kind.ValueKind != JsonValueKind.String || kind.GetString() != CharacterFile.CharacterKind))
+            {
+                return new StoredRead<CharacterFile>(null, "El archivo no es una ficha de HackMaster Companion.");
+            }
+        }
+        catch (JsonException exception)
+        {
+            return new StoredRead<CharacterFile>(null, $"El archivo está dañado: {exception.Message}");
+        }
+
+        return Read<CharacterFile>(json, null!, file => file.Character is not null && IsComplete(file.Character), CharactersVersion, MigrateCharacterFile, isFile: true);
+    }
+
+    /// <summary>Archivo de exportar de una ficha, en la versión actual.</summary>
+    public static string WriteCharacterFile(Character character) =>
+        JsonSerializer.Serialize(new CharacterFile(CharactersVersion, CharacterFile.CharacterKind, character), GameDataJson.Options);
+
+    private static bool IsComplete(CharactersFile file) =>
+        file.Characters is not null && file.Characters.All(character => character is not null && IsComplete(character));
+
+    private static bool IsComplete(Character character) =>
+        !string.IsNullOrWhiteSpace(character.Id) && !string.IsNullOrWhiteSpace(character.Name)
+        && character.Abilities is not null && character.Skills is not null
+        && character.Skills.All(skill => skill is not null && skill.Slug is not null && skill.Name is not null);
+
+    private static JsonElement MigrateCharacters(JsonElement root, int version)
+    {
+        var node = ToObject(root);
+        if (node["characters"] is JsonArray characters)
+        {
+            foreach (var character in characters)
+            {
+                MigrateCharacter(character as JsonObject, version);
+            }
+        }
+
+        node["schemaVersion"] = CharactersVersion;
+        return JsonSerializer.SerializeToElement(node);
+    }
+
+    private static JsonElement MigrateCharacterFile(JsonElement root, int version)
+    {
+        var node = ToObject(root);
+        MigrateCharacter(node["character"] as JsonObject, version);
+        node["schemaVersion"] = CharactersVersion;
+        return JsonSerializer.SerializeToElement(node);
+    }
+
+    /// <summary>
+    /// Lleva una ficha de <paramref name="version"/> a la actual, paso a paso, y deja las siete
+    /// características presentes (vacías las que falten). Cada versión nueva añade aquí su paso.
+    /// </summary>
+    private static void MigrateCharacter(JsonObject? character, int version)
+    {
+        if (character is null)
+        {
+            return;
+        }
+
+        for (; version < CharactersVersion; version++)
+        {
+            switch (version)
+            {
+                case 1:
+                    // 1 → 2 (F004): se añade Aspecto, vacío; lo completa el bucle de abajo.
+                    break;
+                default:
+                    throw new JsonException($"No se sabe migrar la versión {version} del formato de las fichas.");
+            }
+        }
+
+        if (character["abilities"] is not JsonObject abilities)
+        {
+            abilities = [];
+            character["abilities"] = abilities;
+        }
+
+        foreach (var ability in Enum.GetNames<Ability>())
+        {
+            if (abilities[ability] is not JsonObject)
+            {
+                abilities[ability] = new JsonObject();
+            }
+        }
+    }
+
+    private static JsonObject ToObject(JsonElement root) =>
+        JsonNode.Parse(root.GetRawText())?.AsObject() ?? throw new JsonException("Los datos guardados no son un objeto.");
+
+    private static StoredRead<T> Read<T>(string? json, T empty, Func<T, bool> isComplete, int currentVersion, Func<JsonElement, int, JsonElement> migrate, bool isFile = false)
         where T : class
     {
         if (string.IsNullOrWhiteSpace(json))
@@ -100,23 +226,23 @@ public static class StoredData
                 || versionElement.ValueKind != JsonValueKind.Number
                 || !versionElement.TryGetInt32(out var version))
             {
-                return new StoredRead<T>(null, "Los datos guardados no indican su versión de formato.");
+                return new StoredRead<T>(null, isFile ? "El archivo no indica su versión de formato." : "Los datos guardados no indican su versión de formato.");
             }
 
             if (version > currentVersion)
             {
-                return new StoredRead<T>(null, $"Los datos guardados son de una versión más reciente de la aplicación ({version}); esta entiende hasta la {currentVersion}.");
+                return new StoredRead<T>(null, $"{(isFile ? "El archivo es" : "Los datos guardados son")} de una versión más reciente de la aplicación ({version}); esta entiende hasta la {currentVersion}.");
             }
 
             var migrated = migrate(document.RootElement, version);
             var value = migrated.Deserialize<T>(GameDataJson.Options);
             return value is not null && isComplete(value)
                 ? new StoredRead<T>(value, null)
-                : new StoredRead<T>(null, "Los datos guardados están incompletos.");
+                : new StoredRead<T>(null, isFile ? "El archivo está incompleto." : "Los datos guardados están incompletos.");
         }
         catch (JsonException exception)
         {
-            return new StoredRead<T>(null, $"Los datos guardados están dañados: {exception.Message}");
+            return new StoredRead<T>(null, $"{(isFile ? "El archivo está dañado" : "Los datos guardados están dañados")}: {exception.Message}");
         }
     }
 

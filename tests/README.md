@@ -78,3 +78,13 @@ Dados personalizables y sonido (F008):
   con licencia CC0, ninguna sobra y pesan menos de 400 KB.
 - `E2E/Dice3DTests`: las 1 000 tiradas comprueban además que la malla redondeada apoya en los
   mismos planos que el poliedro con el que rueda.
+
+Fichas de PJ (F004):
+
+- `CharacterTests` y `CharacterStorageTests` (dominio): qué impide guardar una ficha, la copia,
+  exportar e importar idéntica y la migración del formato de la versión 1 a la 2.
+- `PlayerCharactersTests` y `CharacterPagesTests` (bUnit): guardar, releer antes de escribir,
+  duplicar, borrar, exportar e importar, con IndexedDB simulado.
+- `E2E/CharacterTests`: con IndexedDB real, la ficha sigue al recargar; exportar, borrar e importar
+  da el mismo archivo sin pedir nada a otros sitios; la copia es independiente; sin desbordamiento a
+  390 y 820 px en los dos modos.

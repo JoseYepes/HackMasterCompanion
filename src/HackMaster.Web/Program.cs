@@ -14,4 +14,8 @@ builder.Services.AddSingleton<HackMaster.Domain.IRandom, SystemRandom>();
 builder.Services.AddSingleton<BrowserStore>();
 builder.Services.AddSingleton<PlayerSuites>();
 
+// Fichas de PJ, guardadas en IndexedDB (F004).
+builder.Services.AddSingleton<IndexedStore>();
+builder.Services.AddSingleton<PlayerCharacters>();
+
 await builder.Build().RunAsync();
