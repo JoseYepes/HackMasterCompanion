@@ -44,8 +44,11 @@ Como jugador, quiero crear, editar, duplicar, borrar, exportar e importar fichas
 **Aceptación:** exportar e importar deja la ficha idéntica; migración de esquema v1→v2 con test; funciona sin conexión.
 
 ### F005 — Fichas con reglas
-Como jugador, quiero costes, PC disponibles y tiradas de habilidad desde la ficha.
-**Aceptación:** un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test.
+Como jugador, quiero que la ficha calcule la maestría de mis habilidades y me deje tirarlas.
+**Aceptación:** un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test. Cambiada por el usuario el 2026-11-20: los PC (puntos de construcción) solo sirven al crear el personaje y van en la futura creación de PJ (F010), no en la ficha.
+
+### F010 — Creación de PJ (sin orden todavía)
+Como jugador, quiero una función o pestaña que me guíe al crear un personaje, con sus Puntos de Construcción (raza, clase, defectos y peculiaridades, características sacrificadas, repeticiones de tiradas y lo que sobra en oro o puntos fraccionales; MJ p. 75 y 80) y las compras iniciales de habilidades. Propuesta por el usuario el 2026-11-20; se especificará más adelante.
 
 ### F006 — Backend y cuentas en Azure
 Como jugador, quiero tener mi propia cuenta e iniciar sesión para ver mis datos en cualquier dispositivo: fichas, historial de tiradas, configuración de los dados (F008), conjuntos propios y modo de pantalla.

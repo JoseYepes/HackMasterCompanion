@@ -6,159 +6,128 @@
 
 **Status**: Draft
 
-**Input**: User description: "F005 — Fichas con reglas. Como jugador, quiero costes, PC disponibles y tiradas de habilidad desde la ficha. Aceptación: un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test."
+**Input**: User description: "F005 — Fichas con reglas. Como jugador, quiero que la ficha calcule la maestría de mis habilidades y me deje tirarlas. Aceptación: un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test." (Cambiada por el usuario el 2026-11-20: antes incluía costes y PC disponibles.)
 
 ## Reglas del Manual del Jugador
 
-La constitución (principios I y II) prohíbe inventar reglas. La aplicación ya tiene, por habilidad,
-su coste en PC, sus características, su dado de maestría y su dificultad del curso (de la hoja).
-Las reglas generales se han leído en el MJ en castellano (`D:\…\Manuales de jugador`, solo en
-local):
+La constitución (principios I y II) prohíbe inventar reglas. Las reglas se han leído en el MJ en
+castellano (solo en local, nunca en el repositorio):
 
-1. **PC (MJ p. 75 y 80; cap. 2 y 3)**: los PC se usan **al crear el personaje**. Salen de la raza
-   («Puntos de Construcción bonificados», cap. 2) y de la clase («Bonificador a los Puntos de
-   Construcción», cap. 3; por ejemplo, guerrero 10 PC, p. 42), y se pueden ganar más con defectos
-   y peculiaridades (2 PC menor y 4 PC mayor si se eligen; según la Tabla 6A si se tiran) y
-   sacrificando características (2 PC por punto, sin bajar de 3 ni de los mínimos de raza o clase).
-   Se gastan en habilidades, talentos y competencias y en repetir tiradas de las tablas de
-   historial (1 PC cada una). Los que sobran se cambian por 25 po o 25 puntos fraccionales cada uno;
-   los no cambiados se pierden. Al subir de nivel las habilidades se aprenden entrenando (cap. 11),
-   no con PC.
-2. **Maestría (MJ p. 100–101 y 307)**: maestría = característica relevante (una sola vez; si hay
-   varias, su media redondeada a la baja) + una tirada del dado de maestría y una del Dado de Honor
-   **por cada vez que se paga el coste en PC** de la habilidad; máximo 125 %. Los magos (salvo los
-   magos de batalla) pagan el doble por las habilidades de combate y la mitad por las académicas.
-   El Dado de Honor depende del Honor y del nivel (Tabla 5C, p. 85).
-3. **Prueba de habilidad (MJ p. 100 y Glosario)**: se tira d100 contra la maestría; la tirada,
-   con sus modificadores, debe ser igual o menor que la maestría. Un 01–05 siempre tiene éxito y
-   un 98–00 siempre falla. La «dificultad» de la hoja es la del curso de entrenamiento (p. 307), no
-   un modificador de la prueba.
+1. **Maestría (MJ p. 100–101 y 307)**: maestría = característica relevante (una sola vez; si hay
+   varias, su media redondeada a la baja) + la suma de las tiradas del dado de maestría y del Dado
+   de Honor que se han ido añadiendo (una de cada por cada compra o bloque de entrenamiento
+   superado); máximo 125 %. Ejemplo del MJ p. 100: Corte a la yugular (d4, DES) con Destreza 18,
+   dado de maestría 3 y Dado de Honor d12 con 8 → 29 %.
+2. **Prueba de habilidad (MJ p. 100 y Glosario)**: se tira d100; con sus modificadores, debe ser
+   igual o menor que la maestría para tener éxito. Un 01–05 siempre tiene éxito y un 98–00 siempre
+   falla.
+3. **Niveles de maestría (MJ p. 100 y 307)**: 0 % ni idea; 01–25 principiante; 26–50 aprendiz;
+   51–75 avanzado; 76–100 experto; 101–125 maestro.
 
 ## Clarifications
 
 ### Session 2026-11-20
 
-Decididas por el agente (el usuario pidió más autonomía el 2026-11-19); el usuario puede cambiarlas.
+- Nota del usuario: los PC solo sirven al crear el personaje; irán en una futura creación de PJ
+  (F010 en `docs/PRODUCTO.md`), no en la ficha. Con ellos sale también la regla de los magos que
+  pagan el doble o la mitad en PC (MJ p. 100), que es un coste en PC.
 
-- Q: ¿La aplicación busca los PC de la raza y de la clase? → A: No en F005: raza y clase son texto
-  libre desde F004 y las cifras están repartidas por los capítulos 2 y 3. El jugador escribe en la
-  ficha los PC de raza, de clase, de defectos y peculiaridades, de características sacrificadas y
-  los gastados en repetir tiradas; la aplicación suma, resta lo gastado en habilidades y dice cuántos
-  quedan. Elegir raza y clase de una lista con sus PC queda como mejora posterior.
-- Q: ¿El Dado de Honor se calcula con la Tabla 5C? → A: No en F005: la tabla tiene unas 80 filas
-  por 20 niveles y copiarla a mano tiene mucho riesgo de error. El jugador elige su Dado de Honor
-  en la ficha (de d3 a d20, con los «+1» y «+2» de la tabla). Calcularlo queda como mejora
-  posterior.
-- Q: ¿Qué habilidades cuentan como «de combate» para los magos? → A: Las de tipo «Procedimiento de
-  combate» de la hoja; «Académicas» son las académicas. Si «Artes marciales» también cuenta como
-  combate queda **pendiente de verificar** (se avisa en la ficha).
-- Q: ¿Cómo sabe la aplicación que el personaje es mago? → A: Una casilla en la ficha, «Paga como
-  mago», que el jugador marca (los magos de batalla no la marcan).
+Decididas por el agente (el usuario pidió más autonomía el 2026-11-19); el usuario puede cambiarlas:
+
+- Q: ¿El Dado de Honor se calcula con la Tabla 5C (MJ p. 85)? → A: No en F005: la tabla tiene unas
+  80 filas por 20 niveles y copiarla a mano tiene mucho riesgo de error. El jugador elige su Dado de
+  Honor en la ficha (los de la tabla: de d3 a d20, con sus «+1» y «+2»). Calcularlo queda como
+  mejora posterior.
+- Q: ¿Qué guarda la ficha de cada habilidad? → A: Las tiradas de mejora (dado de maestría + Dado
+  de Honor) por separado de la característica, para que la maestría se recalcule si cambia la
+  característica. Las fichas de F004 tienen una maestría escrita a mano: se conserva como
+  «maestría escrita» hasta que el jugador pase a calcularla.
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - Ver los PC gastados y los disponibles (Priority: P1)
+### User Story 1 - Maestría calculada (Priority: P1)
 
-Como jugador, quiero que la ficha me diga cuántos PC tengo, cuántos he gastado en habilidades y
-cuántos me quedan, para crear y subir de nivel a mi personaje sin hacer cuentas a mano.
+Como jugador, quiero que la ficha calcule la maestría de cada habilidad con mi característica y las
+mejoras que he ido tirando, para no hacer cuentas.
 
-**Independent Test**: Crear una ficha con raza, clase, nivel y características, añadir dos
-habilidades y comprobar que los PC gastados son la suma de sus costes y que los disponibles siguen
-la regla del MJ (regla 1).
-
-**Acceptance Scenarios**:
-
-1. **Given** una ficha con habilidades, **When** la abro, **Then** veo los PC gastados (suma de
-   los costes de las habilidades compradas, según la regla 2).
-2. **Given** una ficha con los datos que pide la regla 1, **When** la abro, **Then** veo los PC
-   disponibles y los que me quedan.
-3. **Given** que gasto más PC de los que tengo, **When** guardo, **Then** se me avisa, pero se
-   guarda (la ficha es del jugador; el Máster puede permitirlo).
-4. **Given** que falta un dato para calcular (por ejemplo, la clase), **When** abro la ficha,
-   **Then** los PC disponibles aparecen como «pendientes» con el motivo, no como 0.
-
----
-
-### User Story 2 - Maestría de las habilidades (Priority: P1)
-
-Como jugador, quiero que la ficha me ayude a calcular la maestría al comprar una habilidad, según
-la regla del MJ, para no equivocarme.
-
-**Independent Test**: Comprar una habilidad en una ficha con sus características rellenas y
-comprobar que la maestría propuesta sigue la regla 2.
+**Independent Test**: En una ficha con Destreza 18 y Dado de Honor d12, añadir «Corte a la yugular»
+(d4, DES), apuntar una mejora de 3 (maestría) + 8 (Honor) y ver 29 % (ejemplo del MJ p. 100).
 
 **Acceptance Scenarios**:
 
-1. **Given** una ficha con las características de una habilidad, **When** la compro, **Then** la
-   aplicación propone la maestría según la regla 2 (con la tirada que haga falta, usando el tirador
-   de la aplicación) y puedo aceptarla o escribir otra.
-2. **Given** una habilidad comprada, **When** la vuelvo a comprar, **Then** la maestría sube según
-   la regla 2 y los PC gastados también.
+1. **Given** una habilidad con una característica, **When** la añado, **Then** su maestría base es
+   esa característica.
+2. **Given** una habilidad con varias características, **When** la añado, **Then** su base es la
+   media redondeada a la baja.
+3. **Given** una habilidad, **When** pulso «Tirar mejora», **Then** la aplicación tira el dado de
+   maestría y mi Dado de Honor, me enseña las dos tiradas y suma el total a la maestría.
+4. **Given** una mejora que tiré con dados físicos, **When** la apunto a mano, **Then** se suma igual.
+5. **Given** una maestría que pasaría de 125 %, **When** se suma, **Then** se queda en 125 %.
+6. **Given** que cambio una característica, **When** vuelvo a la ficha, **Then** la maestría de las
+   habilidades que la usan cambia.
+7. **Given** una habilidad, **Then** veo su nivel (principiante, aprendiz…).
 
 ---
 
-### User Story 3 - Tirar una habilidad desde la ficha (Priority: P2)
+### User Story 2 - Tirar una habilidad desde la ficha (Priority: P1)
 
 Como jugador, quiero pulsar en una habilidad de mi ficha y tirarla, para no tener que ir al tirador
 y comparar a mano.
 
-**Independent Test**: En una ficha con «Botánica» al 35 %, tirarla y ver el resultado del dado, la
-maestría con la dificultad aplicada y si es éxito o fallo según la regla 3.
+**Independent Test**: En una ficha con «Botánica» al 35 %, tirarla con un modificador de −10 y ver
+el d100, la cifra que había que sacar y si es éxito o fallo.
 
 **Acceptance Scenarios**:
 
-1. **Given** una habilidad con maestría, **When** pulso «Tirar», **Then** veo el dado, la cifra
-   que había que sacar y el resultado según la regla 3.
-2. **Given** una tirada, **When** termina, **Then** queda en el historial del tirador (F002).
+1. **Given** una habilidad con maestría, **When** pulso «Tirar», **Then** veo el d100, el
+   modificador, el total y si es éxito o fallo según la regla 2.
+2. **Given** un 01–05 o un 98–00, **When** tiro, **Then** se indica que es éxito o fallo automático.
+3. **Given** una tirada, **When** termina, **Then** queda en el historial del tirador (F002).
 
 ### Edge Cases
 
-- Habilidades con dado de maestría no válido en los datos («pendiente de verificar»): la maestría
-  no se propone; se escribe a mano.
-- Habilidades con varias características: según la regla 2.
-- Fichas creadas en F004 sin los datos nuevos: siguen abriéndose; lo que no se pueda calcular sale
-  como «pendiente».
-- Habilidades que ya no existen en los datos: no suman coste (no se conoce) y se avisa.
+- Habilidades con dado de maestría no válido en los datos («pendiente de verificar»): no se puede
+  tirar la mejora automática; se apunta a mano.
+- Sin Dado de Honor elegido: la mejora automática pide elegirlo; a mano se puede apuntar igual.
+- Característica vacía: la maestría sale como «pendiente» con el motivo.
+- Habilidades que ya no existen en los datos: se conserva su maestría escrita y se pueden tirar.
+- Fichas de F004: siguen abriéndose (migración con prueba).
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: La ficha DEBE mostrar los PC gastados en habilidades, calculados con los costes de
-  los datos (y la regla 2 si el coste depende de algo más).
-- **FR-002**: La ficha DEBE mostrar los PC disponibles y los que quedan, según la regla 1; si falta
-  un dato, como «pendiente» con el motivo.
-- **FR-003**: Gastar más PC de los disponibles DEBE avisarse sin impedir guardar.
-- **FR-004**: Al comprar una habilidad, la aplicación DEBE proponer la maestría según la regla 2, y
-  el jugador DEBE poder cambiarla.
-- **FR-005**: El jugador DEBE poder tirar una habilidad desde la ficha y ver el resultado según la
-  regla 3; la tirada DEBE quedar en el historial del tirador.
-- **FR-006**: Cada regla DEBE tener al menos una prueba con un caso del manual, con libro y página
-  en el nombre de la prueba (criterio de aceptación de F005).
-- **FR-007**: Las fichas de F004 DEBEN seguir abriéndose; si el formato cambia, con migración y
-  prueba (constitución V).
-- **FR-008**: Sin desbordamiento a 390 px y 820 px en los dos modos.
+- **FR-001**: La ficha DEBE calcular la maestría de cada habilidad según la regla 1, con tope de
+  125 %, y mostrar su nivel según la regla 3.
+- **FR-002**: El jugador DEBE poder elegir su Dado de Honor en la ficha.
+- **FR-003**: El jugador DEBE poder añadir una mejora tirándola en la aplicación (dado de maestría
+  más Dado de Honor) o escribiéndola a mano, y quitar una mejora apuntada por error.
+- **FR-004**: El jugador DEBE poder tirar una habilidad con un modificador y ver el resultado según
+  la regla 2; la tirada DEBE quedar en el historial del tirador.
+- **FR-005**: Cada regla DEBE tener al menos una prueba con un caso del manual, con libro y página
+  en el nombre de la prueba.
+- **FR-006**: Las fichas de F004 DEBEN seguir abriéndose sin perder datos (versión 3 del formato,
+  con migración y prueba).
+- **FR-007**: Sin desbordamiento a 390 px y 820 px en los dos modos.
 
 ### Key Entities
 
-- **Ficha (Character)**, de F004, con datos nuevos: PC de raza, de clase, de defectos y
-  peculiaridades, de características sacrificadas y gastados en repetir tiradas; Dado de Honor;
-  «Paga como mago».
-- **Habilidad de la ficha**: de F004, con las veces que se ha pagado su coste (regla 2).
+- **Ficha (Character)**: de F004, con el Dado de Honor.
+- **Habilidad de la ficha**: de F004, con la lista de mejoras (dado de maestría y Dado de Honor de
+  cada una) y la maestría escrita a mano de F004, si la había.
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: Para cada caso de ejemplo del manual, los PC disponibles, la maestría y el resultado
-  de la tirada coinciden con el manual (pruebas automáticas, una por regla y caso).
-- **SC-002**: Ver cuántos PC quedan en una ficha no requiere ninguna cuenta a mano.
-- **SC-003**: Tirar una habilidad desde la ficha lleva un toque y muestra el resultado en menos de
-  1 s (sin dados 3D).
+- **SC-001**: El ejemplo del MJ p. 100 (29 %) y los casos de media y tope dan lo que dice el manual
+  (pruebas automáticas).
+- **SC-002**: Ver la maestría de una habilidad no requiere ninguna cuenta a mano.
+- **SC-003**: Tirar una habilidad desde la ficha lleva un toque y da el resultado en menos de 1 s.
 - **SC-004**: Ninguna ficha guardada con F004 se pierde ni deja de abrirse.
 
 ## Assumptions
 
-- Las reglas se toman del Manual del Jugador en castellano (MJ); si discrepa del inglés o de las
-  erratas, se registra en `docs/dudas.md` (constitución II).
-- La aplicación ayuda a calcular, pero el jugador puede escribir otros valores (el Máster manda).
+- Si el MJ en castellano discrepa del inglés o de las erratas, se registra en la pestaña «Dudas»
+  de la hoja (constitución II).
+- El jugador manda: puede apuntar mejoras a mano (dados físicos, decisiones del Máster).

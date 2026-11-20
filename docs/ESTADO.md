@@ -129,6 +129,11 @@
   vieron fallar al compilar (cambiaba su interfaz). Pruebas: 297 de dominio, 253 bUnit, 143 del
   importador y 52 de navegador, en verde. Pull request #12 fusionado el 2026-11-19 con la CI en
   verde (T018). **Falta**: la prueba del usuario en su móvil (T019).
+- **F005 cambiada (2026-11-20)**: el usuario aclaró que los PC solo sirven al crear el personaje; salen
+  de F005 y van a una futura creación de PJ (F010, sin orden). F005 queda en maestría calculada y
+  tiradas de habilidad desde la ficha. La publicación tras fusionar el #12 falló por una prueba de
+  navegador (la aplicación tardó más de 5 s en arrancar tras recargar en la CI); se relanzó y la
+  prueba ahora espera a que la aplicación pinte.
 - **F009 (Grimorio)**, pedida por el usuario el 2026-11-19: conjuros de clérigo y de mago y reglas de
   grimorios y transcripción, desde el MJ en castellano y en inglés, las erratas y la SSG. Va después
   de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»).
