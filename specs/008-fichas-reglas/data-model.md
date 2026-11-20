@@ -4,10 +4,10 @@
 
 | Campo | Tipo | Reglas |
 |---|---|---|
-| `Sides` | entero | 3, 4, 6, 8, 10, 12 o 20 |
+| `Sides` | entero | 1 (el «1» fijo de la tabla), 3, 4, 6, 8, 10, 12 o 20 |
 | `Bonus` | entero | 0, 1 o 2 (solo las combinaciones de la Tabla 5C) |
 
-Texto: `d12+1`. `HonorDie.All` lista los 13 de la tabla en orden; `TryParse` acepta solo esos.
+Texto: `d12+1`. `HonorDie.All` lista los 14 de la tabla (el «1» incluido) en orden; `TryParse` acepta solo esos.
 
 ## SkillImprovement
 

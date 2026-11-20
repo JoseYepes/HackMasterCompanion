@@ -9,8 +9,19 @@ public class HonorDieTests
     public void The_Honor_Dice_Are_Those_Of_Table_5C__MJ85()
     {
         Assert.Equal(
-            ["d3", "d4", "d4+1", "d6", "d6+1", "d8", "d8+1", "d10", "d10+1", "d12", "d12+1", "d12+2", "d20"],
+            ["1", "d3", "d4", "d4+1", "d6", "d6+1", "d8", "d8+1", "d10", "d10+1", "d12", "d12+1", "d12+2", "d20"],
             HonorDie.All.Select(die => die.ToString()));
+    }
+
+    [Fact]
+    public void The_Cells_With_A_1_In_Table_5C_Are_A_Fixed_1__MJ85_PHB85()
+    {
+        // Interpretación del agente (2026-11-20): el MJ y el PHB en inglés ponen «1» donde no hay dado.
+        var random = new SequenceRandom();
+
+        Assert.True(HonorDie.TryParse("1", out var die));
+        Assert.Equal(1, die.Roll(random));
+        Assert.Empty(random.Requests);
     }
 
     [Theory]

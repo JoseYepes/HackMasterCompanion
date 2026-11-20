@@ -11,8 +11,8 @@ Fuente: MJ en castellano (PDF local del usuario, nunca en el repositorio); pági
 - **Rationale**: es la regla del MJ; guardar las mejoras (y no solo el total) permite recalcular si
   cambia la característica y quitar una mejora apuntada por error.
 - **Alternatives considered**: guardar solo el total (no se recalcula).
-- Una característica con fracción (15/47) cuenta como 15: la regla habla de la puntuación; si el MJ
-  dice otra cosa queda pendiente de verificar.
+- Una característica con fracción (15/47) cuenta como 15: la fracción no cuenta para la maestría
+  (confirmado por el usuario el 2026-11-20).
 
 ## 2. Maestría escrita (fichas de F004)
 
@@ -26,7 +26,8 @@ Fuente: MJ en castellano (PDF local del usuario, nunca en el repositorio); pági
 - **Decision**: `HonorDie(Sides, Bonus)` con los valores de la Tabla 5C (MJ p. 85): d3, d4, d4+1,
   d6, d6+1, d8, d8+1, d10, d10+1, d12, d12+1, d12+2 y d20. El jugador lo elige; no se calcula con
   la tabla (spec, aclaraciones).
-- Las casillas «1» de la tabla (Honor muy bajo) quedan pendientes de verificar: no se ofrecen.
+- Las casillas «1» de la tabla (Honor muy bajo o muy alto para el nivel; igual en el PHB, p. 85) se
+  toman como un Dado de Honor fijo de 1 y se ofrecen como «1» (interpretación del agente, 2026-11-20).
 
 ## 4. Prueba de habilidad
 

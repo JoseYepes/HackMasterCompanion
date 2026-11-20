@@ -140,8 +140,9 @@
   automáticos (Glosario, p. 356). El Dado de Honor lo elige el jugador (Tabla 5C, p. 85, sin copiar).
   La maestría de F004 queda como «maestría escrita» y manda hasta que se borre. Formato de fichas
   versión 3. `RollHistoryUpdate` sale de `Dice.razor` para guardar también las pruebas de habilidad.
-  Pendiente de verificar: si la fracción de la característica cuenta (se usa la puntuación entera) y
-  las casillas «1» de la Tabla 5C. Para leer páginas del PDF como imagen se usa un script local con
+  Decidido el 2026-11-20: la fracción de la característica no cuenta para la maestría (lo confirmó el
+  usuario); las casillas «1» de la Tabla 5C (igual en el PHB, p. 85) son un Dado de Honor fijo de 1
+  (interpretación del agente). Para leer páginas del PDF como imagen se usa un script local con
   el motor PDF de Windows (sin instalar nada). **Revisión independiente (T011)**, con prueba para
   cada corrección: un modificador enorme rompía la página (ahora de −1000 a 1000, con aviso); uno no
   válido se convertía en 0 sin avisar (ahora bloquea «Tirar»); el resultado dice siempre el
@@ -150,11 +151,10 @@
   con maestría escrita las mejoras no contaban sin decirlo (ahora se desactivan con aviso) y la
   escrita no tenía tope (ahora 125 %); una mejora nula en un archivo rompía el editor (ahora el
   archivo se rechaza); los resultados de una ficha seguían al abrir otra; doble toque en «Tirar»;
-  límites 06 y 97 probados; región viva para el resultado. **Tarea del usuario**: añadir a la
-  pestaña «Dudas» de la hoja las dos dudas de F005 (si la fracción de la característica cuenta para
-  la maestría base; qué significan las casillas «1» de la Tabla 5C). Los dados de maestría «5», «3» y
+  límites 06 y 97 probados; región viva para el resultado. Los dados de maestría «5», «3» y
   «2» de algunas habilidades ya están como dudas: hasta resolverlas, sus mejoras se apuntan a mano.
-  **Falta**: pull request y la prueba del usuario (T012–T013).
+  Pull request #13 abierto con la CI en verde. **Falta**: fusionar y la
+  prueba del usuario (T012–T013).
 - **F009 (Grimorio)**, pedida por el usuario el 2026-11-19: conjuros de clérigo y de mago y reglas de
   grimorios y transcripción, desde el MJ en castellano y en inglés, las erratas y la SSG. Va después
   de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»).

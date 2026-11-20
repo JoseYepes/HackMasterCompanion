@@ -6,12 +6,13 @@ namespace HackMaster.Domain;
 public sealed record HonorDie(int Sides, int Bonus = 0)
 {
     /// <summary>
-    /// Los dados de Honor que aparecen en la Tabla 5C, de menor a mayor. Las casillas «1» de la
-    /// tabla (Honor muy bajo) quedan pendientes de verificar y no se incluyen.
+    /// Los dados de Honor que aparecen en la Tabla 5C, de menor a mayor. Las casillas «1» de la tabla
+    /// (en el MJ y en el PHB, p. 85) se toman como un 1 fijo: interpretación del agente, el
+    /// 2026-11-20, a falta de explicación en el manual.
     /// </summary>
     public static IReadOnlyList<HonorDie> All { get; } =
     [
-        new(3), new(4), new(4, 1), new(6), new(6, 1), new(8), new(8, 1),
+        new(1), new(3), new(4), new(4, 1), new(6), new(6, 1), new(8), new(8, 1),
         new(10), new(10, 1), new(12), new(12, 1), new(12, 2), new(20),
     ];
 
@@ -24,10 +25,10 @@ public sealed record HonorDie(int Sides, int Bonus = 0)
     }
 
     /// <summary>Tira el dado y suma su bono.</summary>
-    public int Roll(IRandom random) => random.Next(1, Sides) + Bonus;
+    public int Roll(IRandom random) => Sides == 1 ? 1 + Bonus : random.Next(1, Sides) + Bonus;
 
     public override string ToString() =>
-        Bonus == 0 ? $"d{Sides.ToString(CultureInfo.InvariantCulture)}" : $"d{Sides.ToString(CultureInfo.InvariantCulture)}+{Bonus.ToString(CultureInfo.InvariantCulture)}";
+        Sides == 1 ? "1" : Bonus == 0 ?$"d{Sides.ToString(CultureInfo.InvariantCulture)}" : $"d{Sides.ToString(CultureInfo.InvariantCulture)}+{Bonus.ToString(CultureInfo.InvariantCulture)}";
 }
 
 /// <summary>
