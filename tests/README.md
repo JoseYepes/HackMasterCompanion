@@ -98,3 +98,11 @@ Fichas con reglas (F005):
 - `CharacterPagesTests` (bUnit): Dado de Honor, maestría calculada, mejoras tiradas y apuntadas,
   maestría escrita de F004 y prueba de habilidad guardada en el historial.
 - `E2E/CharacterTests`: el flujo completo en el navegador, hasta ver la tirada en `/dados`.
+
+Grimorio (F009):
+
+- `SpellQueryTests` (dominio): búsqueda sin acentos ni mayúsculas y filtros de clase, nivel y escuela.
+- `SpellImportTests` (importador): la hoja `Hackconjuros.xlsx`, campos pendientes con «?», errores y
+  la orden `DataImport conjuros`.
+- `GrimoirePagesTests` (bUnit) y `E2E/GrimoireTests`: lista, filtros en la dirección, ficha, reglas
+  y desbordamiento.

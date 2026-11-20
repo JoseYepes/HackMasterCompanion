@@ -47,6 +47,12 @@ Como jugador, quiero crear, editar, duplicar, borrar, exportar e importar fichas
 Como jugador, quiero que la ficha calcule la maestría de mis habilidades y me deje tirarlas.
 **Aceptación:** un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test. Cambiada por el usuario el 2026-11-20: los PC (puntos de construcción) solo sirven al crear el personaje y van en la futura creación de PJ (F010), no en la ficha.
 
+### F011 — Conjuntos y muchas habilidades en la ficha (sin orden todavía)
+Como jugador, quiero añadir a la ficha conjuntos de habilidades como si fueran una habilidad más (ese es el objetivo de un conjunto) y manejar con comodidad fichas con muchas habilidades. Pedida por el usuario el 2026-11-20; se especificará más adelante.
+
+### F012 — Descargar la ficha en PDF (sin orden todavía)
+Como jugador, quiero descargar mi ficha en las hojas de PJ que ya usamos: la hoja básica («HackMaster - Hoja De Personaje») y el «Player Character Record Book 3.0» en castellano, en PDF. Pedida por el usuario el 2026-11-20; necesitará una biblioteca de PDF (dependencia nueva, a consultar).
+
 ### F010 — Creación de PJ (sin orden todavía)
 Como jugador, quiero una función o pestaña que me guíe al crear un personaje, con sus Puntos de Construcción (raza, clase, defectos y peculiaridades, características sacrificadas, repeticiones de tiradas y lo que sobra en oro o puntos fraccionales; MJ p. 75 y 80) y las compras iniciales de habilidades. Propuesta por el usuario el 2026-11-20; se especificará más adelante.
 

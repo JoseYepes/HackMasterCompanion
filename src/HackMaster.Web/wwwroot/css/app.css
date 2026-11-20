@@ -1466,3 +1466,35 @@ html[data-theme="dark"] .dice-board {
   padding: 0.5rem 0.75rem;
   color: var(--ink);
 }
+
+/* Grimorio (F009) */
+
+.grimoire-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.grimoire-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--muted);
+}
+
+.grimoire-filters select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--ink);
+}
+
+.spell-meta {
+  color: var(--muted);
+}
+
+.grimoire-rule {
+  margin-bottom: 1.5rem;
+  overflow-wrap: anywhere;
+}
