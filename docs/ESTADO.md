@@ -194,7 +194,16 @@
   de silencio/zona de silencio): se usa la cabecera. Reversibles sin nombre (luz continua): «Sí». **Revisión de la tanda 2**: cotejó los 84 contra las
   páginas sin errores de cabecera; se corrigieron seis matices de resumen. **Pendiente (T016)**: las
   dudas de conjuros aún no llegan a `docs/dudas.md` (constitución II); hace falta una pestaña
-  «Dudas» en la hoja de conjuros y que el importador la lleve a la lista de dudas.
+  «Dudas» en la hoja de conjuros y que el importador la lleve a la lista de dudas. Tanda 2 fusionada
+  (pull request #15) y publicada. **Tanda 3 (2026-11-20)**: nivel 3, 54 de mago (MJ p. 198–207) y 25
+  de clérigo (p. 260–264), 250 en total. Errata aplicada a paralización (alcance 10' por nivel y área
+  de 20' × 20', según las erratas en castellano y en inglés). Decisiones: fuerza espectral aparece
+  dos veces en el MJ (p. 201 y 203) y se carga una vez; el sermón motivador de clérigo remite a un
+  conjuro de mago «del mismo nombre» que en el MJ es discurso motivador (M4), y se resume con ese
+  texto; los conjuros de clérigo que remiten a uno de mago llevan su propia cabecera y un resumen
+  breve. Estas dudas irán a la pestaña «Dudas» de T016. **Revisión de la tanda 3**: sin conjuros de
+  más ni de menos; se corrigieron la escuela de viento fantasma, el área de fuerza espectral (la de
+  la p. 201), el inverso sin nombre de luz continua de clérigo («Sí») y cuatro matices de resumen.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus

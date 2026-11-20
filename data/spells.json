@@ -3225,6 +3225,1367 @@
       "pending": []
     },
     {
+      "slug": "acelerar",
+      "name": "Acelerar",
+      "searchName": "acelerar",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "60 yardas",
+      "components": "V, S, M",
+      "duration": "3 asaltos + 1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Cubo de 40', 1 criatura por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "198"
+        }
+      ],
+      "summary": "Una criatura por nivel del mago, empezando por las más cercanas al centro, se mueve y ataca al doble de su ritmo y gana -2 a la iniciativa; el lanzamiento de conjuros no se acelera. Anula ralentizar. Cada receptor envejece un año y el efecto no se acumula con magia similar.",
+      "pending": []
+    },
+    {
+      "slug": "bola-de-fuego",
+      "name": "Bola de fuego",
+      "searchName": "bola de fuego",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 20'",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "198"
+        }
+      ],
+      "summary": "Estallido de llamas que hace d4 de daño por nivel del mago; quien salva recibe la mitad. Ocupa su volumen normal (unos 33 cubos de 10') adaptándose al lugar y estalla antes si choca con una barrera. Incendia lo combustible y funde metales blandos; los objetos expuestos salvan contra fuego mágico.",
+      "pending": []
+    },
+    {
+      "slug": "bola-de-fuego-cazadora-de-objetivos-factor-3",
+      "name": "Bola de fuego cazadora de objetivos factor 3",
+      "searchName": "bola de fuego cazadora de objetivos factor 3",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "100' por nivel, con un máximo de 1 milla",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 10'",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "198"
+        }
+      ],
+      "summary": "Como la bola de fuego saltarina, pero hace d6-2 en lugar de d4 y su alcance es de 100' por nivel (10' menos por grado bajo 32 °F). Rodea obstáculos y no necesita objetivos de frente ni terreno llano.",
+      "pending": []
+    },
+    {
+      "slug": "bola-de-fuego-de-explosion-dispersa",
+      "name": "Bola de fuego de explosión dispersa",
+      "searchName": "bola de fuego de explosion dispersa",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "d6 esferas con un radio de 10'",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "198"
+        }
+      ],
+      "summary": "Como la bola de fuego, pero el mago elige un centro y se generan d6 bolas de fuego independientes de 10' de radio, cada una a d4 × 10 yardas de ese punto en una dirección al azar (d8).",
+      "pending": []
+    },
+    {
+      "slug": "burlar",
+      "name": "Burlar",
+      "searchName": "burlar",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "1 turno por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 30'",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "198"
+        }
+      ],
+      "summary": "El mago aparenta el alineamiento de una criatura a 30' o menos con inteligencia superior a la animal, que puede salvar para evitarlo. Conocer el alineamiento y detectar el bien o el mal muestran el alineamiento asumido. Con cambiarse a uno mismo o alterar el aspecto puede ocultar también su clase.",
+      "pending": []
+    },
+    {
+      "slug": "chaparron",
+      "name": "Chaparrón",
+      "searchName": "chaparron",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Cilindro de 3' de diámetro y de hasta 6' de alto",
+      "savingThrow": "No (especial)",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "199"
+        }
+      ],
+      "summary": "Aguacero que empapa la zona en un segmento y apaga los fuegos normales (pequeños al instante, medianos en 3–5 segmentos, grandes en 8–10). Niega producir fuego y manos ardientes; los conjuros de fuego de gran área lo vuelven vapor que hace 1–3 por asalto (el doble a criaturas de frío). En zonas áridas actúa como precipitación doble; con frío da aguanieve o ventisca.",
+      "pending": []
+    },
+    {
+      "slug": "clariaudiencia",
+      "name": "Clariaudiencia",
+      "searchName": "clariaudiencia",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "Ilimitado",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 60'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "199"
+        }
+      ],
+      "summary": "El mago oye en su mente lo que suene a 60' de un lugar conocido u obvio, a cualquier distancia pero en su mismo plano. El plomo o las protecciones mágicas lo bloquean y el mago lo nota. Crea un sensor invisible que puede disiparse. Requiere un cuerno de al menos 100 po.",
+      "pending": []
+    },
+    {
+      "slug": "clarividencia",
+      "name": "Clarividencia",
+      "searchName": "clarividencia",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "Ilimitado",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Línea de visión",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "199"
+        }
+      ],
+      "summary": "Como clariaudiencia, pero el mago ve el lugar con la luz que haya, sin infravisión: con oscuridad mágica solo ve oscuridad y con oscuridad natural, 10' alrededor del centro. El plomo o las protecciones lo bloquean; crea un sensor invisible que puede disiparse.",
+      "pending": []
+    },
+    {
+      "slug": "convocar-monstruo-i",
+      "name": "Convocar monstruo I",
+      "searchName": "convocar monstruo i",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "Especial",
+      "components": "V, S, M",
+      "duration": "2 asaltos + 1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 30 yardas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "199"
+        }
+      ],
+      "summary": "Un asalto después aparecen 2d4 monstruos de nivel 1 elegidos por el Máster, donde quiera el mago dentro del área. Luchan por él sin pruebas de moral hasta que les ordene parar, acabe el conjuro o mueran, y entonces se desvanecen. Sin enemigos pueden hacer otros servicios si le entienden.",
+      "pending": []
+    },
+    {
+      "slug": "corcel-fantasma",
+      "name": "Corcel fantasma",
+      "searchName": "corcel fantasma",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Conjuración",
+        "Fantasma"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "1 hora por nivel",
+      "castingTime": "1 turno",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "199"
+        }
+      ],
+      "summary": "Crea una montura cuasirreal que solo puede montar el mago o quien él designe. No lucha; tiene CA 2 y 7 PG más 1 por nivel, mueve 4 por nivel (máximo 48) y carga al jinete más 10 libras por nivel. Según el nivel del mago cruza arena y pantanos (8), anda sobre el agua (10), por el aire entre puntos de altura similar (12) o vuela a 48 (14).",
+      "pending": []
+    },
+    {
+      "slug": "crecer",
+      "name": "Crecer",
+      "searchName": "crecer",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "3 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "200"
+        }
+      ],
+      "summary": "Envejece un año el cuerpo de una criatura viva; si no quiere, puede salvar. No da bonificadores de Inteligencia ni de Sabiduría por la edad, y un niño así crecido sigue comportándose como un niño.",
+      "pending": []
+    },
+    {
+      "slug": "disipar-magia",
+      "name": "Disipar magia",
+      "searchName": "disipar magia",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "120 yardas",
+      "components": "V, S",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Cubo de 30' o 1 objeto",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "200"
+        }
+      ],
+      "summary": "Quita conjuros y efectos mágicos de criaturas y objetos del área, interrumpe los que se estén usando y destruye pociones. La magia propia se disipa siempre; la ajena con 11 o más en d20, restando la diferencia de nivel si el mago es superior o sumándola si es inferior (20 siempre funciona y 1 siempre falla); varitas resisten como nivel 6, bastones como 8 y pociones como 12. Lanzado sobre un objeto mágico lo deja inoperante d4 asaltos (su portador salva por él).",
+      "pending": []
+    },
+    {
+      "slug": "don-de-lenguas",
+      "name": "Don de lenguas",
+      "searchName": "don de lenguas",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "reverse": "Farfullo",
+      "range": "0",
+      "components": "V, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 30'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "200"
+        }
+      ],
+      "summary": "El mago habla y entiende un idioma o dialecto adicional por cada tres niveles y le entienden las criaturas de esa lengua que le oigan (unos 60'). No sirve con animales ni predispone a favor. La versión inversa, farfullo, cancela don de lenguas o confunde la comunicación verbal en el área.",
+      "pending": []
+    },
+    {
+      "slug": "escrito-ilusorio",
+      "name": "Escrito ilusorio",
+      "searchName": "escrito ilusorio",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 día por nivel",
+      "castingTime": "Especial",
+      "areaOfEffect": "Lector de la escritura",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "200"
+        }
+      ],
+      "summary": "Un texto que parece otra escritura y solo pueden leer quienes el mago elija. Quien lo mire sin permiso salva contra conjuros o sufre una sugestión implantada por el mago (como mucho tres turnos). Disipar magia lo quita, pero si falla borra el texto. Requiere una tinta de al menos 300 po por uso.",
+      "pending": []
+    },
+    {
+      "slug": "fingir-muerte",
+      "name": "Fingir muerte",
+      "searchName": "fingir muerte",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "1 hora + 1 turno por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "200"
+        }
+      ],
+      "summary": "El lanzador o una criatura voluntaria de nivel o DG no superior al del mago parece muerta del todo: oye y huele, pero no siente nada, recibe la mitad de daño y no le afectan parálisis, veneno ni consunción de niveles (el veneno actúa al terminar, con salvación). El mago puede acabarlo cuando quiera; recuperarse lleva un asalto.",
+      "pending": []
+    },
+    {
+      "slug": "flecha-de-llamas",
+      "name": "Flecha de llamas",
+      "searchName": "flecha de llamas",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "30 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "200"
+        }
+      ],
+      "summary": "Dos usos: hasta 10 flechas o virotes cargados por cada cinco niveles se vuelven flamígeros y hacen 1 punto de fuego más si se disparan ese asalto; o el mago lanza una flecha ígnea por cada cinco niveles que hace d6 perforante más 4d6 de fuego (la mitad si se salva), a objetivos frente a él y a menos de 20 yardas entre sí.",
+      "pending": []
+    },
+    {
+      "slug": "forma-de-incorporeo",
+      "name": "Forma de incorpóreo",
+      "searchName": "forma de incorporeo",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración",
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "S, M",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "201"
+        }
+      ],
+      "summary": "El mago y su equipo se vuelven insustanciales: solo les afectan ataques mágicos o especiales (armas +1 o mejores) y la mayoría de muertos vivientes le toman por uno de ellos (liches y especiales salvan con -4). Pasa por grietas, pero no vuela ni puede atacar salvo a criaturas del Plano Etéreo. Disipar magia le devuelve su forma.",
+      "pending": []
+    },
+    {
+      "slug": "fuerza-espectral",
+      "name": "Fuerza espectral",
+      "searchName": "fuerza espectral",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "60 yardas + 1 yarda por nivel",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Cubo de 40' de lado + cubo de 10' de lado por nivel",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "201"
+        }
+      ],
+      "summary": "Ilusión con sonido, olor y calor. Dura tres asaltos después de que el mago deje de concentrarse. El manual la describe dos veces: en la página 201 dice que por lo demás es como fuerza fantasma y en la 203, como fuerza fantasmal mejorada.",
+      "pending": []
+    },
+    {
+      "slug": "golpe-preventivo",
+      "name": "Golpe preventivo",
+      "searchName": "golpe preventivo",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "El lanzador",
+      "components": "V, S, M",
+      "duration": "1 hora por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Radio de 5'",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "201"
+        }
+      ],
+      "summary": "La primera criatura hostil que se acerque a 5' del mago recibe un dardo de energía que nunca falla y la alcanza antes de que ataque: 3d6 más 2 por nivel del mago, la mitad si salva. No lo dispara un robo ni un ataque a distancia. Termina al descargarse.",
+      "pending": []
+    },
+    {
+      "slug": "hechizar-muerto-viviente",
+      "name": "Hechizar muerto viviente",
+      "searchName": "hechizar muerto viviente",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Un muerto viviente",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "201"
+        }
+      ],
+      "summary": "Controla a un muerto viviente sin mente, como un esqueleto o un zombi, sin salvación: no ataca al mago y cumple sus órdenes sencillas si las oye, en cualquier idioma pero no por telepatía. Requiere un collar de plata de 5 po.",
+      "pending": []
+    },
+    {
+      "slug": "humilde-choza-de-gandle",
+      "name": "Humilde choza de Gandle",
+      "searchName": "humilde choza de gandle",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "4 horas + 1 hora por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Esfera de 15' de diámetro",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "201"
+        }
+      ],
+      "summary": "Semiesfera de fuerza inmóvil, opaca por fuera y transparente por dentro, para el mago y hasta 7 personas de tamaño humano que entran y salen libremente; se deshace si sale el mago. Mantiene unos 70 °F, protege de los elementos y aguanta vientos menores que un huracán. Los proyectiles y conjuros la atraviesan y puede disiparse.",
+      "pending": []
+    },
+    {
+      "slug": "indetectabilidad",
+      "name": "Indetectabilidad",
+      "searchName": "indetectabilidad",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 hora por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura u objeto",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "201"
+        }
+      ],
+      "summary": "Protege lo tocado de adivinaciones (clariaudiencia, clarividencia, localizar objeto, percepción extrasensorial, detectar…) y de objetos como bolas de cristal: ante un intento, el lanzador salva contra conjuros y, si pasa, la adivinación falla. No impide conocer el alineamiento. Requiere polvo de diamante de 300 po.",
+      "pending": []
+    },
+    {
+      "slug": "infravision",
+      "name": "Infravisión",
+      "searchName": "infravision",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "2 horas + 1 hora por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "201"
+        }
+      ],
+      "summary": "El receptor ve en la oscuridad normal hasta 60' sin luz. Las luces fuertes cercanas la estorban y no revela criaturas invisibles.",
+      "pending": []
+    },
+    {
+      "slug": "llameantes-esferas-de-tormento-de-zargosa",
+      "name": "Llameantes esferas de tormento de Zargosa",
+      "searchName": "llameantes esferas de tormento de zargosa",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación",
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "70 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "1 objetivo/esfera llameante",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "202"
+        }
+      ],
+      "summary": "El mago dispara un globo de fuego por nivel, como proyectiles con +2 al ataque y sin penalizador por distancia: d4 al objetivo, 1 a quien esté a 3' o menos, e incendian lo combustible. Puede lanzar cinco por asalto o uno por asalto mientras hace otras cosas (si pierde la cuenta o se concentra en otro conjuro, pierde los que queden). Requiere un tubo de oro de 1000 po reutilizable.",
+      "pending": []
+    },
+    {
+      "slug": "malicia-percibida",
+      "name": "Malicia percibida",
+      "searchName": "malicia percibida",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "50'",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "202"
+        }
+      ],
+      "summary": "La víctima cree que la criatura que elija el mago le ha hecho un gran mal: gana d8 PG, +3 a impactar y al daño e inmunidad al miedo y a la moral contra ella, y debe atacarla solo a ella cuerpo a cuerpo hasta que una muera. Dura lo que el combate o hasta que pase un turno sin enfrentarse.",
+      "pending": []
+    },
+    {
+      "slug": "material",
+      "name": "Material",
+      "searchName": "material",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación",
+        "Conjuración"
+      ],
+      "reversible": false,
+      "range": "1 pie",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "1 pie cúbico por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "202"
+        }
+      ],
+      "summary": "Crea materiales comunes en bruto: piedra, tierra, madera, agua, aire, estiércol, paja… Las plantas sencillas fallan con un 100 % menos un 1 % por nivel del mago. No crea vida animal, objetos elaborados, gemas ni metales preciosos.",
+      "pending": []
+    },
+    {
+      "slug": "migrana-de-murgain",
+      "name": "Migraña de Murgain",
+      "searchName": "migrana de murgain",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V, S",
+      "duration": "Hasta que se disipe",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "202"
+        }
+      ],
+      "summary": "Migraña que da -1 a ataques y salvaciones, +10 % de fallo de conjuro y -10 en pruebas de habilidad. La víctima salva de nuevo cada día y se cura con curar enfermedad. Si sigue así tantos días como su Constitución, pierde cada día un punto permanente de una característica al azar.",
+      "pending": []
+    },
+    {
+      "slug": "muro-de-viento",
+      "name": "Muro de viento",
+      "searchName": "muro de viento",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Muro de 10 × 5' por nivel y 2' de ancho",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "202"
+        }
+      ],
+      "summary": "Cortina invisible de viento fuerte: arrastra pájaros pequeños y objetos sueltos (salvación para no soltar lo que se agarra), no la atraviesan los insectos normales y desvía flechas y virotes; otros proyectiles de menos de 2 libras sufren -4 y luego -2. No la cruzan gases, la mayoría de alientos ni criaturas gaseosas, pero sí las incorpóreas.",
+      "pending": []
+    },
+    {
+      "slug": "objeto",
+      "name": "Objeto",
+      "searchName": "objeto",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "4 horas por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "2 pies cúbicos por nivel",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "203"
+        }
+      ],
+      "summary": "Reduce un objeto no mágico a 1/12 de su tamaño y, si el mago quiere, lo vuelve como de tela; si lo lleva otra criatura, puede salvar. Recupera su forma al tirarlo contra una superficie sólida o con una palabra del mago. Puede menguar incluso un fuego con su combustible.",
+      "pending": []
+    },
+    {
+      "slug": "oscuridad-continua",
+      "name": "Oscuridad continua",
+      "searchName": "oscuridad continua",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "60 yardas",
+      "components": "V, M",
+      "duration": "Permanente",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Globo con un radio de 30'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "203"
+        }
+      ],
+      "summary": "Crea un globo de oscuridad impenetrable con los mismos efectos y componente que el conjuro de mago de nivel 2 área de oscuridad (descrito con luz continua).",
+      "pending": []
+    },
+    {
+      "slug": "pagina-secreta",
+      "name": "Página secreta",
+      "searchName": "pagina secreta",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Hasta que sea disipado",
+      "castingTime": "1 turno",
+      "areaOfEffect": "1 página, de hasta un cuadrado de 2' de lado",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "203"
+        }
+      ],
+      "summary": "Disfraza el contenido de una página como otra cosa. El mago lo muestra con una palabra y lo quita repitiéndola dos veces. Si un intento de disipar magia falla, la página se destruye; visión verdadera solo la revela junto con comprensión lingüística, y borrar destruye la escritura.",
+      "pending": []
+    },
+    {
+      "slug": "paralizacion",
+      "name": "Paralización",
+      "searchName": "paralizacion",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "20' × 20'",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "203"
+        },
+        {
+          "acronym": "Erratas",
+          "page": "PHB 203"
+        }
+      ],
+      "summary": "Ilusión de parálisis muscular sobre criaturas cuyos DG sumados no superen el doble del nivel del mago. Quien falla la salvación queda paralizado hasta que se use disipar magia o el mago lo deshaga. Alcance y área según las erratas (el MJ dice 1' por nivel y 2' × 2').",
+      "pending": []
+    },
+    {
+      "slug": "parpadeo",
+      "name": "Parpadeo",
+      "searchName": "parpadeo",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "204"
+        }
+      ],
+      "summary": "Cada asalto el mago salta 10' en una dirección al azar (d8) en un momento al azar (2d8, que sirve de iniciativa). Solo le alcanzan quienes actúen antes del salto o ataquen ambas posiciones a la vez. Puede atacar antes o después de saltar según las tiradas. Si solo pudiera caer dentro de algo sólido, queda atrapado en el Plano Etéreo.",
+      "pending": []
+    },
+    {
+      "slug": "partir-la-cara",
+      "name": "Partir la cara",
+      "searchName": "partir la cara",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10' + 1' por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "1 objetivo",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "204"
+        }
+      ],
+      "summary": "Golpe de fuerza mágica a la cara: el mago tira para impactar contra la CA de la cara del objetivo (con su Destreza) y, si acierta, hace 4–24 de daño. Requiere un guante de cuero.",
+      "pending": []
+    },
+    {
+      "slug": "polimorfar-en-anfibio",
+      "name": "Polimorfar en anfibio",
+      "searchName": "polimorfar en anfibio",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "5' por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "204"
+        }
+      ],
+      "summary": "Convierte a una criatura en un anfibio al azar (d8: rana, sapo, salamandra gigante, tritón…), que conserva Inteligencia y recuerdos; debe superar una prueba de shock de sistema para sobrevivir. Dura hasta disipar magia, quitar maldición o magia similar.",
+      "pending": []
+    },
+    {
+      "slug": "polimorfar-en-primate",
+      "name": "Polimorfar en primate",
+      "searchName": "polimorfar en primate",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "5' por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "204"
+        }
+      ],
+      "summary": "Como polimorfar en anfibio, pero convierte en un primate al azar (d8: babuino, orangután, gibón…) o deja la forma y reduce la Inteligencia y la Sabiduría a 5. Un lanzador convertido no habla, pero tiene un 75 % de lanzar conjuros sin componente verbal.",
+      "pending": []
+    },
+    {
+      "slug": "proteccion-contra-proyectiles-normales",
+      "name": "Protección contra proyectiles normales",
+      "searchName": "proteccion contra proyectiles normales",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "204"
+        }
+      ],
+      "summary": "Inmunidad total a proyectiles normales (flechas, virotes, jabalinas, hachas, piedras pequeñas…) y 1 punto menos por dado (mínimo 1) contra proyectiles grandes o mágicos, como los de balista o catapulta. No protege de ataques mágicos como bola de fuego, relámpago o proyectil mágico.",
+      "pending": []
+    },
+    {
+      "slug": "rafaga-de-viento",
+      "name": "Ráfaga de viento",
+      "searchName": "rafaga de viento",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 asalto",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "10' × 10 yardas por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "205"
+        }
+      ],
+      "summary": "Soplo de unas 30 millas por hora en la dirección a la que mira el mago: apaga llamas sin proteger (las protegidas, un 5 % por nivel), aviva los fuegos grandes, empuja d6 × 10 yardas a voladores pequeños, frena a voladores grandes y detiene a quien camine contra él. Dispersa vapores y aleja criaturas gaseosas o que leviten.",
+      "pending": []
+    },
+    {
+      "slug": "ralentizar",
+      "name": "Ralentizar",
+      "searchName": "ralentizar",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "90 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "3 asaltos + 1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura por nivel en un cubo de 40' de lado",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "203"
+        }
+      ],
+      "summary": "Una criatura por nivel del mago, desde el centro hacia fuera, se mueve y ataca a la mitad, con -4 a la CA y al ataque y sin bonificador de Destreza en combate. Anula acelerar. Se salva con -4.",
+      "pending": []
+    },
+    {
+      "slug": "rechazar-el-mal",
+      "name": "Rechazar el mal",
+      "searchName": "rechazar el mal",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": true,
+      "reverse": "Rechazar el bien",
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 10' alrededor de la criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "205"
+        }
+      ],
+      "summary": "Como protección contra el mal, pero en un círculo de 10' que se mueve con la criatura tocada y dura más; quien ataque cuerpo a cuerpo a una criatura encantada o conjurada rompe la protección contra ella. Hay que trazar un círculo con tiza bendecida. La versión inversa, rechazar el bien, usa limaduras de hierro.",
+      "pending": []
+    },
+    {
+      "slug": "relampago",
+      "name": "Relámpago",
+      "searchName": "relampago",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "40 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "205"
+        }
+      ],
+      "summary": "Descarga de d6 por nivel (máximo 10d6), la mitad si se salva, en un rayo bifurcado de 10' × 40' o uno simple de 5' × 80' que empieza a la distancia elegida. Incendia, rompe madera y piedra fina y funde metales blandos; si topa con una barrera que no rompe, rebota hacia el mago hasta completar su longitud.",
+      "pending": []
+    },
+    {
+      "slug": "respirar-en-el-agua",
+      "name": "Respirar en el agua",
+      "searchName": "respirar en el agua",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "reverse": "Respirar en el aire",
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "6 turnos por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "205"
+        }
+      ],
+      "summary": "El receptor respira bajo el agua mientras dura. La versión inversa, respirar en el aire, permite a una criatura acuática respirar fuera del agua.",
+      "pending": []
+    },
+    {
+      "slug": "retener-muerto-viviente",
+      "name": "Retener muerto viviente",
+      "searchName": "retener muerto viviente",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "60'",
+      "components": "V, S, M",
+      "duration": "d4 asaltos + 1 asalto por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "d3 muertos vivientes",
+      "savingThrow": "Niega (ver el texto)",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "205"
+        }
+      ],
+      "summary": "Inmoviliza a los d3 muertos vivientes más cercanos al punto elegido cuyos DG sumados no superen el nivel del mago. Los que no tienen mente (esqueletos, zombis, necrófagos) no salvan; los demás sí.",
+      "pending": []
+    },
+    {
+      "slug": "retener-persona",
+      "name": "Retener persona",
+      "searchName": "retener persona",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "120 yardas",
+      "components": "V, S, M",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "1-4 personas en un cubo de 20'",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "205"
+        }
+      ],
+      "summary": "Inmoviliza a 1–4 humanos, semihumanos o humanoides de tamaño humano o menor (no muertos vivientes). Salvan sin penalizador si son 3 o 4, con -1 si son 2 y con -3 si es uno. Los retenidos se enteran de lo que pasa pero no se mueven ni hablan. El mago puede terminarlo con una palabra.",
+      "pending": []
+    },
+    {
+      "slug": "runas-de-implosion-ocular",
+      "name": "Runas de implosión ocular",
+      "searchName": "runas de implosion ocular",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "206"
+        }
+      ],
+      "summary": "Como runas explosivas, pero al leerlas revientan los ojos del lector: 3d4 + 3 sin salvación y ceguera permanente. Solo afectan al lector.",
+      "pending": []
+    },
+    {
+      "slug": "runas-explosivas",
+      "name": "Runas explosivas",
+      "searchName": "runas explosivas",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 10'",
+      "savingThrow": "No o 1/2",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "206"
+        }
+      ],
+      "summary": "Runas en un texto que detonan al leerlo: 6d4 + 6 al lector sin salvación y lo mismo a quien esté a 10' (la mitad si salva); el objeto suele destruirse. Son difíciles de ver (5 % por nivel del lector), pero la detección mágica de trampas las halla. El mago y quien él enseñe pueden leerlo; solo borrar o disipar magia las quitan.",
+      "pending": []
+    },
+    {
+      "slug": "sello-de-la-serpiente-sepia",
+      "name": "Sello de la serpiente sepia",
+      "searchName": "sello de la serpiente sepia",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "1 sello",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "203"
+        }
+      ],
+      "summary": "Símbolo oculto en un texto: al leerlo, una serpiente ataca a la criatura viva más cercana (no al mago) como un monstruo de tantos DG como el nivel del mago. Si acierta, la encierra inmóvil en un campo ámbar, sin envejecer ni enterarse de nada, hasta que el mago la libere, se disipe o pasen d4 días más 1 por nivel. Requiere ámbar de 100 po.",
+      "pending": []
+    },
+    {
+      "slug": "sin-miedo",
+      "name": "Sin miedo",
+      "searchName": "sin miedo",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V",
+      "duration": "2 asaltos + 1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 10'",
+      "savingThrow": "No (Niega)",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "206"
+        }
+      ],
+      "summary": "Quienes estén a 10' del punto elegido ganan +2 a impactar y al daño cuerpo a cuerpo e inmunidad al miedo y a las pruebas de moral; después pueden moverse sin perderlo.",
+      "pending": []
+    },
+    {
+      "slug": "sugestion",
+      "name": "Sugestión",
+      "searchName": "sugestion",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V, M",
+      "duration": "1 hora + 1 hora por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "206"
+        }
+      ],
+      "summary": "El mago sugiere en un idioma que la víctima entienda un curso de acción que suene razonable; si es claramente dañino, falla. Puede depender de una condición y durar mucho. Una sugestión muy razonable puede imponer un penalizador a la salvación. No afecta a muertos vivientes.",
+      "pending": []
+    },
+    {
+      "slug": "toque-vampirico",
+      "name": "Toque vampírico",
+      "searchName": "toque vampirico",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "Un toque",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "207"
+        }
+      ],
+      "summary": "Con un ataque cuerpo a cuerpo acertado, el objetivo pierde d6 PG por cada dos niveles del mago (máximo 6d6) y el mago los gana como PG temporales durante una hora. Se gasta al acertar o si pasa un turno. No afecta a muertos vivientes.",
+      "pending": []
+    },
+    {
+      "slug": "trampa-de-presa-firme",
+      "name": "Trampa de presa firme",
+      "searchName": "trampa de presa firme",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S, M",
+      "duration": "1 hora por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "1 objeto de hasta 10 × 10 × 10'",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "207"
+        }
+      ],
+      "summary": "Protege un objeto: si lo toca alguien no autorizado, salta. Si la víctima salva, cae y pierde un asalto en soltarse; si falla, queda sujeta boca arriba a unos 5', indefensa, un asalto por nivel del mago o hasta que se disipe o él la suelte. Requiere una ratonera.",
+      "pending": []
+    },
+    {
+      "slug": "viento-fantasma",
+      "name": "Viento fantasma",
+      "searchName": "viento fantasma",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1' por nivel",
+      "components": "V, S",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Camino de 1' de ancho",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "207"
+        }
+      ],
+      "summary": "Viento invisible e imperceptible que empuja objetos ligeros, mueve telas, aviva fuegos y desplaza nubes de gas en la dirección que señala el mago; su recorrido crece 1' por asalto y el efecto se mantiene en todo el camino.",
+      "pending": []
+    },
+    {
+      "slug": "volar",
+      "name": "Volar",
+      "searchName": "volar",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel + d6 turnos",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "207"
+        }
+      ],
+      "summary": "La criatura tocada vuela a 18 (la mitad subiendo y el doble en picado) con maniobrabilidad B y puede lanzar conjuros mientras flota o va despacio. El Máster tira en secreto los d6 turnos extra, así que la duración exacta no se sabe.",
+      "pending": []
+    },
+    {
+      "slug": "zona-de-invisibilidad",
+      "name": "Zona de invisibilidad",
+      "searchName": "zona de invisibilidad",
+      "class": "Mage",
+      "level": 3,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 10'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "207"
+        }
+      ],
+      "summary": "Hace invisibles a todas las criaturas a 10' del receptor, con su equipo; la zona se mueve con él. Quien sale se hace visible y quien entra después no se vuelve invisible. Si ataca otro, solo él se hace visible; si ataca el receptor, la zona se rompe para todos.",
+      "pending": []
+    },
+    {
       "slug": "bendecir",
       "name": "Bendecir",
       "searchName": "bendecir",
@@ -4318,6 +5679,638 @@
         }
       ],
       "summary": "Silencio total en el área: no se puede hablar ni lanzar conjuros con componente verbal, ni entra ni sale sonido. Puede centrarse en un objeto o criatura y moverse con ella (si no quiere, salva). Protege de ataques sónicos.",
+      "pending": []
+    },
+    {
+      "slug": "animar-a-los-muertos",
+      "name": "Animar a los muertos",
+      "searchName": "animar a los muertos",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "260"
+        }
+      ],
+      "summary": "Anima esqueletos o zombis a partir de restos de humanos, semihumanos o humanoides, que obedecen órdenes verbales sencillas hasta ser destruidos o expulsados; no se puede disipar. Anima un esqueleto o zombi por nivel, contando DG si tienen más de uno (los zombis tienen un DG más), o dos esqueletos de animales pequeños por nivel. No es un acto bueno.",
+      "pending": []
+    },
+    {
+      "slug": "calentar-metal-al-rojo-blanco",
+      "name": "Calentar metal al rojo blanco",
+      "searchName": "calentar metal al rojo blanco",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "2 segmentos",
+      "areaOfEffect": "Hasta una libra de metal",
+      "savingThrow": "No (Niega)",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "261"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 2 del mismo nombre, salvo los datos de cabecera: pone al rojo blanco hasta una libra de metal y tocarlo quema.",
+      "pending": []
+    },
+    {
+      "slug": "caminar-por-el-agua",
+      "name": "Caminar por el agua",
+      "searchName": "caminar por el agua",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 turno + 1 turno por nivel",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "261"
+        }
+      ],
+      "summary": "El receptor camina a su ritmo normal sobre cualquier líquido (agua, barro, arenas movedizas, aceite, nieve) sin tocarlo; bajo el agua sube a la superficie. Afecta a una criatura más por cada nivel del clérigo por encima del 5.",
+      "pending": []
+    },
+    {
+      "slug": "caminar-por-las-llamas",
+      "name": "Caminar por las llamas",
+      "searchName": "caminar por las llamas",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 asalto + 1 asalto por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Criatura o criaturas tocadas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "261"
+        }
+      ],
+      "summary": "El receptor resiste fuego mágico y temperaturas de hasta 2000 °F (puede andar sobre lava): +2 a las salvaciones contra fuego mágico y la mitad de daño aunque falle. Una criatura más por nivel por encima del 5. No se acumula con resistir el fuego. Requiere 500 po de polvo de rubí por criatura.",
+      "pending": []
+    },
+    {
+      "slug": "chaparron",
+      "name": "Chaparrón",
+      "searchName": "chaparron",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1' por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Cilindro de 3' de diámetro y de hasta 6' de alto",
+      "savingThrow": "No (especial)",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "261"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 3 del mismo nombre, salvo los datos de cabecera: un aguacero que empapa la zona y apaga fuegos.",
+      "pending": []
+    },
+    {
+      "slug": "crear-comida-y-agua",
+      "name": "Crear comida y agua",
+      "searchName": "crear comida y agua",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1 turno",
+      "areaOfEffect": "1 pie cúbico por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "261"
+        }
+      ],
+      "summary": "Crea un pie cúbico de comida o de agua por nivel. Cada pie cúbico de comida, nutritiva pero sosa, alimenta un día a tres criaturas de tamaño humano o a una equina; se pudre en 24 horas salvo con purificar comida y bebida. El agua es como la de crear agua.",
+      "pending": []
+    },
+    {
+      "slug": "curar-ceguera-o-sordera",
+      "name": "Curar ceguera o sordera",
+      "searchName": "curar ceguera o sordera",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": true,
+      "reverse": "Causar ceguera o sordera",
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "262"
+        }
+      ],
+      "summary": "Cura al tocar algunas formas de ceguera o sordera, pero no repara órganos dañados. La versión inversa exige acertar un ataque y, si la víctima no salva, la deja ciega (-4 al ataque, +4 a la CA, +2 a la iniciativa) o sorda (-1 a la sorpresa, +1 a la iniciativa, 20 % de fallo en conjuros verbales).",
+      "pending": []
+    },
+    {
+      "slug": "curar-enfermedad",
+      "name": "Curar enfermedad",
+      "searchName": "curar enfermedad",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": true,
+      "reverse": "Causar enfermedad",
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "262"
+        }
+      ],
+      "summary": "Cura la mayoría de enfermedades y parásitos como el légamo verde; la recuperación tarda de un turno a 10 días. Desde el nivel 12 cura la licantropía si se lanza en los tres días siguientes al contagio. La versión inversa, si la víctima no salva, causa una enfermedad debilitante (pierde Fuerza cada hora hasta 2) o fatal (la víctima no se beneficia de los conjuros de curar y muere en d6 meses salvo cura mágica).",
+      "pending": []
+    },
+    {
+      "slug": "curar-heridas-chungas",
+      "name": "Curar heridas chungas",
+      "searchName": "curar heridas chungas",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": true,
+      "reverse": "Causar heridas chungas",
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "262"
+        }
+      ],
+      "summary": "Como curar heridas ligeras, pero cura d8 por nivel del clérigo. La versión inversa, causar heridas chungas, hace d8 de daño por nivel.",
+      "pending": []
+    },
+    {
+      "slug": "disipar-magia",
+      "name": "Disipar magia",
+      "searchName": "disipar magia",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "60 yardas",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Cubo de 30' o 1 objeto",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "262"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 3 del mismo nombre, salvo los datos de cabecera: quita conjuros y efectos mágicos según la diferencia de nivel.",
+      "pending": []
+    },
+    {
+      "slug": "fingir-muerte",
+      "name": "Fingir muerte",
+      "searchName": "fingir muerte",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V",
+      "duration": "1 turno + 1 asalto por nivel",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Persona tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "262"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 3 del mismo nombre, salvo los datos de cabecera: la persona tocada parece muerta y es inmune a varios efectos.",
+      "pending": []
+    },
+    {
+      "slug": "fundirse-con-la-piedra",
+      "name": "Fundirse con la piedra",
+      "searchName": "fundirse con la piedra",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "8 asaltos + d8 asaltos",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "262"
+        }
+      ],
+      "summary": "El clérigo se mete con hasta 100 libras de equipo en un bloque de piedra que le quepa entero; nota el paso del tiempo, pero no ve ni oye fuera. Puede salir por la misma cara cuando quiera; si se acaba el tiempo o se disipa, sale despedido con 4d8 de daño. Romper la piedra o ciertos conjuros de piedra le dañan o le matan.",
+      "pending": []
+    },
+    {
+      "slug": "glifo-de-custodia",
+      "name": "Glifo de custodia",
+      "searchName": "glifo de custodia",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración",
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Hasta que descargue",
+      "castingTime": "Especial",
+      "areaOfEffect": "Especial",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "262"
+        }
+      ],
+      "summary": "Inscripción mágica invisible que castiga a quien pase o abra algo sin decir su nombre, según condiciones fijadas (tipo, tamaño, alineamiento, religión…). Cubre tantos pies de lado como niveles y lleva un asalto por cada 5'. Suele hacer d4 por nivel de electricidad o fuego, o paralizar, cegar o ensordecer; la salvación reduce a la mitad o niega. Se disipa o lo desactivan ladrones de alto nivel.",
+      "pending": []
+    },
+    {
+      "slug": "hablar-con-los-muertos",
+      "name": "Hablar con los muertos",
+      "searchName": "hablar con los muertos",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "1 turno",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "263"
+        }
+      ],
+      "summary": "El clérigo hace preguntas a un muerto en su idioma y recibe respuestas parcas y literales según lo que sabía en vida. El tiempo desde la muerte, las preguntas (de 2 a 7) y el tiempo para hacerlas dependen del nivel del clérigo. Un muerto de otro alineamiento o de más nivel puede salvar y negarse. No funciona bajo el agua.",
+      "pending": []
+    },
+    {
+      "slug": "localizar-objeto",
+      "name": "Localizar objeto",
+      "searchName": "localizar objeto",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": true,
+      "reverse": "Ocultar objeto",
+      "range": "60 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "8 horas",
+      "castingTime": "1 turno",
+      "areaOfEffect": "1 objeto",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "263"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 2 del mismo nombre, salvo los datos de cabecera: indica la dirección de un objeto conocido.",
+      "pending": []
+    },
+    {
+      "slug": "luz-continua",
+      "name": "Luz continua",
+      "searchName": "luz continua",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "range": "120 yardas",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Radio de 60'",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "263"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 2 del mismo nombre, salvo los datos de cabecera: crea una luz permanente; la versión inversa la apaga.",
+      "pending": []
+    },
+    {
+      "slug": "plegaria",
+      "name": "Plegaria",
+      "searchName": "plegaria",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Radio de 60'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "263"
+        }
+      ],
+      "summary": "Quienes estén en el área al terminar el conjuro ganan +1 a ataque, daño y salvaciones si son del bando del clérigo y sufren -1 si son enemigos. El clérigo puede hacer otras cosas mientras dura. Con un cántico de otro clérigo de su misma fe, los efectos suben a +2 y -2.",
+      "pending": []
+    },
+    {
+      "slug": "proteccion-contra-el-plano-negativo",
+      "name": "Protección contra el Plano Negativo",
+      "searchName": "proteccion contra el plano negativo",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "263"
+        }
+      ],
+      "summary": "Protege contra un ataque de energía negativa (sombras, tumularios, espectros, vampiros, armas o conjuros que consumen niveles): el receptor salva contra muerte mágica; si pasa, recibe la mitad del daño sin perder niveles ni Fuerza y el muerto viviente atacante sufre 2d6; si falla, recibe el doble. Dura un turno por nivel o hasta ese ataque.",
+      "pending": []
+    },
+    {
+      "slug": "quitar-maldicion",
+      "name": "Quitar maldición",
+      "searchName": "quitar maldicion",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": true,
+      "reverse": "Lanzar maldición",
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "264"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 4 del mismo nombre: quita una maldición de una persona u objeto o libera de un objeto maldito sin anularlo; desde el nivel 12 puede curar la licantropía. La versión inversa lanza una maldición temporal.",
+      "pending": []
+    },
+    {
+      "slug": "quitar-paralisis",
+      "name": "Quitar parálisis",
+      "searchName": "quitar paralisis",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "d4 criaturas en un cubo de 20' de lado",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "264"
+        }
+      ],
+      "summary": "Libera de parálisis o magia similar (toque de necrófago, retener, ralentizar). Sobre una criatura la anula; sobre dos, cada una salva de nuevo con +4; sobre tres o cuatro, con +2. Falla si hay una barrera entre el clérigo y ellas.",
+      "pending": []
+    },
+    {
+      "slug": "reanimacion-menor",
+      "name": "Reanimación menor",
+      "searchName": "reanimacion menor",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "264"
+        }
+      ],
+      "summary": "Como revivir a los muertos (nivel 5), pero el reanimado pierde un nivel de experiencia (no por debajo de 1) y tira d4 + 1 veces en la Tabla 6A de rasgos y defectos. Restauración y magia similar quitan los rasgos, pero no devuelven el nivel. Requiere dos monedas de platino; el clérigo gana PX como si hubiera vencido a esa criatura.",
+      "pending": []
+    },
+    {
+      "slug": "rechazar-el-mal",
+      "name": "Rechazar el mal",
+      "searchName": "rechazar el mal",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": true,
+      "reverse": "Rechazar el bien",
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 10' alrededor de la criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "264"
+        }
+      ],
+      "summary": "Igual que el conjuro de mago de nivel 3 del mismo nombre, salvo los datos de cabecera: una protección contra el mal de 10' de radio que se mueve con la criatura tocada.",
+      "pending": []
+    },
+    {
+      "slug": "sanar-heridas-moderadas",
+      "name": "Sanar heridas moderadas",
+      "searchName": "sanar heridas moderadas",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "5' por nivel",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "264"
+        }
+      ],
+      "summary": "Sana d6 por nivel del clérigo a una criatura a su alcance, con las mismas limitaciones que curar heridas ligeras.",
+      "pending": []
+    },
+    {
+      "slug": "sermon-motivador",
+      "name": "Sermón motivador",
+      "searchName": "sermon motivador",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "Centrado en el clérigo",
+      "components": "V",
+      "duration": "1 turno + 1 turno por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Radio de 20' por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "264"
+        }
+      ],
+      "summary": "Remite al conjuro de mago de nivel 4 «del mismo nombre», que en el MJ se llama discurso motivador: quienes le oigan y entiendan pueden repetir pruebas de miedo y moral falladas y ven al clérigo con 4 puntos más de Carisma. Los personajes jugadores deciden si se dejan influir.",
+      "pending": []
+    },
+    {
+      "slug": "vestidura-magica",
+      "name": "Vestidura mágica",
+      "searchName": "vestidura magica",
+      "class": "Cleric",
+      "level": 3,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "5 asaltos por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "264"
+        }
+      ],
+      "summary": "Encanta la ropa del clérigo para darle CA 5, que mejora un punto por cada tres niveles por encima del 5 (hasta CA 1 a nivel 17). Dura hasta acabar o hasta que caiga inconsciente. No se acumula con otra armadura ni protección de CA: se usa la mejor.",
       "pending": []
     }
   ],
