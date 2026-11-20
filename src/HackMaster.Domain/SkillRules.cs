@@ -28,7 +28,7 @@ public sealed record HonorDie(int Sides, int Bonus = 0)
     public int Roll(IRandom random) => Sides == 1 ? 1 + Bonus : random.Next(1, Sides) + Bonus;
 
     public override string ToString() =>
-        Sides == 1 ? "1" : Bonus == 0 ?$"d{Sides.ToString(CultureInfo.InvariantCulture)}" : $"d{Sides.ToString(CultureInfo.InvariantCulture)}+{Bonus.ToString(CultureInfo.InvariantCulture)}";
+        Sides == 1 ? "1" : Bonus == 0 ? $"d{Sides.ToString(CultureInfo.InvariantCulture)}" : $"d{Sides.ToString(CultureInfo.InvariantCulture)}+{Bonus.ToString(CultureInfo.InvariantCulture)}";
 }
 
 /// <summary>
