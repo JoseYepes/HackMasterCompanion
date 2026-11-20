@@ -20,3 +20,4 @@
 - [ ] T013 Trucos de mago
 - [ ] T014 Conjuros de la SSG
 - [ ] T015 Sustituir los resúmenes por los del documento del usuario, si llega
+- [ ] T016 Pestaña «Dudas» en `Hackconjuros.xlsx` importada a la lista de dudas, con las de la tanda 2: erratas aplicadas (rigor mortis, rito menor, puño atronador GpC, reparar), nombres distintos en el Apéndice A (nube de bruma/nube brumosa, aura de silencio/zona de silencio), «curar heridas luminosas» en sanar heridas ligeras (errata probable del MJ) y la esfera Elemental (Aire) de polvareda, que el formato no recoge aparte

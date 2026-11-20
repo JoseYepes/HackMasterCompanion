@@ -1986,7 +1986,7 @@
           "page": "189"
         }
       ],
-      "summary": "Cierra por magia una puerta, cofre o portal: el mago la abre libremente; los demás solo la rompiéndola, con disipar magia, con apertura o siendo un mago cuatro niveles superior (estos dos últimos solo la anulan un turno).",
+      "summary": "Cierra por magia una puerta, cofre o portal: el mago la abre libremente; los demás solo pueden abrirla rompiéndola, con disipar magia, con apertura o siendo un mago cuatro niveles superior (estos dos últimos solo la anulan un turno).",
       "pending": []
     },
     {
@@ -2087,7 +2087,7 @@
           "page": "189"
         }
       ],
-      "summary": "Las criaturas de menos de 6 DG tiemblan de miedo: -2 a la reacción, sueltan lo que empuñan y, si las acorralan, luchan con -1 a ataque, daño y salvación. Solo salvan elfos, semielfos y sacerdotes; no afecta a muertos vivientes ni a criaturas de otros planos.",
+      "summary": "Las criaturas de menos de 6 DG tiemblan de miedo: -2 a la reacción, sueltan lo que empuñan y, si las acorralan, luchan con -1 a ataque, daño y salvación. Solo salvan elfos, semielfos y sacerdotes; no afecta a muertos vivientes ni a criaturas de los planos inferiores o superiores.",
       "pending": []
     },
     {
@@ -2163,7 +2163,7 @@
           "page": "190"
         }
       ],
-      "summary": "El mago ve con claridad lo invisible, astral, etéreo o desfasado, y también criaturas escondidas u ocultas, en una franja de 10' de ancho. No revela ilusiones ni deja ver a través de objetos.",
+      "summary": "El mago ve con claridad lo invisible, astral, etéreo o desfasado, y también criaturas escondidas u ocultas, en un trecho de 10' a lo largo de su línea de visión. No revela ilusiones ni deja ver a través de objetos.",
       "pending": []
     },
     {
@@ -2363,7 +2363,7 @@
           "page": "191"
         }
       ],
-      "summary": "La criatura tocada y lo que lleva se vuelven invisibles (también a la infravisión), aunque se la puede oír. Dura hasta 24 horas, hasta disiparse o hasta que ataque, aunque ese primer ataque lo hace invisible. Criaturas de Inteligencia 13+ y 10+ DG pueden salvar para verla.",
+      "summary": "La criatura tocada y lo que lleva se vuelven invisibles (también a la infravisión), aunque se la puede oír. Dura hasta 24 horas, hasta disiparse o hasta que ataque; al atacar se vuelve visible, pero la invisibilidad le deja atacar primero. Criaturas de Inteligencia 13+ y 10+ DG pueden salvar para verla.",
       "pending": []
     },
     {
@@ -2640,7 +2640,7 @@
           "page": "193"
         }
       ],
-      "summary": "Vapores nauseabundos: quien esté dentro y falle la salvación contra veneno no puede atacar por las arcadas hasta d4+1 asaltos después de salir; se salva cada asalto dentro. La brisa la acorta a la mitad y el viento fuerte la disipa.",
+      "summary": "Vapores nauseabundos: quien esté dentro y falle la salvación contra veneno no puede atacar por las arcadas, y sigue así d4+1 asaltos después de salir; se salva cada asalto dentro. La brisa la acorta a la mitad y el viento fuerte la disipa.",
       "pending": []
     },
     {
@@ -3857,7 +3857,7 @@
           "page": "257"
         }
       ],
-      "summary": "Igual que el conjuro de mago de 2.º nivel del mismo nombre, salvo en la duración.",
+      "summary": "Igual que el conjuro de mago de 2.º nivel del mismo nombre, salvo en la duración y el área.",
       "pending": []
     },
     {
@@ -4059,7 +4059,7 @@
           "page": "259"
         }
       ],
-      "summary": "Conjura un pequeño elemental de aire (CA 4, 2 DG, un ataque de d4) que el clérigo dirige: apaga llamas pequeñas, aparta nubes de gas y, sobre polvo o arena, levanta una nube de 10' que ciega a quien esté dentro. Se disipa si se aleja más de 30 yardas.",
+      "summary": "Esfera: Elemental (Aire). Conjura un pequeño elemental de aire (CA 4, 2 DG, un ataque de d4) que el clérigo dirige: apaga llamas pequeñas, aparta nubes de gas y, sobre polvo o arena, levanta una nube de 10' que ciega a quien esté dentro. Se disipa si se aleja más de 30 yardas.",
       "pending": []
     },
     {
@@ -4242,7 +4242,7 @@
           "page": "260"
         }
       ],
-      "summary": "Cura d4 por nivel del clérigo a una criatura dentro del alcance, sin tocarla, con los mismos límites que curar heridas ligeras.",
+      "summary": "Cura d4 por nivel del clérigo a una criatura dentro del alcance, sin tocarla, con los mismos límites que curar heridas ligeras (el MJ dice «curar heridas luminosas», que parece una errata).",
       "pending": []
     },
     {

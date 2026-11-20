@@ -191,7 +191,10 @@
   descompuesto, no solo una hora), puño atronador GpC (la llama se apaga, no se aniquila) y reparar
   (arregla daño de pifias, sin devolver puntos de golpe a la armadura); se citan las dos fuentes.
   Nombres distintos entre la lista del Apéndice A y la cabecera (nube de bruma/nube brumosa, aura
-  de silencio/zona de silencio): se usa la cabecera. Reversibles sin nombre (luz continua): «Sí».
+  de silencio/zona de silencio): se usa la cabecera. Reversibles sin nombre (luz continua): «Sí». **Revisión de la tanda 2**: cotejó los 84 contra las
+  páginas sin errores de cabecera; se corrigieron seis matices de resumen. **Pendiente (T016)**: las
+  dudas de conjuros aún no llegan a `docs/dudas.md` (constitución II); hace falta una pestaña
+  «Dudas» en la hoja de conjuros y que el importador la lleve a la lista de dudas.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
