@@ -23,6 +23,6 @@
 
 - [X] T009 Prueba de navegador en `E2E/CharacterTests.cs`: apuntar mejora, ver 29 %, tirar y ver la tirada en `/dados`; sin desbordamiento
 - [X] T010 `tests/README.md`, `docs/ESTADO.md`, `dotnet format`, todas las pruebas
-- [ ] T011 Revisión independiente y correcciones
+- [X] T011 Revisión independiente y correcciones
 - [ ] T012 Pull request, CI en verde y fusión con el visto bueno del usuario
 - [ ] T013 Comprobación del usuario en su móvil

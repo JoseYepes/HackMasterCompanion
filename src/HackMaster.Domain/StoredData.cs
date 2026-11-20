@@ -145,7 +145,8 @@ public static class StoredData
     private static bool IsComplete(Character character) =>
         !string.IsNullOrWhiteSpace(character.Id) && !string.IsNullOrWhiteSpace(character.Name)
         && character.Abilities is not null && character.Skills is not null
-        && character.Skills.All(skill => skill is not null && skill.Slug is not null && skill.Name is not null);
+        && character.Skills.All(skill => skill is not null && skill.Slug is not null && skill.Name is not null
+            && skill.Improvements is not null && skill.Improvements.All(improvement => improvement is not null));
 
     private static JsonElement MigrateCharacters(JsonElement root, int version)
     {

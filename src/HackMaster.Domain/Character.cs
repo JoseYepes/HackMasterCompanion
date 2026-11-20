@@ -183,6 +183,11 @@ public sealed record Character
                 problems.Add($"La maestría de {skill.Name} no puede ser negativa.");
             }
 
+            if (skill.Mastery > SkillRules.MaxMastery)
+            {
+                problems.Add($"La maestría de {skill.Name} no puede pasar de {SkillRules.MaxMastery} %.");
+            }
+
             if (skill.Points < 0)
             {
                 problems.Add($"Los puntos de {skill.Name} no pueden ser negativos.");

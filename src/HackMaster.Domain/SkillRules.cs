@@ -76,6 +76,15 @@ public static class SkillRules
     public const int MaxMastery = 125;
 
     /// <summary>
+    /// Límite del modificador de una prueba, a cada lado. No es una regla del manual: evita fórmulas
+    /// que el tirador no acepta (revisión de F005); con d100 y maestría hasta 125, cubre de sobra.
+    /// </summary>
+    public const int MaxModifier = 1000;
+
+    /// <summary>Verdadero si el modificador se puede usar en una prueba.</summary>
+    public static bool IsValidModifier(int modifier) => Math.Abs(modifier) <= MaxModifier;
+
+    /// <summary>
     /// Maestría base: la característica relevante o, si hay varias, su media redondeada a la baja
     /// (MJ p. 307). Cuenta la puntuación sin la parte fraccionaria. Nulo si falta alguna.
     /// </summary>
@@ -147,6 +156,11 @@ public static class SkillRules
     /// </summary>
     public static (RollResult Roll, SkillCheck Check) RollCheck(int mastery, int modifier, IRandom random, DateTimeOffset at)
     {
+        if (!IsValidModifier(modifier))
+        {
+            throw new ArgumentOutOfRangeException(nameof(modifier), modifier, $"El modificador va de −{MaxModifier} a {MaxModifier}.");
+        }
+
         var text = modifier switch
         {
             0 => "1d100",

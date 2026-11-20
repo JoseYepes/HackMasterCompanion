@@ -127,6 +127,23 @@ public class SkillRulesTests
     }
 
     [Fact]
+    public void Only_01_To_05_And_98_To_00_Are_Automatic__Review_MJ356()
+    {
+        Assert.Equal(SkillCheckOutcome.Failure, SkillRules.Check(6, 0, 0).Outcome);
+        Assert.Equal(SkillCheckOutcome.Success, SkillRules.Check(97, -50, 125).Outcome);
+    }
+
+    [Theory]
+    [InlineData(-1001)]
+    [InlineData(1001)]
+    public void A_Check_Modifier_Beyond_1000_Is_Not_Accepted__Review(int modifier)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => SkillRules.RollCheck(35, modifier, new SequenceRandom(1), DateTimeOffset.Now));
+        Assert.False(SkillRules.IsValidModifier(modifier));
+        Assert.True(SkillRules.IsValidModifier(modifier > 0 ? 1000 : -1000));
+    }
+
+    [Fact]
     public void A_Check_Rolls_A_d100_With_The_Modifier_In_The_Formula__MJ100()
     {
         var at = new DateTimeOffset(2026, 11, 20, 10, 0, 0, TimeSpan.FromHours(1));

@@ -131,6 +131,15 @@ public class CharacterTests
     }
 
     [Fact]
+    public void A_Written_Mastery_Cannot_Exceed_125__Review_MJ101()
+    {
+        var character = Full() with { Skills = [new CharacterSkill("actuar", "Actuar", 126)] };
+
+        Assert.Contains("La maestría de Actuar no puede pasar de 125 %.", character.Problems());
+        Assert.Empty((character with { Skills = [new CharacterSkill("actuar", "Actuar", 125)] }).Problems());
+    }
+
+    [Fact]
     public void Improvements_Cannot_Be_Negative__F005()
     {
         var character = Full() with { Skills = [new CharacterSkill("actuar", "Actuar") { Improvements = [new SkillImprovement(-1, 3)] }] };

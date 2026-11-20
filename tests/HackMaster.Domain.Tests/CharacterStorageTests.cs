@@ -306,6 +306,18 @@ public class CharacterStorageTests
     }
 
     [Fact]
+    public void A_File_With_An_Empty_Improvement_Is_Rejected__Review()
+    {
+        var file = JsonNode.Parse(StoredData.WriteCharacterFile(WithRules()))!;
+        file["character"]!["skills"]![0]!["improvements"] = new JsonArray(null, new JsonObject { ["mastery"] = 1, ["honor"] = 2 });
+
+        var read = StoredData.ReadCharacterFile(file.ToJsonString());
+
+        Assert.Null(read.Value);
+        Assert.Contains("incompleto", read.Error, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Improvements_Written_As_Null_Are_Read_As_None__F005_FR006()
     {
         var file = JsonNode.Parse(StoredData.WriteCharacterFile(WithRules()))!;

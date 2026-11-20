@@ -360,7 +360,7 @@ public class CharacterPagesTests : BunitContext
         cut.Find("[data-testid=character-skill-search]").Input("botani");
 
         Assert.Equal("Añadir Botánica", cut.Find("[data-testid=character-skill-result] button").GetAttribute("aria-label"));
-        Assert.Equal("Maestría de Rastrear", cut.Find("[data-testid=character-skill-mastery]").GetAttribute("aria-label"));
+        Assert.Equal("Maestría escrita de Rastrear", cut.Find("[data-testid=character-skill-mastery]").GetAttribute("aria-label"));
         Assert.Equal("Puntos de Rastrear", cut.Find("[data-testid=character-skill-points]").GetAttribute("aria-label"));
         Assert.Equal("Quitar Rastrear", cut.Find("[data-testid=character-skill-remove]").GetAttribute("aria-label"));
     }
@@ -515,8 +515,8 @@ public class CharacterPagesTests : BunitContext
     }
 
     [Theory]
-    [InlineData(3, "Éxito automático")]
-    [InlineData(99, "Fallo automático")]
+    [InlineData(3, "Éxito automático (01–05)")]
+    [InlineData(99, "Fallo automático (98–00)")]
     [InlineData(80, "Fallo")]
     public void A_Skill_Check_Says_Whether_It_Succeeded__F005_MJ356(int roll, string outcome)
     {
@@ -526,7 +526,162 @@ public class CharacterPagesTests : BunitContext
 
         cut.Find("[data-testid=character-skill-check]").Click();
 
-        Assert.Contains(outcome, cut.Find("[data-testid=character-skill-check-result]").TextContent, StringComparison.Ordinal);
+        Assert.Equal(outcome, cut.Find("[data-testid=character-skill-check-result] strong").TextContent.Trim());
+    }
+}
+
+/// <summary>Correcciones de la revisión independiente de F005.</summary>
+public class CharacterRulesReviewTests : BunitContext
+{
+    private static readonly DateTimeOffset At = new(2026, 11, 20, 12, 0, 0, TimeSpan.FromHours(1));
+
+    private readonly PlayerCharacters _characters;
+    private readonly QueueRandom _random = new();
+
+    public CharacterRulesReviewTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupModule(IndexedStore.ModulePath);
+        Services.AddSingleton(TestData.Create());
+        var store = new IndexedStore(JSInterop.JSRuntime);
+        Services.AddSingleton(store);
+        _characters = new PlayerCharacters(store);
+        Services.AddSingleton(_characters);
+        Services.AddSingleton(new BrowserStore(JSInterop.JSRuntime));
+        Services.AddSingleton<IRandom>(_random);
+    }
+
+    private NavigationManager Navigation => Services.GetRequiredService<NavigationManager>();
+
+    private static Character Scholar(string id = "ficha-1", params CharacterSkill[] skills) => new()
+    {
+        Id = id,
+        Name = "Erudito",
+        Abilities = CharacterAbilities.Empty.With(Ability.INT, new AbilityScore(14)),
+        HonorDie = new HonorDie(12, 1),
+        Skills = skills.Length == 0 ? [new CharacterSkill("botanica", "Botánica") { Improvements = [new SkillImprovement(3, 8)] }] : skills,
+        CreatedAt = At,
+        UpdatedAt = At,
+    };
+
+    private IRenderedComponent<CharacterEditor> Edit(Character character)
+    {
+        Assert.Null(_characters.SaveAsync(character).GetAwaiter().GetResult());
+        Navigation.NavigateTo($"fichas/{character.Id}");
+        return Render<CharacterEditor>(parameters => parameters.Add(page => page.Id, character.Id));
+    }
+
+    [Theory]
+    [InlineData("1.5")]
+    [InlineData("abc")]
+    [InlineData("20000")]
+    [InlineData("-1001")]
+    public void A_Modifier_That_Is_Not_A_Whole_Number_Up_To_1000_Blocks_The_Roll__Review(string text)
+    {
+        var cut = Edit(Scholar());
+
+        cut.Find("[data-testid=character-skill-modifier]").Input(text);
+
+        Assert.True(cut.Find("[data-testid=character-skill-check]").HasAttribute("disabled"));
+        Assert.Contains("entre −1000 y 1000", cut.Find("[data-testid=character-skill-modifier-error]").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void The_Modifier_Says_It_Is_Added_To_The_Roll__Review_MJ356()
+    {
+        var cut = Edit(Scholar());
+
+        Assert.Contains("se suma a la tirada", cut.Find("[data-testid=character-skill-modifier-help]").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void The_Result_Always_Says_Which_Modifier_Was_Used__Review()
+    {
+        var cut = Edit(Scholar());
+        _random.Enqueue(30);
+
+        cut.Find("[data-testid=character-skill-check]").Click();
+
+        Assert.Contains("sin modificador", cut.Find("[data-testid=character-skill-check-result]").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void While_There_Is_A_Written_Mastery_Improvements_Are_Disabled_And_It_Says_Why__Review()
+    {
+        var cut = Edit(Scholar(skills: new CharacterSkill("botanica", "Botánica", 40)));
+
+        Assert.True(cut.Find("[data-testid=character-skill-roll-improvement]").HasAttribute("disabled"));
+        Assert.True(cut.Find("[data-testid=character-skill-add-improvement]").HasAttribute("disabled"));
+        Assert.Contains("maestría escrita", cut.Find("[data-testid=character-skill-roll-note]").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Removing_An_Improvement_Clears_The_Message_Of_The_Rolled_One__Review()
+    {
+        var cut = Edit(Scholar());
+        _random.Enqueue(5, 7);
+        cut.Find("[data-testid=character-skill-roll-improvement]").Click();
+
+        cut.FindAll("[data-testid=character-skill-improvement-remove]")[1].Click();
+
+        Assert.Empty(cut.FindAll("[data-testid=character-skill-rolled]"));
+    }
+
+    [Fact]
+    public async Task Opening_Another_Character_Clears_The_Results_Of_The_Previous_One__Review()
+    {
+        Assert.Null(await _characters.SaveAsync(Scholar("ficha-2")));
+        var cut = Edit(Scholar());
+        _random.Enqueue(30);
+        cut.Find("[data-testid=character-skill-check]").Click();
+
+        cut.Render(parameters => parameters.Add(page => page.Id, "ficha-2"));
+
+        Assert.Empty(cut.FindAll("[data-testid=character-skill-check-result]"));
+    }
+
+    [Fact]
+    public void If_The_Dice_History_Cannot_Be_Read_The_Result_Says_It_Was_Not_Saved__Review()
+    {
+        JSInterop.Setup<string?>("localStorage.getItem", "hackmaster.rolls").SetResult("{ dañado");
+        var cut = Edit(Scholar());
+        _random.Enqueue(30);
+
+        cut.Find("[data-testid=character-skill-check]").Click();
+
+        Assert.Contains("no se guardó en el historial", cut.Find("[data-testid=character-skill-check-result]").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void The_Result_Is_Announced_In_A_Live_Region_That_Exists_Before_Rolling__Review()
+    {
+        var cut = Edit(Scholar());
+
+        Assert.Equal("polite", cut.Find("[data-testid=character-skill-live]").GetAttribute("aria-live"));
+    }
+
+    [Fact]
+    public void Leaving_With_Unsaved_Changes_Asks_First__Review()
+    {
+        var cut = Edit(Scholar());
+        JSInterop.Setup<bool>("confirm", _ => true).SetResult(false);
+        cut.Find("[data-testid=character-notes]").Input("Sin guardar");
+
+        Navigation.NavigateTo("fichas");
+
+        Assert.EndsWith("/fichas/ficha-1", Navigation.Uri, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Saving_Leaves_Without_Asking__Review()
+    {
+        var cut = Edit(Scholar());
+        cut.Find("[data-testid=character-notes]").Input("Guardada");
+
+        cut.Find("[data-testid=character-save]").Click();
+
+        Assert.EndsWith("/fichas", Navigation.Uri, StringComparison.Ordinal);
+        Assert.Empty(JSInterop.Invocations["confirm"]);
     }
 }
 

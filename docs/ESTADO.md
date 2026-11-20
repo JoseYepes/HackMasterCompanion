@@ -142,8 +142,19 @@
   versión 3. `RollHistoryUpdate` sale de `Dice.razor` para guardar también las pruebas de habilidad.
   Pendiente de verificar: si la fracción de la característica cuenta (se usa la puntuación entera) y
   las casillas «1» de la Tabla 5C. Para leer páginas del PDF como imagen se usa un script local con
-  el motor PDF de Windows (sin instalar nada). **Falta**: revisión independiente, pull request y la
-  prueba del usuario (T011–T013).
+  el motor PDF de Windows (sin instalar nada). **Revisión independiente (T011)**, con prueba para
+  cada corrección: un modificador enorme rompía la página (ahora de −1000 a 1000, con aviso); uno no
+  válido se convertía en 0 sin avisar (ahora bloquea «Tirar»); el resultado dice siempre el
+  modificador y una ayuda explica que se suma a la tirada (positivo, más difícil; MJ p. 356); las
+  mejoras tiradas se perdían al salir sin guardar (ahora se pregunta antes de salir con cambios);
+  con maestría escrita las mejoras no contaban sin decirlo (ahora se desactivan con aviso) y la
+  escrita no tenía tope (ahora 125 %); una mejora nula en un archivo rompía el editor (ahora el
+  archivo se rechaza); los resultados de una ficha seguían al abrir otra; doble toque en «Tirar»;
+  límites 06 y 97 probados; región viva para el resultado. **Tarea del usuario**: añadir a la
+  pestaña «Dudas» de la hoja las dos dudas de F005 (si la fracción de la característica cuenta para
+  la maestría base; qué significan las casillas «1» de la Tabla 5C). Los dados de maestría «5», «3» y
+  «2» de algunas habilidades ya están como dudas: hasta resolverlas, sus mejoras se apuntan a mano.
+  **Falta**: pull request y la prueba del usuario (T012–T013).
 - **F009 (Grimorio)**, pedida por el usuario el 2026-11-19: conjuros de clérigo y de mago y reglas de
   grimorios y transcripción, desde el MJ en castellano y en inglés, las erratas y la SSG. Va después
   de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»).
