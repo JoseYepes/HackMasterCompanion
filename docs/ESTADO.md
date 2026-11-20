@@ -204,6 +204,10 @@
   breve. Estas dudas irán a la pestaña «Dudas» de T016. **Revisión de la tanda 3**: sin conjuros de
   más ni de menos; se corrigieron la escuela de viento fantasma, el área de fuerza espectral (la de
   la p. 201), el inverso sin nombre de luz continua de clérigo («Sí») y cuatro matices de resumen.
+  Tanda 3 fusionada (pull request #16) y publicada. **Tanda 4 (2026-11-20)**: nivel 4, 57 de mago
+  (MJ p. 207–218) y 18 de clérigo (p. 264–267), 325 en total. Decisiones: el alcance de enervación
+  dice «10 asaltos por nivel» en el MJ y se deja así, señalado en el resumen; bajar las aguas y toque
+  de muerte de clérigo remiten a conjuros de mago de nivel 6 y 5, y se resumen con ese texto.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
