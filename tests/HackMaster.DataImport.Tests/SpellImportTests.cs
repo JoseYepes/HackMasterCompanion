@@ -116,6 +116,58 @@ public sealed class SpellImportTests : IDisposable
     }
 
     [Fact]
+    public void Compound_Schools_Stay_Whole_And_Commas_Separate__Review_MJ124()
+    {
+        var spell = Assert.Single(Import(Spell(2, schools: "Encantamiento/Hechizo, Alteración")).File!.Spells);
+
+        Assert.Equal(["Encantamiento/Hechizo", "Alteración"], spell.Schools);
+    }
+
+    [Theory]
+    [InlineData("Reducir", true, "Reducir")]
+    [InlineData("Sí", true, null)]
+    [InlineData("si", true, null)]
+    [InlineData("", false, null)]
+    public void Reversible_Is_Yes_Or_The_Name_Of_The_Reverse__Review(string cell, bool reversible, string? reverse)
+    {
+        var spell = Assert.Single(Import(Spell(2, reverse: cell)).File!.Spells);
+
+        Assert.Equal((reversible, reverse), (spell.Reversible, spell.Reverse));
+    }
+
+    [Fact]
+    public void A_Pending_Reverse_Or_School_Is_Marked__Review()
+    {
+        var spell = Assert.Single(Import(Spell(2, reverse: "?", schools: "?")).File!.Spells);
+
+        Assert.Equal(["schools", "reverse"], spell.Pending);
+        Assert.Empty(spell.Schools);
+    }
+
+    [Theory]
+    [InlineData("?", "Mago", "1", "MJ 175")]
+    [InlineData("Agrandar", "?", "1", "MJ 175")]
+    [InlineData("Agrandar", "Mago", "?", "MJ 175")]
+    [InlineData("Agrandar", "Mago", "1", "?")]
+    [InlineData("¡¿!", "Mago", "1", "MJ 175")]
+    public void Required_Data_Cannot_Be_Pending_Or_Unusable__Review(string name, string spellClass, string level, string book)
+    {
+        var result = Import(Spell(2, name: name, spellClass: spellClass, level: level, book: book));
+
+        Assert.Null(result.File);
+        Assert.NotEmpty(result.Errors);
+    }
+
+    [Fact]
+    public void Two_Names_With_The_Same_Address_In_The_Same_Class_Fail__Review()
+    {
+        var result = Import(Spell(2, name: "Luz"), Spell(3, name: "Luz."));
+
+        Assert.Null(result.File);
+        Assert.Contains(result.Errors, error => error.Rows.SequenceEqual([2, 3]));
+    }
+
+    [Fact]
     public void Two_Spells_With_The_Same_Name_In_The_Same_Class_Fail__FR007()
     {
         var result = Import(Spell(2), Spell(3, name: "agrandar"));

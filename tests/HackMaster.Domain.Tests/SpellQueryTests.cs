@@ -63,6 +63,15 @@ public class SpellQueryTests
         Assert.Null(SpellClasses.FromSlug("druida"));
     }
 
+    [Theory]
+    [InlineData("Mago", SpellClass.Mage)]
+    [InlineData("CLÉRIGO", SpellClass.Cleric)]
+    [InlineData(" clerigo ", SpellClass.Cleric)]
+    public void The_Class_In_The_Address_Ignores_Capitals_And_Accents__Review(string slug, SpellClass expected)
+    {
+        Assert.Equal(expected, SpellClasses.FromSlug(slug));
+    }
+
     [Fact]
     public void Facets_List_The_Levels_And_Schools_Present_In_The_Data__FR003()
     {

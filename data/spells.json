@@ -10,6 +10,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S",
       "duration": "Especial",
@@ -34,6 +35,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": true,
       "reverse": "Reducir",
       "range": "5 yardas por nivel",
       "components": "V, S, M",
@@ -59,6 +61,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "10 yardas",
       "components": "V, S, M",
       "duration": "1 asalto",
@@ -84,6 +87,7 @@
         "Abjuración",
         "Evocación"
       ],
+      "reversible": false,
       "range": "10 yardas por nivel",
       "components": "V, S, M",
       "duration": "4 h. + 1/2 h. por nivel",
@@ -108,6 +112,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "5 yardas por nivel",
       "components": "V, S, M",
       "duration": "2 asaltos por nivel",
@@ -132,6 +137,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "50 yardas + 10 yardas por nivel",
       "components": "V, S, M",
       "duration": "1 asalto por nivel",
@@ -156,6 +162,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V, S",
       "duration": "Instantáneo",
@@ -180,6 +187,7 @@
       "schools": [
         "Conjuración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "Especial",
@@ -192,7 +200,7 @@
           "page": "176"
         }
       ],
-      "summary": "Un campo de fuerza da CA 6 a una criatura sin armadura hasta que recibe 8 puntos de daño más 1 por nivel del mago. No estorba ni pesa y no se acumula con escudo.",
+      "summary": "Un campo de fuerza da CA 6 a una criatura sin armadura hasta que recibe 8 puntos de daño más 1 por nivel del mago. No estorba ni pesa y no se acumula con el conjuro escudo (sí con la Destreza y el bonificador de escudo).",
       "pending": []
     },
     {
@@ -205,6 +213,7 @@
         "Alteración",
         "Ilusión"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "Especial",
@@ -227,9 +236,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
+      "reversible": false,
       "range": "1 yarda por nivel",
       "components": "V, S, M",
       "duration": "3 asaltos por nivel",
@@ -252,9 +261,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "1 día por nivel",
@@ -279,6 +288,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "100' por nivel, con un máximo de 1 milla",
       "components": "V, S, M",
       "duration": "1 asalto por nivel",
@@ -301,9 +311,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "60 yardas + 10 yardas por nivel",
       "components": "V, S, M",
       "duration": "Instantáneo",
@@ -328,6 +338,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V, S",
       "duration": "Permanente",
@@ -352,6 +363,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "10 yardas por nivel",
       "components": "V",
       "duration": "1 asalto por nivel",
@@ -374,9 +386,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S",
       "duration": "2d6 asaltos + 2 asaltos por nivel",
@@ -401,6 +413,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "20 yardas",
       "components": "V, S, M",
       "duration": "6 horas + 1 hora por nivel",
@@ -425,6 +438,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": true,
       "reverse": "Confusión lingüística",
       "range": "Toque",
       "components": "V, S, M",
@@ -448,9 +462,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Conjuración",
-        "Convocación"
+        "Conjuración/Convocación"
       ],
+      "reversible": false,
       "range": "10 yardas",
       "components": "V, S, M",
       "duration": "2 h. + 1 h. por nivel",
@@ -475,6 +489,7 @@
       "schools": [
         "Encantamiento"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "5-8 horas",
@@ -497,9 +512,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "100'",
       "components": "V, S, M",
       "duration": "1 turno",
@@ -524,6 +539,7 @@
       "schools": [
         "Adivinación"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S",
       "duration": "2 asaltos por nivel",
@@ -549,6 +565,7 @@
         "Adivinación",
         "Nigromancia"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "3 turnos",
@@ -571,9 +588,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V, S, M",
       "duration": "5 asaltos por nivel",
@@ -596,9 +613,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "3 asaltos por nivel",
@@ -621,9 +638,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Conjuración",
-        "Convocación"
+        "Conjuración/Convocación"
       ],
+      "reversible": false,
       "range": "10' + 1' por nivel",
       "components": "V, S, M",
       "duration": "Instantáneo",
@@ -646,9 +663,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Conjuración",
-        "Convocación"
+        "Conjuración/Convocación"
       ],
+      "reversible": false,
       "range": "1 milla por nivel",
       "components": "V, S, M",
       "duration": "Especial",
@@ -671,9 +688,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "60 yardas + 10 yardas por nivel",
       "components": "V, S, M",
       "duration": "3 asaltos por nivel",
@@ -698,6 +715,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "3 asaltos + 1 asalto por nivel",
@@ -722,6 +740,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "1 h. por nivel",
@@ -746,6 +765,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S",
       "duration": "5 asaltos por nivel",
@@ -770,6 +790,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V, S, M",
       "duration": "1 asalto por nivel",
@@ -792,9 +813,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "60 yardas + 10 yardas por nivel",
       "components": "V, S, M",
       "duration": "Especial",
@@ -819,6 +840,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V, S, M",
       "duration": "1 asalto por nivel",
@@ -843,6 +865,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": true,
       "reverse": "Cambiar a calderilla",
       "range": "10 yardas",
       "components": "V, S, M",
@@ -868,6 +891,7 @@
       "schools": [
         "Conjuración"
       ],
+      "reversible": false,
       "range": "10 yardas",
       "components": "V, S, M",
       "duration": "3 asaltos + 1 asalto por nivel",
@@ -890,9 +914,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "d4 asaltos + 1 asalto por nivel",
@@ -915,9 +939,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "60 yardas",
       "components": "V, S, M",
       "duration": "Especial",
@@ -940,9 +964,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
+      "reversible": false,
       "range": "120 yardas",
       "components": "V, S",
       "duration": "Especial",
@@ -965,9 +989,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
+      "reversible": false,
       "range": "5 yardas",
       "components": "V, S",
       "duration": "1 asalto + 1 asalto por nivel",
@@ -992,6 +1016,7 @@
       "schools": [
         "Adivinación"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "1 asalto por nivel",
@@ -1014,9 +1039,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "60'",
       "components": "V, S, M",
       "duration": "1 turno por nivel",
@@ -1041,6 +1066,7 @@
       "schools": [
         "Adivinación"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "2 asaltos por nivel",
@@ -1065,6 +1091,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "40 yardas + 10 yardas por nivel",
       "components": "V, S, M",
       "duration": "2 asaltos por nivel",
@@ -1089,6 +1116,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "60 yardas",
       "components": "V, M",
       "duration": "1 turno por nivel",
@@ -1113,6 +1141,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "5'",
       "components": "V, S",
       "duration": "Instantáneo",
@@ -1137,6 +1166,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "Permanente",
@@ -1161,6 +1191,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "5 asaltos por nivel",
@@ -1185,6 +1216,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V, S, M",
       "duration": "2d4 asaltos + 1 asalto por nivel",
@@ -1210,6 +1242,7 @@
         "Alteración",
         "Evocación"
       ],
+      "reversible": false,
       "range": "30'",
       "components": "V, S, M",
       "duration": "Especial",
@@ -1234,6 +1267,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "10' por nivel",
       "components": "V, S, M",
       "duration": "1 segmento por nivel",
@@ -1258,6 +1292,7 @@
       "schools": [
         "Abjuración"
       ],
+      "reversible": true,
       "reverse": "Protección contra el bien",
       "range": "Toque",
       "components": "V, S, M",
@@ -1283,6 +1318,7 @@
       "schools": [
         "Encantamiento"
       ],
+      "reversible": false,
       "range": "60 yardas",
       "components": "V, S, M",
       "duration": "1 asalto",
@@ -1305,9 +1341,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "10 yardas por nivel, máx. 90 yardas",
       "components": "V, M",
       "duration": "4 asaltos + 1 asalto por nivel",
@@ -1332,6 +1368,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "60 yardas + 10 yardas por nivel",
       "components": "V, S",
       "duration": "Instantáneo",
@@ -1356,6 +1393,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S",
       "duration": "2 asaltos + 1 asalto por nivel",
@@ -1380,6 +1418,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V, S, M",
       "duration": "Permanente",
@@ -1404,6 +1443,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "20'",
       "components": "V, S, M",
       "duration": "1 asalto",
@@ -1428,6 +1468,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "Instantáneo",
@@ -1452,6 +1493,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "d3 asaltos + 1 asalto por nivel",
@@ -1476,6 +1518,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "Radio de 5 yardas por nivel",
       "components": "V, S, M",
       "duration": "1 asalto por nivel",
@@ -1498,9 +1541,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Conjuración",
-        "Convocación"
+        "Conjuración/Convocación"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "4 h. + 1 h. por nivel",
@@ -1525,6 +1568,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "60'",
       "components": "V, S, M",
       "duration": "1 hora",
@@ -1549,6 +1593,7 @@
       "schools": [
         "Nigromancia"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S",
       "duration": "3 asaltos + 1 asalto por nivel",
@@ -1573,6 +1618,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "20 yardas por nivel",
       "components": "V",
       "duration": "1 asalto por nivel",
@@ -1597,6 +1643,7 @@
       "schools": [
         "Adivinación"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "1 turno por nivel",
@@ -1619,9 +1666,9 @@
       "class": "Mage",
       "level": 1,
       "schools": [
-        "Ilusión",
-        "Fantasma"
+        "Ilusión/Fantasma"
       ],
+      "reversible": false,
       "range": "30'",
       "components": "V, S",
       "duration": "Especial",
@@ -1644,9 +1691,9 @@
       "class": "Cleric",
       "level": 1,
       "schools": [
-        "Conjuración",
-        "Convocación"
+        "Conjuración/Convocación"
       ],
+      "reversible": true,
       "reverse": "Maldecir",
       "range": "60 yardas",
       "components": "V, S, M",
@@ -1672,6 +1719,7 @@
       "schools": [
         "Nigromancia"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S",
       "duration": "1 semana/nivel del lanzador",
@@ -1696,6 +1744,7 @@
       "schools": [
         "Invocación"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "Permanente",
@@ -1720,6 +1769,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": true,
       "reverse": "Destruir agua",
       "range": "30 yardas",
       "components": "V, S, M",
@@ -1745,6 +1795,7 @@
       "schools": [
         "Nigromancia"
       ],
+      "reversible": true,
       "reverse": "Causar heridas ligeras",
       "range": "Toque",
       "components": "V, S",
@@ -1770,6 +1821,7 @@
       "schools": [
         "Nigromancia"
       ],
+      "reversible": true,
       "reverse": "Causar heridas oscuras",
       "range": "Toque",
       "components": "V, S",
@@ -1795,6 +1847,7 @@
       "schools": [
         "Adivinación"
       ],
+      "reversible": true,
       "reverse": "Detectar el bien",
       "range": "0",
       "components": "V, S, M",
@@ -1820,6 +1873,7 @@
       "schools": [
         "Adivinación"
       ],
+      "reversible": false,
       "range": "0",
       "components": "V, S, M",
       "duration": "1 turno",
@@ -1842,10 +1896,9 @@
       "class": "Cleric",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
-      "reverse": "Sí (sin nombre propio)",
+      "reversible": true,
       "range": "0",
       "components": "V, S, M",
       "duration": "d4 asaltos + 1 asalto por nivel",
@@ -1870,6 +1923,7 @@
       "schools": [
         "Abjuración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "6 asaltos",
@@ -1894,6 +1948,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": true,
       "reverse": "Oscuridad",
       "range": "120 yardas",
       "components": "V, S",
@@ -1907,7 +1962,7 @@
           "page": "255"
         }
       ],
-      "summary": "Igual que el conjuro de mago de 1.er nivel luz, con más alcance y duración. Invertido, crea oscuridad.",
+      "summary": "Igual que el conjuro de mago de 1.er nivel luz, pero con otro alcance, duración, componentes y tiempo de lanzamiento. Invertido, crea oscuridad (como oscuridad, radio de 15', según las erratas).",
       "pending": []
     },
     {
@@ -1917,9 +1972,9 @@
       "class": "Cleric",
       "level": 1,
       "schools": [
-        "Encantamiento",
-        "Hechizo"
+        "Encantamiento/Hechizo"
       ],
+      "reversible": false,
       "range": "30 yardas",
       "components": "V",
       "duration": "1 asalto",
@@ -1944,6 +1999,7 @@
       "schools": [
         "Encantamiento"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "Especial",
@@ -1956,7 +2012,7 @@
           "page": "255"
         }
       ],
-      "summary": "Encanta tres guijarros que cualquiera puede lanzar a mano (hasta 30 yardas) o con honda: cuentan como armas +1 para impactar y hacen d4 (2d4 a muertos vivientes). Duran media hora o hasta usarse.",
+      "summary": "Encanta tres guijarros que cualquiera puede lanzar a mano (hasta 30 yardas) o con honda: cuentan como armas +1 solo para poder dañar a criaturas que exigen armas mágicas, sin bonificador al ataque ni al daño, y hacen d4 (2d4 a muertos vivientes). Duran media hora o hasta usarse.",
       "pending": []
     },
     {
@@ -1968,6 +2024,7 @@
       "schools": [
         "Abjuración"
       ],
+      "reversible": true,
       "reverse": "Protección contra el bien",
       "range": "Toque",
       "components": "V, S, M",
@@ -1993,6 +2050,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": true,
       "reverse": "Arruinar comida y bebida",
       "range": "30 yardas",
       "components": "V, S",
@@ -2018,6 +2076,7 @@
       "schools": [
         "Abjuración"
       ],
+      "reversible": true,
       "reverse": "Causar miedo",
       "range": "10 yardas",
       "components": "V, S",
@@ -2043,6 +2102,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S",
       "duration": "1 hora y 1/2/nivel",
@@ -2067,6 +2127,7 @@
       "schools": [
         "Evocación"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S",
       "duration": "Especial",
@@ -2091,6 +2152,7 @@
       "schools": [
         "Abjuración"
       ],
+      "reversible": false,
       "range": "Toque",
       "components": "V, S, M",
       "duration": "2 asaltos + 1 asalto/nivel",
@@ -2115,6 +2177,7 @@
       "schools": [
         "Alteración"
       ],
+      "reversible": false,
       "range": "60'",
       "components": "V, S, M",
       "duration": "1 hora",

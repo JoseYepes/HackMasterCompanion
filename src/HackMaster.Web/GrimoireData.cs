@@ -47,11 +47,33 @@ public sealed class GrimoireData
             return new GrimoireData([], []);
         }
 
+        using var reader = new StreamReader(stream);
+        return FromJson(reader.ReadToEnd());
+    }
+
+    /// <summary>
+    /// Lee el contenido de <c>spells.json</c>. Si es de otra versión, está dañado o repite un
+    /// conjuro, el Grimorio queda vacío con el motivo en <see cref="LoadError"/>: nunca rompe el
+    /// arranque de la aplicación (constitución V).
+    /// </summary>
+    public static GrimoireData FromJson(string json)
+    {
         try
         {
-            var file = JsonSerializer.Deserialize<SpellsFile>(stream, GameDataJson.Options);
-            return file?.Spells is null || file.Rules is null
-                ? new GrimoireData("El archivo de conjuros está incompleto.")
+            var file = JsonSerializer.Deserialize<SpellsFile>(json, GameDataJson.Options);
+            if (file?.Spells is null || file.Rules is null || file.Spells.Any(spell => spell is null) || file.Rules.Any(rule => rule is null))
+            {
+                return new GrimoireData("El archivo de conjuros está incompleto.");
+            }
+
+            if (file.SchemaVersion != GameDataJson.CurrentSchemaVersion)
+            {
+                return new GrimoireData($"El archivo de conjuros es de la versión {file.SchemaVersion}; la aplicación entiende la {GameDataJson.CurrentSchemaVersion}.");
+            }
+
+            var repeated = file.Spells.GroupBy(spell => (spell.Class, spell.Slug)).FirstOrDefault(group => group.Count() > 1);
+            return repeated is not null
+                ? new GrimoireData($"El archivo de conjuros tiene repetido «{repeated.First().Name}».")
                 : new GrimoireData(file.Spells, file.Rules);
         }
         catch (JsonException exception)

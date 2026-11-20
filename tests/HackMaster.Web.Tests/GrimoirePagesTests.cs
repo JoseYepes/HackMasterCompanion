@@ -17,6 +17,7 @@ public class GrimoirePagesTests : BunitContext
         Class = spellClass,
         Level = level,
         Schools = [school],
+        Reversible = name is "Agrandar" or "Bendecir",
         Reverse = name == "Agrandar" ? "Reducir" : null,
         Range = pending.Contains("range") ? null : "5 yardas por nivel",
         Components = "V, S, M",
@@ -59,7 +60,7 @@ public class GrimoirePagesTests : BunitContext
         Assert.Equal(["Agrandar", "Bendecir", "Bola de fuego", "Proyectil mágico"], Names(cut));
         Assert.Contains("4 conjuros", cut.Find("[data-testid=spell-count]").TextContent, StringComparison.Ordinal);
         var bendecir = cut.FindAll("[data-testid=spell-row]")[1];
-        Assert.Contains("Clérigo 1", bendecir.TextContent, StringComparison.Ordinal);
+        Assert.Contains("Clérigo, nivel 1", bendecir.TextContent, StringComparison.Ordinal);
         Assert.Contains("Todas", bendecir.TextContent, StringComparison.Ordinal);
         Assert.Equal("grimorio/clerigo/bendecir", bendecir.QuerySelector("a")!.GetAttribute("href"));
     }
@@ -120,12 +121,69 @@ public class GrimoirePagesTests : BunitContext
     {
         var cut = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "mago").Add(page => page.Slug, "agrandar"));
 
-        var text = cut.Markup;
+        string Field(string name) => cut.Find($"[data-testid=spell-field-{name}]").TextContent.Trim();
         Assert.Equal("Agrandar", cut.Find("h1").TextContent.Trim());
-        foreach (var expected in new[] { "Mago", "nivel 1", "Alteración", "Reducir", "5 yardas por nivel", "V, S, M", "5 asaltos por nivel", "1 segmento", "Una criatura u objeto", "Niega", "MJ 175", "Resumen de prueba de Agrandar." })
-        {
-            Assert.Contains(expected, text, StringComparison.Ordinal);
-        }
+        Assert.Equal("Mago, nivel 1", cut.Find("[data-testid=spell-class-level]").TextContent.Trim());
+        Assert.Equal("Alteración", Field("schools"));
+        Assert.Equal("Sí (Reducir)", Field("reverse"));
+        Assert.Equal("5 yardas por nivel", Field("range"));
+        Assert.Equal("V, S, M", Field("components"));
+        Assert.Equal("5 asaltos por nivel", Field("duration"));
+        Assert.Equal("1 segmento", Field("castingTime"));
+        Assert.Equal("Una criatura u objeto", Field("areaOfEffect"));
+        Assert.Equal("Niega", Field("savingThrow"));
+        Assert.Equal("MJ 175", Field("books"));
+        Assert.Contains("Resumen de prueba de Agrandar.", cut.Find("[data-testid=spell-summary]").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void A_Reversible_Spell_Without_A_Name_For_Its_Reverse_Says_Just_Yes__Review()
+    {
+        var cut = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "clerigo").Add(page => page.Slug, "bendecir"));
+
+        Assert.Equal("Sí", cut.Find("[data-testid=spell-field-reverse]").TextContent.Trim());
+    }
+
+    [Fact]
+    public void A_Spell_That_Is_Not_Reversible_Has_No_Reversible_Row__Review()
+    {
+        var cut = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "mago").Add(page => page.Slug, "bola-de-fuego"));
+
+        Assert.Empty(cut.FindAll("[data-testid=spell-field-reverse]"));
+    }
+
+    [Fact]
+    public void A_Pending_Reverse_And_A_Missing_Summary_Are_Marked__Review()
+    {
+        Services.AddSingleton(new GrimoireData([Spell("Dudoso", SpellClass.Mage, 1, "Alteración", "reverse") with { Summary = null }], []));
+
+        var cut = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "mago").Add(page => page.Slug, "dudoso"));
+
+        Assert.NotEmpty(cut.FindAll("[data-testid=spell-field-reverse] .pending-mark"));
+        Assert.NotEmpty(cut.FindAll("[data-testid=spell-summary] .pending-mark"));
+    }
+
+    [Fact]
+    public void The_Class_In_The_Address_Ignores_Capitals__Review()
+    {
+        var cut = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "Mago").Add(page => page.Slug, "agrandar"));
+
+        Assert.Equal("Agrandar", cut.Find("h1").TextContent.Trim());
+    }
+
+    [Fact]
+    public void Spell_Data_Of_Another_Version_Or_With_Repeated_Spells_Is_Reported__Review()
+    {
+        var newer = GrimoireData.FromJson("""{ "schemaVersion": 99, "spells": [], "rules": [] }""");
+        var repeated = GrimoireData.FromJson("""
+            { "schemaVersion": 1, "rules": [], "spells": [
+              { "slug": "luz", "name": "Luz", "searchName": "luz", "class": "Mage", "level": 1, "books": [] },
+              { "slug": "luz", "name": "Luz", "searchName": "luz", "class": "Mage", "level": 1, "books": [] } ] }
+            """);
+
+        Assert.Contains("versión", newer.LoadError, StringComparison.Ordinal);
+        Assert.Contains("repetido", repeated.LoadError, StringComparison.Ordinal);
+        Assert.Empty(repeated.Spells);
     }
 
     [Fact]
@@ -164,5 +222,7 @@ public class GrimoirePagesTests : BunitContext
         var data = GrimoireData.LoadEmbedded();
 
         Assert.Null(data.LoadError);
+        Assert.True(data.Spells.Count >= 87, $"Solo hay {data.Spells.Count} conjuros incrustados.");
+        Assert.True(data.Rules.Count >= 7, $"Solo hay {data.Rules.Count} reglas incrustadas.");
     }
 }

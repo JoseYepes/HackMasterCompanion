@@ -64,7 +64,7 @@ else
         {
             <li class="item-row" data-testid="spell-row" @key="(spell.Class, spell.Slug)">
                 <a class="item-name spell-name" href="grimorio/@SpellClasses.Slug(spell.Class)/@spell.Slug">@spell.Name</a>
-                <span class="spell-meta">@SpellClasses.Name(spell.Class) @spell.Level · @Display.List(spell.Schools)</span>
+                <span class="spell-meta">@SpellClasses.Name(spell.Class), @(spell.Level == 0 ? "truco" : $"nivel {spell.Level}") · @Display.List(spell.Schools)</span>
             </li>
         }
     </ul>

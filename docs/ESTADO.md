@@ -171,8 +171,18 @@
   cómo se consiguen, probabilidad de aprender, límites por Inteligencia, transcribir con escribir,
   conjuros de clérigo). Erratas oficiales y en castellano revisadas: nada que cambie la tanda. Los
   de clérigo también tienen escuela en el MJ («a efectos de referencia»), así que se filtra por
-  escuela en las dos clases. Dos tiempos de lanzamiento salen sin unidad en el MJ («1»: alterar
-  fuegos normales y hacer amigos) y se dejan como están. **Falta**: revisión independiente, pull
+  escuela en las dos clases. Cuatro tiempos de lanzamiento salen sin unidad en el MJ («1»: alterar
+  fuegos normales, hacer amigos, reflexión de la mirada y saltar) y se dejan como están (pendiente
+  de cotejar con el PHB en inglés). Las escuelas compuestas del MJ («Encantamiento/Hechizo»,
+  «Ilusión/Fantasma», «Conjuración/Convocación», p. 124) cuentan como una; las parejas sin
+  escuela compuesta (Alteración/Ilusión de armadura fantasma, Alteración – Evocación de orbe
+  cromático) se toman como dos escuelas (interpretación del agente). Ceremonia sale como
+  «Invocación», tal cual. **Revisión independiente** (tanda 1): cotejó 59 conjuros y las 7 reglas
+  con las páginas sin encontrar errores de datos; se corrigió el «Sí (sin nombre propio)» de hacer
+  amigos de clérigo (ahora `reversible` aparte del nombre), las escuelas compuestas partidas, el
+  dato «reversible» pendiente que no se veía, la versión del formato sin comprobar al cargar, la
+  clase de la dirección con mayúsculas, tres matices de resumen (armadura, piedra mágica, luz de
+  clérigo) y pruebas más estrictas. **Falta**: revisión independiente, pull
   request y las tandas siguientes (nivel 2 en adelante, trucos y SSG).
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que

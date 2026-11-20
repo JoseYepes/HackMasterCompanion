@@ -11,7 +11,7 @@
 - [X] T007 Leer el MJ: 67 conjuros de mago de nivel 1 (p. 175–187) y 20 de clérigo de nivel 1 (p. 253–256), cotejados con la imagen de cada página y con la lista alfabética del Apéndice A; 7 reglas (p. 19, 124–125, 180, 253); erratas revisadas
 - [X] T008 Generar `Hackconjuros.xlsx` e importar `data/spells.json`
 - [X] T009 Pruebas de navegador en `tests/HackMaster.Web.Tests/E2E/GrimoireTests.cs`
-- [ ] T010 Revisión independiente, pull request y fusión con el visto bueno del usuario
+- [X] T010 Revisión independiente, pull request y fusión con el visto bueno del usuario
 
 ## Tandas siguientes (mismo formato, solo filas nuevas)
 

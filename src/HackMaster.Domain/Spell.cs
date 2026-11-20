@@ -14,7 +14,8 @@ public static class SpellClasses
 
     public static string Slug(SpellClass spellClass) => spellClass == SpellClass.Mage ? "mago" : "clerigo";
 
-    public static SpellClass? FromSlug(string? slug) => slug switch
+    /// <summary>Clase de una dirección, sin importar mayúsculas ni acentos («Mago», «CLÉRIGO»).</summary>
+    public static SpellClass? FromSlug(string? slug) => TextNormalizer.Normalize(slug) switch
     {
         "mago" => SpellClass.Mage,
         "clerigo" => SpellClass.Cleric,
@@ -44,7 +45,10 @@ public sealed record Spell
     /// <summary>Escuelas de magia, como en el manual (en los de clérigo, «a efectos de referencia», MJ p. 253).</summary>
     public IReadOnlyList<string> Schools { get; init; } = [];
 
-    /// <summary>Nombre de la versión inversa si el conjuro es reversible.</summary>
+    /// <summary>Verdadero si el conjuro tiene versión inversa (el MJ a veces no le da nombre).</summary>
+    public bool Reversible { get; init; }
+
+    /// <summary>Nombre de la versión inversa, si el MJ se lo da.</summary>
     public string? Reverse { get; init; }
 
     public string? Range { get; init; }

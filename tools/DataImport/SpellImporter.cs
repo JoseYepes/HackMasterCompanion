@@ -111,6 +111,10 @@ public static partial class SpellImporter
         {
             problems.Add("falta el nombre del conjuro.");
         }
+        else if (name == PendingMark || TextNormalizer.ToSlug(name).Length == 0)
+        {
+            problems.Add($"el nombre «{name}» no vale: tiene que tener letras o números.");
+        }
 
         SpellClass? spellClass = TextNormalizer.Normalize(row["B"]) switch
         {
@@ -154,7 +158,14 @@ public static partial class SpellImporter
             return value.Length == 0 ? null : value;
         }
 
+        // Las escuelas se separan solo por comas: las compuestas del MJ («Encantamiento/Hechizo»,
+        // «Ilusión/Fantasma»…, p. 124) son una sola escuela y van con barra.
         var schoolsText = Text("D", "schools");
+
+        // Reversible: vacío = no; «Sí» = sí, sin nombre en el MJ; otro texto = nombre del inverso.
+        var reverseText = Text("E", "reverse");
+        var reversible = reverseText is not null || pending.Contains("reverse");
+        var reverseName = reverseText is not null && TextNormalizer.Normalize(reverseText) == "si" ? null : reverseText;
         var spell = new Spell
         {
             Slug = TextNormalizer.ToSlug(name),
@@ -163,7 +174,8 @@ public static partial class SpellImporter
             Class = spellClass!.Value,
             Level = level,
             Schools = schoolsText is null ? [] : [.. schoolsText.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)],
-            Reverse = Text("E", "reverse"),
+            Reversible = reversible,
+            Reverse = reverseName,
             Range = Text("F", "range"),
             Components = Text("G", "components"),
             Duration = Text("H", "duration"),

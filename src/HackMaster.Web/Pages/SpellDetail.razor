@@ -12,15 +12,15 @@ else
     <p class="back"><a href="grimorio">← Grimorio</a></p>
 
     <h1>@spell.Name</h1>
-    <p class="suite-kind">@SpellClasses.Name(spell.Class), @(spell.Level == 0 ? "truco" : $"nivel {spell.Level}")</p>
+    <p class="suite-kind" data-testid="spell-class-level">@SpellClasses.Name(spell.Class), @(spell.Level == 0 ? "truco" : $"nivel {spell.Level}")</p>
 
     <dl class="fields">
         <dt>Escuela</dt>
         <dd data-testid="spell-field-schools"><FieldValue Field="schools" Text="@Display.List(spell.Schools)" Pending="spell.Pending" /></dd>
-        @if (spell.Reverse is not null)
+        @if (spell.Reversible || spell.Pending.Contains("reverse"))
         {
             <dt>Reversible</dt>
-            <dd data-testid="spell-field-reverse">Sí (@spell.Reverse)</dd>
+            <dd data-testid="spell-field-reverse"><FieldValue Field="reverse" Text="@(spell.Reverse is null ? "Sí" : $"Sí ({spell.Reverse})")" Pending="spell.Pending" /></dd>
         }
         <dt>Alcance</dt>
         <dd data-testid="spell-field-range"><FieldValue Field="range" Text="@(spell.Range ?? Display.Missing)" Pending="spell.Pending" /></dd>

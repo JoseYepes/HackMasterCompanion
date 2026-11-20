@@ -18,8 +18,8 @@ habilidades: 0 correcto, 1 errores de datos (no se escribe nada), 2 uso o estruc
 | A | Nombre | sí | único por clase |
 | B | Clase | sí | «Mago» o «Clérigo» (sin importar acentos ni mayúsculas) |
 | C | Nivel | sí | mago 0–9 (0 = trucos); clérigo 1–7 |
-| D | Escuela o esfera | no | varias separadas por comas |
-| E | Reversible | no | nombre de la versión inversa |
+| D | Escuela o esfera | no | varias separadas por comas; las compuestas del MJ van con barra y cuentan como una («Encantamiento/Hechizo», «Ilusión/Fantasma», p. 124) |
+| E | Reversible | no | vacío = no; «Sí» = reversible sin nombre en el MJ; otro texto = nombre de la versión inversa |
 | F–K | Alcance, Componentes, Duración, Tiempo de lanzamiento, Área de efecto, Tirada de salvación | no | texto como en el MJ |
 | L | Libro | sí | «MJ 175»; varios con «;» |
 | M | Resumen propio | no (aviso) | nunca el texto del manual |

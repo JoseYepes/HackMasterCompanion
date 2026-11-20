@@ -29,7 +29,7 @@ public sealed class GrimoireTests(BrowserFixture browser) : IClassFixture<Browse
         var metas = await page.Locator("[data-testid=spell-row] .spell-meta").AllInnerTextsAsync();
 
         Assert.NotEmpty(metas);
-        Assert.All(metas, meta => Assert.StartsWith("Clérigo 1", meta, StringComparison.Ordinal));
+        Assert.All(metas, meta => Assert.StartsWith("Clérigo, nivel 1", meta, StringComparison.Ordinal));
     }
 
     [E2EFact]
