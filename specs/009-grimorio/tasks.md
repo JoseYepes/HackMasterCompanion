@@ -15,8 +15,9 @@
 
 ## Tandas siguientes (mismo formato, solo filas nuevas)
 
-- [ ] T011 Nivel 2 de mago y de clérigo
+- [X] T011 Nivel 2 de mago y de clérigo: 61 de mago (MJ p. 187–198) y 23 de clérigo (p. 257–260), cotejados con la lista del Apéndice A; erratas aplicadas a rigor mortis, rito menor, puño atronador GpC y reparar
 - [ ] T012 Niveles 3 a 9 de mago y 3 a 7 de clérigo, uno a uno
 - [ ] T013 Trucos de mago
 - [ ] T014 Conjuros de la SSG
 - [ ] T015 Sustituir los resúmenes por los del documento del usuario, si llega
+- [ ] T016 Pestaña «Dudas» en `Hackconjuros.xlsx` importada a la lista de dudas, con las de la tanda 2: erratas aplicadas (rigor mortis, rito menor, puño atronador GpC, reparar), nombres distintos en el Apéndice A (nube de bruma/nube brumosa, aura de silencio/zona de silencio), «curar heridas luminosas» en sanar heridas ligeras (errata probable del MJ) y la esfera Elemental (Aire) de polvareda, que el formato no recoge aparte

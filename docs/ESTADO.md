@@ -183,7 +183,18 @@
   dato «reversible» pendiente que no se veía, la versión del formato sin comprobar al cargar, la
   clase de la dirección con mayúsculas, tres matices de resumen (armadura, piedra mágica, luz de
   clérigo) y pruebas más estrictas. **Falta**: revisión independiente, pull
-  request y las tandas siguientes (nivel 2 en adelante, trucos y SSG).
+  request y las tandas siguientes (nivel 2 en adelante, trucos y SSG). Tanda 1 fusionada (pull
+  request #14) el 2026-11-20; desde entonces el agente fusiona solo, con la revisión hecha y la CI en
+  verde (lo pidió el usuario). **Tanda 2 (2026-11-20)**: 61 conjuros de mago de nivel 2 (MJ p. 187–198)
+  y 23 de clérigo (p. 257–260), 171 en total. Las erratas en inglés cambian cuatro: rigor mortis
+  (afecta a todo lo que tenga cuerpo y músculos), rito menor (vale mientras el cuerpo no esté muy
+  descompuesto, no solo una hora), puño atronador GpC (la llama se apaga, no se aniquila) y reparar
+  (arregla daño de pifias, sin devolver puntos de golpe a la armadura); se citan las dos fuentes.
+  Nombres distintos entre la lista del Apéndice A y la cabecera (nube de bruma/nube brumosa, aura
+  de silencio/zona de silencio): se usa la cabecera. Reversibles sin nombre (luz continua): «Sí». **Revisión de la tanda 2**: cotejó los 84 contra las
+  páginas sin errores de cabecera; se corrigieron seis matices de resumen. **Pendiente (T016)**: las
+  dudas de conjuros aún no llegan a `docs/dudas.md` (constitución II); hace falta una pestaña
+  «Dudas» en la hoja de conjuros y que el importador la lleve a la lista de dudas.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
