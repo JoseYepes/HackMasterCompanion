@@ -4,19 +4,56 @@
 
 **Created**: 2026-11-19
 
-**Status**: Draft — a la espera de las reglas del manual (ver «Reglas pendientes de fuente»)
+**Status**: Draft
 
 **Input**: User description: "F005 — Fichas con reglas. Como jugador, quiero costes, PC disponibles y tiradas de habilidad desde la ficha. Aceptación: un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test."
 
-## Reglas pendientes de fuente
+## Reglas del Manual del Jugador
 
 La constitución (principios I y II) prohíbe inventar reglas. La aplicación ya tiene, por habilidad,
-su coste en PC, sus características, su dado de maestría y su dificultad (de la hoja). Las reglas
-generales siguientes **no están en la hoja** y hacen falta, con libro y página, antes de planificar:
+su coste en PC, sus características, su dado de maestría y su dificultad del curso (de la hoja).
+Las reglas generales se han leído en el MJ en castellano (`D:\…\Manuales de jugador`, solo en
+local):
 
-1. **PC disponibles**: [NEEDS CLARIFICATION: ¿cuántos puntos de construcción (PC) tiene un personaje al crearse y de dónde salen (raza, clase, características bajas, otros), y cuántos gana al subir de nivel? Tabla y página del MJ.]
-2. **Maestría al comprar una habilidad**: [NEEDS CLARIFICATION: ¿cómo se calcula la maestría inicial al comprar una habilidad (característica, media de varias, tirada del dado de maestría…) y qué pasa al comprarla otra vez? ¿Cambia el coste según la clase? Página del MJ.]
-3. **Tirada de habilidad**: [NEEDS CLARIFICATION: ¿cómo se tira una habilidad (d100 contra la maestría, efecto de la dificultad, éxitos o fallos especiales)? Página del MJ.]
+1. **PC (MJ p. 75 y 80; cap. 2 y 3)**: los PC se usan **al crear el personaje**. Salen de la raza
+   («Puntos de Construcción bonificados», cap. 2) y de la clase («Bonificador a los Puntos de
+   Construcción», cap. 3; por ejemplo, guerrero 10 PC, p. 42), y se pueden ganar más con defectos
+   y peculiaridades (2 PC menor y 4 PC mayor si se eligen; según la Tabla 6A si se tiran) y
+   sacrificando características (2 PC por punto, sin bajar de 3 ni de los mínimos de raza o clase).
+   Se gastan en habilidades, talentos y competencias y en repetir tiradas de las tablas de
+   historial (1 PC cada una). Los que sobran se cambian por 25 po o 25 puntos fraccionales cada uno;
+   los no cambiados se pierden. Al subir de nivel las habilidades se aprenden entrenando (cap. 11),
+   no con PC.
+2. **Maestría (MJ p. 100–101 y 307)**: maestría = característica relevante (una sola vez; si hay
+   varias, su media redondeada a la baja) + una tirada del dado de maestría y una del Dado de Honor
+   **por cada vez que se paga el coste en PC** de la habilidad; máximo 125 %. Los magos (salvo los
+   magos de batalla) pagan el doble por las habilidades de combate y la mitad por las académicas.
+   El Dado de Honor depende del Honor y del nivel (Tabla 5C, p. 85).
+3. **Prueba de habilidad (MJ p. 100 y Glosario)**: se tira d100 contra la maestría; la tirada,
+   con sus modificadores, debe ser igual o menor que la maestría. Un 01–05 siempre tiene éxito y
+   un 98–00 siempre falla. La «dificultad» de la hoja es la del curso de entrenamiento (p. 307), no
+   un modificador de la prueba.
+
+## Clarifications
+
+### Session 2026-11-20
+
+Decididas por el agente (el usuario pidió más autonomía el 2026-11-19); el usuario puede cambiarlas.
+
+- Q: ¿La aplicación busca los PC de la raza y de la clase? → A: No en F005: raza y clase son texto
+  libre desde F004 y las cifras están repartidas por los capítulos 2 y 3. El jugador escribe en la
+  ficha los PC de raza, de clase, de defectos y peculiaridades, de características sacrificadas y
+  los gastados en repetir tiradas; la aplicación suma, resta lo gastado en habilidades y dice cuántos
+  quedan. Elegir raza y clase de una lista con sus PC queda como mejora posterior.
+- Q: ¿El Dado de Honor se calcula con la Tabla 5C? → A: No en F005: la tabla tiene unas 80 filas
+  por 20 niveles y copiarla a mano tiene mucho riesgo de error. El jugador elige su Dado de Honor
+  en la ficha (de d3 a d20, con los «+1» y «+2» de la tabla). Calcularlo queda como mejora
+  posterior.
+- Q: ¿Qué habilidades cuentan como «de combate» para los magos? → A: Las de tipo «Procedimiento de
+  combate» de la hoja; «Académicas» son las académicas. Si «Artes marciales» también cuenta como
+  combate queda **pendiente de verificar** (se avisa en la ficha).
+- Q: ¿Cómo sabe la aplicación que el personaje es mago? → A: Una casilla en la ficha, «Paga como
+  mago», que el jugador marca (los magos de batalla no la marcan).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -104,9 +141,10 @@ maestría con la dificultad aplicada y si es éxito o fallo según la regla 3.
 
 ### Key Entities
 
-- **Ficha (Character)**, de F004; puede necesitar datos nuevos según la regla 1 (por ejemplo, PC
-  ganados por nivel o ajustes del Máster).
-- **Habilidad de la ficha**: de F004; puede necesitar las veces que se ha comprado (regla 2).
+- **Ficha (Character)**, de F004, con datos nuevos: PC de raza, de clase, de defectos y
+  peculiaridades, de características sacrificadas y gastados en repetir tiradas; Dado de Honor;
+  «Paga como mago».
+- **Habilidad de la ficha**: de F004, con las veces que se ha pagado su coste (regla 2).
 
 ## Success Criteria *(mandatory)*
 
