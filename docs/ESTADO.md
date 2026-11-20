@@ -134,6 +134,16 @@
   tiradas de habilidad desde la ficha. La publicación tras fusionar el #12 falló por una prueba de
   navegador (la aplicación tardó más de 5 s en arrancar tras recargar en la CI); se relanzó y la
   prueba ahora espera a que la aplicación pinte.
+- **F005 implementada (2026-11-20)**, rama `008-fichas-reglas`. Reglas leídas en el MJ del usuario (PDF
+  local): maestría = característica (media a la baja si son varias) + mejoras (dado de maestría + Dado
+  de Honor), tope 125 % (p. 100–101 y 307); niveles (p. 100); prueba d100 con 01–05 y 98–00
+  automáticos (Glosario, p. 356). El Dado de Honor lo elige el jugador (Tabla 5C, p. 85, sin copiar).
+  La maestría de F004 queda como «maestría escrita» y manda hasta que se borre. Formato de fichas
+  versión 3. `RollHistoryUpdate` sale de `Dice.razor` para guardar también las pruebas de habilidad.
+  Pendiente de verificar: si la fracción de la característica cuenta (se usa la puntuación entera) y
+  las casillas «1» de la Tabla 5C. Para leer páginas del PDF como imagen se usa un script local con
+  el motor PDF de Windows (sin instalar nada). **Falta**: revisión independiente, pull request y la
+  prueba del usuario (T011–T013).
 - **F009 (Grimorio)**, pedida por el usuario el 2026-11-19: conjuros de clérigo y de mago y reglas de
   grimorios y transcripción, desde el MJ en castellano y en inglés, las erratas y la SSG. Va después
   de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»).

@@ -129,4 +129,12 @@ public class CharacterTests
         Assert.False(one.HasSameData(other with { Skills = [one.Skills[0]] }));
         Assert.False(one.HasSameData(other with { Notes = "Otra cosa" }));
     }
+
+    [Fact]
+    public void Improvements_Cannot_Be_Negative__F005()
+    {
+        var character = Full() with { Skills = [new CharacterSkill("actuar", "Actuar") { Improvements = [new SkillImprovement(-1, 3)] }] };
+
+        Assert.Contains("Las mejoras de Actuar no pueden ser negativas.", character.Problems());
+    }
 }

@@ -23,6 +23,8 @@ public sealed class CharacterTests(BrowserFixture browser) : IClassFixture<Brows
         await page.Locator("[data-testid=character-honor]").FillAsync("-2");
         await page.Locator("[data-testid=character-skill-search]").FillAsync("botanica");
         await page.Locator("[data-testid=character-skill-result] button").First.ClickAsync();
+        // F005: la maestría escrita a mano está en «Mejoras y datos», plegado.
+        await page.Locator("[data-testid=character-skill] details summary").ClickAsync();
         await page.Locator("[data-testid=character-skill-mastery]").FillAsync("25");
         await page.Locator("[data-testid=character-notes]").FillAsync("Línea uno\nLínea dos");
         await page.Locator("[data-testid=character-save]").ClickAsync();
@@ -106,6 +108,38 @@ public sealed class CharacterTests(BrowserFixture browser) : IClassFixture<Brows
         await page.Locator("[data-testid=character-row] a").First.ClickAsync();
         await page.Locator("[data-testid=character-notes]").WaitForAsync();
         Assert.Equal("Línea uno\nLínea dos", await page.Locator("[data-testid=character-notes]").InputValueAsync());
+    }
+
+    [E2EFact]
+    public async Task Mastery_Is_Calculated_And_A_Skill_Check_Lands_In_The_Dice_History__F005_MJ100()
+    {
+        var page = await browser.NewPageAsync(Viewports.Phone);
+        await BrowserFixture.GoToAsync(page, "fichas/nueva");
+        await page.Locator("[data-testid=character-name]").FillAsync("Erudito");
+        await page.Locator("[data-testid=character-ability-INT]").FillAsync("14");
+        await page.Locator("[data-testid=character-honor-die]").SelectOptionAsync("d12+1");
+        await page.Locator("[data-testid=character-skill-search]").FillAsync("botanica");
+        await page.Locator("[data-testid=character-skill-result] button").First.ClickAsync();
+        await Assertions.Expect(page.Locator("[data-testid=character-skill-value]")).ToContainTextAsync("14 %");
+
+        await page.Locator("[data-testid=character-skill] details summary").ClickAsync();
+        await page.Locator("[data-testid=character-skill-new-mastery]").FillAsync("3");
+        await page.Locator("[data-testid=character-skill-new-honor]").FillAsync("8");
+        await page.Locator("[data-testid=character-skill-add-improvement]").ClickAsync();
+        await Assertions.Expect(page.Locator("[data-testid=character-skill-value]")).ToContainTextAsync("25 % · principiante");
+        await page.Locator("[data-testid=character-skill-roll-improvement]").ClickAsync();
+        await Assertions.Expect(page.Locator("[data-testid=character-skill-rolled]")).ToContainTextAsync("Mejora tirada");
+
+        await page.Locator("[data-testid=character-skill-modifier]").FillAsync("-10");
+        await page.Locator("[data-testid=character-skill-check]").ClickAsync();
+        await Assertions.Expect(page.Locator("[data-testid=character-skill-check-result]")).ToContainTextAsync("d100:");
+        var widths = await page.EvaluateAsync<int[]>("() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]");
+        Assert.True(widths[0] <= widths[1], $"El editor con una habilidad abierta mide {widths[0]} px y la pantalla {widths[1]} px.");
+
+        await page.Locator("[data-testid=character-save]").ClickAsync();
+        await page.Locator("[data-testid=character-row]").First.WaitForAsync();
+        await BrowserFixture.GoToAsync(page, "dados");
+        await Assertions.Expect(page.Locator(".history-formula").First).ToContainTextAsync("1d100-10");
     }
 
     [E2EFact]

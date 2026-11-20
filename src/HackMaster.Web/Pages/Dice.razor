@@ -97,7 +97,7 @@
 </section>
 
 @code {
-    private const string HistoryKey = "hackmaster.rolls";
+    private const string HistoryKey = RollHistoryUpdate.StorageKey;
 
     private string _text = string.Empty;
     private DiceFormulaError? _error;
@@ -353,18 +353,6 @@
     /// la página. Si lo guardado no se puede leer, el cambio se queda en la página y no se escribe
     /// nada, para no perderlo (FR-019).
     /// </summary>
-    private async Task UpdateAsync(Func<RollHistoryFile, RollHistoryFile> change)
-    {
-        var json = await Store.GetAsync(HistoryKey);
-        var read = json is null ? new StoredRead<RollHistoryFile>(_history, null) : StoredData.ReadRolls(json);
-        _historyError = read.Error;
-        if (read.Value is null)
-        {
-            _history = change(_history);
-            return;
-        }
-
-        _history = change(read.Value);
-        await Store.SetAsync(HistoryKey, StoredData.Write(_history));
-    }
+    private async Task UpdateAsync(Func<RollHistoryFile, RollHistoryFile> change) =>
+        (_history, _historyError) = await RollHistoryUpdate.ApplyAsync(Store, _history, change);
 }

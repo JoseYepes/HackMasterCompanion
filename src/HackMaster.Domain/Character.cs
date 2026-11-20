@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace HackMaster.Domain;
@@ -74,9 +75,42 @@ public sealed record CharacterAbilities
 
 /// <summary>
 /// Una habilidad de la ficha: el slug de la habilidad de los datos, su nombre cuando se añadió (para
-/// mostrarla si desaparece de los datos), la maestría (porcentaje) y los puntos.
+/// mostrarla si desaparece de los datos), la maestría escrita a mano (porcentaje; desde F005 solo si
+/// el jugador la escribe, y manda sobre la calculada), los puntos y las mejoras tiradas (F005).
 /// </summary>
-public sealed record CharacterSkill(string Slug, string Name, int? Mastery = null, int? Points = null);
+public sealed record CharacterSkill(string Slug, string Name, int? Mastery = null, int? Points = null)
+{
+    private static readonly IReadOnlyList<SkillImprovement> NoImprovements = [];
+
+    /// <summary>Tiradas del dado de maestría y del Dado de Honor sumadas a la maestría (MJ p. 100–101).</summary>
+    public IReadOnlyList<SkillImprovement> Improvements { get; init; } = NoImprovements;
+
+    /// <summary>Compara también las mejoras una a una (la igualdad del registro compararía la lista como objeto).</summary>
+    public bool Equals(CharacterSkill? other) =>
+        other is not null && Slug == other.Slug && Name == other.Name && Mastery == other.Mastery && Points == other.Points
+        && Improvements.SequenceEqual(other.Improvements);
+
+    public override int GetHashCode() => HashCode.Combine(Slug, Name, Mastery, Points, Improvements.Count);
+}
+
+/// <summary>Escribe el Dado de Honor como «d12+1»; uno que no esté en la Tabla 5C se lee como vacío.</summary>
+public sealed class HonorDieJsonConverter : JsonConverter<HonorDie>
+{
+    public override bool HandleNull => false;
+
+    public override HonorDie? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    {
+        if (reader.TokenType != JsonTokenType.String)
+        {
+            reader.Skip();
+            return null;
+        }
+
+        return HonorDie.TryParse(reader.GetString(), out var die) ? die : null;
+    }
+
+    public override void Write(Utf8JsonWriter writer, HonorDie value, JsonSerializerOptions options) => writer.WriteStringValue(value.ToString());
+}
 
 /// <summary>Ficha de un personaje jugador (F004). Guarda lo que escribe el jugador, sin aplicar reglas.</summary>
 public sealed record Character
@@ -99,6 +133,10 @@ public sealed record Character
     public int? HitPoints { get; init; }
 
     public int? Honor { get; init; }
+
+    /// <summary>Dado de Honor que elige el jugador (Tabla 5C, MJ p. 85); F005.</summary>
+    [JsonConverter(typeof(HonorDieJsonConverter))]
+    public HonorDie? HonorDie { get; init; }
 
     public IReadOnlyList<CharacterSkill> Skills { get; init; } = [];
 
@@ -148,6 +186,11 @@ public sealed record Character
             if (skill.Points < 0)
             {
                 problems.Add($"Los puntos de {skill.Name} no pueden ser negativos.");
+            }
+
+            if (skill.Improvements.Any(improvement => improvement.Mastery < 0 || improvement.Honor < 0))
+            {
+                problems.Add($"Las mejoras de {skill.Name} no pueden ser negativas.");
             }
         }
 

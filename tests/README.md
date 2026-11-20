@@ -88,3 +88,13 @@ Fichas de PJ (F004):
 - `E2E/CharacterTests`: con IndexedDB real, la ficha sigue al recargar; exportar, borrar e importar
   da el mismo archivo sin pedir nada a otros sitios; la copia es independiente; sin desbordamiento a
   390 y 820 px en los dos modos.
+
+Fichas con reglas (F005):
+
+- `HonorDieTests` y `SkillRulesTests` (dominio): dados de la Tabla 5C, maestría (ejemplo de Corte a
+  la yugular del MJ p. 100, media a la baja, tope de 125 %), niveles y prueba de habilidad, con la
+  página del MJ en el nombre de cada prueba.
+- `CharacterStorageTests`: formato de fichas versión 3 (Dado de Honor y mejoras) y migraciones.
+- `CharacterPagesTests` (bUnit): Dado de Honor, maestría calculada, mejoras tiradas y apuntadas,
+  maestría escrita de F004 y prueba de habilidad guardada en el historial.
+- `E2E/CharacterTests`: el flujo completo en el navegador, hasta ver la tirada en `/dados`.
