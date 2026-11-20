@@ -15,7 +15,7 @@
 
 ## Tandas siguientes (mismo formato, solo filas nuevas)
 
-- [ ] T011 Nivel 2 de mago y de clérigo
+- [X] T011 Nivel 2 de mago y de clérigo: 61 de mago (MJ p. 187–198) y 23 de clérigo (p. 257–260), cotejados con la lista del Apéndice A; erratas aplicadas a rigor mortis, rito menor, puño atronador GpC y reparar
 - [ ] T012 Niveles 3 a 9 de mago y 3 a 7 de clérigo, uno a uno
 - [ ] T013 Trucos de mago
 - [ ] T014 Conjuros de la SSG
