@@ -99,9 +99,10 @@ public static class StoredData
 
     /// <summary>
     /// Versión del formato de las fichas, el mismo en lo guardado y en el archivo de exportar. La 1 es
-    /// la del borrador de PRODUCTO.md B3 (seis características); la 2 añade Aspecto (F004).
+    /// la del borrador de PRODUCTO.md B3 (seis características); la 2 añade Aspecto (F004); la 3 añade
+    /// el Dado de Honor y las mejoras de cada habilidad (F005).
     /// </summary>
-    public const int CharactersVersion = 2;
+    public const int CharactersVersion = 3;
 
     public static StoredRead<CharactersFile> ReadCharacters(string? json) =>
         Read(json, CharactersFile.Empty, IsComplete, CharactersVersion, MigrateCharacters);
@@ -144,7 +145,8 @@ public static class StoredData
     private static bool IsComplete(Character character) =>
         !string.IsNullOrWhiteSpace(character.Id) && !string.IsNullOrWhiteSpace(character.Name)
         && character.Abilities is not null && character.Skills is not null
-        && character.Skills.All(skill => skill is not null && skill.Slug is not null && skill.Name is not null);
+        && character.Skills.All(skill => skill is not null && skill.Slug is not null && skill.Name is not null
+            && skill.Improvements is not null && skill.Improvements.All(improvement => improvement is not null));
 
     private static JsonElement MigrateCharacters(JsonElement root, int version)
     {
@@ -187,6 +189,10 @@ public static class StoredData
                 case 1:
                     // 1 → 2 (F004): se añade Aspecto, vacío; lo completa el bucle de abajo.
                     break;
+                case 2:
+                    // 2 → 3 (F005): sin Dado de Honor y sin mejoras; la maestría de F004 queda como
+                    // maestría escrita a mano. Las mejoras vacías las completa el bucle de abajo.
+                    break;
                 default:
                     throw new JsonException($"No se sabe migrar la versión {version} del formato de las fichas.");
             }
@@ -203,6 +209,17 @@ public static class StoredData
             if (abilities[ability] is not JsonObject)
             {
                 abilities[ability] = new JsonObject();
+            }
+        }
+
+        if (character["skills"] is JsonArray skills)
+        {
+            foreach (var skill in skills.OfType<JsonObject>())
+            {
+                if (skill["improvements"] is not JsonArray)
+                {
+                    skill["improvements"] = new JsonArray();
+                }
             }
         }
     }

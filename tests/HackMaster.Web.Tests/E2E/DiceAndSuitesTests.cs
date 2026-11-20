@@ -56,6 +56,9 @@ public sealed partial class DiceAndSuitesTests(BrowserFixture browser) : IClassF
         await page.Locator("[data-testid=suite-save]").ClickAsync();
         await page.WaitForURLAsync(new Regex("/conjuntos/prueba-e2e$"));
         await page.ReloadAsync();
+        // Tras recargar, la aplicación vuelve a arrancar; en la CI puede tardar más de los 5 s de
+        // Expect (fallo de la publicación del 2026-11-19), así que se espera a que pinte el título.
+        await page.Locator("h1").WaitForAsync();
 
         await Assertions.Expect(page.Locator("h1")).ToHaveTextAsync("Prueba E2E");
         await BrowserFixture.GoToAsync(page, "conjuntos");

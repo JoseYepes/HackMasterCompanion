@@ -127,8 +127,37 @@
   - características en columnas más anchas.
   Las pruebas nuevas de la revisión se escribieron antes de corregir, pero las del servicio solo se
   vieron fallar al compilar (cambiaba su interfaz). Pruebas: 297 de dominio, 253 bUnit, 143 del
-  importador y 52 de navegador, en verde. **Falta**: pull request y la prueba del usuario
-  (T018–T019).
+  importador y 52 de navegador, en verde. Pull request #12 fusionado el 2026-11-19 con la CI en
+  verde (T018). **Falta**: la prueba del usuario en su móvil (T019).
+- **F005 cambiada (2026-11-20)**: el usuario aclaró que los PC solo sirven al crear el personaje; salen
+  de F005 y van a una futura creación de PJ (F010, sin orden). F005 queda en maestría calculada y
+  tiradas de habilidad desde la ficha. La publicación tras fusionar el #12 falló por una prueba de
+  navegador (la aplicación tardó más de 5 s en arrancar tras recargar en la CI); se relanzó y la
+  prueba ahora espera a que la aplicación pinte.
+- **F005 implementada (2026-11-20)**, rama `008-fichas-reglas`. Reglas leídas en el MJ del usuario (PDF
+  local): maestría = característica (media a la baja si son varias) + mejoras (dado de maestría + Dado
+  de Honor), tope 125 % (p. 100–101 y 307); niveles (p. 100); prueba d100 con 01–05 y 98–00
+  automáticos (Glosario, p. 356). El Dado de Honor lo elige el jugador (Tabla 5C, p. 85, sin copiar).
+  La maestría de F004 queda como «maestría escrita» y manda hasta que se borre. Formato de fichas
+  versión 3. `RollHistoryUpdate` sale de `Dice.razor` para guardar también las pruebas de habilidad.
+  Decidido el 2026-11-20: la fracción de la característica no cuenta para la maestría (lo confirmó el
+  usuario); las casillas «1» de la Tabla 5C (igual en el PHB, p. 85) son un Dado de Honor fijo de 1
+  (interpretación del agente). Para leer páginas del PDF como imagen se usa un script local con
+  el motor PDF de Windows (sin instalar nada). **Revisión independiente (T011)**, con prueba para
+  cada corrección: un modificador enorme rompía la página (ahora de −1000 a 1000, con aviso); uno no
+  válido se convertía en 0 sin avisar (ahora bloquea «Tirar»); el resultado dice siempre el
+  modificador y una ayuda explica que se suma a la tirada (positivo, más difícil; MJ p. 356); las
+  mejoras tiradas se perdían al salir sin guardar (ahora se pregunta antes de salir con cambios);
+  con maestría escrita las mejoras no contaban sin decirlo (ahora se desactivan con aviso) y la
+  escrita no tenía tope (ahora 125 %); una mejora nula en un archivo rompía el editor (ahora el
+  archivo se rechaza); los resultados de una ficha seguían al abrir otra; doble toque en «Tirar»;
+  límites 06 y 97 probados; región viva para el resultado. Los dados de maestría «5», «3» y
+  «2» de algunas habilidades ya están como dudas: hasta resolverlas, sus mejoras se apuntan a mano.
+  Pull request #13 abierto con la CI en verde. **Falta**: fusionar y la
+  prueba del usuario (T012–T013).
+- **F009 (Grimorio)**, pedida por el usuario el 2026-11-19: conjuros de clérigo y de mago y reglas de
+  grimorios y transcripción, desde el MJ en castellano y en inglés, las erratas y la SSG. Va después
+  de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»).
 - **Orden acordado (2026-11-18)**: F008 → F004 → F005 → F006. Los números son identificadores, no
   el orden: F007 y F008 se añadieron después y tomaron el siguiente número libre para no renumerar
   las demás. **F006 ampliada** a petición del usuario: cuentas propias para guardar en la nube

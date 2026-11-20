@@ -95,17 +95,17 @@ public class CharacterStorageTests
     }
 
     [Fact]
-    public void Both_Formats_Are_Written_With_Version_2__FR009()
+    public void Both_Formats_Are_Written_With_Version_3__F005_FR006()
     {
         var character = CharacterTests.Full();
 
         var file = JsonNode.Parse(StoredData.WriteCharacterFile(character))!;
         var saved = JsonNode.Parse(StoredData.Write(new CharactersFile(1, [character])))!;
 
-        Assert.Equal(2, StoredData.CharactersVersion);
-        Assert.Equal(2, (int)file["schemaVersion"]!);
+        Assert.Equal(3, StoredData.CharactersVersion);
+        Assert.Equal(3, (int)file["schemaVersion"]!);
         Assert.Equal("hackmaster.character", (string)file["kind"]!);
-        Assert.Equal(2, (int)saved["schemaVersion"]!);
+        Assert.Equal(3, (int)saved["schemaVersion"]!);
     }
 
     [Fact]
@@ -182,7 +182,7 @@ public class CharacterStorageTests
     }
 
     [Theory]
-    [InlineData("""{ "schemaVersion": 3, "kind": "hackmaster.character", "character": { "id": "a", "name": "b" } }""", "versión más reciente")]
+    [InlineData("""{ "schemaVersion": 4, "kind": "hackmaster.character", "character": { "id": "a", "name": "b" } }""", "versión más reciente")]
     [InlineData("""{ "kind": "hackmaster.character", "character": { "id": "a", "name": "b" } }""", "versión")]
     [InlineData("""{ "schemaVersion": 2, "kind": "hackmaster.suites", "character": { "id": "a", "name": "b" } }""", "no es una ficha")]
     [InlineData("""{ "schemaVersion": 2, "character": { "id": "a", "name": "b" } }""", "no es una ficha")]
@@ -214,7 +214,7 @@ public class CharacterStorageTests
 
     [Theory]
     [InlineData("""{ "kind": "hackmaster.character", "character": {} }""")]
-    [InlineData("""{ "schemaVersion": 3, "kind": "hackmaster.character" }""")]
+    [InlineData("""{ "schemaVersion": 4, "kind": "hackmaster.character" }""")]
     [InlineData("""{ "schemaVersion": 2, "kind": "hackmaster.character" }""")]
     [InlineData("""{ "schemaVersion": 2, "kind": "hackmaster.character", "character": { "id": "a", "name": "b", "level": "tres" } }""")]
     public void Import_Messages_Talk_About_The_File_Not_The_Saved_Data__Review(string json)
@@ -222,5 +222,110 @@ public class CharacterStorageTests
         var read = StoredData.ReadCharacterFile(json);
 
         Assert.StartsWith("El archivo ", read.Error, StringComparison.Ordinal);
+    }
+
+    // F005: versión 3 con el Dado de Honor y las mejoras de cada habilidad.
+    private static Character WithRules() => CharacterTests.Full() with
+    {
+        HonorDie = new HonorDie(12, 1),
+        Skills =
+        [
+            new CharacterSkill("corte-a-la-yugular", "Corte a la yugular") { Improvements = [new SkillImprovement(3, 8), new SkillImprovement(1, 4)] },
+            new CharacterSkill("actuar", "Actuar", 25, 2),
+        ],
+    };
+
+    [Fact]
+    public void The_Honor_Die_And_The_Improvements_Survive_Export_And_Import__F005_FR006()
+    {
+        var original = WithRules();
+
+        var read = StoredData.ReadCharacterFile(StoredData.WriteCharacterFile(original));
+
+        Assert.Null(read.Error);
+        Assert.True(original.HasSameData(read.Value!.Character));
+        Assert.Equal(new HonorDie(12, 1), read.Value.Character.HonorDie);
+        Assert.Equal([new SkillImprovement(3, 8), new SkillImprovement(1, 4)], read.Value.Character.Skills[0].Improvements);
+        Assert.Contains("\"honorDie\": \"d12+1\"", StoredData.WriteCharacterFile(original), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Different_Improvements_Make_Different_Characters__F005_SC001()
+    {
+        var original = WithRules();
+        var changed = original with { Skills = [original.Skills[0] with { Improvements = [new SkillImprovement(3, 8)] }, original.Skills[1]] };
+
+        Assert.False(original.HasSameData(changed));
+        Assert.True(original.HasSameData(original with { Skills = [original.Skills[0] with { Improvements = [.. original.Skills[0].Improvements] }, original.Skills[1]] }));
+    }
+
+    [Fact]
+    public void A_Version_2_Character_Keeps_Its_Written_Mastery_And_Has_No_Improvements_Or_Honor_Die__F005_FR006()
+    {
+        var file = JsonNode.Parse(StoredData.WriteCharacterFile(CharacterTests.Full()))!;
+        file["schemaVersion"] = 2;
+        file["character"]!.AsObject().Remove("honorDie");
+        foreach (var skill in file["character"]!["skills"]!.AsArray())
+        {
+            skill!.AsObject().Remove("improvements");
+        }
+
+        var read = StoredData.ReadCharacterFile(file.ToJsonString());
+
+        Assert.Null(read.Error);
+        var character = read.Value!.Character;
+        Assert.Null(character.HonorDie);
+        Assert.Equal(25, character.Skills[0].Mastery);
+        Assert.All(character.Skills, skill => Assert.Empty(skill.Improvements));
+        Assert.True(CharacterTests.Full().HasSameData(character));
+    }
+
+    [Fact]
+    public void A_Version_1_File_Is_Migrated_Up_To_Version_3__F005_FR006()
+    {
+        var read = StoredData.ReadCharacterFile(Version1File);
+
+        Assert.Null(read.Error);
+        Assert.Equal(3, read.Value!.SchemaVersion);
+        Assert.Empty(read.Value.Character.Skills[0].Improvements);
+    }
+
+    [Theory]
+    [InlineData("\"d5\"")]
+    [InlineData("\"d20+1\"")]
+    [InlineData("12")]
+    public void An_Honor_Die_That_Is_Not_In_Table_5C_Is_Read_As_Empty__MJ85(string honorDie)
+    {
+        var file = JsonNode.Parse(StoredData.WriteCharacterFile(WithRules()))!;
+        file["character"]!["honorDie"] = JsonNode.Parse(honorDie);
+
+        var read = StoredData.ReadCharacterFile(file.ToJsonString());
+
+        Assert.Null(read.Error);
+        Assert.Null(read.Value!.Character.HonorDie);
+    }
+
+    [Fact]
+    public void A_File_With_An_Empty_Improvement_Is_Rejected__Review()
+    {
+        var file = JsonNode.Parse(StoredData.WriteCharacterFile(WithRules()))!;
+        file["character"]!["skills"]![0]!["improvements"] = new JsonArray(null, new JsonObject { ["mastery"] = 1, ["honor"] = 2 });
+
+        var read = StoredData.ReadCharacterFile(file.ToJsonString());
+
+        Assert.Null(read.Value);
+        Assert.Contains("incompleto", read.Error, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Improvements_Written_As_Null_Are_Read_As_None__F005_FR006()
+    {
+        var file = JsonNode.Parse(StoredData.WriteCharacterFile(WithRules()))!;
+        file["character"]!["skills"]![0]!["improvements"] = null;
+
+        var read = StoredData.ReadCharacterFile(file.ToJsonString());
+
+        Assert.Null(read.Error);
+        Assert.Empty(read.Value!.Character.Skills[0].Improvements);
     }
 }

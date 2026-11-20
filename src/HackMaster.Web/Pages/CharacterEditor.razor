@@ -1,11 +1,15 @@
 @page "/fichas/nueva"
 @page "/fichas/{Id}"
 @using System.Globalization
+@using Microsoft.JSInterop
 @implements IDisposable
 @inject PlayerCharacters PlayerCharacters
 @inject IndexedStore Store
 @inject GameData Data
 @inject NavigationManager Navigation
+@inject BrowserStore RollStore
+@inject IRandom Random
+@inject IJSRuntime JS
 
 @if (_notFound)
 {
@@ -13,6 +17,8 @@
 }
 else
 {
+    <NavigationLock OnBeforeInternalNavigation="ConfirmLeaveAsync" ConfirmExternalNavigation="@IsDirty" />
+
     <PageTitle>@Title · @AppInfo.Name</PageTitle>
 
     <p class="back-link"><a href="fichas">← Fichas</a></p>
@@ -37,6 +43,15 @@ else
                 <label>Alineamiento <input type="text" autocomplete="off" data-testid="character-alignment" value="@_character.Alignment" @oninput="args => Change(_character with { Alignment = Text(args) })" /></label>
                 <label>PG <input type="number" inputmode="numeric" data-testid="character-hp" value="@_character.HitPoints" @oninput='args => Change(_character with { HitPoints = Number(args, "hp", "PG") })' /></label>
                 <label>Honor <input type="number" inputmode="numeric" data-testid="character-honor" value="@_character.Honor" @oninput='args => Change(_character with { Honor = Number(args, "honor", "Honor") })' /></label>
+                <label>Dado de Honor
+                    <select data-testid="character-honor-die" value="@(_character.HonorDie?.ToString() ?? string.Empty)" @onchange="ChangeHonorDie">
+                        <option value="">Sin elegir</option>
+                        @foreach (var die in HonorDie.All)
+                        {
+                            <option value="@die">@die</option>
+                        }
+                    </select>
+                </label>
             </fieldset>
 
             <fieldset class="character-abilities">
@@ -92,9 +107,12 @@ else
                     {
                         var index = i;
                         var skill = _character.Skills[index];
+                        var data = Data.FindSkill(skill.Slug);
+                        var mastery = Evaluate(skill, data);
+                        var masterySides = MasteryDieSides(data);
                         <li data-testid="character-skill">
                             <span class="component-name">
-                                @if (Data.FindSkill(skill.Slug) is not null)
+                                @if (data is not null)
                                 {
                                     <a href="habilidades/@skill.Slug">@skill.Name</a>
                                 }
@@ -104,11 +122,94 @@ else
                                     <span class="pending-reason" data-testid="character-skill-missing"> (no encontrada en los datos)</span>
                                 }
                             </span>
-                            <label>Maestría <input type="number" inputmode="numeric" min="0" aria-label="Maestría de @skill.Name" data-testid="character-skill-mastery" value="@skill.Mastery"
-                                                   @oninput='args => ChangeSkill(index, _character.Skills[index] with { Mastery = Number(args, $"mastery-{index}", $"Maestría de {skill.Name}") })' /></label>
-                            <label>Puntos <input type="number" inputmode="numeric" min="0" aria-label="Puntos de @skill.Name" data-testid="character-skill-points" value="@skill.Points"
-                                                 @oninput='args => ChangeSkill(index, _character.Skills[index] with { Points = Number(args, $"points-{index}", $"Puntos de {skill.Name}") })' /></label>
-                            <button type="button" aria-label="Quitar @skill.Name" data-testid="character-skill-remove" @onclick="() => RemoveSkill(index)">Quitar</button>
+                            <span class="skill-mastery" data-testid="character-skill-value">@mastery.Text</span>
+                            <span class="skill-breakdown" data-testid="character-skill-breakdown">@mastery.Breakdown</span>
+
+                            @{
+                                var modifierError = ModifierError(index);
+                            }
+                            <div class="skill-check">
+                                <label>Modificador <input type="number" inputmode="numeric" min="@(-SkillRules.MaxModifier)" max="@SkillRules.MaxModifier"
+                                                          aria-label="Modificador de la prueba de @skill.Name" aria-describedby="modifier-help-@index" data-testid="character-skill-modifier"
+                                                          value="@_modifierTexts.GetValueOrDefault(index)" @oninput="args => _modifierTexts[index] = args.Value?.ToString() ?? string.Empty" /></label>
+                                <button type="button" class="primary" aria-label="Tirar @skill.Name" data-testid="character-skill-check"
+                                        disabled="@(mastery.Value is null || modifierError is not null || _busy)" @onclick="() => CheckAsync(index)">Tirar</button>
+                                <span id="modifier-help-@index" class="skill-breakdown" data-testid="character-skill-modifier-help">
+                                    El modificador se suma a la tirada: positivo, más difícil; negativo, más fácil (MJ p. 356).
+                                </span>
+                                @if (modifierError is not null)
+                                {
+                                    <span class="dice-error" role="alert" data-testid="character-skill-modifier-error">@modifierError</span>
+                                }
+                            </div>
+                            <div class="skill-live" role="status" aria-live="polite" data-testid="character-skill-live">
+                                @if (_checks.TryGetValue(index, out var check))
+                                {
+                                    <p class="skill-check-result @(check.Succeeded ? "success" : "failure")" data-testid="character-skill-check-result">
+                                        d100: @check.Roll · @(check.Modifier == 0 ? "sin modificador" : $"modificador {check.Modifier.ToString("+0;−0", CultureInfo.InvariantCulture)}") · total @check.Total contra @check.Mastery % → <strong>@OutcomeText(check.Outcome)</strong>
+                                        @if (_checkErrors.TryGetValue(index, out var checkError))
+                                        {
+                                            <span class="pending-reason"> (no se guardó en el historial: @checkError)</span>
+                                        }
+                                    </p>
+                                }
+                            </div>
+
+                            <details class="skill-more">
+                                <summary>Mejoras y datos</summary>
+                                @if (skill.Improvements.Count > 0)
+                                {
+                                    <ul class="skill-improvements">
+                                        @for (var j = 0; j < skill.Improvements.Count; j++)
+                                        {
+                                            var improvementIndex = j;
+                                            var improvement = skill.Improvements[improvementIndex];
+                                            <li data-testid="character-skill-improvement">
+                                                <span>+@improvement.Mastery (maestría) +@improvement.Honor (Honor)</span>
+                                                <button type="button" aria-label="Quitar la mejora @(improvementIndex + 1) de @skill.Name" data-testid="character-skill-improvement-remove"
+                                                        @onclick="() => RemoveImprovement(index, improvementIndex)">Quitar</button>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+
+                                <div class="skill-improve">
+                                    <button type="button" data-testid="character-skill-roll-improvement" aria-label="Tirar una mejora de @skill.Name"
+                                            disabled="@(skill.Mastery is not null || _character.HonorDie is null || masterySides is null)" @onclick="() => RollImprovement(index, masterySides!.Value)">Tirar mejora</button>
+                                    @if (skill.Mastery is not null)
+                                    {
+                                        <span class="pending-reason" data-testid="character-skill-roll-note">Mientras haya maestría escrita, las mejoras no cuentan: bórrala (abajo) para calcularla.</span>
+                                    }
+                                    else if (_character.HonorDie is null)
+                                    {
+                                        <span class="pending-reason" data-testid="character-skill-roll-note">Elige tu Dado de Honor (arriba) para tirar mejoras.</span>
+                                    }
+                                    else if (masterySides is null)
+                                    {
+                                        <span class="pending-reason" data-testid="character-skill-roll-note">El dado de maestría de esta habilidad no se conoce; apunta la mejora a mano.</span>
+                                    }
+                                    @if (_rolled.TryGetValue(index, out var rolled))
+                                    {
+                                        <span role="status" data-testid="character-skill-rolled">@rolled</span>
+                                    }
+                                </div>
+
+                                <div class="skill-improve">
+                                    <label>Dado de maestría <input type="number" inputmode="numeric" min="0" aria-label="Tirada del dado de maestría de @skill.Name" data-testid="character-skill-new-mastery"
+                                                                   value="@_newImprovements.GetValueOrDefault(index).Mastery" @oninput="args => _newImprovements[index] = _newImprovements.GetValueOrDefault(index) with { Mastery = args.Value?.ToString() }" /></label>
+                                    <label>Dado de Honor <input type="number" inputmode="numeric" min="0" aria-label="Tirada del Dado de Honor de @skill.Name" data-testid="character-skill-new-honor"
+                                                                value="@_newImprovements.GetValueOrDefault(index).Honor" @oninput="args => _newImprovements[index] = _newImprovements.GetValueOrDefault(index) with { Honor = args.Value?.ToString() }" /></label>
+                                    <button type="button" aria-label="Apuntar la mejora de @skill.Name" data-testid="character-skill-add-improvement" disabled="@(skill.Mastery is not null)" @onclick="() => AddImprovement(index)">Apuntar mejora</button>
+                                </div>
+
+                                <div class="skill-improve">
+                                    <label>Maestría escrita <input type="number" inputmode="numeric" min="0" max="@SkillRules.MaxMastery" aria-label="Maestría escrita de @skill.Name" data-testid="character-skill-mastery" value="@skill.Mastery"
+                                                                   @oninput='args => ChangeSkill(index, _character.Skills[index] with { Mastery = Number(args, $"mastery-{index}", $"Maestría de {skill.Name}") })' /></label>
+                                    <label>Puntos <input type="number" inputmode="numeric" min="0" aria-label="Puntos de @skill.Name" data-testid="character-skill-points" value="@skill.Points"
+                                                         @oninput='args => ChangeSkill(index, _character.Skills[index] with { Points = Number(args, $"points-{index}", $"Puntos de {skill.Name}") })' /></label>
+                                    <button type="button" aria-label="Quitar @skill.Name" data-testid="character-skill-remove" @onclick="() => RemoveSkill(index)">Quitar habilidad</button>
+                                </div>
+                            </details>
                         </li>
                     }
                 </ul>
@@ -166,6 +267,8 @@ else
     private readonly Dictionary<string, string> _invalid = new(StringComparer.Ordinal);
 
     private Character? _character;
+    private Character? _baseline;
+    private bool _allowLeave;
     private string? _loadedId;
     private string _search = string.Empty;
     private string? _notice;
@@ -217,6 +320,12 @@ else
         _confirmDelete = false;
         _notFound = false;
         _invalid.Clear();
+        _modifierTexts.Clear();
+        _checks.Clear();
+        _checkErrors.Clear();
+        _rolled.Clear();
+        _newImprovements.Clear();
+        _allowLeave = false;
         if (Id is null)
         {
             var now = DateTimeOffset.Now;
@@ -230,6 +339,26 @@ else
         {
             _character = null;
             _notFound = true;
+        }
+
+        _baseline = _character;
+    }
+
+    /// <summary>Verdadero si lo que hay en pantalla no está guardado (por ejemplo, una mejora recién tirada).</summary>
+    private bool IsDirty => _character is not null && !_allowLeave
+        && (_invalid.Count > 0 || _baseline is null || !_baseline.HasSameData(_character));
+
+    /// <summary>Pregunta antes de salir del editor con cambios sin guardar (revisión de F005).</summary>
+    private async Task ConfirmLeaveAsync(LocationChangingContext context)
+    {
+        if (!IsDirty)
+        {
+            return;
+        }
+
+        if (!await JS.InvokeAsync<bool>("confirm", "Hay cambios sin guardar en la ficha (por ejemplo, mejoras tiradas). ¿Salir y perderlos?"))
+        {
+            context.PreventNavigation();
         }
     }
 
@@ -296,8 +425,144 @@ else
             _invalid.Remove(key);
         }
 
+        _modifierTexts.Clear();
+        _checks.Clear();
+        _checkErrors.Clear();
+        _rolled.Clear();
+        _newImprovements.Clear();
         Change(_character! with { Skills = [.. _character.Skills.Where((_, i) => i != index)] });
     }
+
+    /// <summary>Lo que se escribe en «Apuntar mejora» antes de pulsar el botón.</summary>
+    private readonly record struct NewImprovement(string? Mastery, string? Honor);
+
+    /// <summary>Maestría que se muestra: el valor (nulo si no se puede calcular), el texto y el desglose.</summary>
+    private sealed record MasteryView(int? Value, string Text, string Breakdown);
+
+    private readonly Dictionary<int, string> _modifierTexts = [];
+    private readonly Dictionary<int, SkillCheck> _checks = [];
+    private readonly Dictionary<int, string> _checkErrors = [];
+    private readonly Dictionary<int, string> _rolled = [];
+    private readonly Dictionary<int, NewImprovement> _newImprovements = [];
+
+    /// <summary>
+    /// Maestría de una habilidad (F005, MJ p. 100–101 y 307): la escrita a mano si la hay; si no, la
+    /// característica relevante más las mejoras, con tope de 125 %.
+    /// </summary>
+    private MasteryView Evaluate(CharacterSkill skill, Skill? data)
+    {
+        var improvements = skill.Improvements.Sum(improvement => improvement.Total);
+        if (skill.Mastery is { } written)
+        {
+            return new MasteryView(written, WithLevel(written), "escrita a mano (bórrala en «Mejoras y datos» para calcularla)");
+        }
+
+        if (data is null)
+        {
+            return new MasteryView(null, "pendiente: la habilidad ya no está en los datos", "escribe la maestría a mano");
+        }
+
+        var abilities = string.Join(", ", data.Abilities);
+        if (SkillRules.BaseMastery(data.Abilities, _character!.Abilities) is not { } baseMastery)
+        {
+            return new MasteryView(null, data.Abilities.Count == 0 ? "pendiente: la habilidad no tiene característica" : $"pendiente: falta {abilities}", "rellena las características");
+        }
+
+        var mastery = SkillRules.Mastery(data.Abilities, _character.Abilities, skill.Improvements)!.Value;
+        var source = data.Abilities.Count == 1 ? $"{abilities} {baseMastery}" : $"media de {abilities}: {baseMastery}";
+        var capped = baseMastery + improvements > SkillRules.MaxMastery ? $" (tope de {SkillRules.MaxMastery} %)" : string.Empty;
+        return new MasteryView(mastery, WithLevel(mastery), $"{source} + mejoras {improvements}{capped}");
+    }
+
+    private static string WithLevel(int mastery) => $"{mastery} % · {SkillRules.LevelName(SkillRules.Level(mastery))}";
+
+    /// <summary>Caras del dado de maestría de la habilidad («d8» → 8), o nulo si no es un dado.</summary>
+    private static int? MasteryDieSides(Skill? data) =>
+        data?.MasteryDie is { Length: > 1 } die && die[0] == 'd' && int.TryParse(die[1..], NumberStyles.None, CultureInfo.InvariantCulture, out var sides) && sides >= 2
+            ? sides
+            : null;
+
+    /// <summary>El modificador escrito (0 si está vacío), o nulo si no es un entero de −1000 a 1000.</summary>
+    private int? ModifierOf(int index)
+    {
+        var text = _modifierTexts.GetValueOrDefault(index)?.Trim();
+        if (string.IsNullOrEmpty(text))
+        {
+            return 0;
+        }
+
+        return int.TryParse(text, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out var value) && SkillRules.IsValidModifier(value) ? value : null;
+    }
+
+    private string? ModifierError(int index) =>
+        ModifierOf(index) is null ? $"El modificador debe ser un número entero entre −{SkillRules.MaxModifier} y {SkillRules.MaxModifier}." : null;
+
+    private static string OutcomeText(SkillCheckOutcome outcome) => outcome switch
+    {
+        SkillCheckOutcome.Success => "Éxito",
+        SkillCheckOutcome.AutomaticSuccess => "Éxito automático (01–05)",
+        SkillCheckOutcome.AutomaticFailure => "Fallo automático (98–00)",
+        _ => "Fallo",
+    };
+
+    private void ChangeHonorDie(ChangeEventArgs args) =>
+        Change(_character! with { HonorDie = HonorDie.TryParse(args.Value?.ToString(), out var die) ? die : null });
+
+    private void AddImprovementTo(int index, SkillImprovement improvement) =>
+        ChangeSkill(index, _character!.Skills[index] with { Improvements = [.. _character.Skills[index].Improvements, improvement] });
+
+    /// <summary>Tira el dado de maestría y el Dado de Honor y suma la mejora (MJ p. 101).</summary>
+    private void RollImprovement(int index, int masterySides)
+    {
+        var honorDie = _character!.HonorDie!;
+        var improvement = SkillRules.RollImprovement(masterySides, honorDie, Random);
+        AddImprovementTo(index, improvement);
+        _rolled[index] = $"Mejora tirada: d{masterySides}: {improvement.Mastery} + {honorDie}: {improvement.Honor} = +{improvement.Total}. Guarda la ficha para conservarla.";
+    }
+
+    /// <summary>Apunta una mejora tirada con dados físicos.</summary>
+    private void AddImprovement(int index)
+    {
+        var typed = _newImprovements.GetValueOrDefault(index);
+        if (!int.TryParse(typed.Mastery, NumberStyles.None, CultureInfo.InvariantCulture, out var mastery)
+            || !int.TryParse(typed.Honor, NumberStyles.None, CultureInfo.InvariantCulture, out var honor))
+        {
+            _rolled[index] = "Escribe las dos tiradas (dado de maestría y Dado de Honor) como números enteros.";
+            return;
+        }
+
+        AddImprovementTo(index, new SkillImprovement(mastery, honor));
+        _newImprovements.Remove(index);
+        _rolled.Remove(index);
+    }
+
+    private void RemoveImprovement(int index, int improvementIndex)
+    {
+        _rolled.Remove(index);
+        ChangeSkill(index, _character!.Skills[index] with { Improvements = [.. _character.Skills[index].Improvements.Where((_, i) => i != improvementIndex)] });
+    }
+
+    /// <summary>
+    /// Prueba de habilidad (MJ p. 100 y 356); la tirada se guarda en el historial del tirador. Con los
+    /// botones desactivados mientras guarda, para que un doble toque no pise una tirada con otra.
+    /// </summary>
+    private async Task CheckAsync(int index) => await BusyAsync(async () =>
+    {
+        var skill = _character!.Skills[index];
+        if (Evaluate(skill, Data.FindSkill(skill.Slug)).Value is not { } mastery || ModifierOf(index) is not { } modifier)
+        {
+            return;
+        }
+
+        var (roll, check) = SkillRules.RollCheck(mastery, modifier, Random, DateTimeOffset.Now);
+        _checks[index] = check;
+        _checkErrors.Remove(index);
+        var (_, error) = await RollHistoryUpdate.ApplyAsync(RollStore, RollHistoryFile.Empty, history => RollHistory.Add(history, roll));
+        if (error is not null)
+        {
+            _checkErrors[index] = error;
+        }
+    });
 
     private void AskDelete()
     {
@@ -324,6 +589,7 @@ else
         if (_problem is null)
         {
             _character = character;
+            _baseline = character;
         }
 
         return _problem is null;
@@ -371,6 +637,7 @@ else
         _confirmDelete = false;
         if (_problem is null)
         {
+            _allowLeave = true;
             Navigation.NavigateTo("fichas");
         }
     });
