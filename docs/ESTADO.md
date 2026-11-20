@@ -201,7 +201,9 @@
   dos veces en el MJ (p. 201 y 203) y se carga una vez; el sermón motivador de clérigo remite a un
   conjuro de mago «del mismo nombre» que en el MJ es discurso motivador (M4), y se resume con ese
   texto; los conjuros de clérigo que remiten a uno de mago llevan su propia cabecera y un resumen
-  breve. Estas dudas irán a la pestaña «Dudas» de T016.
+  breve. Estas dudas irán a la pestaña «Dudas» de T016. **Revisión de la tanda 3**: sin conjuros de
+  más ni de menos; se corrigieron la escuela de viento fantasma, el área de fuerza espectral (la de
+  la p. 201), el inverso sin nombre de luz continua de clérigo («Sí») y cuatro matices de resumen.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus

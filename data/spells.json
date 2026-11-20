@@ -3666,7 +3666,7 @@
       "components": "V, S",
       "duration": "Especial",
       "castingTime": "3 segmentos",
-      "areaOfEffect": "Cubo de 40' + cubo de 10' de lado por nivel",
+      "areaOfEffect": "Cubo de 40' de lado + cubo de 10' de lado por nivel",
       "savingThrow": "Especial",
       "books": [
         {
@@ -3674,7 +3674,7 @@
           "page": "201"
         }
       ],
-      "summary": "Ilusión con sonido, olor y calor; por lo demás es como fuerza fantasmal mejorada. Dura tres asaltos después de que el mago deje de concentrarse. El manual la describe dos veces, en las páginas 201 y 203.",
+      "summary": "Ilusión con sonido, olor y calor. Dura tres asaltos después de que el mago deje de concentrarse. El manual la describe dos veces: en la página 201 dice que por lo demás es como fuerza fantasma y en la 203, como fuerza fantasmal mejorada.",
       "pending": []
     },
     {
@@ -3926,7 +3926,7 @@
           "page": "202"
         }
       ],
-      "summary": "Cortina invisible de viento fuerte: arrastra pájaros pequeños y objetos sueltos (salvación para no soltar lo que se agarra), frena a los insectos y desvía flechas y virotes; otros proyectiles de menos de 2 libras sufren -4 y luego -2. No la cruzan gases, la mayoría de alientos ni criaturas gaseosas, pero sí las incorpóreas.",
+      "summary": "Cortina invisible de viento fuerte: arrastra pájaros pequeños y objetos sueltos (salvación para no soltar lo que se agarra), no la atraviesan los insectos normales y desvía flechas y virotes; otros proyectiles de menos de 2 libras sufren -4 y luego -2. No la cruzan gases, la mayoría de alientos ni criaturas gaseosas, pero sí las incorpóreas.",
       "pending": []
     },
     {
@@ -3976,7 +3976,7 @@
           "page": "203"
         }
       ],
-      "summary": "Crea un globo de oscuridad impenetrable con los mismos efectos y componente que área de oscuridad, el inverso de luz continua.",
+      "summary": "Crea un globo de oscuridad impenetrable con los mismos efectos y componente que el conjuro de mago de nivel 2 área de oscuridad (descrito con luz continua).",
       "pending": []
     },
     {
@@ -4507,7 +4507,7 @@
           "page": "207"
         }
       ],
-      "summary": "Protege un objeto: si lo toca alguien no autorizado, salta. Si la víctima salva, cae y pierde un asalto en soltarse; si falla, queda colgada boca abajo a unos 5', indefensa, un asalto por nivel del mago o hasta que se disipe o él la suelte. Requiere una ratonera.",
+      "summary": "Protege un objeto: si lo toca alguien no autorizado, salta. Si la víctima salva, cae y pierde un asalto en soltarse; si falla, queda sujeta boca arriba a unos 5', indefensa, un asalto por nivel del mago o hasta que se disipe o él la suelte. Requiere una ratonera.",
       "pending": []
     },
     {
@@ -4517,8 +4517,7 @@
       "class": "Mage",
       "level": 3,
       "schools": [
-        "Alteración",
-        "Fantasma"
+        "Alteración/Fantasma"
       ],
       "reversible": false,
       "range": "1' por nivel",
@@ -5881,7 +5880,7 @@
           "page": "262"
         }
       ],
-      "summary": "Cura la mayoría de enfermedades y parásitos como el légamo verde; la recuperación tarda de un turno a 10 días. Desde el nivel 12 cura la licantropía si se lanza en los tres días siguientes al contagio. La versión inversa, si la víctima no salva, causa una enfermedad debilitante (pierde Fuerza cada hora hasta 2) o fatal (no se cura con magia de curar y mata en d6 meses).",
+      "summary": "Cura la mayoría de enfermedades y parásitos como el légamo verde; la recuperación tarda de un turno a 10 días. Desde el nivel 12 cura la licantropía si se lanza en los tres días siguientes al contagio. La versión inversa, si la víctima no salva, causa una enfermedad debilitante (pierde Fuerza cada hora hasta 2) o fatal (la víctima no se beneficia de los conjuros de curar y muere en d6 meses salvo cura mágica).",
       "pending": []
     },
     {
@@ -6072,7 +6071,6 @@
         "Alteración"
       ],
       "reversible": true,
-      "reverse": "La apaga",
       "range": "120 yardas",
       "components": "V, S",
       "duration": "Permanente",
