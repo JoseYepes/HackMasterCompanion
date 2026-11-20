@@ -31,7 +31,8 @@ public sealed partial class DiceAndSuitesTests(BrowserFixture browser) : IClassF
 
         await page.ReloadAsync();
 
-        await Assertions.Expect(page.Locator("[data-testid=history-row]").First).ToContainTextAsync("2d6+3");
+        // Tras recargar, la aplicación vuelve a arrancar entera; en la CI eso ha pasado de 5 s alguna vez.
+        await Assertions.Expect(page.Locator("[data-testid=history-row]").First).ToContainTextAsync("2d6+3", new() { Timeout = 20_000 });
     }
 
     [E2EFact]
