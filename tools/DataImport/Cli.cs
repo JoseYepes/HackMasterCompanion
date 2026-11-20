@@ -11,8 +11,16 @@ public static class Cli
 
     private const string DefaultDoubtsDocument = "docs/dudas.md";
 
+    /// <summary>Primer argumento que pide importar los conjuros (F009) en vez de las habilidades.</summary>
+    public const string SpellsCommand = "conjuros";
+
     public static int Run(string[] args, TextWriter output, TextWriter error)
     {
+        if (args.Length > 0 && args[0] == SpellsCommand)
+        {
+            return RunSpells(args, output, error);
+        }
+
         if (args.Length is < 2 or > 3)
         {
             error.WriteLine("Uso: DataImport <hoja.xlsx> <carpeta-datos> [<archivo-dudas>]");
@@ -76,6 +84,67 @@ public static class Cli
             output.WriteLine("Sin avisos.");
         }
         else
+        {
+            output.WriteLine($"Avisos ({result.Warnings.Count}):");
+            WriteMessages(output, result.Warnings);
+        }
+
+        return Success;
+    }
+
+    /// <summary>
+    /// <c>DataImport conjuros &lt;Hackconjuros.xlsx&gt; &lt;carpeta-datos&gt;</c>: escribe solo
+    /// <c>spells.json</c>; los demás archivos de datos no se tocan.
+    /// </summary>
+    private static int RunSpells(string[] args, TextWriter output, TextWriter error)
+    {
+        if (args.Length != 3)
+        {
+            error.WriteLine("Uso: DataImport conjuros <Hackconjuros.xlsx> <carpeta-datos>");
+            error.WriteLine("Ejemplo (PowerShell): dotnet run --project tools/DataImport -- conjuros \"$env:HACKMASTER_SPELLS_EXCEL\" data/");
+            return UsageError;
+        }
+
+        var workbookPath = args[1];
+        if (!File.Exists(workbookPath))
+        {
+            error.WriteLine($"No se encuentra la hoja de conjuros: {workbookPath}");
+            error.WriteLine("Lo habitual es guardar su ruta en la variable de entorno HACKMASTER_SPELLS_EXCEL.");
+            return UsageError;
+        }
+
+        (IReadOnlyList<RawRow>? Spells, IReadOnlyList<RawRow>? Rules, IReadOnlyList<ImportMessage> Errors) read;
+        try
+        {
+            using var stream = new FileStream(workbookPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            read = SpellImporter.Read(stream);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or InvalidDataException or FormatException)
+        {
+            error.WriteLine($"No se puede leer la hoja de conjuros: {exception.Message}");
+            return UsageError;
+        }
+
+        if (read.Spells is null || read.Rules is null)
+        {
+            error.WriteLine($"La hoja de conjuros no tiene la estructura esperada: {Count(read.Errors.Count, "error", "errores")}. No se ha modificado ningún archivo.");
+            WriteMessages(error, read.Errors);
+            return UsageError;
+        }
+
+        var result = SpellImporter.Import(read.Spells, read.Rules);
+        if (result.File is null)
+        {
+            error.WriteLine($"La importación de conjuros ha fallado: {Count(result.Errors.Count, "error", "errores")}. No se ha modificado ningún archivo.");
+            WriteMessages(error, result.Errors);
+            return DataErrors;
+        }
+
+        SpellImporter.Write(result.File, args[2]);
+        output.WriteLine("Importación de conjuros correcta.");
+        output.WriteLine($"  Conjuros: {result.File.Spells.Count}");
+        output.WriteLine($"  Reglas del Grimorio: {result.File.Rules.Count}");
+        if (result.Warnings.Count > 0)
         {
             output.WriteLine($"Avisos ({result.Warnings.Count}):");
             WriteMessages(output, result.Warnings);

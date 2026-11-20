@@ -1,0 +1,64 @@
+@page "/grimorio/{Class}/{Slug}"
+@inject GrimoireData Data
+
+@if (Spell is not { } spell)
+{
+    <NotFound />
+}
+else
+{
+    <PageTitle>@spell.Name · @AppInfo.Name</PageTitle>
+
+    <p class="back"><a href="grimorio">← Grimorio</a></p>
+
+    <h1>@spell.Name</h1>
+    <p class="suite-kind">@SpellClasses.Name(spell.Class), @(spell.Level == 0 ? "truco" : $"nivel {spell.Level}")</p>
+
+    <dl class="fields">
+        <dt>Escuela</dt>
+        <dd data-testid="spell-field-schools"><FieldValue Field="schools" Text="@Display.List(spell.Schools)" Pending="spell.Pending" /></dd>
+        @if (spell.Reverse is not null)
+        {
+            <dt>Reversible</dt>
+            <dd data-testid="spell-field-reverse">Sí (@spell.Reverse)</dd>
+        }
+        <dt>Alcance</dt>
+        <dd data-testid="spell-field-range"><FieldValue Field="range" Text="@(spell.Range ?? Display.Missing)" Pending="spell.Pending" /></dd>
+        <dt>Componentes</dt>
+        <dd data-testid="spell-field-components"><FieldValue Field="components" Text="@(spell.Components ?? Display.Missing)" Pending="spell.Pending" /></dd>
+        <dt>Duración</dt>
+        <dd data-testid="spell-field-duration"><FieldValue Field="duration" Text="@(spell.Duration ?? Display.Missing)" Pending="spell.Pending" /></dd>
+        <dt>Tiempo de lanzamiento</dt>
+        <dd data-testid="spell-field-castingTime"><FieldValue Field="castingTime" Text="@(spell.CastingTime ?? Display.Missing)" Pending="spell.Pending" /></dd>
+        <dt>Área de efecto</dt>
+        <dd data-testid="spell-field-areaOfEffect"><FieldValue Field="areaOfEffect" Text="@(spell.AreaOfEffect ?? Display.Missing)" Pending="spell.Pending" /></dd>
+        <dt>Tirada de salvación</dt>
+        <dd data-testid="spell-field-savingThrow"><FieldValue Field="savingThrow" Text="@(spell.SavingThrow ?? Display.Missing)" Pending="spell.Pending" /></dd>
+        <dt>Libro</dt>
+        <dd data-testid="spell-field-books">@Display.Books(spell.Books)</dd>
+    </dl>
+
+    <h2>Resumen</h2>
+    <div class="summary" data-testid="spell-summary">
+        @if (spell.Summary is null)
+        {
+            <p><PendingMark /></p>
+        }
+        else
+        {
+            <p>@spell.Summary</p>
+        }
+        <p class="section-note">Resumen propio; para el texto completo, consulta el libro indicado.</p>
+    </div>
+}
+
+@code {
+    /// <summary>Clase en la dirección: <c>mago</c> o <c>clerigo</c>.</summary>
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Slug { get; set; }
+
+    private Spell? Spell => SpellClasses.FromSlug(Class) is { } spellClass && Slug is not null ? Data.Find(spellClass, Slug) : null;
+}

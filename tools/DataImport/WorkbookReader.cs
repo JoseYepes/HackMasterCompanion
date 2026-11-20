@@ -10,7 +10,7 @@ namespace HackMaster.DataImport;
 /// </summary>
 public static class WorkbookReader
 {
-    private sealed record ExpectedColumn(string Letter, string Prefix, string Label);
+    internal sealed record ExpectedColumn(string Letter, string Prefix, string Label);
 
     private static readonly ExpectedColumn[] SkillColumns =
     [
@@ -58,7 +58,7 @@ public static class WorkbookReader
         return new WorkbookReadResult(new RawWorkbook(skills, descriptions, suites, doubts), errors);
     }
 
-    private static List<RawRow>? ReadSheet(XLWorkbook workbook, string name, int lastColumn, List<ImportMessage> errors)
+    internal static List<RawRow>? ReadSheet(XLWorkbook workbook, string name, int lastColumn, List<ImportMessage> errors)
     {
         if (!workbook.TryGetWorksheet(name, out var sheet))
         {
@@ -88,7 +88,7 @@ public static class WorkbookReader
         return rows;
     }
 
-    private static List<RawRow>? WithoutHeader(List<RawRow>? rows, string sheet, ExpectedColumn[] expected, List<ImportMessage> errors)
+    internal static List<RawRow>? WithoutHeader(List<RawRow>? rows, string sheet, ExpectedColumn[] expected, List<ImportMessage> errors)
     {
         if (rows is null)
         {

@@ -1,0 +1,108 @@
+@page "/grimorio"
+@using System.Globalization
+@inject GrimoireData Data
+@inject NavigationManager Navigation
+
+<PageTitle>Grimorio · @AppInfo.Name</PageTitle>
+
+<h1>Grimorio</h1>
+
+<p><a href="grimorio/reglas" data-testid="grimoire-rules-link">Reglas de los libros de conjuros y la transcripción</a></p>
+
+@if (Data.LoadError is not null)
+{
+    <p class="doubt-notice" role="alert">@Data.LoadError</p>
+}
+
+<div class="search">
+    <label for="spell-search">Buscar por nombre</label>
+    <input id="spell-search" type="search" autocomplete="off" data-testid="spell-search" value="@Text" @oninput="args => Go(text: args.Value?.ToString())" />
+</div>
+
+<div class="grimoire-filters">
+    <label>Clase
+        <select data-testid="spell-class" value="@Class" @onchange='args => Go(spellClass: args.Value?.ToString() ?? "")'>
+            <option value="">Todas</option>
+            <option value="mago">Mago</option>
+            <option value="clerigo">Clérigo</option>
+        </select>
+    </label>
+    <label>Nivel
+        <select data-testid="spell-level" value="@Level" @onchange='args => Go(level: args.Value?.ToString() ?? "")'>
+            <option value="">Todos</option>
+            @foreach (var level in Data.Facets.Levels)
+            {
+                <option value="@level">@LevelName(level)</option>
+            }
+        </select>
+    </label>
+    <label>Escuela
+        <select data-testid="spell-school" value="@School" @onchange='args => Go(school: args.Value?.ToString() ?? "")'>
+            <option value="">Todas</option>
+            @foreach (var school in Data.Facets.Schools)
+            {
+                <option value="@school">@school</option>
+            }
+        </select>
+    </label>
+</div>
+
+<p class="result-count" role="status" data-testid="spell-count">@Matches.Count @(Matches.Count == 1 ? "conjuro" : "conjuros")</p>
+
+@if (Matches.Count == 0)
+{
+    <p class="no-results" data-testid="spell-none">
+        @(Data.Spells.Count == 0
+            ? "Los conjuros llegan por tandas y aún no hay ninguno cargado."
+            : "Ningún conjuro cumple la búsqueda y los filtros. Prueba a quitar alguno.")
+    </p>
+}
+else
+{
+    <ul class="item-list">
+        @foreach (var spell in Matches)
+        {
+            <li class="item-row" data-testid="spell-row" @key="(spell.Class, spell.Slug)">
+                <a class="item-name spell-name" href="grimorio/@SpellClasses.Slug(spell.Class)/@spell.Slug">@spell.Name</a>
+                <span class="spell-meta">@SpellClasses.Name(spell.Class) @spell.Level · @Display.List(spell.Schools)</span>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    [SupplyParameterFromQuery(Name = "q")]
+    public string? Text { get; set; }
+
+    [SupplyParameterFromQuery(Name = "clase")]
+    public string? Class { get; set; }
+
+    [SupplyParameterFromQuery(Name = "nivel")]
+    public string? Level { get; set; }
+
+    [SupplyParameterFromQuery(Name = "escuela")]
+    public string? School { get; set; }
+
+    private IReadOnlyList<Spell> Matches => SpellQuery.Filter(Data.Spells, new SpellCriteria(
+        Text,
+        SpellClasses.FromSlug(Class),
+        int.TryParse(Level, NumberStyles.None, CultureInfo.InvariantCulture, out var level) ? level : null,
+        School));
+
+    private static string LevelName(int level) => level == 0 ? "Trucos" : level.ToString(CultureInfo.InvariantCulture);
+
+    /// <summary>Lleva la búsqueda a la dirección (FR-003), sustituyendo la entrada del historial.</summary>
+    private void Go(string? text = null, string? spellClass = null, string? level = null, string? school = null)
+    {
+        var parameters = new Dictionary<string, object?>
+        {
+            ["q"] = Empty(text ?? Text),
+            ["clase"] = Empty(spellClass ?? Class),
+            ["nivel"] = Empty(level ?? Level),
+            ["escuela"] = Empty(school ?? School),
+        };
+        Navigation.NavigateTo(Navigation.GetUriWithQueryParameters(parameters), replace: true);
+    }
+
+    private static string? Empty(string? value) => string.IsNullOrWhiteSpace(value) ? null : value;
+}

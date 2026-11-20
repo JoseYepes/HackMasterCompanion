@@ -153,11 +153,32 @@
   archivo se rechaza); los resultados de una ficha seguían al abrir otra; doble toque en «Tirar»;
   límites 06 y 97 probados; región viva para el resultado. Los dados de maestría «5», «3» y
   «2» de algunas habilidades ya están como dudas: hasta resolverlas, sus mejoras se apuntan a mano.
-  Pull request #13 abierto con la CI en verde. **Falta**: fusionar y la
-  prueba del usuario (T012–T013).
+  Pull request #13 fusionado el 2026-11-20 y publicado. **Falta**: la prueba del usuario (T013).
 - **F009 (Grimorio)**, pedida por el usuario el 2026-11-19: conjuros de clérigo y de mago y reglas de
   grimorios y transcripción, desde el MJ en castellano y en inglés, las erratas y la SSG. Va después
-  de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»).
+  de F005; el agente la colocó antes de F006 (el usuario solo dijo «después de F005»). Rama
+  `009-grimorio`, `specs/009-grimorio/`. El usuario pidió (2026-11-20) que el agente lea los
+  conjuros del manual y los cargue él, por tandas publicables; si no se pueden copiar las
+  descripciones, el usuario dará un documento con las suyas. Mientras, cada conjuro lleva un resumen
+  propio del agente. **Cómo se hace**: los manuales están en PDF en la carpeta del usuario (ver
+  memoria); `pdftotext` (mingw64) saca el texto con OCR sucio, así que cada conjuro se coteja con la
+  imagen de su página, renderizada con un script local que usa el motor PDF de Windows. Los datos y
+  resúmenes van a una hoja nueva, `Hackconjuros.xlsx`, junto a la de habilidades (no se toca la del
+  usuario), creada con un programa de un solo uso en el scratchpad (ClosedXML de la caché local,
+  sin descargas); `DataImport conjuros` la convierte en `data/spells.json`. **Tanda 1 (2026-11-20)**:
+  67 conjuros de mago de nivel 1 (MJ p. 175–187) y 20 de clérigo de nivel 1 (p. 253–256),
+  comprobados contra la lista alfabética del Apéndice A, y 7 reglas (libros de conjuros, memorizar,
+  cómo se consiguen, probabilidad de aprender, límites por Inteligencia, transcribir con escribir,
+  conjuros de clérigo). Erratas oficiales y en castellano revisadas: nada que cambie la tanda. Los
+  de clérigo también tienen escuela en el MJ («a efectos de referencia»), así que se filtra por
+  escuela en las dos clases. Dos tiempos de lanzamiento salen sin unidad en el MJ («1»: alterar
+  fuegos normales y hacer amigos) y se dejan como están. **Falta**: revisión independiente, pull
+  request y las tandas siguientes (nivel 2 en adelante, trucos y SSG).
+- **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
+  habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
+  «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
+  hojas de PJ en PDF (la básica y el Record Book 3.0 en castellano, en `Hojas de Pejota`), que
+  necesitará una biblioteca de PDF.
 - **Orden acordado (2026-11-18)**: F008 → F004 → F005 → F006. Los números son identificadores, no
   el orden: F007 y F008 se añadieron después y tomaron el siguiente número libre para no renumerar
   las demás. **F006 ampliada** a petición del usuario: cuentas propias para guardar en la nube

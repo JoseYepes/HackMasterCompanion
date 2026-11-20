@@ -1,0 +1,26 @@
+@page "/grimorio/reglas"
+@inject GrimoireData Data
+
+<PageTitle>Reglas del Grimorio · @AppInfo.Name</PageTitle>
+
+<p class="back"><a href="grimorio">← Grimorio</a></p>
+
+<h1>Libros de conjuros y transcripción</h1>
+
+<p class="section-note">Resúmenes propios; para el texto completo, consulta el libro y la página de cada regla.</p>
+
+@if (Data.Rules.Count == 0)
+{
+    <p class="no-results">Las reglas aún no están cargadas.</p>
+}
+else
+{
+    @foreach (var rule in Data.Rules)
+    {
+        <section class="grimoire-rule" data-testid="grimoire-rule">
+            <h2>@rule.Title</h2>
+            <p>@rule.Summary</p>
+            <p class="field-label">@Display.Books(rule.Books)</p>
+        </section>
+    }
+}
