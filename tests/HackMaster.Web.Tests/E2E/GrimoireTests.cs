@@ -1,3 +1,5 @@
+using Microsoft.Playwright;
+
 namespace HackMaster.Web.Tests.E2E;
 
 /// <summary>Grimorio con los datos reales (F009): buscar, abrir un conjuro, reglas y sin desbordamiento.</summary>
@@ -11,7 +13,8 @@ public sealed class GrimoireTests(BrowserFixture browser) : IClassFixture<Browse
         await BrowserFixture.GoToAsync(page, "grimorio");
 
         await page.Locator("[data-testid=spell-search]").FillAsync("PROYECTIL MAGICO");
-        await page.Locator("[data-testid=spell-row] a", new() { HasText = "Proyectil mágico" }).ClickAsync();
+        // Nombre exacto: desde la tanda 2 también existe «Proyectil mágico perforante».
+        await page.GetByRole(AriaRole.Link, new() { Name = "Proyectil mágico", Exact = true }).ClickAsync();
         await page.Locator("[data-testid=spell-summary]").WaitForAsync();
 
         Assert.Equal("Proyectil mágico", (await page.Locator("h1").InnerTextAsync()).Trim());
