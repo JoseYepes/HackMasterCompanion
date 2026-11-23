@@ -2,6 +2,2546 @@
   "schemaVersion": 1,
   "spells": [
     {
+      "slug": "2-delusion",
+      "name": "2-Delusión",
+      "searchName": "2-delusion",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "Cuadrado de 4' de lado",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Como fuerza fantasmal, pero plana: se descubre al mirarla con más de 45° de ángulo, no se ve de lado ni por detrás, el tacto o la magia la deshacen y dura mientras el lanzador se concentre.",
+      "pending": []
+    },
+    {
+      "slug": "abeja",
+      "name": "Abeja",
+      "searchName": "abeja",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Convocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 abeja",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Truco personal. Aparece donde mira el lanzador una abeja enfadada, con un 90 % de picar a la criatura sobre la que esté.",
+      "pending": []
+    },
+    {
+      "slug": "abrir",
+      "name": "Abrir",
+      "searchName": "abrir",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Conjuración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 cerradura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Una llave invisible desbloquea cerraduras sencillas (pestillos, dientes, muelles), no las de palancas o combinación; no abre la puerta ni el cofre.",
+      "pending": []
+    },
+    {
+      "slug": "agriar",
+      "name": "Agriar",
+      "searchName": "agriar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco revertido. Agria comida o bebida haciendo aparecer sobre ella hasta una pinta de vinagre; también sirve para llenar de vinagre un recipiente vacío.",
+      "pending": []
+    },
+    {
+      "slug": "aire-de-legitimidad",
+      "name": "Aire de legitimidad",
+      "searchName": "aire de legitimidad",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco de prestidigitación. Un documento, normal o falso, o un sello parece oficial a un observador corriente; quien lo estudie a fondo o conozca el auténtico puede salvar para notar el engaño.",
+      "pending": []
+    },
+    {
+      "slug": "amenaza-velada",
+      "name": "Amenaza velada",
+      "searchName": "amenaza velada",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "165"
+        }
+      ],
+      "summary": "Truco a terceros. Un gesto normal del lanzador, o de otra persona tocada (que puede salvar), le parece a una criatura una amenaza física y reacciona en consecuencia, sin salvación; nadie más lo ve así.",
+      "pending": []
+    },
+    {
+      "slug": "anudar",
+      "name": "Anudar",
+      "searchName": "anudar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco revertido. Anuda un hilo, cordón o cuerda de forma que deshacerlo lleva 2–8 asaltos, ajustados por la Destreza de quien lo intente; no sirve con cuerdas mágicas, sujetas por alguien o tensas.",
+      "pending": []
+    },
+    {
+      "slug": "arana",
+      "name": "Araña",
+      "searchName": "arana",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Convocación"
+      ],
+      "reversible": false,
+      "range": "10'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 araña",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Como abeja, pero convoca una araña corriente que muerde y distrae un segmento a la criatura donde esté; con un 5 % es muy venenosa (salvación con +4: 1 punto de daño o 2 y enferma 1–4 días).",
+      "pending": []
+    },
+    {
+      "slug": "arco-iris",
+      "name": "Arco iris",
+      "searchName": "arco iris",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Crea un arco iris de 30' de largo y 1' de ancho que brilla incluso a oscuras y que el lanzador puede mover; quien no salve se queda mirándolo 1–4 segmentos (2–5 si se mueve).",
+      "pending": []
+    },
+    {
+      "slug": "asentimiento",
+      "name": "Asentimiento",
+      "searchName": "asentimiento",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 persona",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "165"
+        }
+      ],
+      "summary": "Truco a terceros. El objetivo asiente sin querer, como si estuviera de acuerdo, salvo que salve.",
+      "pending": []
+    },
+    {
+      "slug": "atar-truco",
+      "name": "Atar (truco)",
+      "searchName": "atar (truco)",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Truco útil. Un hilo, cordón, cuerda o cable se anuda solo, a sí mismo o a algo cercano, con el nudo normal que elija el lanzador.",
+      "pending": []
+    },
+    {
+      "slug": "atenuar-luces",
+      "name": "Atenuar luces",
+      "searchName": "atenuar luces",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Durante un asalto, una fuente de luz a 1' o menos (hasta 6 antorchas, una hoguera, 72 velas o un conjuro de luz) da la mitad de luz o menos.",
+      "pending": []
+    },
+    {
+      "slug": "aura-de-vulnerabilidad",
+      "name": "Aura de vulnerabilidad",
+      "searchName": "aura de vulnerabilidad",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "165"
+        }
+      ],
+      "summary": "Truco a terceros. La criatura parece más débil y menos capaz de defenderse; si no quiere, puede salvar.",
+      "pending": []
+    },
+    {
+      "slug": "bicho",
+      "name": "Bicho",
+      "searchName": "bicho",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Convocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 bicho",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Como abeja, pero convoca un insecto rastrero que muerde o pica a la criatura sobre la que aparece.",
+      "pending": []
+    },
+    {
+      "slug": "bostezo",
+      "name": "Bostezo",
+      "searchName": "bostezo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "165"
+        }
+      ],
+      "summary": "Truco a terceros. Si la criatura no salva, bosteza y ese asalto y el siguiente es más vulnerable a dormir: cae sin remedio y el conjuro puede afectar a alguna criatura más o de más DG.",
+      "pending": []
+    },
+    {
+      "slug": "brotar",
+      "name": "Brotar",
+      "searchName": "brotar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 yarda cúbica",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Truco útil. Acelera el crecimiento de las plantas: las semillas brotan, los brotes crecen una pulgada, los capullos florecen y la fruta madura (o se pasa si ya estaba madura).",
+      "pending": []
+    },
+    {
+      "slug": "cadenas",
+      "name": "Cadenas",
+      "searchName": "cadenas",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "2 segundos",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Sonido escalofriante. Ilusión del tintineo de unas cadenas, como el de lamento en dirección y distancia, de hasta dos segundos; quien esté a 1' puede salvar para no oírlo.",
+      "pending": []
+    },
+    {
+      "slug": "caida",
+      "name": "Caída",
+      "searchName": "caida",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Sonido escalofriante. Quienes estén en 10' oyen el golpe sordo de algo grande que cae al suelo, desde el punto que elija el lanzador en ese radio; quien salva no lo oye.",
+      "pending": []
+    },
+    {
+      "slug": "calentar",
+      "name": "Calentar",
+      "searchName": "calentar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 pie cúbico",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Truco útil. Calienta unos 40 °F un líquido o un sólido no vivos durante un instante; luego se enfría poco a poco. Nunca calienta a una criatura viva por encima de lo normal.",
+      "pending": []
+    },
+    {
+      "slug": "cambiazo",
+      "name": "Cambiazo",
+      "searchName": "cambiazo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco de prestidigitación. Convierte un objeto pequeño animal o vegetal en otro del mismo reino, sin variar su tamaño más de un 50 %: un pergamino en una tela, un pájaro en un murciélago. Dura un turno; un asalto si el cambio es radical y días si es sutil, como un color. Las criaturas pequeñas normales, no mágicas y de inteligencia animal no salvan.",
+      "pending": []
+    },
+    {
+      "slug": "cara-de-poquer",
+      "name": "Cara de póquer",
+      "searchName": "cara de poquer",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto + 1 asalto por nivel",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "El lanzador",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. El lanzador mantiene la cara inexpresiva pase lo que pase y nadie puede leer en ella sus emociones.",
+      "pending": []
+    },
+    {
+      "slug": "caracola-mojada",
+      "name": "Caracola mojada",
+      "searchName": "caracola mojada",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. La víctima siente un dedo mojado en la oreja y tiene -10 % (o -2) a escuchar el resto del asalto.",
+      "pending": []
+    },
+    {
+      "slug": "cefiro-personal",
+      "name": "Céfiro personal",
+      "searchName": "cefiro personal",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 hora",
+      "castingTime": "1/3 segmento",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco social. Una brisa ligera refresca al lanzador como un abanico.",
+      "pending": []
+    },
+    {
+      "slug": "chachara",
+      "name": "Cháchara",
+      "searchName": "chachara",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": true,
+      "range": "10'",
+      "components": "V, S",
+      "duration": "1 turno",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco social. El receptor puede hablar largo y tendido de cualquier tema, aunque no tenga ni idea.",
+      "pending": []
+    },
+    {
+      "slug": "coscorroneo",
+      "name": "Coscorroneo",
+      "searchName": "coscorroneo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, la víctima siente que le frotan la cabeza con los nudillos o le dan coscorrones.",
+      "pending": []
+    },
+    {
+      "slug": "coser",
+      "name": "Coser",
+      "searchName": "coser",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Truco útil. Cose rotos y descosidos o confecciona prendas: unas 20 yardas de tela o 2 de cuero, con costuras normales.",
+      "pending": []
+    },
+    {
+      "slug": "crujido",
+      "name": "Crujido",
+      "searchName": "crujido",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Sonido escalofriante. Evoca el chirrido de una puerta oxidada que se abre despacio (1/3 de segmento) o el crujido de pasos por un suelo de madera que recorren 10' (1/2 segmento).",
+      "pending": []
+    },
+    {
+      "slug": "cuajar",
+      "name": "Cuajar",
+      "searchName": "cuajar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco revertido. Cuaja la leche y acelera que la comida se eche a perder, sin arruinarla del todo; el efecto es permanente. Es parecido a frescar.",
+      "pending": []
+    },
+    {
+      "slug": "dar-color",
+      "name": "Dar color",
+      "searchName": "dar color",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "30 días",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 yarda cúbica",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Truco útil. Devuelve el color a algo desteñido o lo tiñe de otro, incluso el pelo o la piel; hay que renovarlo cada 30 días.",
+      "pending": []
+    },
+    {
+      "slug": "dar-sabor",
+      "name": "Dar sabor",
+      "searchName": "dar sabor",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Truco útil. Da otro sabor a algo (el musgo puede saber a langosta) sin cambiar su calidad: lo estropeado o envenenado sigue igual, aunque se disimule el sabor.",
+      "pending": []
+    },
+    {
+      "slug": "dedo-de-fuego",
+      "name": "Dedo de fuego",
+      "searchName": "dedo de fuego",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "Línea de 1/2'",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Un chorro de llama de medio pie sale del dedo durante un segmento y enciende material seco y combustible.",
+      "pending": []
+    },
+    {
+      "slug": "derramar",
+      "name": "Derramar",
+      "searchName": "derramar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 contenedor",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco revertido. Inclina un recipiente no mágico de un galón o menos y derrama su contenido si no está bien tapado. Es el inverso de recoger.",
+      "pending": []
+    },
+    {
+      "slug": "desatar",
+      "name": "Desatar",
+      "searchName": "desatar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. Deshace un nudo o atadura y anula enredar; ante un anudar, solo lo deja en un nudo normal. No afecta a objetos mágicos. Es el inverso de atar.",
+      "pending": []
+    },
+    {
+      "slug": "descoser",
+      "name": "Descoser",
+      "searchName": "descoser",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. Deshace una costura que tenga un hilo roto o suelto, o siempre si se cosió con el truco coser, salvo en objetos mágicos.",
+      "pending": []
+    },
+    {
+      "slug": "deslustrar",
+      "name": "Deslustrar",
+      "searchName": "deslustrar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. Cubre de herrumbre y óxido un objeto de una yarda cúbica o menos que pueda oxidarse. Es el inverso de lustrar.",
+      "pending": []
+    },
+    {
+      "slug": "disipar-olor-corporal",
+      "name": "Disipar olor corporal",
+      "searchName": "disipar olor corporal",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco social. La persona huele a recién bañada hasta que vuelva a oler mal de forma natural. La versión inversa la hace apestar como tras una semana de trabajo sin lavarse; si no quiere, puede salvar.",
+      "pending": []
+    },
+    {
+      "slug": "distraer",
+      "name": "Distraer",
+      "searchName": "distraer",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 segmento",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco de prestidigitación. Quienes miran al lanzador dirigen la vista a un punto a su izquierda o derecha a 10' o menos durante un segmento; solo salvan los de más de nivel 0 o 1+1 DG e Inteligencia superior a 7.",
+      "pending": []
+    },
+    {
+      "slug": "dormir-con-los-ojos-abiertos",
+      "name": "Dormir con los ojos abiertos",
+      "searchName": "dormir con los ojos abiertos",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 hora",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco social. El receptor duerme pero parece despierto a un observador poco atento.",
+      "pending": []
+    },
+    {
+      "slug": "dormir-lengua",
+      "name": "Dormir lengua",
+      "searchName": "dormir lengua",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 turno",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "El lanzador",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco social. El lanzador no nota el sabor de lo que come; puede terminarlo cuando quiera.",
+      "pending": []
+    },
+    {
+      "slug": "echar-polvo",
+      "name": "Echar polvo",
+      "searchName": "echar polvo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "Radio de 10'",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. Cubre de polvo y suciedad todas las superficies expuestas del área.",
+      "pending": []
+    },
+    {
+      "slug": "encogerse",
+      "name": "Encogerse",
+      "searchName": "encogerse",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, la criatura se encoge hacia donde elija el lanzador.",
+      "pending": []
+    },
+    {
+      "slug": "endulzar",
+      "name": "Endulzar",
+      "searchName": "endulzar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Truco útil. Como especiar, pero lo que aparece es un endulzante: azúcar, miel o sirope.",
+      "pending": []
+    },
+    {
+      "slug": "enfriar",
+      "name": "Enfriar",
+      "searchName": "enfriar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Cubo de 1' de lado",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Como calentar, pero enfría unos 40 °F un líquido o sólido no vivo, sin bajar de la congelación.",
+      "pending": []
+    },
+    {
+      "slug": "enredar",
+      "name": "Enredar",
+      "searchName": "enredar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. Enreda materiales finos como hilo, pelo o hierba (no cuerdas), que tardan 3–12 asaltos en desenredarse si no se cortan.",
+      "pending": []
+    },
+    {
+      "slug": "ensuciar",
+      "name": "Ensuciar",
+      "searchName": "ensuciar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "4 yardas cuadradas",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. Ensucia y mancha paredes, suelos, ropa o platos. Es el inverso de limpiar.",
+      "pending": []
+    },
+    {
+      "slug": "envolver",
+      "name": "Envolver",
+      "searchName": "envolver",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 yarda cúbica",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Crea un envoltorio resistente y adecuado alrededor de algo (un pañuelo encerado para un polvo, terciopelo para gemas), que se abre de forma normal o a una orden; se suele usar para los componentes de los conjuros.",
+      "pending": []
+    },
+    {
+      "slug": "eructo",
+      "name": "Eructo",
+      "searchName": "eructo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. El sujeto eructa sin querer; la salvación solo decide si es sonoro o discreto.",
+      "pending": []
+    },
+    {
+      "slug": "escamotear",
+      "name": "Escamotear",
+      "searchName": "escamotear",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 objeto pequeño",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco de prestidigitación. El lanzador oculta en la mano un objeto pequeño mientras deja un duplicado ilusorio que dura un segmento y conviene tapar.",
+      "pending": []
+    },
+    {
+      "slug": "esconder",
+      "name": "Esconder",
+      "searchName": "esconder",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco de prestidigitación. Un objeto de casi cualquier tamaño se vuelve invisible para quienes están frente al lanzador, aunque sigue sonando; dura un turno con 2 yardas cúbicas y menos cuanto más grande es. Se deshace con la palabra de activación.",
+      "pending": []
+    },
+    {
+      "slug": "esconder-comida",
+      "name": "Esconder comida",
+      "searchName": "esconder comida",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 hora",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 plato",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. La comida de un plato se vuelve invisible durante una hora.",
+      "pending": []
+    },
+    {
+      "slug": "especiar",
+      "name": "Especiar",
+      "searchName": "especiar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Hace aparecer especias o hierbas de verdad (pimienta, jengibre, laurel, ajo…) suficientes para la comida o bebida de una docena de personas.",
+      "pending": []
+    },
+    {
+      "slug": "espejismo",
+      "name": "Espejismo",
+      "searchName": "espejismo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Cuadrado de 2' de lado",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Una zona llana parece otro lugar real que el lanzador haya visto; se salva contra ella. Dura mientras se concentre, con un 5 % acumulado por asalto de que se note; tocarla la deshace.",
+      "pending": []
+    },
+    {
+      "slug": "estornudo",
+      "name": "Estornudo",
+      "searchName": "estornudo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, el objetivo estornuda una vez.",
+      "pending": []
+    },
+    {
+      "slug": "exterminar",
+      "name": "Exterminar",
+      "searchName": "exterminar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 criatura pequeña",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Mata una alimaña pequeña, como una mosca o una rata, o limpia de bichos muy pequeños medio pie cúbico. Sirve contra creaciones mágicas y contra criaturas reducidas mágicamente, pero no contra polimorfadas o encantadas.",
+      "pending": []
+    },
+    {
+      "slug": "exudar-miedo",
+      "name": "Exudar miedo",
+      "searchName": "exudar miedo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 turno",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. El sujeto parece asustado; si actúa con valor, parecerá bravuconería o locura.",
+      "pending": []
+    },
+    {
+      "slug": "fingir-dureza",
+      "name": "Fingir dureza",
+      "searchName": "fingir dureza",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. La criatura parece más grande y dura de lo que es; si no quiere, puede salvar.",
+      "pending": []
+    },
+    {
+      "slug": "fortalecer-sonrisa",
+      "name": "Fortalecer sonrisa",
+      "searchName": "fortalecer sonrisa",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10'",
+      "components": "V, S",
+      "duration": "1 día",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Una persona puede sonreír sin que se le canse la cara; el texto habla de hasta una hora, aunque la cabecera da un día.",
+      "pending": []
+    },
+    {
+      "slug": "frescar",
+      "name": "Frescar",
+      "searchName": "frescar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 hora",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Devuelve durante una hora la frescura a comida, bebida o flores algo pasadas de tamaño pequeño; a las criaturas a las que daña purificar comida y bebida les hace d4.",
+      "pending": []
+    },
+    {
+      "slug": "gemido",
+      "name": "Gemido",
+      "searchName": "gemido",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Sonido escalofriante. Como lamento, pero es un gemido grave que asusta o agudo que da pena.",
+      "pending": []
+    },
+    {
+      "slug": "golpes",
+      "name": "Golpes",
+      "searchName": "golpes",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 pie cuadrado",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Sonido escalofriante. Una fuerza invisible da uno, dos o tres golpes reales contra una puerta, mesa, pared o similar, que oye quien esté a 1' o menos.",
+      "pending": []
+    },
+    {
+      "slug": "guino",
+      "name": "Guiño",
+      "searchName": "guino",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. El sujeto guiña un ojo: si salva, rápido e inadvertido; si no, exagerado y largo.",
+      "pending": []
+    },
+    {
+      "slug": "humareda",
+      "name": "Humareda",
+      "searchName": "humareda",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 nube de 1' de diámetro",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Una pequeña nube de humo del color elegido (blanco, gris, negro, marrón, amarillo o verde) que sube o se disipa.",
+      "pending": []
+    },
+    {
+      "slug": "ilusion-de-cortesia",
+      "name": "Ilusión de cortesía",
+      "searchName": "ilusion de cortesia",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Lo próximo que haga o diga el lanzador resulta correcto y nada ofensivo.",
+      "pending": []
+    },
+    {
+      "slug": "intercalar-comentario-ingenioso",
+      "name": "Intercalar comentario ingenioso",
+      "searchName": "intercalar comentario ingenioso",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Lo próximo que diga el lanzador parece ingenioso y gracioso a quien le escucha.",
+      "pending": []
+    },
+    {
+      "slug": "lamento",
+      "name": "Lamento",
+      "searchName": "lamento",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Sonido escalofriante. Ilusión de un lamento desgarrador desde un punto cercano, incluso dentro de un cofre o tras una puerta; quien lo oiga puede salvar para no oírlo.",
+      "pending": []
+    },
+    {
+      "slug": "lavar-la-cara",
+      "name": "Lavar la cara",
+      "searchName": "lavar la cara",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 cara",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Limpia la cara del sujeto como con agua y jabón.",
+      "pending": []
+    },
+    {
+      "slug": "lavarse-las-manos",
+      "name": "Lavarse las manos",
+      "searchName": "lavarse las manos",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "2 manos",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Limpia las manos del sujeto como con agua y jabón.",
+      "pending": []
+    },
+    {
+      "slug": "limpiar",
+      "name": "Limpiar",
+      "searchName": "limpiar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Área de 4 yardas de lado",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Quita la suciedad y las manchas de suelos, paredes, platos o ventanas; conviene tratar un solo material cada vez para no quitar también pigmentos.",
+      "pending": []
+    },
+    {
+      "slug": "lo-sabe",
+      "name": "Lo sabe",
+      "searchName": "lo sabe",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. La persona parece saber exactamente lo que pasa o de qué se habla.",
+      "pending": []
+    },
+    {
+      "slug": "luces-de-colores",
+      "name": "Luces de colores",
+      "searchName": "luces de colores",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Crea de uno a cuatro globos de luz de colores pastel (de 1' a 3\") que iluminan un radio de cinco veces su diámetro y flotan cerca del lanzador mientras se concentre; solo el azul claro y el rosa no molestan a la infravisión.",
+      "pending": []
+    },
+    {
+      "slug": "lustrar",
+      "name": "Lustrar",
+      "searchName": "lustrar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Quita suciedad, óxido y corrosión de un objeto de hasta una yarda cúbica y lo deja brillante. Si el valor de una joya se había reducido, puede volver a tirarse una vez con -1.",
+      "pending": []
+    },
+    {
+      "slug": "luz-azul",
+      "name": "Luz azul",
+      "searchName": "luz azul",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Conjuración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Esfera de 1/4' de diámetro",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Una esfera de luz azul en la palma de la mano que ilumina 5' a su alrededor sin reflejarse más allá ni afectar a la infravisión, mientras el lanzador se concentre.",
+      "pending": []
+    },
+    {
+      "slug": "marchitar",
+      "name": "Marchitar",
+      "searchName": "marchitar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. Marchita una planta, que puede morir si no estaba sana, o estropea flores cortadas. Es el inverso de frescar.",
+      "pending": []
+    },
+    {
+      "slug": "mascara",
+      "name": "Máscara",
+      "searchName": "mascara",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "3-6 asaltos",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Cambia de forma ilusoria la cara y la cabeza del lanzador o de otra persona humanoide; solo se nota mirándola de cerca.",
+      "pending": []
+    },
+    {
+      "slug": "mirada-amenazadora",
+      "name": "Mirada amenazadora",
+      "searchName": "mirada amenazadora",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. La víctima lanza una mirada furiosa a cualquiera que tenga a la vista.",
+      "pending": []
+    },
+    {
+      "slug": "mojar",
+      "name": "Mojar",
+      "searchName": "mojar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 yarda cúbica",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Una humedad neblinosa moja todo lo que hay en el área (malo para el papel, que arde peor) y difumina los detalles de lo que está dentro.",
+      "pending": []
+    },
+    {
+      "slug": "mosquitos",
+      "name": "Mosquitos",
+      "searchName": "mosquitos",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Convocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 pie cúbico",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Una nube de mosquitos rodea la cabeza de la criatura viva más cercana y, si no salva contra veneno, la distrae 1–4 segmentos.",
+      "pending": []
+    },
+    {
+      "slug": "mutar",
+      "name": "Mutar",
+      "searchName": "mutar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "170"
+        }
+      ],
+      "summary": "Truco de prestidigitación. Cambia la forma o el aspecto de un objeto mineral pequeño no mágico (una moneda en un anillo, el cobre en oro) durante un asalto; quien lo toque puede salvar y deshacerlo.",
+      "pending": []
+    },
+    {
+      "slug": "neblina",
+      "name": "Neblina",
+      "searchName": "neblina",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 pie cúbico",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Una bruma ligera protege a un objetivo: los proyectiles tienen -1 a impactar y contra los conjuros salva con +1 (o con un 5 % si no hubiera salvación); esconderse en las sombras mejora un 5 %. La deshacen la brisa, la lluvia o una ráfaga de viento.",
+      "pending": []
+    },
+    {
+      "slug": "neutralizar-alcohol",
+      "name": "Neutralizar alcohol",
+      "searchName": "neutralizar alcohol",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "range": "10'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 cuartillo",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Reduce a la mitad el alcohol de una bebida; la versión inversa lo dobla.",
+      "pending": []
+    },
+    {
+      "slug": "ocultar-gas",
+      "name": "Ocultar gas",
+      "searchName": "ocultar gas",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Anula el ruido y el olor de los gases de la digestión.",
+      "pending": []
+    },
+    {
+      "slug": "ojo-vago",
+      "name": "Ojo vago",
+      "searchName": "ojo vago",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, a la víctima se le desvía un ojo y se distrae un segundo o dos.",
+      "pending": []
+    },
+    {
+      "slug": "pasar-la-sal",
+      "name": "Pasar la sal",
+      "searchName": "pasar la sal",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 contenedor",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Lleva un alimento o recipiente hasta 10' hacia la persona elegida, sin derramar nada y sin poder hacer daño.",
+      "pending": []
+    },
+    {
+      "slug": "pellizcon",
+      "name": "Pellizcón",
+      "searchName": "pellizcon",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Conjuración"
+      ],
+      "reversible": false,
+      "range": "10'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Unos dedos invisibles pellizcan una mejilla, la nariz, una oreja, la barba o el trasero del sujeto y pueden distraerle un segmento (salva contra conjuros o con 3d6 contra su Inteligencia, según la tenga); no interrumpe conjuros.",
+      "pending": []
+    },
+    {
+      "slug": "peludo",
+      "name": "Peludo",
+      "searchName": "peludo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "171"
+        }
+      ],
+      "summary": "Truco revertido. El pelo o pelaje de algo crece de 2 a 12 pulgadas hasta que se corte o recoja. La versión inversa lo rapa y, si es corto, impide que crezca 2–12 días.",
+      "pending": []
+    },
+    {
+      "slug": "pestaneo",
+      "name": "Pestañeo",
+      "searchName": "pestaneo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "166"
+        }
+      ],
+      "summary": "Truco a terceros. El objetivo pestañea medio segundo; si salva, solo con un ojo (y no afecta a criaturas de un solo ojo).",
+      "pending": []
+    },
+    {
+      "slug": "picazon",
+      "name": "Picazón",
+      "searchName": "picazon",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, el sujeto siente un picor y se rasca un segundo sin querer.",
+      "pending": []
+    },
+    {
+      "slug": "piquete-de-ojos-a-distancia",
+      "name": "Piquete de ojos a distancia",
+      "searchName": "piquete de ojos a distancia",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "20'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. Un dedo invisible pincha en el ojo a alguien a 20' o menos: no hace daño, pero aúlla y ve mal con ese ojo dos asaltos (-1 a impactar).",
+      "pending": []
+    },
+    {
+      "slug": "pisada",
+      "name": "Pisada",
+      "searchName": "pisada",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Sonido escalofriante. Ilusión de pasos humanos, suaves o ruidosos, que se acercan, se alejan, siguen o acompañan a alguien, empezando cerca del lanzador.",
+      "pending": []
+    },
+    {
+      "slug": "poner-la-mesa",
+      "name": "Poner la mesa",
+      "searchName": "poner la mesa",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 mesa",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. Con los platos y cubiertos apilados en un extremo, pone la mesa al momento; la versión inversa la recoge y lo apila todo.",
+      "pending": []
+    },
+    {
+      "slug": "prime",
+      "name": "Prime",
+      "searchName": "prime",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Da un 25 % de que el lanzador gane el «prime» sobre un objeto aunque otro lo pidiera antes; solo una vez por situación, salvo para contrarrestar otro prime.",
+      "pending": []
+    },
+    {
+      "slug": "proteccion-contra-los-estornudos",
+      "name": "Protección contra los estornudos",
+      "searchName": "proteccion contra los estornudos",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "El lanzador",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. El lanzador no estornuda y desvía los estornudos que otros le echen.",
+      "pending": []
+    },
+    {
+      "slug": "pulimentar",
+      "name": "Pulimentar",
+      "searchName": "pulimentar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Lustra y pule madera, metal, piedra, cuero o cerámica ya bastante limpios, hasta un suelo de 1000 pies cuadrados.",
+      "pending": []
+    },
+    {
+      "slug": "quemaura",
+      "name": "Quemaúra",
+      "searchName": "quemaura",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, la víctima siente un pellizco ardiente en el antebrazo: no hace daño, pero tiene un 50 % de estropear un conjuro con componentes somáticos que esté lanzando.",
+      "pending": []
+    },
+    {
+      "slug": "quitar-el-polvo",
+      "name": "Quitar el polvo",
+      "searchName": "quitar el polvo",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "Radio de 10'",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Se lleva el polvo y la suciedad fina de las superficies expuestas del área.",
+      "pending": []
+    },
+    {
+      "slug": "raton",
+      "name": "Ratón",
+      "searchName": "raton",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Convocación"
+      ],
+      "reversible": false,
+      "range": "10'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 ratón",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "169"
+        }
+      ],
+      "summary": "Truco personal. Convoca un ratón de campo normal a 10' o menos, que se comporta como cualquier ratón.",
+      "pending": []
+    },
+    {
+      "slug": "recoger",
+      "name": "Recoger",
+      "searchName": "recoger",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 yarda cuadrada",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "174"
+        }
+      ],
+      "summary": "Truco útil. Reúne en un montón ordenado objetos pequeños esparcidos, o solo los del tipo elegido.",
+      "pending": []
+    },
+    {
+      "slug": "risilla",
+      "name": "Risilla",
+      "searchName": "risilla",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Hechizo"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. El sujeto se ríe: una carcajada de 2 o 3 segundos si no salva, una risilla si salva.",
+      "pending": []
+    },
+    {
+      "slug": "ruido",
+      "name": "Ruido",
+      "searchName": "ruido",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "10'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "Radio de 1'",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "168"
+        }
+      ],
+      "summary": "Ilusión menor (solo ilusionistas). Un sonido ilusorio vago y confuso (voces lejanas, aleteos, cosas que se arrastran) a 10' o menos; cada criatura que lo oiga puede salvar para no creerlo.",
+      "pending": []
+    },
+    {
+      "slug": "sacudida",
+      "name": "Sacudida",
+      "searchName": "sacudida",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. Una contracción muscular visible en la parte del cuerpo que elija el lanzador, sin gran molestia; la salvación la evita.",
+      "pending": []
+    },
+    {
+      "slug": "salar",
+      "name": "Salar",
+      "searchName": "salar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 objeto",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "175"
+        }
+      ],
+      "summary": "Truco útil. Hace caer sal sobre algo de hasta unas 4 yardas cuadradas o 30 galones; a las criaturas a las que daña la sal, como una babosa gigante, les hace d4.",
+      "pending": []
+    },
+    {
+      "slug": "secar",
+      "name": "Secar",
+      "searchName": "secar",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/2 segmento",
+      "areaOfEffect": "1 yarda cúbica",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "175"
+        }
+      ],
+      "summary": "Truco útil. Quita la humedad de los materiales del área.",
+      "pending": []
+    },
+    {
+      "slug": "segunda-impresion",
+      "name": "Segunda impresión",
+      "searchName": "segunda impresion",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. El sujeto vuelve a mirar algo que elija el lanzador y en lo que ya se hubiera fijado.",
+      "pending": []
+    },
+    {
+      "slug": "silbido",
+      "name": "Silbido",
+      "searchName": "silbido",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "Especial",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "173"
+        }
+      ],
+      "summary": "Sonido escalofriante. Un silbido suave, audible a 10', o fuerte, a 30', normal o hueco y espeluznante.",
+      "pending": []
+    },
+    {
+      "slug": "sonrisa-boba",
+      "name": "Sonrisa boba",
+      "searchName": "sonrisa boba",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "1 criatura",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, la víctima sonríe como un bobo.",
+      "pending": []
+    },
+    {
+      "slug": "sonrisa-timida",
+      "name": "Sonrisa tímida",
+      "searchName": "sonrisa timida",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, el sujeto sonríe de forma insinuante.",
+      "pending": []
+    },
+    {
+      "slug": "teletransporte-discreto",
+      "name": "Teletransporte discreto",
+      "searchName": "teletransporte discreto",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "2'",
+      "components": "V, S, M",
+      "castingTime": "1/6 segmento",
+      "areaOfEffect": "La boca del lanzador",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "172"
+        }
+      ],
+      "summary": "Truco social. El lanzador se quita de la boca un trozo de comida que no quiere y lo esconde a 2' o menos. Requiere una servilleta hecha una bola en la mano.",
+      "pending": []
+    },
+    {
+      "slug": "tos",
+      "name": "Tos",
+      "searchName": "tos",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/3 segmento",
+      "areaOfEffect": "Una persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. Si no salva, el sujeto tose sin parar entre 1 y 3 segundos; si salva, solo carraspea.",
+      "pending": []
+    },
+    {
+      "slug": "vejiga-floja",
+      "name": "Vejiga floja",
+      "searchName": "vejiga floja",
+      "class": "Mage",
+      "level": 0,
+      "schools": [
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "1'",
+      "components": "V, S",
+      "castingTime": "1/10 segmento",
+      "areaOfEffect": "1 persona",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "167"
+        }
+      ],
+      "summary": "Truco a terceros. El sujeto tiene que orinar de inmediato y, durante la hora siguiente, a menudo.",
+      "pending": []
+    },
+    {
       "slug": "agarron-electrizante",
       "name": "Agarrón electrizante",
       "searchName": "agarron electrizante",
@@ -13919,6 +16459,16 @@
         {
           "acronym": "MJ",
           "page": "253"
+        }
+      ]
+    },
+    {
+      "title": "Trucos",
+      "summary": "Los trucos son los conjuros de nivel 0 con los que se entrenan los aprendices: 1, 2 o 3 al día según su grado como mago de nivel 0. Un mago puede conocer tantos como el doble de su Inteligencia y, si conserva su libro de trucos, memorizar hasta cuatro en lugar de un conjuro de nivel 1. Salvo que se diga otra cosa, tienen alcance de 1', área pequeña, componentes verbales y somáticos sencillos, tiempo de lanzamiento de 1/10 a 1/2 segmento y duración muy breve; solo permiten salvación los que afectan a criaturas vivas y no rompen una concentración extrema, como la de quien lanza un conjuro; los trucos y lo que afectan irradian un aura mágica muy débil. Se lanzan como máximo dos por asalto (el segundo d4 segmentos después del primero) y nunca en el mismo asalto que un conjuro. Se agrupan en siete categorías (a terceros, personales, prestidigitación, revertidos, sociales, sonidos escalofriantes y útiles) más las ilusiones menores, solo para ilusionistas.",
+      "books": [
+        {
+          "acronym": "MJ",
+          "page": "165"
         }
       ]
     }
