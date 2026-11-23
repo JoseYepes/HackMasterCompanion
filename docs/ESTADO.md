@@ -222,7 +222,11 @@
   (prohibición: Protección) no se recoge aparte, como en las tandas anteriores. Revisión de la tanda
   6: sin conjuros de más ni de menos ni errores de cabecera; seis matices de resumen corregidos.
   Pendiente para la lista de dudas (T016): la errata inglesa de reanimación menor (PHB p. 262)
-  sobre qué rasgos y defectos quita panacea.
+  sobre qué rasgos y defectos quita panacea. Fusionada (pull request #20). **Tanda 7 (2026-11-23)**:
+  nivel 7, 33 de mago (MJ p. 236–243) y 14 de clérigo (p. 273–276); con ella están todos los
+  conjuros de clérigo. 498 en total. Errata aplicada: rangos de la tabla de cabrear deidad (erratas
+  en castellano, p. 236). Revisión de la tanda 7: sin errores de cabecera; ocho matices de resumen
+  corregidos.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
