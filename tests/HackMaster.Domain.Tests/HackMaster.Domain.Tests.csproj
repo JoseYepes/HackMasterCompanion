@@ -19,6 +19,7 @@
   <ItemGroup>
     <None Include="..\..\data\*.json" Link="data\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\docs\dudas.md" Link="docs\dudas.md" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\docs\dudas-conjuros.md" Link="docs\dudas-conjuros.md" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

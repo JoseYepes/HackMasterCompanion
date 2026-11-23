@@ -96,6 +96,11 @@ conjuros, resumidas y con su página, sin buscar en el manual.
 - **FR-007**: El importador falla si falta un dato obligatorio (nombre, clase, nivel, libro) o si
   dos conjuros de la misma clase tienen el mismo nombre.
 - **FR-008**: Sin desbordamiento a 390 y 820 px en los dos modos.
+- **FR-009**: Las dudas de los conjuros (erratas aplicadas, datos en blanco o contradictorios en el
+  MJ, nombres cambiados) se escriben en la pestaña «Dudas» de `Hackconjuros.xlsx`. El importador las
+  lleva a los datos y a un listado generado, `docs/dudas-conjuros.md`. La página «Dudas» las muestra
+  en su propia sección, con enlace a cada conjuro, y la ficha del conjuro avisa de que tiene dudas. El
+  importador falla si una duda nombra un conjuro que no existe.
 
 ### Key Entities
 

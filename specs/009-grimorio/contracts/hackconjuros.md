@@ -3,12 +3,14 @@
 ## Orden
 
 ```
-dotnet run --project tools/DataImport -- conjuros <Hackconjuros.xlsx> <carpeta-datos>
+dotnet run --project tools/DataImport -- conjuros <Hackconjuros.xlsx> <carpeta-datos> [<archivo-dudas>]
 ```
 
 Lo habitual es guardar la ruta de la hoja en la variable de entorno `HACKMASTER_SPELLS_EXCEL` (como
 `HACKMASTER_EXCEL` para las habilidades) y usar `data/` como carpeta. Solo escribe
-`spells.json`; los demás archivos de datos no se tocan. Códigos de salida como la importación de
+`spells.json` y el listado `docs/dudas-conjuros.md` (ruta relativa a la carpeta desde la que se
+ejecuta, o la que se dé como cuarto argumento); los
+demás archivos de datos no se tocan. Códigos de salida como la importación de
 habilidades: 0 correcto, 1 errores de datos (no se escribe nada), 2 uso o estructura.
 
 ## Pestaña «Conjuros» (cabecera en la fila 1)
@@ -33,3 +35,16 @@ Una celda con «?» marca el dato como pendiente de verificar.
 | A | Regla | sí |
 | B | Resumen propio | sí |
 | C | Libro | sí («MJ 124»; varios con «;») |
+
+## Pestaña «Dudas» (opcional)
+
+| Col. | Cabecera | Obligatorio | Notas |
+|---|---|---|---|
+| A | Conjuro | sí | nombre exacto de un conjuro de la pestaña «Conjuros»; vacío = duda general |
+| B | Clase | si hay conjuro | «Mago» o «Clérigo» |
+| C | Fuente | no | libro y página («MJ 203; Erratas PHB 203») |
+| D | Duda | sí | qué no es firme en las fuentes |
+| E | Decisión provisional | no | qué se ha cargado mientras tanto |
+
+Si la pestaña no existe, no hay dudas de conjuros. Una duda que nombra un conjuro que no existe es un
+error y no se escribe nada.

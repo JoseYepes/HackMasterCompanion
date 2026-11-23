@@ -164,6 +164,53 @@ public class GrimoirePagesTests : BunitContext
     }
 
     [Fact]
+    public void A_Spell_With_Doubts_Warns_And_Links_To_The_Doubts_Page__FR009()
+    {
+        Services.AddSingleton(new GrimoireData(
+            [Spell("Agrandar", SpellClass.Mage, 1, "Alteración")],
+            [],
+            [new SpellDoubt { Id = "conjuro-2", Subject = "Agrandar", Class = SpellClass.Mage, Slug = "agrandar", Question = "Prueba: ¿qué escuela?" }]));
+
+        var withDoubt = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "mago").Add(page => page.Slug, "agrandar"));
+        var notice = withDoubt.Find("[data-testid=spell-doubts-notice]");
+
+        Assert.Contains("Prueba: ¿qué escuela?", notice.TextContent, StringComparison.Ordinal);
+        Assert.Equal("dudas", notice.QuerySelector("a")?.GetAttribute("href"));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(""", "doubts": null""")]
+    [InlineData(""", "doubts": [null]""")]
+    public void Spell_Data_Without_Doubts_Still_Loads__FR009_Constitucion_V(string doubts)
+    {
+        var data = GrimoireData.FromJson("""{ "schemaVersion": 1, "rules": [], "spells": [] """ + doubts + " }");
+
+        Assert.Null(data.LoadError);
+        Assert.Empty(data.Doubts);
+    }
+
+    [Fact]
+    public void Spell_Data_With_Repeated_Doubts_Is_Reported__FR009_Constitucion_V()
+    {
+        var data = GrimoireData.FromJson("""
+            { "schemaVersion": 1, "rules": [], "spells": [], "doubts": [
+              { "id": "conjuro-2", "subject": "General", "question": "Una." },
+              { "id": "conjuro-2", "subject": "General", "question": "Otra." } ] }
+            """);
+
+        Assert.Contains("duda repetida", data.LoadError, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void A_Spell_Without_Doubts_Has_No_Notice__FR009()
+    {
+        var cut = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "mago").Add(page => page.Slug, "agrandar"));
+
+        Assert.Empty(cut.FindAll("[data-testid=spell-doubts-notice]"));
+    }
+
+    [Fact]
     public void The_Class_In_The_Address_Ignores_Capitals__Review()
     {
         var cut = Render<SpellDetail>(parameters => parameters.Add(page => page.Class, "Mago").Add(page => page.Slug, "agrandar"));

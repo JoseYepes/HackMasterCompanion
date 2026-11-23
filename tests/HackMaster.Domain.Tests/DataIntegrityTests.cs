@@ -134,6 +134,25 @@ public sealed class DataIntegrityTests
         Assert.Empty(missing);
     }
 
+    [Fact]
+    public void Every_Spell_Doubt_Points_To_A_Loaded_Spell_And_Is_In_Its_Document__F009_FR009()
+    {
+        var spells = Read<SpellsFile>("spells.json");
+        var document = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "docs", "dudas-conjuros.md"));
+
+        Assert.NotEmpty(spells.Doubts ?? []);
+        foreach (var doubt in spells.Doubts ?? [])
+        {
+            Assert.True(doubt.Class is null == doubt.Slug is null, $"{doubt.Id}: la clase y la dirección van juntas.");
+            if (doubt.Class is { } spellClass)
+            {
+                Assert.Contains(spells.Spells, spell => spell.Class == spellClass && spell.Slug == doubt.Slug);
+            }
+
+            Assert.Contains(doubt.Question, document, StringComparison.Ordinal);
+        }
+    }
+
     private static ElementKind ToElementKind(PrerequisiteSegmentKind kind) => kind switch
     {
         PrerequisiteSegmentKind.Skill => ElementKind.Skill,

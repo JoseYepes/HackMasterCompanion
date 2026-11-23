@@ -2,6 +2,9 @@
 
 > Archivo generado por `tools/DataImport` a partir de la pestaña "Dudas" de la hoja de cálculo y
 > de lo que detecta la importación. No lo edites a mano: cambia la hoja y vuelve a importar.
+>
+> Las dudas de los conjuros del Grimorio están en `dudas-conjuros.md`, que genera la importación
+> de la hoja de conjuros.
 
 ## Dudas de la hoja
 

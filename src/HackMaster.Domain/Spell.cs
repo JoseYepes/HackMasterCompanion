@@ -76,7 +76,35 @@ public sealed record Spell
 public sealed record GrimoireRule(string Title, string Summary, IReadOnlyList<BookRef> Books);
 
 /// <summary>Contenido de <c>data/spells.json</c>.</summary>
-public sealed record SpellsFile(int SchemaVersion, IReadOnlyList<Spell> Spells, IReadOnlyList<GrimoireRule> Rules);
+public sealed record SpellsFile(int SchemaVersion, IReadOnlyList<Spell> Spells, IReadOnlyList<GrimoireRule> Rules, IReadOnlyList<SpellDoubt>? Doubts = null);
+
+/// <summary>
+/// Duda sobre un conjuro, o general del Grimorio si no nombra ninguno (F009, FR-009): erratas
+/// aplicadas, datos en blanco o contradictorios en el MJ, nombres cambiados.
+/// </summary>
+public sealed record SpellDoubt
+{
+    /// <summary>Identificador estable dentro del archivo de conjuros.</summary>
+    public required string Id { get; init; }
+
+    /// <summary>Nombre del conjuro, o tema de la duda general.</summary>
+    public required string Subject { get; init; }
+
+    /// <summary>Clase del conjuro; nula en una duda general.</summary>
+    public SpellClass? Class { get; init; }
+
+    /// <summary>Dirección del conjuro dentro de su clase; nula en una duda general.</summary>
+    public string? Slug { get; init; }
+
+    /// <summary>Libro y página.</summary>
+    public string? Source { get; init; }
+
+    /// <summary>Qué no es firme en las fuentes.</summary>
+    public required string Question { get; init; }
+
+    /// <summary>Qué se ha cargado mientras tanto.</summary>
+    public string? Provisional { get; init; }
+}
 
 /// <summary>Criterios de búsqueda del Grimorio; los nulos no filtran.</summary>
 public sealed record SpellCriteria(string? Text = null, SpellClass? Class = null, int? Level = null, string? School = null);

@@ -238,7 +238,14 @@
   explícito del texto, y si no, quedan en blanco; el resumen empieza por la categoría del truco.
   El truco «atar» coincide en nombre con el conjuro de mago de nivel 2 y se carga como «Atar
   (truco)». Para la lista de dudas (T016): la lista del Apéndice A (p. 159) nombra un truco
-  «presente» que no tiene descripción, y no incluye «marchitar», que sí la tiene.
+  «presente» que no tiene descripción, y no incluye «marchitar», que sí la tiene. **T016
+  (2026-11-23)**: dudas de los conjuros (FR-009, añadido a la spec). `Hackconjuros.xlsx` tiene una
+  pestaña «Dudas» opcional (conjuro, clase, fuente, duda, decisión provisional); `DataImport
+  conjuros` las guarda en `spells.json` y genera `docs/dudas-conjuros.md` (falla si una duda nombra
+  un conjuro que no existe). La página Dudas las muestra en su sección «Conjuros» con enlace a cada
+  ficha, y la ficha del conjuro avisa. `docs/dudas.md` remite al nuevo listado. Van cargadas las 24
+  dudas de las tandas 2 a 8 y de los trucos. Se hizo aparte del modelo de dudas de habilidades
+  (`SpellDoubt`, sin tocar `ElementKind`) para no mezclar las dos importaciones.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
