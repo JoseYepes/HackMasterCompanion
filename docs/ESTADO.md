@@ -230,7 +230,15 @@
   (MJ p. 243–252); con ella están todos los conjuros con nivel. 548 en total. Decisiones: llamas
   demoníacas no trae escuela en el MJ y queda pendiente de verificar; bola de fuego: invierno nuclear
   se carga con la nota del MJ de que se retiró en la cuarta edición. Revisión de la tanda 8: un error
-  de cabecera (alcance de llamas demoníacas) y siete matices de resumen corregidos.
+  de cabecera (alcance de llamas demoníacas) y siete matices de resumen corregidos. Fusionada (pull
+  request #22). **Trucos (2026-11-23)**: los 109 trucos de mago (nivel 0, MJ p. 165–175) y una regla
+  nueva, «Trucos», con la introducción de la p. 165; 657 conjuros y 8 reglas en total. Criterios: el
+  alcance es 1' y los componentes V, S por la regla general salvo que la cabecera o el texto digan
+  otra cosa; la duración y la salvación se toman de la cabecera o, si no la tiene, de un dato
+  explícito del texto, y si no, quedan en blanco; el resumen empieza por la categoría del truco.
+  El truco «atar» coincide en nombre con el conjuro de mago de nivel 2 y se carga como «Atar
+  (truco)». Para la lista de dudas (T016): la lista del Apéndice A (p. 159) nombra un truco
+  «presente» que no tiene descripción, y no incluye «marchitar», que sí la tiene.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
