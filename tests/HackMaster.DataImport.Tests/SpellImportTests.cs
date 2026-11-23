@@ -209,13 +209,103 @@ public sealed class SpellImportTests : IDisposable
             workbook.SaveAs(path);
         }
 
-        var code = Cli.Run(["conjuros", path, Path.Combine(_directory, "data")], _output, _error);
+        // El cuarto argumento lleva el listado de dudas a la carpeta temporal (FR-009); sin él iría a docs/.
+        var code = Cli.Run(["conjuros", path, Path.Combine(_directory, "data"), Path.Combine(_directory, "dudas-conjuros.md")], _output, _error);
 
         Assert.Equal(Cli.Success, code);
         var json = File.ReadAllText(Path.Combine(_directory, "data", "spells.json"));
         Assert.Contains("\"name\": \"Agrandar\"", json, StringComparison.Ordinal);
         Assert.Contains("Conjuros: 1", _output.ToString(), StringComparison.Ordinal);
         Assert.False(File.Exists(Path.Combine(_directory, "data", "skills.json")));
+    }
+
+    private static RawRow Doubt(int row, string spell = "Agrandar", string spellClass = "Mago", string source = "MJ 175", string question = "La cabecera no da la escuela.", string provisional = "Se deja pendiente.") =>
+        Sheet.Row(SpellSheetNames.Doubts, row, ("A", spell), ("B", spellClass), ("C", source), ("D", question), ("E", provisional));
+
+    [Fact]
+    public void A_Doubt_Row_Points_To_Its_Spell__FR009()
+    {
+        var result = SpellImporter.Import([Spell(2)], [Rule(2)], [Doubt(2)]);
+
+        Assert.Empty(result.Errors);
+        var doubt = Assert.Single(result.File!.Doubts!);
+        Assert.Equal(("Agrandar", SpellClass.Mage, "agrandar"), (doubt.Subject, doubt.Class, doubt.Slug));
+        Assert.Equal(("MJ 175", "La cabecera no da la escuela.", "Se deja pendiente."), (doubt.Source, doubt.Question, doubt.Provisional));
+    }
+
+    [Fact]
+    public void A_Doubt_About_A_Spell_That_Does_Not_Exist_Fails__FR009()
+    {
+        var result = SpellImporter.Import([Spell(2)], [Rule(2)], [Doubt(2, spell: "Inexistente"), Doubt(3, spellClass: "Clérigo")]);
+
+        Assert.Null(result.File);
+        Assert.Equal(2, result.Errors.Count);
+        Assert.Contains("«Inexistente»", result.Errors[0].ToString(), StringComparison.Ordinal);
+        Assert.Contains("fila 3", result.Errors[1].ToString(), StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData("Magoo", "Agrandar", "la clase «Magoo» no es")]
+    [InlineData("", "Agrandar", "falta la clase")]
+    [InlineData("Mago", "", "una duda general no lleva clase")]
+    public void A_Doubt_With_A_Wrong_Or_Missing_Class_Fails_And_Says_Why__FR009(string spellClass, string spell, string message)
+    {
+        var result = SpellImporter.Import([Spell(2)], [Rule(2)], [Doubt(2, spell: spell, spellClass: spellClass)]);
+
+        Assert.Null(result.File);
+        Assert.Contains(message, Assert.Single(result.Errors).ToString(), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void The_Command_Rejects_Too_Many_Arguments_And_An_Unwritable_Doubts_Path__FR009()
+    {
+        var tooMany = Cli.Run(["conjuros", "a.xlsx", "data", "dudas.md", "sobra"], _output, _error);
+        var folder = Cli.Run(["conjuros", "a.xlsx", "data", _directory], _output, _error);
+
+        Assert.Equal(Cli.UsageError, tooMany);
+        Assert.Equal(Cli.UsageError, folder);
+        Assert.Contains("es una carpeta", _error.ToString(), StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void A_Doubt_Without_Spell_Is_General_And_One_Without_Question_Fails__FR009()
+    {
+        var general = SpellImporter.Import([Spell(2)], [Rule(2)], [Doubt(2, spell: "", spellClass: "")]);
+        var empty = SpellImporter.Import([Spell(2)], [Rule(2)], [Doubt(2, question: "")]);
+
+        var doubt = Assert.Single(general.File!.Doubts!);
+        Assert.Null(doubt.Class);
+        Assert.Null(doubt.Slug);
+        Assert.Null(empty.File);
+    }
+
+    [Fact]
+    public void The_Command_Reads_The_Doubts_Tab_And_Writes_The_Doubts_Document__FR009()
+    {
+        var path = Path.Combine(_directory, "conjuros.xlsx");
+        using (var workbook = new XLWorkbook())
+        {
+            var spells = workbook.AddWorksheet(SpellSheetNames.Spells);
+            TestWorkbook.SetRow(spells, 1, "Nombre", "Clase", "Nivel", "Escuela o esfera", "Reversible", "Alcance", "Componentes", "Duración", "Tiempo de lanzamiento", "Área de efecto", "Tirada de salvación", "Libro", "Resumen propio");
+            TestWorkbook.SetRow(spells, 2, "Agrandar", "Mago", 1, "Alteración", "Reducir", "5 yardas por nivel", "V, S, M", "5 asaltos por nivel", "1 segmento", "Una criatura u objeto", "Niega", "MJ 175", "Hace más grande a una criatura u objeto.");
+            var rules = workbook.AddWorksheet(SpellSheetNames.Rules);
+            TestWorkbook.SetRow(rules, 1, "Regla", "Resumen propio", "Libro");
+            TestWorkbook.SetRow(rules, 2, "Libros de conjuros", "Resumen.", "MJ 123");
+            var doubts = workbook.AddWorksheet(SpellSheetNames.Doubts);
+            TestWorkbook.SetRow(doubts, 1, "Conjuro", "Clase", "Fuente", "Duda", "Decisión provisional");
+            TestWorkbook.SetRow(doubts, 2, "Agrandar", "Mago", "MJ 175", "La cabecera no da la escuela.", "Se deja pendiente.");
+            workbook.SaveAs(path);
+        }
+
+        var document = Path.Combine(_directory, "dudas-conjuros.md");
+        var code = Cli.Run(["conjuros", path, Path.Combine(_directory, "data"), document], _output, _error);
+
+        Assert.Equal(Cli.Success, code);
+        Assert.Contains("\"question\": \"La cabecera no da la escuela.\"", File.ReadAllText(Path.Combine(_directory, "data", "spells.json")), StringComparison.Ordinal);
+        var text = File.ReadAllText(document);
+        Assert.Contains("### Agrandar (mago)", text, StringComparison.Ordinal);
+        Assert.Contains("- **Decisión provisional**: Se deja pendiente.", text, StringComparison.Ordinal);
+        Assert.Contains("Dudas: 1", _output.ToString(), StringComparison.Ordinal);
     }
 
     [Fact]

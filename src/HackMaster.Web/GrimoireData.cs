@@ -14,13 +14,21 @@ public sealed class GrimoireData
 
     private readonly Dictionary<(SpellClass, string), Spell> _spells;
 
-    public GrimoireData(IReadOnlyList<Spell> spells, IReadOnlyList<GrimoireRule> rules)
+    public GrimoireData(IReadOnlyList<Spell> spells, IReadOnlyList<GrimoireRule> rules, IReadOnlyList<SpellDoubt>? doubts = null)
     {
         Spells = SpellQuery.Filter(spells, new SpellCriteria());
         Rules = rules;
+        Doubts = doubts ?? [];
         Facets = SpellFacets.From(Spells);
         _spells = Spells.ToDictionary(spell => (spell.Class, spell.Slug));
     }
+
+    /// <summary>Dudas de los conjuros (FR-009), en el orden de la hoja.</summary>
+    public IReadOnlyList<SpellDoubt> Doubts { get; }
+
+    /// <summary>Dudas de un conjuro concreto.</summary>
+    public IReadOnlyList<SpellDoubt> DoubtsFor(SpellClass spellClass, string slug) =>
+        [.. Doubts.Where(doubt => doubt.Class == spellClass && doubt.Slug == slug)];
 
     private GrimoireData(string error)
         : this([], []) => LoadError = error;
@@ -72,9 +80,16 @@ public sealed class GrimoireData
             }
 
             var repeated = file.Spells.GroupBy(spell => (spell.Class, spell.Slug)).FirstOrDefault(group => group.Count() > 1);
-            return repeated is not null
-                ? new GrimoireData($"El archivo de conjuros tiene repetido «{repeated.First().Name}».")
-                : new GrimoireData(file.Spells, file.Rules);
+            if (repeated is not null)
+            {
+                return new GrimoireData($"El archivo de conjuros tiene repetido «{repeated.First().Name}».");
+            }
+
+            var doubts = file.Doubts?.Where(doubt => doubt is not null).ToList() ?? [];
+            var repeatedDoubt = doubts.GroupBy(doubt => doubt.Id).FirstOrDefault(group => group.Count() > 1);
+            return repeatedDoubt is not null
+                ? new GrimoireData($"El archivo de conjuros tiene una duda repetida («{repeatedDoubt.Key}»).")
+                : new GrimoireData(file.Spells, file.Rules, doubts);
         }
         catch (JsonException exception)
         {

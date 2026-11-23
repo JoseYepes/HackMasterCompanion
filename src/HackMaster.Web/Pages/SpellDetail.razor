@@ -14,6 +14,23 @@ else
     <h1>@spell.Name</h1>
     <p class="suite-kind" data-testid="spell-class-level">@SpellClasses.Name(spell.Class), @(spell.Level == 0 ? "truco" : $"nivel {spell.Level}")</p>
 
+    @foreach (var doubt in Data.DoubtsFor(spell.Class, spell.Slug))
+    {
+        <aside class="doubt-notice" data-testid="spell-doubts-notice" role="note">
+            <p class="doubt-title">Duda abierta</p>
+            <p>@doubt.Question</p>
+            @if (!string.IsNullOrWhiteSpace(doubt.Source))
+            {
+                <p><span class="field-label">Fuente:</span> @doubt.Source</p>
+            }
+            @if (!string.IsNullOrWhiteSpace(doubt.Provisional))
+            {
+                <p><span class="field-label">Mientras tanto:</span> @doubt.Provisional</p>
+            }
+            <p><a href="dudas">Ver todas las dudas</a></p>
+        </aside>
+    }
+
     <dl class="fields">
         <dt>Escuela</dt>
         <dd data-testid="spell-field-schools"><FieldValue Field="schools" Text="@Display.List(spell.Schools)" Pending="spell.Pending" /></dd>

@@ -12,6 +12,7 @@ public static class SpellSheetNames
 {
     public const string Spells = "Conjuros";
     public const string Rules = "Reglas";
+    public const string Doubts = "Dudas";
 }
 
 /// <summary>Resultado de importar los conjuros: el archivo de datos, o los errores.</summary>
@@ -52,17 +53,34 @@ public static partial class SpellImporter
         new("C", "libro", "Libro"),
     ];
 
-    /// <summary>Lee las dos pestañas; nulo con los errores si falta alguna o una columna.</summary>
-    public static (IReadOnlyList<RawRow>? Spells, IReadOnlyList<RawRow>? Rules, IReadOnlyList<ImportMessage> Errors) Read(Stream stream)
+    private static readonly WorkbookReader.ExpectedColumn[] DoubtColumns =
+    [
+        new("A", "conjuro", "Conjuro"),
+        new("B", "clase", "Clase"),
+        new("C", "fuente", "Fuente"),
+        new("D", "duda", "Duda"),
+        new("E", "decision", "Decisión provisional"),
+    ];
+
+    /// <summary>
+    /// Lee las pestañas; nulo con los errores si falta «Conjuros» o «Reglas», o una columna. La de
+    /// «Dudas» es opcional (FR-009): si no está, no hay dudas.
+    /// </summary>
+    public static (IReadOnlyList<RawRow>? Spells, IReadOnlyList<RawRow>? Rules, IReadOnlyList<RawRow> Doubts, IReadOnlyList<ImportMessage> Errors) Read(Stream stream)
     {
         using var workbook = new XLWorkbook(stream);
         var errors = new List<ImportMessage>();
         var spells = WorkbookReader.WithoutHeader(WorkbookReader.ReadSheet(workbook, SpellSheetNames.Spells, lastColumn: 13, errors), SpellSheetNames.Spells, SpellColumns, errors);
         var rules = WorkbookReader.WithoutHeader(WorkbookReader.ReadSheet(workbook, SpellSheetNames.Rules, lastColumn: 3, errors), SpellSheetNames.Rules, RuleColumns, errors);
-        return errors.Count > 0 ? (null, null, errors) : (spells, rules, errors);
+        var doubts = workbook.TryGetWorksheet(SpellSheetNames.Doubts, out _)
+            ? WorkbookReader.WithoutHeader(WorkbookReader.ReadSheet(workbook, SpellSheetNames.Doubts, lastColumn: 5, errors), SpellSheetNames.Doubts, DoubtColumns, errors)
+            : [];
+        return errors.Count > 0 ? (null, null, [], errors) : (spells, rules, doubts ?? [], errors);
     }
 
-    public static SpellImportResult Import(IReadOnlyList<RawRow> spellRows, IReadOnlyList<RawRow> ruleRows)
+    public static SpellImportResult Import(IReadOnlyList<RawRow> spellRows, IReadOnlyList<RawRow> ruleRows) => Import(spellRows, ruleRows, []);
+
+    public static SpellImportResult Import(IReadOnlyList<RawRow> spellRows, IReadOnlyList<RawRow> ruleRows, IReadOnlyList<RawRow> doubtRows)
     {
         var errors = new List<ImportMessage>();
         var warnings = new List<ImportMessage>();
@@ -97,9 +115,71 @@ public static partial class SpellImporter
             rules.Add(new GrimoireRule(title, summary, books));
         }
 
+        var doubts = ReadDoubts(doubtRows, [.. spells.Select(entry => entry.Spell)], errors);
+
         return errors.Count > 0
             ? new SpellImportResult(null, errors, warnings)
-            : new SpellImportResult(new SpellsFile(GameDataJson.CurrentSchemaVersion, [.. spells.Select(entry => entry.Spell).OrderBy(spell => spell.Class).ThenBy(spell => spell.Level).ThenBy(spell => spell.SearchName, StringComparer.Ordinal)], rules), errors, warnings);
+            : new SpellImportResult(new SpellsFile(GameDataJson.CurrentSchemaVersion, [.. spells.Select(entry => entry.Spell).OrderBy(spell => spell.Class).ThenBy(spell => spell.Level).ThenBy(spell => spell.SearchName, StringComparer.Ordinal)], rules, doubts), errors, warnings);
+    }
+
+    /// <summary>Lee la pestaña «Dudas» (FR-009): cada duda nombra un conjuro que existe, o ninguno si es general.</summary>
+    private static List<SpellDoubt> ReadDoubts(IReadOnlyList<RawRow> rows, IReadOnlyList<Spell> spells, List<ImportMessage> errors)
+    {
+        var doubts = new List<SpellDoubt>();
+        foreach (var row in rows)
+        {
+            var name = row["A"];
+            var question = row["D"];
+            if (question.Length == 0)
+            {
+                errors.Add(new ImportMessage(SpellSheetNames.Doubts, row.RowNumber, name.Length == 0 ? null : name, "a la duda le falta el texto de la duda."));
+                continue;
+            }
+
+            var classText = row["B"];
+            Spell? spell = null;
+            if (name.Length == 0 && classText.Length > 0)
+            {
+                errors.Add(new ImportMessage(SpellSheetNames.Doubts, row.RowNumber, null, "una duda general no lleva clase; si es de un conjuro, falta su nombre."));
+                continue;
+            }
+
+            if (name.Length > 0)
+            {
+                if (classText.Length == 0)
+                {
+                    errors.Add(new ImportMessage(SpellSheetNames.Doubts, row.RowNumber, name, "falta la clase del conjuro (Mago o Clérigo)."));
+                    continue;
+                }
+
+                if (SpellClasses.FromSlug(classText) is not { } spellClass)
+                {
+                    errors.Add(new ImportMessage(SpellSheetNames.Doubts, row.RowNumber, name, $"la clase «{classText}» no es Mago ni Clérigo."));
+                    continue;
+                }
+
+                var slug = TextNormalizer.ToSlug(name);
+                spell = spells.FirstOrDefault(candidate => candidate.Class == spellClass && candidate.Slug == slug);
+                if (spell is null)
+                {
+                    errors.Add(new ImportMessage(SpellSheetNames.Doubts, row.RowNumber, name, $"no hay ningún conjuro «{name}» de {SpellClasses.Name(spellClass).ToLowerInvariant()}."));
+                    continue;
+                }
+            }
+
+            doubts.Add(new SpellDoubt
+            {
+                Id = $"conjuro-{row.RowNumber}",
+                Subject = spell?.Name ?? "General",
+                Class = spell?.Class,
+                Slug = spell?.Slug,
+                Source = row["C"].Length == 0 ? null : row["C"],
+                Question = question,
+                Provisional = row["E"].Length == 0 ? null : row["E"],
+            });
+        }
+
+        return doubts;
     }
 
     private static Spell? ReadSpell(RawRow row, List<ImportMessage> errors, List<ImportMessage> warnings)
@@ -214,14 +294,55 @@ public static partial class SpellImporter
         return books.Count == 0 ? null : books;
     }
 
-    /// <summary>Escribe <c>spells.json</c> en la carpeta de datos (UTF-8 sin BOM, LF).</summary>
-    public static void Write(SpellsFile file, string dataDirectory)
+    /// <summary>
+    /// Escribe <c>spells.json</c> en la carpeta de datos y el listado de dudas de conjuros
+    /// (FR-009), ambos en UTF-8 sin BOM y con LF.
+    /// </summary>
+    public static void Write(SpellsFile file, string dataDirectory, string doubtsDocument)
     {
+        // Los dos textos se preparan antes de escribir nada.
+        var encoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+        var json = JsonSerializer.Serialize(file, GameDataJson.Options) + "\n";
+        var document = RenderDoubtsDocument(file.Doubts ?? []);
         Directory.CreateDirectory(dataDirectory);
-        File.WriteAllText(
-            Path.Combine(dataDirectory, SpellsFileName),
-            JsonSerializer.Serialize(file, GameDataJson.Options) + "\n",
-            new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+        if (Path.GetDirectoryName(Path.GetFullPath(doubtsDocument)) is { } folder)
+        {
+            Directory.CreateDirectory(folder);
+        }
+
+        File.WriteAllText(Path.Combine(dataDirectory, SpellsFileName), json, encoding);
+        File.WriteAllText(doubtsDocument, document, encoding);
+    }
+
+    private static string RenderDoubtsDocument(IReadOnlyList<SpellDoubt> doubts)
+    {
+        var text = new StringBuilder();
+        text.Append("# Dudas de los conjuros\n\n");
+        text.Append("> Archivo generado por `tools/DataImport conjuros` a partir de la pestaña \"Dudas\" de la hoja de\n");
+        text.Append("> conjuros. No lo edites a mano: cambia la hoja y vuelve a importar.\n");
+        if (doubts.Count == 0)
+        {
+            text.Append("\nNo hay dudas de conjuros.\n");
+            return text.ToString();
+        }
+
+        foreach (var doubt in doubts)
+        {
+            var title = doubt.Class is { } spellClass ? $"{doubt.Subject} ({SpellClasses.Name(spellClass).ToLowerInvariant()})" : doubt.Subject;
+            text.Append($"\n### {title}\n\n");
+            if (doubt.Source is not null)
+            {
+                text.Append($"- **Fuente**: {doubt.Source}\n");
+            }
+
+            text.Append($"- **Duda**: {doubt.Question}\n");
+            if (doubt.Provisional is not null)
+            {
+                text.Append($"- **Decisión provisional**: {doubt.Provisional}\n");
+            }
+        }
+
+        return text.ToString();
     }
 
     [GeneratedRegex(@"^(\S+)\s+(\S.*)$")]

@@ -68,7 +68,10 @@ public static class DataWriter
         var builder = new StringBuilder();
         builder.Append("# Dudas abiertas\n\n");
         builder.Append("> Archivo generado por `tools/DataImport` a partir de la pestaña \"Dudas\" de la hoja de cálculo y\n");
-        builder.Append("> de lo que detecta la importación. No lo edites a mano: cambia la hoja y vuelve a importar.\n\n");
+        builder.Append("> de lo que detecta la importación. No lo edites a mano: cambia la hoja y vuelve a importar.\n");
+        builder.Append(">\n");
+        builder.Append("> Las dudas de los conjuros del Grimorio están en `dudas-conjuros.md`, que genera la importación\n");
+        builder.Append("> de la hoja de conjuros.\n\n");
 
         builder.Append("## Dudas de la hoja\n\n");
         var fromSheet = doubts.Where(doubt => doubt.Origin == DoubtOrigin.Sheet).ToList();

@@ -10,6 +10,7 @@ public static class Cli
     public const int UsageError = 2;
 
     private const string DefaultDoubtsDocument = "docs/dudas.md";
+    private const string DefaultSpellDoubtsDocument = "docs/dudas-conjuros.md";
 
     /// <summary>Primer argumento que pide importar los conjuros (F009) en vez de las habilidades.</summary>
     public const string SpellsCommand = "conjuros";
@@ -98,10 +99,17 @@ public static class Cli
     /// </summary>
     private static int RunSpells(string[] args, TextWriter output, TextWriter error)
     {
-        if (args.Length != 3)
+        if (args.Length is < 3 or > 4)
         {
-            error.WriteLine("Uso: DataImport conjuros <Hackconjuros.xlsx> <carpeta-datos>");
+            error.WriteLine("Uso: DataImport conjuros <Hackconjuros.xlsx> <carpeta-datos> [<archivo-dudas>]");
             error.WriteLine("Ejemplo (PowerShell): dotnet run --project tools/DataImport -- conjuros \"$env:HACKMASTER_SPELLS_EXCEL\" data/");
+            return UsageError;
+        }
+
+        var doubtsDocument = args.Length == 4 ? args[3] : DefaultSpellDoubtsDocument;
+        if (doubtsDocument.Trim().Length == 0 || Directory.Exists(doubtsDocument))
+        {
+            error.WriteLine($"El listado de dudas no puede escribirse en «{doubtsDocument}»: está vacío o es una carpeta.");
             return UsageError;
         }
 
@@ -113,7 +121,7 @@ public static class Cli
             return UsageError;
         }
 
-        (IReadOnlyList<RawRow>? Spells, IReadOnlyList<RawRow>? Rules, IReadOnlyList<ImportMessage> Errors) read;
+        (IReadOnlyList<RawRow>? Spells, IReadOnlyList<RawRow>? Rules, IReadOnlyList<RawRow> Doubts, IReadOnlyList<ImportMessage> Errors) read;
         try
         {
             using var stream = new FileStream(workbookPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -132,7 +140,7 @@ public static class Cli
             return UsageError;
         }
 
-        var result = SpellImporter.Import(read.Spells, read.Rules);
+        var result = SpellImporter.Import(read.Spells, read.Rules, read.Doubts);
         if (result.File is null)
         {
             error.WriteLine($"La importación de conjuros ha fallado: {Count(result.Errors.Count, "error", "errores")}. No se ha modificado ningún archivo.");
@@ -140,10 +148,20 @@ public static class Cli
             return DataErrors;
         }
 
-        SpellImporter.Write(result.File, args[2]);
+        try
+        {
+            SpellImporter.Write(result.File, args[2], doubtsDocument);
+        }
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException)
+        {
+            error.WriteLine($"No se pudieron escribir los datos de conjuros: {exception.Message}");
+            return UsageError;
+        }
+
         output.WriteLine("Importación de conjuros correcta.");
         output.WriteLine($"  Conjuros: {result.File.Spells.Count}");
         output.WriteLine($"  Reglas del Grimorio: {result.File.Rules.Count}");
+        output.WriteLine($"  Dudas: {result.File.Doubts?.Count ?? 0}");
         if (result.Warnings.Count > 0)
         {
             output.WriteLine($"Avisos ({result.Warnings.Count}):");

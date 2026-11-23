@@ -149,6 +149,14 @@ public sealed class DataWriterTests : IDisposable
     }
 
     [Fact]
+    public void The_Doubts_Document_Points_To_The_Spell_Doubts__F009_FR009()
+    {
+        var document = DataWriter.Render(Model())[DataWriter.DoubtsDocument];
+
+        Assert.Contains("dudas-conjuros.md", document, StringComparison.Ordinal);
+    }
+
+    [Fact]
     public void Write_Replaces_Previous_Files__FR001()
     {
         var data = Path.Combine(_directory, "data");

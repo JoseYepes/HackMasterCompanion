@@ -1,5 +1,6 @@
 @page "/dudas"
 @inject GameData Data
+@inject GrimoireData Grimoire
 
 <PageTitle>Dudas · @AppInfo.Name</PageTitle>
 
@@ -7,11 +8,11 @@
 
 <p>Datos que no son firmes en las fuentes: qué se duda, de dónde sale y qué se ha hecho mientras tanto.</p>
 
-@if (Data.Doubts.Count == 0)
+@if (Data.Doubts.Count == 0 && Grimoire.Doubts.Count == 0)
 {
     <p class="no-results">No hay dudas abiertas.</p>
 }
-else
+else if (Data.Doubts.Count > 0)
 {
     <section data-testid="sheet-doubts">
         <h2>Dudas registradas (@_sheet.Count)</h2>
@@ -22,6 +23,38 @@ else
         <h2>Detectadas al importar (@_detected.Count)</h2>
         <p class="section-note">Valores de la hoja que no se pudieron interpretar; quedan pendientes de verificar.</p>
         <DoubtTable Doubts="_detected" />
+    </section>
+}
+
+@if (Grimoire.Doubts.Count > 0)
+{
+    <section data-testid="spell-doubts">
+        <h2>Conjuros (@Grimoire.Doubts.Count)</h2>
+        <p class="section-note">Erratas aplicadas, datos en blanco o contradictorios en el manual y otras decisiones sobre el Grimorio.</p>
+        <ul class="doubt-list">
+            @foreach (var doubt in Grimoire.Doubts)
+            {
+                <li class="doubt-row" data-testid="spell-doubt-row" @key="doubt.Id">
+                    <p class="doubt-subject">@if (doubt.Class is { } spellClass && doubt.Slug is not null)
+                        {
+                            <a href="grimorio/@SpellClasses.Slug(spellClass)/@doubt.Slug">@doubt.Subject (@SpellClasses.Name(spellClass).ToLowerInvariant())</a>
+                        }
+                        else
+                        {
+                            @doubt.Subject
+                        }</p>
+                    <p>@doubt.Question</p>
+                    @if (!string.IsNullOrWhiteSpace(doubt.Source))
+                    {
+                        <p><span class="field-label">Fuente:</span> @doubt.Source</p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(doubt.Provisional))
+                    {
+                        <p><span class="field-label">Mientras tanto:</span> @doubt.Provisional</p>
+                    }
+                </li>
+            }
+        </ul>
     </section>
 }
 
