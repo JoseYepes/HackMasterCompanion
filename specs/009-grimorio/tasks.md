@@ -16,7 +16,7 @@
 ## Tandas siguientes (mismo formato, solo filas nuevas)
 
 - [X] T011 Nivel 2 de mago y de clérigo: 61 de mago (MJ p. 187–198) y 23 de clérigo (p. 257–260), cotejados con la lista del Apéndice A; erratas aplicadas a rigor mortis, rito menor, puño atronador GpC y reparar
-- [ ] T012 Niveles 3 a 9 de mago y 3 a 7 de clérigo, uno a uno. Hecho el nivel 3 (tanda 3): 54 de mago (MJ p. 198–207) y 25 de clérigo (p. 260–264); errata aplicada a paralización. Hecho el nivel 4 (tanda 4): 57 de mago (p. 207–218) y 18 de clérigo (p. 264–267). Hecho el nivel 5 (tanda 5): 47 de mago (p. 218–226) y 18 de clérigo (p. 268–271); errata aplicada a visión falsa
+- [ ] T012 Niveles 3 a 9 de mago y 3 a 7 de clérigo, uno a uno. Hecho el nivel 3 (tanda 3): 54 de mago (MJ p. 198–207) y 25 de clérigo (p. 260–264); errata aplicada a paralización. Hecho el nivel 4 (tanda 4): 57 de mago (p. 207–218) y 18 de clérigo (p. 264–267). Hecho el nivel 5 (tanda 5): 47 de mago (p. 218–226) y 18 de clérigo (p. 268–271); errata aplicada a visión falsa. Hecho el nivel 6 (tanda 6): 48 de mago (p. 226–236) y 13 de clérigo (p. 271–273)
 - [ ] T013 Trucos de mago
 - [ ] T014 Conjuros de la SSG
 - [ ] T015 Sustituir los resúmenes por los del documento del usuario, si llega
