@@ -208,6 +208,13 @@
   (MJ p. 207–218) y 18 de clérigo (p. 264–267), 325 en total. Decisiones: el alcance de enervación
   dice «10 asaltos por nivel» en el MJ y se deja así, señalado en el resumen; bajar las aguas y toque
   de muerte de clérigo remiten a conjuros de mago de nivel 6 y 5, y se resumen con ese texto.
+  Revisión de la tanda 4: sin errores de cabecera; seis matices de resumen corregidos. Fusionada
+  (pull request #18). **Tanda 5 (2026-11-23)**: nivel 5, 47 de mago (MJ p. 218–226) y 18 de clérigo
+  (p. 268–271), 390 en total. Errata aplicada: visión falsa es también de ilusión/fantasma (erratas
+  en inglés, PHB p. 222). Decisión: donde la cabecera del MJ pone solo un número como tiempo de
+  lanzamiento («5», «8»), se entiende «segmentos», como en el resto de conjuros de ese nivel.
+  Revisión de la tanda 5: sin conjuros de más ni de menos ni errores de cabecera; siete matices de
+  resumen corregidos.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
