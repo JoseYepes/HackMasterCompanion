@@ -226,7 +226,11 @@
   nivel 7, 33 de mago (MJ p. 236–243) y 14 de clérigo (p. 273–276); con ella están todos los
   conjuros de clérigo. 498 en total. Errata aplicada: rangos de la tabla de cabrear deidad (erratas
   en castellano, p. 236). Revisión de la tanda 7: sin errores de cabecera; ocho matices de resumen
-  corregidos.
+  corregidos. Fusionada (pull request #21). **Tanda 8 (2026-11-23)**: niveles 8 y 9 de mago, 25 y 25
+  (MJ p. 243–252); con ella están todos los conjuros con nivel. 548 en total. Decisiones: llamas
+  demoníacas no trae escuela en el MJ y queda pendiente de verificar; bola de fuego: invierno nuclear
+  se carga con la nota del MJ de que se retiró en la cuarta edición. Revisión de la tanda 8: un error
+  de cabecera (alcance de llamas demoníacas) y siete matices de resumen corregidos.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
