@@ -214,7 +214,15 @@
   en inglés, PHB p. 222). Decisión: donde la cabecera del MJ pone solo un número como tiempo de
   lanzamiento («5», «8»), se entiende «segmentos», como en el resto de conjuros de ese nivel.
   Revisión de la tanda 5: sin conjuros de más ni de menos ni errores de cabecera; siete matices de
-  resumen corregidos.
+  resumen corregidos. Fusionada (pull request #19). **Tanda 6 (2026-11-23)**: nivel 6, 48 de mago
+  (MJ p. 226–236) y 13 de clérigo (p. 271–273), 451 en total. Decisiones: conjuro de muerte tiene en
+  blanco en el MJ los componentes y el tiempo de lanzamiento, que quedan pendientes de verificar; en
+  panacea se añade, según las aclaraciones de las erratas en inglés, que solo quita rasgos y
+  defectos adquiridos tras crear el personaje; la «esfera» que traen algunas cabeceras de clérigo
+  (prohibición: Protección) no se recoge aparte, como en las tandas anteriores. Revisión de la tanda
+  6: sin conjuros de más ni de menos ni errores de cabecera; seis matices de resumen corregidos.
+  Pendiente para la lista de dudas (T016): la errata inglesa de reanimación menor (PHB p. 262)
+  sobre qué rasgos y defectos quita panacea.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
