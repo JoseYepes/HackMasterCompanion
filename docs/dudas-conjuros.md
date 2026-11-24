@@ -146,3 +146,15 @@
 - **Fuente**: MJ 175-252
 - **Duda**: Algunas cabeceras dan el tiempo de lanzamiento con un número solo («5», «8», «1»), sin unidad.
 - **Decisión provisional**: Se entiende «segmentos», como el resto de conjuros de ese nivel.
+
+### General
+
+- **Fuente**: SSG 89-127
+- **Duda**: La Spellslinger's Guide solo existe en inglés y el PDF es un escaneo sin texto: los datos se han leído con OCR (Tesseract) y las cabeceras dudosas se han cotejado con la imagen de la página.
+- **Decisión provisional**: Los nombres son traducción propia, con el original inglés entre paréntesis; si el conjuro ya existe en el MJ (versiones de mago de conjuros de clérigo), se usa el nombre del MJ.
+
+### Exterminar plagas (Exterminate) (mago)
+
+- **Fuente**: SSG 99
+- **Duda**: La SSG llama «Exterminate» a un conjuro de nivel 1 distinto del truco que el MJ traduce como «exterminar».
+- **Decisión provisional**: Se traduce «exterminar plagas» para no confundirlos.
