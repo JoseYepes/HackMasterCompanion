@@ -8,15 +8,17 @@ otra cabecera. Respuestas JSON. CORS solo para el origen de GitHub Pages y `http
 |---|---|
 | 401 | sin token, token caducado o firma, emisor o audiencia incorrectos |
 | 403 | correo no invitado (`{ "error": "not-invited" }`), o ruta de administración sin ser administrador |
-| 409 | `If-Match` no coincide; el cuerpo es el documento de la nube |
+| 400 | JSON no válido, `id` distinto del de la ruta, tipo desconocido, o sin `If-Match` ni `If-None-Match: *` |
+| 409 | `If-Match` no coincide, o ya existe con `If-None-Match: *`; el cuerpo es el documento de la nube |
 | 413 | documento mayor de 2 MB |
 | 503 | Cosmos no responde o cuota agotada (`{ "error": "unavailable" }`) |
 
 ## `GET /api/me`
 200 `{ "name": "…", "email": "…", "isAdmin": false }`.
 
-## `GET /api/data?since={ISO 8601}`
-200 `{ "items": [Doc…], "serverTime": "…" }`. Sin `since`, todo. Incluye las marcas de borrado.
+## `GET /api/data?since={segundos Unix}`
+200 `{ "items": [Doc…], "serverTime": 1795000000 }`. `serverTime` es la hora de la nube en segundos
+Unix; se pasa tal cual como `since` en la siguiente petición. Sin `since`, todo. Incluye las marcas de borrado.
 `Doc` = `{ id, kind, schemaVersion, updatedAt, deleted, payload, etag }`.
 
 ## `PUT /api/data/{id}`
@@ -27,7 +29,7 @@ Cabecera `If-Match: {etag}` o `If-None-Match: *` si es nuevo. Cuerpo: `Doc` sin 
 200, archivo `hackmaster-cuenta.json`: `{ "schemaVersion": 1, "exportedAt", "items": [Doc…] }`.
 
 ## `DELETE /api/account`
-Borra todos los documentos de `userdata` de la cuenta. 204.
+Borra todos los documentos de `userdata` de la cuenta. 204. La exportación no incluye las marcas de borrado.
 
 ## Administración (solo correos de `ADMIN_EMAILS`)
 - `GET /api/invitations` → 200 `[{ email, invitedAt }]`

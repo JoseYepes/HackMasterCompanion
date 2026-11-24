@@ -32,29 +32,29 @@
   - lectura y escritura con `schemaVersion` 1;
   - los archivos ilegibles no se borran.
 - [X] T008 Implementar `SyncDoc`, `SyncState`, `SyncMerge` y `AccountKeys` en `src/HackMaster.Domain/Sync/`, hasta que pasen T005–T007.
-- [ ] T009 Tests de `TokenValidator` en `tests/HackMaster.Api.Tests/TokenValidatorTests.cs`, con una clave de firma de prueba:
+- [X] T009 Tests de `TokenValidator` en `tests/HackMaster.Api.Tests/TokenValidatorTests.cs`, con una clave de firma de prueba:
   - emisor, audiencia, caducidad y firma;
   - extracción de `oid` y del correo.
-- [ ] T010 Implementar `src/HackMaster.Api/Auth/TokenValidator.cs` (con los metadatos OIDC de la autoridad configurada) y `Cors.cs` (solo el origen de Pages y `localhost`).
-- [ ] T011 Crear `src/HackMaster.Api/Storage/CosmosStore.cs` y un *fixture* de tests que use el emulador de Cosmos (`COSMOS_EMULATOR_ENDPOINT`) y que se salte con un mensaje claro si no está.
+- [X] T010 Implementar `src/HackMaster.Api/Auth/TokenValidator.cs` (con los metadatos OIDC de la autoridad configurada) y `Cors.cs` (solo el origen de Pages y `localhost`).
+- [X] T011 Crear `src/HackMaster.Api/Storage/CosmosStore.cs` y un *fixture* de tests que use el emulador de Cosmos (`COSMOS_EMULATOR_ENDPOINT`) y que se salte con un mensaje claro si no está.
 
 ## Phase 3: US1 + US3, iniciar sesión, guardar en la cuenta y que cada uno vea lo suyo (P1/P2)
 
 **Independent Test**: iniciar sesión, crear una ficha, borrar los datos del sitio y volver a iniciar sesión: la ficha sigue ahí. Con otra cuenta no se ve.
 
-- [ ] T012 [P] [US1] Tests de integración en `tests/HackMaster.Api.Tests/DataFunctionsTests.cs`:
+- [X] T012 [P] [US1] Tests de integración en `tests/HackMaster.Api.Tests/DataFunctionsTests.cs`:
   - `GET /api/me`;
   - `PUT` y `GET /api/data`: crear con `If-None-Match: *` y actualizar con `If-Match`;
   - 409 con la versión de la nube;
   - 413 por encima de 2 MB;
   - 401 sin token.
-- [ ] T013 [P] [US3] Tests de aislamiento en `tests/HackMaster.Api.Tests/IsolationTests.cs` (SC-003, FR-008):
+- [X] T013 [P] [US3] Tests de aislamiento en `tests/HackMaster.Api.Tests/IsolationTests.cs` (SC-003, FR-008):
   - la cuenta A no lee ni cambia los documentos de B, aunque mande su `id`;
   - el `userId` del cuerpo se ignora.
-- [ ] T014 [P] [US1] Tests de invitación en `tests/HackMaster.Api.Tests/InvitationTests.cs`:
+- [X] T014 [P] [US1] Tests de invitación en `tests/HackMaster.Api.Tests/InvitationTests.cs`:
   - un correo no invitado recibe 403 `not-invited` en todas las rutas de datos;
   - el correo se compara en minúsculas.
-- [ ] T015 [US1] Implementar `MeFunction` y `DataFunctions` en `src/HackMaster.Api/Functions/`, hasta que pasen T012–T014. Si Cosmos falla, responder 503 `unavailable`.
+- [X] T015 [US1] Implementar `MeFunction` y `DataFunctions` en `src/HackMaster.Api/Functions/`, hasta que pasen T012–T014. Si Cosmos falla, responder 503 `unavailable`.
 - [ ] T016 [US1] Configurar MSAL en `src/HackMaster.Web/Program.cs` y `wwwroot/appsettings.json`: autoridad, cliente, ámbito y dirección de la API, todos públicos. Sin configuración, la aplicación funciona sin el botón de sesión.
 - [ ] T017 [P] [US1] Tests bUnit en `tests/HackMaster.Web.Tests/Account/LoginDisplayTests.cs`, con un `AuthenticationStateProvider` falso: los botones y el nombre (FR-001) y el aviso de no invitado (contracts/ui.md).
 - [ ] T018 [US1] Poner `src/HackMaster.Web/Account/LoginDisplay.razor` en el menú, hasta que pase T017.
@@ -86,8 +86,8 @@
 
 ## Phase 6: US5, mis datos son míos (P3)
 
-- [ ] T026 [P] [US5] Tests de integración de `GET /api/export` y `DELETE /api/account`: solo se borran los datos de la cuenta y el resto sigue.
-- [ ] T027 [US5] Implementar `ExportFunction` y `AccountFunction`, hasta que pase T026.
+- [X] T026 [P] [US5] Tests de integración de `GET /api/export` y `DELETE /api/account`: solo se borran los datos de la cuenta y el resto sigue.
+- [X] T027 [US5] Implementar `ExportFunction` y `AccountFunction`, hasta que pase T026.
 - [ ] T028 [P] [US5] Tests bUnit de `Pages/Account.razor`:
   - descargar los datos;
   - borrar solo tras escribir «BORRAR»;
@@ -96,11 +96,11 @@
 
 ## Phase 7: Invitaciones (FR-003)
 
-- [ ] T030 [P] Tests de integración de `/api/invitations`:
+- [X] T030 [P] Tests de integración de `/api/invitations`:
   - solo para los correos de `ADMIN_EMAILS`;
   - invitar, listar y quitar;
   - quien pierde la invitación recibe 403 en la siguiente petición.
-- [ ] T031 Implementar `InvitationFunctions`, hasta que pase T030.
+- [X] T031 Implementar `InvitationFunctions`, hasta que pase T030.
 - [ ] T032 [P] Tests bUnit de `Pages/Invitations.razor`; el enlace del menú solo aparece para administradores.
 - [ ] T033 Implementar `src/HackMaster.Web/Pages/Invitations.razor` (`/invitaciones`), hasta que pase T032.
 
