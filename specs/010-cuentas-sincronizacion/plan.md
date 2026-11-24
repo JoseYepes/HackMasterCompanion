@@ -97,7 +97,7 @@ infra/
   main.bicep          # grupo de recursos: Static Web App Free, Cosmos (free tier), contenedores
   README.md
 .github/workflows/azure.yml                                      # infraestructura + API
-docs/adr/0002-sincronizacion.md
+docs/adr/0001-sincronizacion.md
 ```
 
 **Structure Decision**:

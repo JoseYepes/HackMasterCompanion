@@ -8,9 +8,9 @@
 
 ## Phase 1: Preparación
 
-- [ ] T001 Crear `src/HackMaster.Api` (Functions aislado, `net10.0`) y `tests/HackMaster.Api.Tests`; añadirlos a la solución y fijar versiones en `Directory.Packages.props` (paquetes de plan.md).
-- [ ] T002 Añadir `src/HackMaster.Api/staticwebapp.config.json` con `"platform": { "apiRuntime": "dotnet-isolated:10.0" }`.
-- [ ] T003 Escribir `docs/adr/0002-sincronizacion.md`: por qué `IAccountSync`, un documento por elemento y que gane el más reciente.
+- [X] T001 Crear `src/HackMaster.Api` (Functions aislado, `net10.0`) y `tests/HackMaster.Api.Tests`; añadirlos a la solución y fijar versiones en `Directory.Packages.props` (paquetes de plan.md).
+- [X] T002 Añadir `src/HackMaster.Api/staticwebapp.config.json` con `"platform": { "apiRuntime": "dotnet-isolated:10.0" }`.
+- [X] T003 Escribir `docs/adr/0001-sincronizacion.md`: por qué `IAccountSync`, un documento por elemento y que gane el más reciente.
 
 ## Phase 2: Base (bloquea todo lo demás)
 
@@ -18,20 +18,20 @@
   - una función `GET /api/ping` que devuelve la cabecera `Authorization` recibida y responde a `OPTIONS` con CORS;
   - desplegarla en una Static Web App Free de prueba **solo tras confirmarlo con el usuario**, y llamarla desde `http://localhost`;
   - anotar el resultado en research.md; si falla, aplicar el plan B o C antes de seguir.
-- [ ] T005 [P] Tests de `AccountKeys` en `tests/HackMaster.Domain.Tests/Sync/AccountKeysTests.cs`:
+- [X] T005 [P] Tests de `AccountKeys` en `tests/HackMaster.Domain.Tests/Sync/AccountKeysTests.cs`:
   - sin sesión, las claves de siempre;
   - con sesión, `hackmaster.u.{oid}.{clave}`;
   - un `oid` vacío o con caracteres no válidos se rechaza.
-- [ ] T006 [P] Tests de `SyncMerge` en `tests/HackMaster.Domain.Tests/Sync/SyncMergeTests.cs`, con las cuatro reglas de data-model.md:
+- [X] T006 [P] Tests de `SyncMerge` en `tests/HackMaster.Domain.Tests/Sync/SyncMergeTests.cs`, con las cuatro reglas de data-model.md:
   - gana el `updatedAt` mayor y, en empate, la nube;
   - las marcas de borrado;
   - una versión posterior se ignora con aviso;
   - el aviso lleva el nombre del elemento descartado.
-- [ ] T007 [P] Tests de `SyncState` en `tests/HackMaster.Domain.Tests/Sync/SyncStateTests.cs`:
+- [X] T007 [P] Tests de `SyncState` en `tests/HackMaster.Domain.Tests/Sync/SyncStateTests.cs`:
   - un solo pendiente por `id`;
   - lectura y escritura con `schemaVersion` 1;
   - los archivos ilegibles no se borran.
-- [ ] T008 Implementar `SyncDoc`, `SyncState`, `SyncMerge` y `AccountKeys` en `src/HackMaster.Domain/Sync/`, hasta que pasen T005–T007.
+- [X] T008 Implementar `SyncDoc`, `SyncState`, `SyncMerge` y `AccountKeys` en `src/HackMaster.Domain/Sync/`, hasta que pasen T005–T007.
 - [ ] T009 Tests de `TokenValidator` en `tests/HackMaster.Api.Tests/TokenValidatorTests.cs`, con una clave de firma de prueba:
   - emisor, audiencia, caducidad y firma;
   - extracción de `oid` y del correo.

@@ -12,7 +12,7 @@
 | `schemaVersion` | entero | el de `StoredData` para ese tipo (`CharactersVersion`, `SuitesVersion`, `RollsVersion`; `theme` = 1) |
 | `updatedAt` | fecha (ISO 8601, UTC) | hora del cambio en el dispositivo; decide quién gana un conflicto |
 | `deleted` | booleano | marca de borrado; `payload` vacío |
-| `payload` | objeto JSON | la ficha, el conjunto, el `RollHistoryFile` o `{ "mode": "normal" \| "noche" }` |
+| `payload` | texto (JSON) | la ficha, el conjunto, el `RollHistoryFile` o `{ "mode": "normal" \| "noche" }` |
 | `_etag` | texto | versión de Cosmos; se usa en `If-Match` |
 
 Límite: 2 MB por documento (el del historial ya está acotado en el dispositivo).

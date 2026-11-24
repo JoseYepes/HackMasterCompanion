@@ -4,7 +4,7 @@
   cuenta» y, si es administrador, «Invitaciones».
 - **Estado de sincronización**, junto al nombre: «Sincronizado», «Cambios pendientes» (sin
   conexión) o «No se puede sincronizar» (servicio caído). Los conflictos se avisan con el aviso
-  temporal que ya usa la aplicación: «Se ha quedado la versión más reciente de “{nombre}”».
+  temporal que ya usa la aplicación: «Se ha quedado la versión más reciente de «{nombre}»».
 - **Sin invitación**: «Esta cuenta no está invitada. Pide acceso a quien administra la aplicación.»
   y se cierra la sesión.
 - **Primera sesión con datos en el dispositivo** (US4): un diálogo con «Subir a mi cuenta» y
