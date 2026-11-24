@@ -110,50 +110,50 @@ public static class LocalDocs
         switch (kind)
         {
             case SyncKinds.Character:
-            {
-                if ((string.IsNullOrWhiteSpace(json) ? CharactersFile.Empty : StoredData.ReadCharacters(json).Value) is not { } file)
                 {
-                    return json;
-                }
+                    if ((string.IsNullOrWhiteSpace(json) ? CharactersFile.Empty : StoredData.ReadCharacters(json).Value) is not { } file)
+                    {
+                        return json;
+                    }
 
-                var items = file.Characters.ToList();
-                foreach (var doc in mine)
-                {
-                    var item = doc.Deleted ? null : StoredData.ReadCharacters(Wrap(doc, "characters")).Value?.Characters.SingleOrDefault();
-                    Merge(items, doc, item, c => c.Id);
-                }
+                    var items = file.Characters.ToList();
+                    foreach (var doc in mine)
+                    {
+                        var item = doc.Deleted ? null : StoredData.ReadCharacters(Wrap(doc, "characters")).Value?.Characters.SingleOrDefault();
+                        Merge(items, doc, item, c => c.Id);
+                    }
 
-                return StoredData.Write(file with { Characters = items });
-            }
+                    return StoredData.Write(file with { Characters = items });
+                }
 
             case SyncKinds.Suite:
-            {
-                if ((string.IsNullOrWhiteSpace(json) ? PlayerSuitesFile.Empty : StoredData.ReadSuites(json).Value) is not { } file)
                 {
-                    return json;
-                }
+                    if ((string.IsNullOrWhiteSpace(json) ? PlayerSuitesFile.Empty : StoredData.ReadSuites(json).Value) is not { } file)
+                    {
+                        return json;
+                    }
 
-                var items = file.Suites.ToList();
-                foreach (var doc in mine)
-                {
-                    var item = doc.Deleted ? null : StoredData.ReadSuites(Wrap(doc, "suites")).Value?.Suites.SingleOrDefault();
-                    Merge(items, doc, item, s => s.Slug);
-                }
+                    var items = file.Suites.ToList();
+                    foreach (var doc in mine)
+                    {
+                        var item = doc.Deleted ? null : StoredData.ReadSuites(Wrap(doc, "suites")).Value?.Suites.SingleOrDefault();
+                        Merge(items, doc, item, s => s.Slug);
+                    }
 
-                return StoredData.Write(file with { Suites = items });
-            }
+                    return StoredData.Write(file with { Suites = items });
+                }
 
             case SyncKinds.Rolls:
-            {
-                var last = mine[^1];
-                return !last.Deleted && StoredData.ReadRolls(last.Payload).Value is { } rolls ? StoredData.Write(rolls) : json;
-            }
+                {
+                    var last = mine[^1];
+                    return !last.Deleted && StoredData.ReadRolls(last.Payload).Value is { } rolls ? StoredData.Write(rolls) : json;
+                }
 
             default:
-            {
-                var last = mine[^1];
-                return !last.Deleted && IsTheme(last.Payload) ? last.Payload : json;
-            }
+                {
+                    var last = mine[^1];
+                    return !last.Deleted && IsTheme(last.Payload) ? last.Payload : json;
+                }
         }
     }
 
