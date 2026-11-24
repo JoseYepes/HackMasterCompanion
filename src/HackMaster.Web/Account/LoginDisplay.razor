@@ -1,0 +1,61 @@
+@implements IDisposable
+@inject IServiceProvider Services
+
+@* Sesión en la cabecera (F006 FR-001; contracts/ui.md). Sin inicio de sesión configurado no se ve. *@
+@if (_sync is { State: not AccountState.NotConfigured })
+{
+    <div class="account-menu" data-testid="account-menu">
+        @if (_sync.State == AccountState.SignedIn)
+        {
+            <a class="account-name" href="cuenta" title="@StatusText" data-testid="account-name">
+                <span class="account-status @StatusClass" aria-hidden="true"></span>@_sync.Name
+            </a>
+            <button type="button" class="account-button" data-testid="sign-out" @onclick="_sync.SignOutAsync">Cerrar sesión</button>
+        }
+        else if (_sync.State == AccountState.Connecting)
+        {
+            <span class="account-name" role="status">Conectando…</span>
+        }
+        else if (_sync.State == AccountState.SignedOut)
+        {
+            <button type="button" class="account-button" data-testid="sign-in" @onclick="_sync.SignInAsync">Iniciar sesión</button>
+        }
+    </div>
+}
+
+@code {
+    private IAccountSync? _sync;
+
+    private string StatusText => _sync?.Status switch
+    {
+        SyncStatus.Pending => "Cambios pendientes",
+        SyncStatus.Failed => "No se puede sincronizar",
+        _ => "Sincronizado",
+    };
+
+    private string StatusClass => _sync?.Status switch
+    {
+        SyncStatus.Pending => "pending",
+        SyncStatus.Failed => "failed",
+        _ => "synced",
+    };
+
+    protected override void OnInitialized()
+    {
+        _sync = Services.GetService(typeof(IAccountSync)) as IAccountSync;
+        if (_sync is not null)
+        {
+            _sync.Changed += OnChanged;
+        }
+    }
+
+    private void OnChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        if (_sync is not null)
+        {
+            _sync.Changed -= OnChanged;
+        }
+    }
+}

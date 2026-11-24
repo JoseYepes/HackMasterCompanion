@@ -1,5 +1,6 @@
 @using Microsoft.JSInterop
 @inject IJSRuntime JS
+@inject IServiceProvider Services
 
 @* Botón de modo normal y noche (F007, FR-003). El modo lo aplica y lo guarda el script de
    index.html (specs/005-estilo-fantasia/contracts/theme.md); aquí solo se pregunta y se pide. *@
@@ -50,8 +51,15 @@
     {
         try
         {
-            await JS.InvokeVoidAsync("hackmasterTheme.set", _dark ? "light" : "dark");
+            var mode = _dark ? "light" : "dark";
+            await JS.InvokeVoidAsync("hackmasterTheme.set", mode);
             _dark = !_dark;
+
+            // Con sesión, el modo también se guarda en la cuenta (F006 FR-004).
+            if (Services.GetService(typeof(HackMaster.Web.Account.IAccountSync)) is HackMaster.Web.Account.IAccountSync sync)
+            {
+                await sync.ThemeChangedAsync(mode);
+            }
         }
         catch (JSException)
         {

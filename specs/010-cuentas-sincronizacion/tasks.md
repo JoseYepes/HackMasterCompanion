@@ -55,44 +55,44 @@
   - un correo no invitado recibe 403 `not-invited` en todas las rutas de datos;
   - el correo se compara en minúsculas.
 - [X] T015 [US1] Implementar `MeFunction` y `DataFunctions` en `src/HackMaster.Api/Functions/`, hasta que pasen T012–T014. Si Cosmos falla, responder 503 `unavailable`.
-- [ ] T016 [US1] Configurar MSAL en `src/HackMaster.Web/Program.cs` y `wwwroot/appsettings.json`: autoridad, cliente, ámbito y dirección de la API, todos públicos. Sin configuración, la aplicación funciona sin el botón de sesión.
-- [ ] T017 [P] [US1] Tests bUnit en `tests/HackMaster.Web.Tests/Account/LoginDisplayTests.cs`, con un `AuthenticationStateProvider` falso: los botones y el nombre (FR-001) y el aviso de no invitado (contracts/ui.md).
-- [ ] T018 [US1] Poner `src/HackMaster.Web/Account/LoginDisplay.razor` en el menú, hasta que pase T017.
-- [ ] T019 [P] [US3] Tests bUnit de las claves por cuenta (FR-009):
+- [X] T016 [US1] Configurar MSAL en `src/HackMaster.Web/Program.cs` y `wwwroot/appsettings.json`: autoridad, cliente, ámbito y dirección de la API, todos públicos. Sin configuración, la aplicación funciona sin el botón de sesión.
+- [X] T017 [P] [US1] Tests bUnit en `tests/HackMaster.Web.Tests/Account/LoginDisplayTests.cs`, con un `AuthenticationStateProvider` falso: los botones y el nombre (FR-001) y el aviso de no invitado (contracts/ui.md).
+- [X] T018 [US1] Poner `src/HackMaster.Web/Account/LoginDisplay.razor` en el menú, hasta que pase T017.
+- [X] T019 [P] [US3] Tests bUnit de las claves por cuenta (FR-009):
   - con sesión, `PlayerCharacters`, `PlayerSuites`, el historial y el modo de pantalla leen y escriben en las claves de `AccountKeys`;
   - al cambiar de cuenta no se ve nada de la anterior, ni durante la carga.
-- [ ] T020 [US3] Aplicar las claves por cuenta en `PlayerCharacters.cs`, `PlayerSuites.cs`, `RollHistoryUpdate.cs` y el script del modo de `wwwroot/index.html`, hasta que pase T019.
-- [ ] T021 [US1] Crear `IAccountSync` y `AccountSync.cs`, que suben cada cambio después de guardarlo en el dispositivo (FR-004, FR-005), con su falso para los tests.
+- [X] T020 [US3] Aplicar las claves por cuenta en `PlayerCharacters.cs`, `PlayerSuites.cs`, `RollHistoryUpdate.cs` y el script del modo de `wwwroot/index.html`, hasta que pase T019.
+- [X] T021 [US1] Crear `IAccountSync` y `AccountSync.cs`, que suben cada cambio después de guardarlo en el dispositivo (FR-004, FR-005), con su falso para los tests.
 
 ## Phase 4: US2, mis datos en otro dispositivo (P1)
 
 **Independent Test**: con la misma cuenta en dos navegadores, un conjunto creado en uno aparece en el otro tras recargar.
 
-- [ ] T022 [P] [US2] Tests bUnit en `tests/HackMaster.Web.Tests/Account/AccountSyncTests.cs`:
+- [X] T022 [P] [US2] Tests bUnit en `tests/HackMaster.Web.Tests/Account/AccountSyncTests.cs`:
   - al abrir y al recargar se traen los cambios (`since`);
   - sin conexión, el cambio queda pendiente y se sube al volver;
   - un 409 aplica `SyncMerge` y muestra el aviso;
   - con 503 o 401 aparece el estado «No se puede sincronizar» y no se pierde nada.
-- [ ] T023 [US2] Completar `AccountSync.cs` y el estado de sincronización de contracts/ui.md, hasta que pase T022.
+- [X] T023 [US2] Completar `AccountSync.cs` y el estado de sincronización de contracts/ui.md, hasta que pase T022.
 
 ## Phase 5: US4, llevar a la cuenta lo que hay en el dispositivo (P2)
 
-- [ ] T024 [P] [US4] Tests bUnit del diálogo de primera sesión (FR-010):
+- [X] T024 [P] [US4] Tests bUnit del diálogo de primera sesión (FR-010):
   - con la cuenta vacía, se ofrece subir;
   - con datos en la cuenta, «Subir» añade sin sustituir, y gana el más reciente por `Id` o `Slug`;
   - «Dejarlos» no toca nada;
   - nunca se borra nada.
-- [ ] T025 [US4] Implementar el diálogo en `src/HackMaster.Web/Account/`, hasta que pase T024.
+- [X] T025 [US4] Implementar el diálogo en `src/HackMaster.Web/Account/`, hasta que pase T024.
 
 ## Phase 6: US5, mis datos son míos (P3)
 
 - [X] T026 [P] [US5] Tests de integración de `GET /api/export` y `DELETE /api/account`: solo se borran los datos de la cuenta y el resto sigue.
 - [X] T027 [US5] Implementar `ExportFunction` y `AccountFunction`, hasta que pase T026.
-- [ ] T028 [P] [US5] Tests bUnit de `Pages/Account.razor`:
+- [X] T028 [P] [US5] Tests bUnit de `Pages/Account.razor`:
   - descargar los datos;
   - borrar solo tras escribir «BORRAR»;
   - los datos del dispositivo se quedan.
-- [ ] T029 [US5] Implementar `src/HackMaster.Web/Pages/Account.razor` (`/cuenta`), hasta que pase T028.
+- [X] T029 [US5] Implementar `src/HackMaster.Web/Pages/Account.razor` (`/cuenta`), hasta que pase T028.
 
 ## Phase 7: Invitaciones (FR-003)
 
@@ -101,8 +101,8 @@
   - invitar, listar y quitar;
   - quien pierde la invitación recibe 403 en la siguiente petición.
 - [X] T031 Implementar `InvitationFunctions`, hasta que pase T030.
-- [ ] T032 [P] Tests bUnit de `Pages/Invitations.razor`; el enlace del menú solo aparece para administradores.
-- [ ] T033 Implementar `src/HackMaster.Web/Pages/Invitations.razor` (`/invitaciones`), hasta que pase T032.
+- [X] T032 [P] Tests bUnit de `Pages/Invitations.razor`; el enlace del menú solo aparece para administradores.
+- [X] T033 Implementar `src/HackMaster.Web/Pages/Invitations.razor` (`/invitaciones`), hasta que pase T032.
 
 ## Phase 8: Infraestructura y CI (FR-013, FR-014)
 
@@ -127,7 +127,7 @@
 
 ## Phase 9: Pulido y entrega
 
-- [ ] T039 [P] Playwright, con el servicio de cuentas falso:
+- [X] T039 [P] Playwright, con el servicio de cuentas falso:
   - las pruebas actuales sin sesión siguen pasando (SC-004);
   - `/cuenta` e `/invitaciones` no se desbordan a 390 ni a 820 px en los dos modos (FR-016).
 - [ ] T040 Despliegue real, **tras confirmarlo con el usuario**:

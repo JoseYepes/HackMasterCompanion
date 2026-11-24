@@ -20,7 +20,8 @@ public sealed record AccountAuth(
     Func<Task<AccountUser?>> CurrentUserAsync,
     Func<Task<string?>> AccessTokenAsync,
     Action SignIn,
-    Action SignOut)
+    Action SignOut,
+    Action<Action>? OnUserChanged = null)
 {
     public static AccountAuth NotConfigured { get; } =
         new(false, () => Task.FromResult<AccountUser?>(null), () => Task.FromResult<string?>(null), () => { }, () => { });
@@ -77,6 +78,9 @@ public interface IAccountSync
 
     Task InitializeAsync();
 
+    /// <summary>Reintenta cada poco lo pendiente mientras no esté todo sincronizado (FR-005).</summary>
+    void StartRetries();
+
     Task SignInAsync();
 
     Task SignOutAsync();
@@ -125,6 +129,7 @@ public sealed class AccountSync : IAccountSync, IDisposable
     private SyncState _state = SyncState.Empty;
     private Task _tail = Task.CompletedTask;
     private bool _online;
+    private CancellationTokenSource? _retries;
 
     public AccountSync(
         AccountAuth auth,
@@ -144,8 +149,10 @@ public sealed class AccountSync : IAccountSync, IDisposable
         _suites = suites;
         _js = js;
         _now = now ?? (() => DateTimeOffset.UtcNow);
+        State = auth.IsConfigured ? AccountState.SignedOut : AccountState.NotConfigured;
         _browser.Written += OnWrittenAsync;
         _indexed.Written += OnWrittenAsync;
+        auth.OnUserChanged?.Invoke(() => _ = InitializeAsync());
     }
 
     public AccountState State { get; private set; } = AccountState.SignedOut;
@@ -220,6 +227,29 @@ public sealed class AccountSync : IAccountSync, IDisposable
         AccountHasData = _state.Known.Count > 0;
         await Enqueue(PushAsync);
         RaiseChanged();
+    }
+
+    public void StartRetries()
+    {
+        if (_retries is not null)
+        {
+            return;
+        }
+
+        _retries = new CancellationTokenSource();
+        _ = RetryLoopAsync(_retries.Token);
+    }
+
+    private async Task RetryLoopAsync(CancellationToken token)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(30));
+        while (await timer.WaitForNextTickAsync(token))
+        {
+            if (State == AccountState.SignedIn && Status != SyncStatus.Synced)
+            {
+                await SyncNowAsync();
+            }
+        }
     }
 
     public Task SignInAsync()
@@ -367,6 +397,8 @@ public sealed class AccountSync : IAccountSync, IDisposable
 
     public void Dispose()
     {
+        _retries?.Cancel();
+        _retries?.Dispose();
         _browser.Written -= OnWrittenAsync;
         _indexed.Written -= OnWrittenAsync;
     }
