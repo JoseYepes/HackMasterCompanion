@@ -33,9 +33,13 @@ public sealed class IndexedStore(IJSRuntime js, AccountSession? session = null)
     /// haber guardado). Si el navegador no deja leer y en memoria no hay nada de esa clave, el
     /// resultado lo dice (<see cref="StoredText.Failed"/>), para no confundirlo con «no hay nada».
     /// </summary>
-    public async Task<StoredText> GetAsync(string key)
+    public Task<StoredText> GetAsync(string key) => GetRawAsync(session?.Key(key) ?? key);
+
+    /// <summary>Lo guardado sin sesión con esa clave, aunque haya una sesión iniciada (para subirlo a la cuenta, F006 US4).</summary>
+    public Task<StoredText> GetDeviceAsync(string key) => GetRawAsync(key);
+
+    private async Task<StoredText> GetRawAsync(string key)
     {
-        key = session?.Key(key) ?? key;
         if (IsAvailable)
         {
             try

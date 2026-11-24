@@ -51,7 +51,7 @@ public class SyncStateTests
     [Fact]
     public void State_Round_Trips_With_Schema_Version__F006_PrincipleV()
     {
-        var state = SyncState.Empty.WithKnown("suite:a", "e1").WithPending(Suite("b", T0)) with { LastSync = T0 };
+        var state = SyncState.Empty.WithKnown("suite:a", "e1").WithPending(Suite("b", T0)) with { LastSync = T0, DeviceChoiceMade = true };
 
         var json = SyncState.Write(state);
         var read = SyncState.Read(json);
@@ -61,6 +61,7 @@ public class SyncStateTests
         Assert.Equal("e1", read.Value!.Known["suite:a"]);
         Assert.Equal("suite:b", Assert.Single(read.Value.Pending).Id);
         Assert.Equal(T0, read.Value.LastSync);
+        Assert.True(read.Value.DeviceChoiceMade);
     }
 
     [Fact]

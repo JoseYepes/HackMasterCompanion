@@ -4,13 +4,15 @@ namespace HackMaster.Domain.Sync;
 
 /// <summary>
 /// Lo que el dispositivo sabe de la cuenta (data-model.md de F006): la versión de la nube de cada
-/// documento que ha visto y los cambios que aún no han llegado a la nube.
+/// documento que ha visto, los cambios que aún no han llegado a la nube, la hora de la nube de la
+/// última lectura y si ya se eligió qué hacer con los datos del dispositivo (US4).
 /// </summary>
 public sealed record SyncState(
     int SchemaVersion,
     IReadOnlyDictionary<string, string> Known,
     IReadOnlyList<SyncDoc> Pending,
-    DateTimeOffset? LastSync = null)
+    DateTimeOffset? LastSync = null,
+    bool DeviceChoiceMade = false)
 {
     public const int CurrentVersion = 1;
 

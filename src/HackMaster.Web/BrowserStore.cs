@@ -26,9 +26,13 @@ public sealed class BrowserStore(IJSRuntime js, AccountSession? session = null)
     /// Valor guardado con esa clave, o nulo si no hay ninguno. Mientras el navegador deje guardar se
     /// lee siempre de él, para ver lo que haya guardado otra pestaña; si no, de la memoria.
     /// </summary>
-    public async Task<string?> GetAsync(string key)
+    public Task<string?> GetAsync(string key) => GetRawAsync(session?.Key(key) ?? key);
+
+    /// <summary>Lo guardado sin sesión con esa clave, aunque haya una sesión iniciada (para subirlo a la cuenta, F006 US4).</summary>
+    public Task<string?> GetDeviceAsync(string key) => GetRawAsync(key);
+
+    private async Task<string?> GetRawAsync(string key)
     {
-        key = session?.Key(key) ?? key;
         if (!IsAvailable)
         {
             return _memory.GetValueOrDefault(key);
