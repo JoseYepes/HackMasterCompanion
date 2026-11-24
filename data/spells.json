@@ -9518,6 +9518,56 @@
       "pending": []
     },
     {
+      "slug": "alas-de-hada-pixie-wings",
+      "name": "Alas de hada (Pixie Wings)",
+      "searchName": "alas de hada (pixie wings)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "111"
+        }
+      ],
+      "summary": "Al objetivo le crecen dos alas de libélula con las que vuela a velocidad 18, y su piel brilla con la luz. Impiden llevar armadura voluminosa.",
+      "pending": []
+    },
+    {
+      "slug": "apuesta-de-murgander-murgander-s-gamble",
+      "name": "Apuesta de Murgander (Murgander's Gamble)",
+      "searchName": "apuesta de murgander (murgander's gamble)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración/Evocación"
+      ],
+      "reversible": false,
+      "range": "2d4 yardas por nivel",
+      "components": "S",
+      "duration": "Especial",
+      "castingTime": "2d6 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "110"
+        }
+      ],
+      "summary": "Magia salvaje. Lanza una descarga caótica cuyo efecto se tira en una tabla d100: daño de fuego, sonido, frío o electricidad, curar al objetivo, convertirlo en burro, cambiar de sexo al objetivo o al mago, que el mago sufra una pifia de conjuro, mariposas… Es un ataque arriesgado.",
+      "pending": []
+    },
+    {
       "slug": "arma-encantada",
       "name": "Arma encantada",
       "searchName": "arma encantada",
@@ -9540,6 +9590,31 @@
         }
       ],
       "summary": "Convierte dos armas pequeñas (flechas, virotes, dagas…) o una grande en armas +1 al ataque y al daño; en armas ya mágicas, si el total no pasa de +3. Los proyectiles lo pierden al impactar. Se usa con encantar un objeto y permanencia para crear armas mágicas duraderas.",
+      "pending": []
+    },
+    {
+      "slug": "arrancar-miembro-remove-limb",
+      "name": "Arrancar miembro (Remove Limb)",
+      "searchName": "arrancar miembro (remove limb)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "1 yarda por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "117"
+        }
+      ],
+      "summary": "Conjuro de venganza. Separa un pie, una mano, un brazo o una pierna de la víctima sin matarla ni causarle más daño, aunque con un dolor atroz; la herida cicatriza al momento. El mago conserva el miembro fresco una semana; regenerar lo hace crecer de nuevo en 2d4 turnos.",
       "pending": []
     },
     {
@@ -9693,6 +9768,31 @@
       "pending": []
     },
     {
+      "slug": "caja-de-herramientas-de-segwick-segwick-s-tool-box",
+      "name": "Caja de herramientas de Segwick (Segwick's Tool Box)",
+      "searchName": "caja de herramientas de segwick (segwick's tool box)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "118"
+        }
+      ],
+      "summary": "Crea una caja inamovible de la que solo el mago saca herramientas de carpintero o constructor, de una a diez y hasta 20 libras, que puede cambiar por otras durante el conjuro. Desaparecen si se alejan más de 100 yardas de la caja.",
+      "pending": []
+    },
+    {
       "slug": "casa-protectora-de-zargosa",
       "name": "Casa protectora de Zargosa",
       "searchName": "casa protectora de zargosa",
@@ -9766,6 +9866,56 @@
         }
       ],
       "summary": "Impide a la víctima cualquier movimiento extradimensional (teletransporte, parpadeo, puerta dimensional, viaje astral, caminar por las sombras, cambio de plano, palabra de recuerdo) y a las criaturas etéreas o astrales manifestarse en el plano material o volver a su plano.",
+      "pending": []
+    },
+    {
+      "slug": "circulo-de-proteccion-circle-of-protection",
+      "name": "Círculo de protección (Circle of Protection)",
+      "searchName": "circulo de proteccion (circle of protection)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Círculo de 10' de radio",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "93"
+        }
+      ],
+      "summary": "Un diagrama inmóvil impide pasar a un tipo de criatura elegido al lanzarlo (demonios, diablos, licántropos, el mal…; cada uno con su componente). Los de dentro no pueden ser controlados por ellas, ganan +4 a salvar sus ataques desde fuera y pueden salvar contra sus conjuros aunque no lo permitan; las criaturas conjuradas o de otros planos no pueden tocarlos.",
+      "pending": []
+    },
+    {
+      "slug": "colmillos-de-olifante-tusks-of-the-oliphant",
+      "name": "Colmillos de olifante (Tusks of the Oliphant)",
+      "searchName": "colmillos de olifante (tusks of the oliphant)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "122"
+        }
+      ],
+      "summary": "A la criatura le salen de la mandíbula dos colmillos que cornean por 3d4 una vez por asalto. Le cuesta hablar: un 25 % de que no se le entienda y un 25 % más de pifia en los conjuros con componente verbal.",
       "pending": []
     },
     {
@@ -9944,6 +10094,31 @@
       "pending": []
     },
     {
+      "slug": "detectar-mentiras",
+      "name": "Detectar mentiras",
+      "searchName": "detectar mentiras",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S, M",
+      "duration": "5 asaltos",
+      "castingTime": "2 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "96"
+        }
+      ],
+      "summary": "Versión de mago del conjuro de clérigo de nivel 4 detectar mentiras (MJ 265), igual salvo los datos de la cabecera. Solo para especialistas en adivinación y practicantes únicos detectives.",
+      "pending": []
+    },
+    {
       "slug": "discurso-motivador",
       "name": "Discurso motivador",
       "searchName": "discurso motivador",
@@ -9994,6 +10169,31 @@
       "pending": []
     },
     {
+      "slug": "duplicar-duplicate",
+      "name": "Duplicar (Duplicate)",
+      "searchName": "duplicar (duplicate)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Conjuración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "S, M",
+      "duration": "1 hora por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Un objeto",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "98"
+        }
+      ],
+      "summary": "Crea una copia exacta de un objeto no vivo ni mágico que el mago toque y que quepa en un cubo de 20'. Funciona como el original, pero detectar magia la delata y disipar magia la hace desaparecer; permanencia no la afecta.",
+      "pending": []
+    },
+    {
       "slug": "emocion",
       "name": "Emoción",
       "searchName": "emocion",
@@ -10016,6 +10216,31 @@
         }
       ],
       "summary": "Mientras el mago se concentre, quienes estén en el área y no salven (ajustado por Sabiduría) sienten una emoción: amistad, coraje (berserker: +1 al ataque, +3 al daño y 5 PG), desesperanza, esperanza (+2 a moral, salvaciones, ataque y daño), felicidad (+4 a reacción), miedo (huyen 2d4 asaltos), odio o tristeza. Cada una anula a su opuesta.",
+      "pending": []
+    },
+    {
+      "slug": "encontrar-tesoros-find-treasure",
+      "name": "Encontrar tesoros (Find Treasure)",
+      "searchName": "encontrar tesoros (find treasure)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "60 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Franja de 10' de ancho",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "100"
+        }
+      ],
+      "summary": "Indica la dirección, pero no la distancia ni el valor, del gran tesoro más cercano (al menos 5000 monedas o 50 gemas) en el alcance; el mago explora una franja de 10' por asalto. Atraviesa piedra y hierro, pero lo bloquean una capa de plomo o las protecciones contra la adivinación.",
       "pending": []
     },
     {
@@ -10121,6 +10346,32 @@
       "pending": []
     },
     {
+      "slug": "esta-no-esta-there-not-there",
+      "name": "Está, no está (There/Not There)",
+      "searchName": "esta, no esta (there/not there)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración",
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V, S, M",
+      "duration": "1d6 turnos",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Cubo de 10' de lado",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "121"
+        }
+      ],
+      "summary": "Magia salvaje. Los objetos no vivos del cubo están o no están (50 %), y eso se decide de nuevo cada vez que alguien los mira: una puerta puede existir para uno y no para otro. El DJ arbitra los resultados.",
+      "pending": []
+    },
+    {
       "slug": "excavar",
       "name": "Excavar",
       "searchName": "excavar",
@@ -10171,6 +10422,31 @@
       "pending": []
     },
     {
+      "slug": "familiar-volador-flying-familiar",
+      "name": "Familiar volador (Flying Familiar)",
+      "searchName": "familiar volador (flying familiar)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "2 asaltos",
+      "areaOfEffect": "Un familiar",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "101"
+        }
+      ],
+      "summary": "Da al familiar de uno a tres pares de alas del estilo que quiera el mago, con las que vuela a velocidad 18 y maniobrabilidad A.",
+      "pending": []
+    },
+    {
       "slug": "furia-tentaculada-de-zargosa",
       "name": "Furia tentaculada de Zargosa",
       "searchName": "furia tentaculada de zargosa",
@@ -10196,6 +10472,57 @@
       "pending": []
     },
     {
+      "slug": "garras-trepadoras-de-mulderi-mulderi-s-climbing-claws",
+      "name": "Garras trepadoras de Mulderi (Mulderi's Climbing Claws)",
+      "searchName": "garras trepadoras de mulderi (mulderi's climbing claws)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "110"
+        }
+      ],
+      "summary": "Las uñas del objetivo se convierten en garras dentadas de un pie: +25 % a trepar, y puede trepar boca abajo a la mitad de velocidad. Si no tenía ataque de garras, gana uno de 1d6-1 por cada mano una vez por asalto.",
+      "pending": []
+    },
+    {
+      "slug": "glifo-explosivo-exploding-glyph",
+      "name": "Glifo explosivo (Exploding Glyph)",
+      "searchName": "glifo explosivo (exploding glyph)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Abjuración",
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Hasta que se descarga",
+      "castingTime": "Especial",
+      "areaOfEffect": "Especial",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "99"
+        }
+      ],
+      "summary": "Se traza como glifo de custodia. Al activarse, causa 1d4 por cada dos niveles del mago a todas las criaturas que estén delante a menos de 10'. Si cubre más de 40 pies, hace falta polvo de diamante por 500 mo.",
+      "pending": []
+    },
+    {
       "slug": "globo-menor-de-invulnerabilidad",
       "name": "Globo menor de invulnerabilidad",
       "searchName": "globo menor de invulnerabilidad",
@@ -10218,6 +10545,56 @@
         }
       ],
       "summary": "Esfera inmóvil alrededor del mago en la que no entran los efectos de conjuros de nivel 1 a 3, incluidas aptitudes innatas y objetos; desde dentro se puede lanzar cualquier conjuro. No afecta a los de nivel 4 o más y se puede disipar.",
+      "pending": []
+    },
+    {
+      "slug": "globos-de-plata-silver-globes",
+      "name": "Globos de plata (Silver Globes)",
+      "searchName": "globos de plata (silver globes)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "3' por nivel",
+      "components": "V, S",
+      "duration": "Instantáneo",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Radio de 30'",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "119"
+        }
+      ],
+      "summary": "Crea 1d4 globos de plata líquida y brillante, más uno por nivel, que vuelan sin fallar hacia los blancos del área, rodeando obstáculos, y estallan en una pasta plateada caliente: 1d4 cada uno.",
+      "pending": []
+    },
+    {
+      "slug": "granada-de-fuerza-force-grenade",
+      "name": "Granada de fuerza (Force Grenade)",
+      "searchName": "granada de fuerza (force grenade)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una piedra",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "101"
+        }
+      ],
+      "summary": "Carga una piedra del tamaño de un puño, como mucho, que estalla al golpear a un enemigo o al acabar el conjuro: 4d6 en 10' de radio. Si aún la sostiene alguien cuando se acaba, estalla igual.",
       "pending": []
     },
     {
@@ -10296,6 +10673,31 @@
       "pending": []
     },
     {
+      "slug": "hiperevolucion-de-arbraxious-arbraxious-s-hyper-evolution",
+      "name": "Hiperevolución de Arbraxious (Arbraxious's Hyper Evolution)",
+      "searchName": "hiperevolucion de arbraxious (arbraxious's hyper evolution)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "90"
+        }
+      ],
+      "summary": "Hace subir a una criatura un peldaño en la escala evolutiva, con uno o dos cambios por lanzamiento: de cuadrúpedo a semierguido y a bípedo, una categoría más de Inteligencia (de animal a semiinteligente, de esta a baja) o un par de miembros o branquias. Gastando todos sus espacios del día, el mago le da como aptitud un conjuro de nivel 1 o 2 que tenga memorizado.",
+      "pending": []
+    },
+    {
       "slug": "invisibilidad-mejorada",
       "name": "Invisibilidad mejorada",
       "searchName": "invisibilidad mejorada",
@@ -10318,6 +10720,31 @@
         }
       ],
       "summary": "Como invisibilidad, pero el receptor sigue invisible aunque ataque o lance conjuros. Atacarle tiene -4 y él salva con +4; un observador atento puede notar su rastro. Los seres poderosos que detectan lo invisible lo hacen como si tuvieran 2 DG menos.",
+      "pending": []
+    },
+    {
+      "slug": "levitacion-de-arbraxious-arbraxious-s-levitation",
+      "name": "Levitación de Arbraxious (Arbraxious's Levitation)",
+      "searchName": "levitacion de arbraxious (arbraxious's levitation)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "91"
+        }
+      ],
+      "summary": "Al objetivo le crecen dentro unas vejigas que le permiten levitar, subiendo o bajando 10' por asalto. No funciona si lleva más que una carga ligera. El componente es un órgano de las entrañas de un contemplador.",
       "pending": []
     },
     {
@@ -10344,6 +10771,32 @@
         }
       ],
       "summary": "Encierra en un globo de fuerza a una criatura que quepa y no salve. Nada entra ni sale, aunque respira; forcejear solo mueve la esfera, que también pueden mover desde fuera. Solo la rompen un cetro de cancelación, una varita de negación, desintegrar o disipar magia, sin dañar al sujeto.",
+      "pending": []
+    },
+    {
+      "slug": "mala-suerte-unluck",
+      "name": "Mala suerte (Unluck)",
+      "searchName": "mala suerte (unluck)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Evocación",
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, S, M",
+      "duration": "2d10 asaltos",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "122"
+        }
+      ],
+      "summary": "Magia salvaje. Si la víctima falla la salvación, durante 2d10 asaltos tira dos veces cada dado (salvaciones, pruebas, ataques, daño) y se queda con el peor resultado. Una piedra de la suerte lo anula, pero deja de funcionar 2d10 asaltos.",
       "pending": []
     },
     {
@@ -10522,6 +10975,107 @@
       "pending": []
     },
     {
+      "slug": "palabra-poderosa-anosmia-power-word-anosmitize",
+      "name": "Palabra poderosa: anosmia (Power Word: Anosmitize)",
+      "searchName": "palabra poderosa: anosmia (power word: anosmitize)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "112"
+        }
+      ],
+      "summary": "Da el defecto de anosmia a criaturas alrededor de una elegida, empezando por las de menos pg, hasta 120 pg en total; las de más de 100 pg son inmunes. Con menos de 30 pg es permanente, con 31 a 60 dura 1d4+1 turnos y con más, 1d4+1 asaltos.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-congelar-power-word-freeze",
+      "name": "Palabra poderosa: congelar (Power Word: Freeze)",
+      "searchName": "palabra poderosa: congelar (power word: freeze)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una criatura o un cubo de materia de 10' de lado",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "114"
+        }
+      ],
+      "summary": "Congela al instante el objetivo. Una criatura de tamaño grande o menor con tantos DG o niveles como el mago o menos sufre 1 de frío por nivel del mago el primer asalto y 1 cada asalto siguiente. Lo congelado se conserva y se descongela al acabar.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-ralentizar-power-word-slow",
+      "name": "Palabra poderosa: ralentizar (Power Word: Slow)",
+      "searchName": "palabra poderosa: ralentizar (power word: slow)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas a menos de 30' entre sí",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "115"
+        }
+      ],
+      "summary": "Como ralentizar: mitad de movimiento y de ataques, -4 a la CA y a los ataques y sin bonificaciones de Destreza al combate. Afecta a una criatura de hasta 50 pg o a varias hasta 100 pg (inmunes las de más de 33), y anula los efectos de acelerar.",
+      "pending": []
+    },
+    {
+      "slug": "pantalla-disipadora-de-wimpel-wimpel-s-dispelling-screen",
+      "name": "Pantalla disipadora de Wimpel (Wimpel's Dispelling Screen)",
+      "searchName": "pantalla disipadora de wimpel (wimpel's dispelling screen)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Evocación",
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Cuadrado de 20'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "125"
+        }
+      ],
+      "summary": "Crea una pantalla de energía violeta con la forma que quiera el mago; cualquier criatura que la cruce sufre los efectos de un disipar magia lanzado por el mago. Los componentes, que desaparecen, son una lámina de cristal de plomo y una crisolita de 1000 mo.",
+      "pending": []
+    },
+    {
       "slug": "pasar-por-la-piedra",
       "name": "Pasar por la piedra",
       "searchName": "pasar por la piedra",
@@ -10673,6 +11227,107 @@
       "pending": []
     },
     {
+      "slug": "polimorfia-errante-drifting-polymorph",
+      "name": "Polimorfía errante (Drifting Polymorph)",
+      "searchName": "polimorfia errante (drifting polymorph)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "98"
+        }
+      ],
+      "summary": "Magia salvaje. Convierte al objetivo en la criatura que elija el mago, pero de forma inestable: cada día hay un 20 % de que derive hacia su forma original (tarda al menos diez días en volver del todo) y un 10 % de que la forma actual se vuelva permanente. La ropa y el equipo no cambian.",
+      "pending": []
+    },
+    {
+      "slug": "potenciar-adivinacion-divination-enhancement",
+      "name": "Potenciar adivinación (Divination Enhancement)",
+      "searchName": "potenciar adivinacion (divination enhancement)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Evocación",
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "2 turnos + 2 asaltos por nivel",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "97"
+        }
+      ],
+      "summary": "Mientras dura, el alcance y la duración de ojo de hechicero y de los conjuros de adivinación de nivel 1 a 4 que lance el mago aumentan un 50 %. Al acabar, terminan todas esas adivinaciones.",
+      "pending": []
+    },
+    {
+      "slug": "presagio-omen",
+      "name": "Presagio (Omen)",
+      "searchName": "presagio (omen)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "5 asaltos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "111"
+        }
+      ],
+      "summary": "Lanzado al aire libre, el mago recibe una señal que dice si una empresa planeada (un viaje, una batalla) tiene buenos o malos auspicios, según lo que el DJ sabe de la situación. A diferencia de augurio, no tiene límite de tiempo; solo puede lanzarse una vez por semana.",
+      "pending": []
+    },
+    {
+      "slug": "proyectil-magico-retardado-delayed-magic-missile",
+      "name": "Proyectil mágico retardado (Delayed Magic Missile)",
+      "searchName": "proyectil magico retardado (delayed magic missile)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "80 yardas + 10 yardas por nivel",
+      "components": "V, S",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "96"
+        }
+      ],
+      "summary": "Parece un proyectil mágico, pero reparte el daño en el tiempo: 1d6 por cada tres niveles del mago, 1d6 al impactar y 1d6 cada asalto siguiente, que la víctima evita salvando con -2. Escudo mágico no lo para, y un lanzador alcanzado debe salvar contra arma de aliento para completar un conjuro ese asalto.",
+      "pending": []
+    },
+    {
       "slug": "puerta-dimensional",
       "name": "Puerta dimensional",
       "searchName": "puerta dimensional",
@@ -10721,6 +11376,31 @@
         }
       ],
       "summary": "Quita una maldición de una persona u objeto, o permite librarse de un objeto maldito sin anularlo. Desde el nivel 12 cura la licantropía lanzado sobre la forma animal, que puede salvar. La versión inversa, lanzar maldición, dura un turno por nivel y, si la víctima tocada no salva, le baja una característica a 3, le da -4 a ataques y salvaciones o le da un 50 % por turno de soltar lo que sujeta, u otro mal parecido.",
+      "pending": []
+    },
+    {
+      "slug": "sangre-hirviente-boiling-blood",
+      "name": "Sangre hirviente (Boiling Blood)",
+      "searchName": "sangre hirviente (boiling blood)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "92"
+        }
+      ],
+      "summary": "Conjuro de venganza. La sangre de la víctima hierve: 1d4 el primer asalto, 2d4 el segundo, 3d4 del tercero al quinto, 2 el sexto y 1 el séptimo. No afecta a criaturas sin sangre y hace la mitad a las de agua. No lo paran disipar magia ni las protecciones contra el fuego, pero sí panacea.",
       "pending": []
     },
     {
@@ -10900,6 +11580,31 @@
       "pending": []
     },
     {
+      "slug": "veneno-poison",
+      "name": "Veneno (Poison)",
+      "searchName": "veneno (poison)",
+      "class": "Mage",
+      "level": 4,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Permanente",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "111"
+        }
+      ],
+      "summary": "Con un ataque de toque, la víctima debe salvar contra veneno o queda incapacitada y muere en un turno salvo que se ralentice o neutralice el veneno; disipar magia y curar heridas no sirven. El mago puede detenerlo o ralentizarlo hasta un día por nivel. Lanzarlo es un acto malvado.",
+      "pending": []
+    },
+    {
       "slug": "agua-eterea",
       "name": "Agua etérea",
       "searchName": "agua eterea",
@@ -10925,6 +11630,31 @@
       "pending": []
     },
     {
+      "slug": "alas-de-pandemonium-wings-of-pandemonium",
+      "name": "Alas de PanDemonium (Wings of PanDemonium)",
+      "searchName": "alas de pandemonium (wings of pandemonium)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "10 turnos por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "125"
+        }
+      ],
+      "summary": "Al mago le crecen cuatro alas de libélula hechas de torbellinos de viento con las que vuela a velocidad 70 y maniobrabilidad A. Al volar hacen un chillido, así que no puede sorprender.",
+      "pending": []
+    },
+    {
       "slug": "animar-a-los-muertos",
       "name": "Animar a los muertos",
       "searchName": "animar a los muertos",
@@ -10947,6 +11677,56 @@
         }
       ],
       "summary": "Anima esqueletos o zombis que obedecen órdenes sencillas hasta ser destruidos o expulsados; no se puede disipar. Con criaturas de 1 DG, un esqueleto por nivel o un zombi cada dos niveles; con mayores, DG totales hasta el nivel del mago; con menores, dos esqueletos o un zombi de criaturas de menos de 1 DG. El mago solo los controla con un 10 % + 1 % por nivel (más por Inteligencia, Sabiduría y Carisma altos; +75 % a nigromantes); si no, le atacan.",
+      "pending": []
+    },
+    {
+      "slug": "arco-lunar-de-preston-preston-s-moonbow",
+      "name": "Arco lunar de Preston (Preston's Moonbow)",
+      "searchName": "arco lunar de preston (preston's moonbow)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 a 4 asaltos",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "115"
+        }
+      ],
+      "summary": "Solo de noche con la luna a la vista. Crea 1d4 motas de luz que giran alrededor del mago; cada asalto debe lanzar al menos una contra una criatura del alcance (si pasa un asalto sin hacerlo, se apagan todas), a la que persiguen rodeando obstáculos (ni la invisibilidad ni las ilusiones las engañan). Atacan como el mago con +3 y, si aciertan, descargan un rayo eléctrico sin salvación: 4d6 si había una mota, 3d6 cada una si había dos, 2d6 si tres y 2d4 si cuatro.",
+      "pending": []
+    },
+    {
+      "slug": "baston-magico-magic-staff",
+      "name": "Bastón mágico (Magic Staff)",
+      "searchName": "baston magico (magic staff)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "Especial",
+      "areaOfEffect": "El bastón del mago",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "107"
+        }
+      ],
+      "summary": "El bastón del mago guarda un nivel de conjuro por cada tres niveles del mago. Los conjuros se lanzan en él en un turno, con su tiempo normal más un asalto, y después se lanzan desde el bastón en 1 segmento; duran guardados hasta una hora por nivel.",
       "pending": []
     },
     {
@@ -10997,6 +11777,56 @@
         }
       ],
       "summary": "Como la bola de fuego, pero hace d6 por nivel del mago y ocupa una esfera de 80' de diámetro.",
+      "pending": []
+    },
+    {
+      "slug": "bomba-de-agua-water-bomb",
+      "name": "Bomba de agua (Water Bomb)",
+      "searchName": "bomba de agua (water bomb)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, M",
+      "duration": "1 asalto",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Radio de 15'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "124"
+        }
+      ],
+      "summary": "Aparece en la mano del mago una bola de agua del tamaño de un pomelo que lanza lejos; al estallar cubre un círculo de 15' de radio con dos pulgadas de agua potable. Si no la lanza en un asalto, se le escurre entre los dedos.",
+      "pending": []
+    },
+    {
+      "slug": "busqueda-de-segwick-segwick-s-seeking",
+      "name": "Búsqueda de Segwick (Segwick's Seeking)",
+      "searchName": "busqueda de segwick (segwick's seeking)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "40'",
+      "components": "V, S, M",
+      "duration": "9 asaltos",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "118"
+        }
+      ],
+      "summary": "El mago ve brillar en dorado todas las cerraduras, llaves y cierres a 40', aunque estén ocultos o disfrazados con magia (lo bloquean 3 pulgadas de piedra, media de metal o una lámina de plomo). Los encantados tienen un tinte rojo y los unidos a trampas o alarmas, un halo azul.",
       "pending": []
     },
     {
@@ -11278,6 +12108,31 @@
       "pending": []
     },
     {
+      "slug": "desafortunado-incidente-de-hiamohr-hiamohr-s-unfortunate-incident",
+      "name": "Desafortunado incidente de Hiamohr (Hiamohr's Unfortunate Incident)",
+      "searchName": "desafortunado incidente de hiamohr (hiamohr's unfortunate incident)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Línea de visión",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Cono de 30 yardas + 10 yardas por nivel",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "103"
+        }
+      ],
+      "summary": "Quien está en el cono y falla la salvación contra polimorfía cambia de sexo, y su ropa y equipo también si fallan la suya. Cada día hay una probabilidad (100 % menos 5 % por punto de Inteligencia) de que adopte también la personalidad del nuevo sexo.",
+      "pending": []
+    },
+    {
       "slug": "distorsion-de-las-distancias",
       "name": "Distorsión de las distancias",
       "searchName": "distorsion de las distancias",
@@ -11350,6 +12205,56 @@
         }
       ],
       "summary": "Si la persona falla una salvación con -2 (ajustada por Sabiduría; elfos y semielfos resisten como al hechizo), el mago la controla por telepatía a cualquier distancia en el mismo plano, sin recibir lo que ella percibe. Obedece si comparten idioma, nunca órdenes suicidas, y salva de nuevo con +1 a +4 ante órdenes contrarias a su naturaleza. Dura según su Inteligencia, como hechizar persona; protección contra el mal impide ejercer el control.",
+      "pending": []
+    },
+    {
+      "slug": "el-don-del-centauro-the-centaur-s-gift",
+      "name": "El don del centauro (The Centaur's Gift)",
+      "searchName": "el don del centauro (the centaur's gift)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "93"
+        }
+      ],
+      "summary": "A un animal le brota un torso humanoide en lugar de la cabeza y el cuello: gana 2d4 de Inteligencia y puede aprender el idioma del mago. No es un centauro de verdad, y quien haya visto uno nota la diferencia.",
+      "pending": []
+    },
+    {
+      "slug": "escudo-contra-conjuros-spell-shield",
+      "name": "Escudo contra conjuros (Spell Shield)",
+      "searchName": "escudo contra conjuros (spell shield)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "120"
+        }
+      ],
+      "summary": "Da bonificaciones a las salvaciones contra ciertos conjuros: 7 contra embelesar, hechizar y sugestión; 5 contra orden imperiosa, dominación, miedo, retener y asustar; 3 contra geis y búsqueda; 1 contra confusión, debilidad mental y antipatía-simpatía. Se consume un diamante.",
       "pending": []
     },
     {
@@ -11481,6 +12386,31 @@
       "pending": []
     },
     {
+      "slug": "fauces-horrendas-de-arbraxious-arbraxious-s-horrid-maw",
+      "name": "Fauces horrendas de Arbraxious (Arbraxious's Horrid Maw)",
+      "searchName": "fauces horrendas de arbraxious (arbraxious's horrid maw)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "90"
+        }
+      ],
+      "summary": "Las mandíbulas de la criatura se deforman y le brotan dos mandíbulas con colmillos: gana un mordisco de 2d6 una vez por asalto, apenas puede hablar y pierde 4 de Apariencia.",
+      "pending": []
+    },
+    {
       "slug": "fiel-perra-de-hyptor",
       "name": "Fiel perra de Hyptor",
       "searchName": "fiel perra de hyptor",
@@ -11503,6 +12433,106 @@
         }
       ],
       "summary": "Una perra guardiana fantasmal, que solo ve el mago, vigila un paso o habitación: ladra ante cualquier criatura mayor que un gato, ve lo invisible y lo etéreo, y muerde por 3d6 como monstruo de 10 DG a quien le dé la espalda, incluso a criaturas que solo dañan armas +3. No se le puede atacar, pero sí disipar. Dura una hora más media por nivel (un asalto por nivel una vez activada) y acaba si el mago se aleja más de 30 yardas.",
+      "pending": []
+    },
+    {
+      "slug": "forma-de-ola-waveform",
+      "name": "Forma de ola (Waveform)",
+      "searchName": "forma de ola (waveform)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "40 yardas",
+      "components": "S, M",
+      "duration": "1d10 asaltos",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Cubo de 10' por nivel",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "124"
+        }
+      ],
+      "summary": "Magia salvaje. El mago da al agua u otro líquido la forma que quiera y genera olas, pero el líquido sigue sometido a la gravedad: una figura humana de agua no puede andar por tierra. Lanzada contra un objetivo, causa 1d4 por nivel a quienes estén en su camino (la mitad si salvan), con un dado menos por cada 10' sobre tierra seca; contra criaturas de agua, 1d6 por nivel y el conjuro acaba.",
+      "pending": []
+    },
+    {
+      "slug": "forzar-cambio-de-forma-force-shapechange",
+      "name": "Forzar cambio de forma (Force Shapechange)",
+      "searchName": "forzar cambio de forma (force shapechange)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una criatura por nivel",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "101"
+        }
+      ],
+      "summary": "Los cambiaformas, o quienes usen un conjuro de cambio de forma, que señale el mago deben salvar o volver a su forma verdadera, tardando un asalto sin hacer nada y sufriendo 3d10 por el dolor. Si salvan, no cambian y sufren la mitad.",
+      "pending": []
+    },
+    {
+      "slug": "fusion-de-razas-breed-fusion",
+      "name": "Fusión de razas (Breed Fusion)",
+      "searchName": "fusion de razas (breed fusion)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Especial",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "2 días",
+      "areaOfEffect": "Dos criaturas",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "93"
+        }
+      ],
+      "summary": "Tres magos que sepan el conjuro funden en un ritual de dos días a dos criaturas para que nazca un híbrido. Tiene un 5 % de pifia, y el resultado lo decide el DJ con una tabla (nacido muerto, injerto malo, aceptable…).",
+      "pending": []
+    },
+    {
+      "slug": "huesos-palpitantes-throbbing-bones",
+      "name": "Huesos palpitantes (Throbbing Bones)",
+      "searchName": "huesos palpitantes (throbbing bones)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "121"
+        }
+      ],
+      "summary": "Los huesos de una criatura con esqueleto palpitan: 2 puntos peor de CA, mitad de movimiento, -2 a los ataques y 1d6 de daño por asalto (la mitad si salva, con una sola salvación). No afecta a insectos, fantasmas, cubos gelatinosos ni gusanos.",
       "pending": []
     },
     {
@@ -11553,6 +12583,31 @@
         }
       ],
       "summary": "Imita con energía de sombra un conjuro de evocación de mago de nivel 3 o menos (proyectil mágico, bola de fuego, relámpago…). Quien falla la primera salvación lo sufre como si fuera real, con su salvación normal; quien la pasa lo reconoce y solo recibe el 20 % del daño.",
+      "pending": []
+    },
+    {
+      "slug": "maleficio-mortal-de-pathorgia-pathorgian-death-hex",
+      "name": "Maleficio mortal de Pathorgia (Pathorgian Death Hex)",
+      "searchName": "maleficio mortal de pathorgia (pathorgian death hex)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "111"
+        }
+      ],
+      "summary": "Conjuro de venganza. Con un ataque de toque maldice a la víctima, que si falla la salvación pierde para siempre todo el daño que sufra: ninguna curación lo recupera salvo un deseo. Disipar magia no lo quita; solo romper maleficio.",
       "pending": []
     },
     {
@@ -11681,6 +12736,32 @@
       "pending": []
     },
     {
+      "slug": "muro-de-huesos-wall-of-bones",
+      "name": "Muro de huesos (Wall of Bones)",
+      "searchName": "muro de huesos (wall of bones)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Conjuración",
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "60 yardas",
+      "components": "V, S, M",
+      "duration": "1 turno",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Cuadrado de 10' por nivel y 6 pulgadas de grosor por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "123"
+        }
+      ],
+      "summary": "Del suelo brota un muro de huesos con la forma que quiera el mago. Solo da un 50 % de cobertura y se puede disparar a través; las criaturas pequeñas pueden colarse por sus huecos a 10' por asalto, sufriendo 1d8 cada 10'.",
+      "pending": []
+    },
+    {
       "slug": "muro-de-piedra",
       "name": "Muro de piedra",
       "searchName": "muro de piedra",
@@ -11731,6 +12812,131 @@
       "pending": []
     },
     {
+      "slug": "oraculo-del-mago-wizard-s-oracle",
+      "name": "Oráculo del mago (Wizard's Oracle)",
+      "searchName": "oraculo del mago (wizard's oracle)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "1 turno",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "126"
+        }
+      ],
+      "summary": "El mago contacta con poderes de los planos Etéreo o Astral ligados a un lugar o asunto concreto y les hace una pregunta de sí o no por nivel. Responden con la verdad, pero no lo saben todo.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-dormir-power-word-sleep",
+      "name": "Palabra poderosa: dormir (Power Word: Sleep)",
+      "searchName": "palabra poderosa: dormir (power word: sleep)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "90 yardas",
+      "components": "V",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "115"
+        }
+      ],
+      "summary": "Duerme hasta 100 pg de criaturas, como el conjuro de mago de nivel 1 dormir. No afecta a las de más de 33 pg.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-hechizar-power-word-charm",
+      "name": "Palabra poderosa: hechizar (Power Word: Charm)",
+      "searchName": "palabra poderosa: hechizar (power word: charm)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas en un radio de 30'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "113"
+        }
+      ],
+      "summary": "Hasta 90 pg de criaturas ven al mago como un aliado cercano al que proteger, aunque no arriesgan la vida por él. Si pueden comunicarse, siguen órdenes razonables, como con sugestión; el hechizo se rompe si el mago las trata con hostilidad.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-miedo-power-word-fear",
+      "name": "Palabra poderosa: miedo (Power Word: Fear)",
+      "searchName": "palabra poderosa: miedo (power word: fear)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "114"
+        }
+      ],
+      "summary": "Hasta 100 pg de criaturas con 20 pg o menos cada una (o una sola de hasta 50) huyen a toda velocidad tantos asaltos como el nivel del mago, con un 30 % de soltar lo que lleven en las manos.",
+      "pending": []
+    },
+    {
+      "slug": "pantalla-polar-de-haarpang-haarpang-s-polar-screen",
+      "name": "Pantalla polar de Haarpang (Haarpang's Polar Screen)",
+      "searchName": "pantalla polar de haarpang (haarpang's polar screen)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "5 asaltos por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Cuadrado de 20'",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "103"
+        }
+      ],
+      "summary": "Crea una pantalla inmóvil de energía blanca azulada (muro, cúpula o esfera). Quien la cruza y falla la salvación queda cubierto de hielo 1d4+1 asaltos: 1 de frío por nivel del mago cada asalto y -4 a los ataques; si salva, solo un asalto. Fundir quita el hielo.",
+      "pending": []
+    },
+    {
       "slug": "pasaje-por-el-muro",
       "name": "Pasaje por el muro",
       "searchName": "pasaje por el muro",
@@ -11756,6 +12962,81 @@
       "pending": []
     },
     {
+      "slug": "podredumbre-de-la-sangre-blood-rot",
+      "name": "Podredumbre de la sangre (Blood Rot)",
+      "searchName": "podredumbre de la sangre (blood rot)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "92"
+        }
+      ],
+      "summary": "Conjuro de venganza. Contagia a la víctima la muerte podrida (Guía del DJ, p. 26) directamente en su segunda fase: -1 a Fuerza, Destreza y Carisma, -5 % a las habilidades y prueba de Inteligencia para lanzar conjuros con componente somático. Después avanza como la enfermedad normal.",
+      "pending": []
+    },
+    {
+      "slug": "polimorfar-planta-en-mamifero-polymorph-plant-to-mammal",
+      "name": "Polimorfar planta en mamífero (Polymorph Plant to Mammal)",
+      "searchName": "polimorfar planta en mamifero (polymorph plant to mammal)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Una planta",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "112"
+        }
+      ],
+      "summary": "Convierte una planta normal en el mamífero que elija el mago, incluso humanoide, con una Inteligencia no mayor que la suya y los demás atributos a su elección dentro de los límites raciales. Gana solo la anatomía básica (moverse, morder, arañar), no las aptitudes especiales, y no tiene recuerdos.",
+      "pending": []
+    },
+    {
+      "slug": "proyectil-mayor-de-shincock-shincock-s-major-missile",
+      "name": "Proyectil mayor de Shincock (Shincock's Major Missile)",
+      "searchName": "proyectil mayor de shincock (shincock's major missile)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "60 yardas + 10 yardas por nivel",
+      "components": "V, S",
+      "duration": "Instantáneo",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "119"
+        }
+      ],
+      "summary": "Un único proyectil mágico más potente contra una sola criatura: 1d4+1, más 1d4+1 por cada dos niveles del mago, hasta 15d4+15. Le afecta todo lo que anula o afecta a proyectil mágico.",
+      "pending": []
+    },
+    {
       "slug": "puerta-de-sombra",
       "name": "Puerta de sombra",
       "searchName": "puerta de sombra",
@@ -11778,6 +13059,31 @@
         }
       ],
       "summary": "El mago parece cruzar una puerta ilusoria y desaparecer, pero en realidad queda invisible a un lado y puede huir. Quien abre la puerta ve una habitación vacía de 10 × 10'.",
+      "pending": []
+    },
+    {
+      "slug": "putrefaccion-de-momia-mummy-rot",
+      "name": "Putrefacción de momia (Mummy Rot)",
+      "searchName": "putrefaccion de momia (mummy rot)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una víctima",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "110"
+        }
+      ],
+      "summary": "El toque del mago, como el de una momia, causa 2d6 a un humano, semihumano o humanoide y le contagia una podredumbre mortal en 1d6 meses salvo con curar enfermedad: pierde 2 de Apariencia al mes y recupera pg al 10 % del ritmo normal. Si salva, solo sufre el daño.",
       "pending": []
     },
     {
@@ -11828,6 +13134,32 @@
         }
       ],
       "summary": "Como retener persona, pero con criaturas de cualquier tipo a la vista: si son 3 o 4 salvan sin penalizador, si son 2 con -1 y si es una con -3. Requiere una varilla de metal, aunque sea un clavo, por criatura.",
+      "pending": []
+    },
+    {
+      "slug": "santuario-privado-de-jorel-jorel-s-private-sanctum",
+      "name": "Santuario privado de Jorel (Jorel's Private Sanctum)",
+      "searchName": "santuario privado de jorel (jorel's private sanctum)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración",
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 hora por nivel",
+      "castingTime": "2 turnos",
+      "areaOfEffect": "Una habitación",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "106"
+        }
+      ],
+      "summary": "Garantiza la intimidad de una habitación de hasta 1600 pies cuadrados: desde fuera no se ve el interior ni con infravisión, no sale ningún sonido y no entran la percepción extrasensorial, la clarividencia, la clariaudiencia, las bolas de cristal ni el ojo de hechicero. Desde dentro se ve fuera con normalidad.",
       "pending": []
     },
     {
@@ -12090,6 +13422,56 @@
       "pending": []
     },
     {
+      "slug": "vision-mental-de-manor-manor-s-mindsight",
+      "name": "Visión mental de Manor (Manor's Mindsight)",
+      "searchName": "vision mental de manor (manor's mindsight)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "5 asaltos por nivel",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "20' + 5' por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "108"
+        }
+      ],
+      "summary": "Concentrándose, el mago «ve» a la vez todo lo que hay en el área, sin importar los obstáculos pero con la luz que haya. Mientras lo hace no puede moverse, lanzar conjuros ni hacer esfuerzos; si le interrumpen, puede seguir después.",
+      "pending": []
+    },
+    {
+      "slug": "vortice-vortex",
+      "name": "Vórtice (Vortex)",
+      "searchName": "vortice (vortex)",
+      "class": "Mage",
+      "level": 5,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V, S, M",
+      "duration": "1d4 asaltos + 1 asalto por nivel",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Círculo de 5' de diámetro",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "123"
+        }
+      ],
+      "summary": "Magia salvaje. Crea un tornado multicolor de 7' que el mago mueve 60' por asalto mientras se concentra, aunque solo hay un 50 % de que vaya en la dirección indicada (si no, se desvía como un proyectil de granada). Las criaturas que toca sufren 1d4 por nivel del mago (1d6 si son mágicas; la mitad si salvan), y cada golpe tiene un 5 % de provocar un estallido salvaje (tabla 4L) y acabar el conjuro.",
+      "pending": []
+    },
+    {
       "slug": "acechador-invisible",
       "name": "Acechador invisible",
       "searchName": "acechador invisible",
@@ -12216,6 +13598,31 @@
       "pending": []
     },
     {
+      "slug": "caparazon-antianimal",
+      "name": "Caparazón antianimal",
+      "searchName": "caparazon antianimal",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Radio de 10'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "90"
+        }
+      ],
+      "summary": "Versión de mago del conjuro de druida de nivel 6 caparazón antianimal (MJ 289), igual salvo los datos de la cabecera. Solo para especialistas en abjuración y practicantes únicos guardianes. El componente material es una cadena de castigo y un puñado de pimienta.",
+      "pending": []
+    },
+    {
       "slug": "caparazon-antimagia",
       "name": "Caparazón antimagia",
       "searchName": "caparazon antimagia",
@@ -12238,6 +13645,31 @@
         }
       ],
       "summary": "Una barrera invisible que se mueve con el mago y dentro de la que no funciona ni entra magia, alientos, miradas ni ataques de voz, ni criaturas hechizadas, conjuradas o convocadas. Las criaturas y proyectiles normales sí entran, y empujarla contra una criatura que repele la rompe. No afecta a artefactos ni a semidioses; disipar magia no la quita.",
+      "pending": []
+    },
+    {
+      "slug": "citogenesis-cytogenesis",
+      "name": "Citogénesis (Cytogenesis)",
+      "searchName": "citogenesis (cytogenesis)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Alteración/Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "4 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "94"
+        }
+      ],
+      "summary": "Convierte una pequeña parte de una criatura (como mínimo un mechón de pelo) en una criatura completa de su especie. Solo hay un 5 % de que sea idéntica al donante; lo normal es que se le parezca como cualquier otro de su especie.",
       "pending": []
     },
     {
@@ -12340,6 +13772,31 @@
         "components",
         "castingTime"
       ]
+    },
+    {
+      "slug": "constrictor-igneo-de-fandango-fandango-s-fiery-constrictor",
+      "name": "Constrictor ígneo de Fandango (Fandango's Fiery Constrictor)",
+      "searchName": "constrictor igneo de fandango (fandango's fiery constrictor)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "1 fuente de fuego",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "99"
+        }
+      ],
+      "summary": "De un fuego sale un tentáculo de llamas de 10' (CA 7, solo lo dañan armas +2 o mejores, pg igual al doble del nivel del mago) que ataca a quien diga el mago a 20'. Si la víctima salva, sufre 1d6 de fuego; si no, queda atrapada y sufre 3d6 cada asalto.",
+      "pending": []
     },
     {
       "slug": "contingencia",
@@ -12518,6 +13975,31 @@
       "pending": []
     },
     {
+      "slug": "detectar-segundas",
+      "name": "Detectar segundas",
+      "searchName": "detectar segundas",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "10' por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "97"
+        }
+      ],
+      "summary": "Versión de mago del conjuro de clérigo de nivel 5 detectar segundas (MJ 269), igual salvo los datos de la cabecera. Solo para especialistas en adivinación y practicantes únicos detectives. El componente material es la nariz o el hocico de un animal de olfato fino, como un perro.",
+      "pending": []
+    },
+    {
       "slug": "dividir-las-aguas",
       "name": "Dividir las aguas",
       "searchName": "dividir las aguas",
@@ -12568,6 +14050,31 @@
       "pending": []
     },
     {
+      "slug": "dragon-chasqueante-snap-drake",
+      "name": "Dragón chasqueante (Snap Drake)",
+      "searchName": "dragon chasqueante (snap drake)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "120"
+        }
+      ],
+      "summary": "De la palma del mago sale una cabeza de dragón brillante que muerde a un enemigo por 3d6 por nivel del mago. Puede morder una vez por asalto en lugar de otros ataques o conjuros, y el mago se mueve con normalidad.",
+      "pending": []
+    },
+    {
       "slug": "encantar-un-objeto",
       "name": "Encantar un objeto",
       "searchName": "encantar un objeto",
@@ -12591,6 +14098,31 @@
         }
       ],
       "summary": "Prepara un objeto de la máxima calidad (normalmente más de 100 po) para recibir magia, en un taller sin magia ajena a 30': 16 + 8d8 horas de trabajo, como mucho 8 al día, con el objeto siempre al alcance. Luego el objeto salva como el mago (con sus bonificadores, máximo +3) y hay 24 horas para empezar a lanzarle conjuros, 2d4 horas por nivel cada uno. Para hacerlo permanente hace falta permanencia.",
+      "pending": []
+    },
+    {
+      "slug": "escudo-salvaje-wildshield",
+      "name": "Escudo salvaje (Wildshield)",
+      "searchName": "escudo salvaje (wildshield)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 asalto",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "125"
+        }
+      ],
+      "summary": "Magia salvaje. Una banda de colores que gira oculta al mago (él ve con normalidad) y absorbe 2d6 niveles de conjuros y efectos de objetos mágicos dirigidos a él, cifra que el DJ tira en secreto. Con los de área solo se protege el mago.",
       "pending": []
     },
     {
@@ -12695,6 +14227,31 @@
       "pending": []
     },
     {
+      "slug": "fusion-de-velimurio-velimurio-s-merger",
+      "name": "Fusión de Velimurio (Velimurio's Merger)",
+      "searchName": "fusion de velimurio (velimurio's merger)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "10 minutos por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "2 criaturas del mismo poder",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "122"
+        }
+      ],
+      "summary": "Funde en un solo ser a dos criaturas del mismo nivel o DG, con la forma de la que tiene más pg máximos. Puede hacer todo lo que harían las dos juntas (un guerrero y un mago pelean y lanzan conjuros a la vez) y ambas comparten pensamientos.",
+      "pending": []
+    },
+    {
       "slug": "geis",
       "name": "Geis",
       "searchName": "geis",
@@ -12742,6 +14299,56 @@
         }
       ],
       "summary": "Como globo menor de invulnerabilidad, pero impide la entrada de efectos de conjuros de nivel 1 a 4; desde dentro se puede lanzar cualquier conjuro. Se puede disipar.",
+      "pending": []
+    },
+    {
+      "slug": "golpe-salvaje-wildstrike",
+      "name": "Golpe salvaje (Wildstrike)",
+      "searchName": "golpe salvaje (wildstrike)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V, S, M",
+      "duration": "2d4 asaltos",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "125"
+        }
+      ],
+      "summary": "Magia salvaje. Si la víctima falla la salvación, cada vez que lanza un conjuro o usa una carga de un objeto mágico se tira un estallido salvaje en la tabla 4L, restando el nivel del mago. Los antimagos pueden aprenderlo.",
+      "pending": []
+    },
+    {
+      "slug": "guantelete-de-dientes-gauntlet-of-teeth",
+      "name": "Guantelete de dientes (Gauntlet of Teeth)",
+      "searchName": "guantelete de dientes (gauntlet of teeth)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S, M",
+      "duration": "6 asaltos",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "102"
+        }
+      ],
+      "summary": "Crea en el aire un óvalo de 8' de dientes que giran, y el mago lo dirige con la mente (movimiento 9, maniobrabilidad A) en los asaltos en que no lanza otros conjuros. Puede envolver a una criatura y colarse por cualquier hueco del tamaño de la cabeza del mago. Causa 6d4 al contacto (cada asalto si la víctima no se mueve) y 2d4 más si la atraviesa; ignora la armadura no mágica, y la mágica resta 2 por cada +, con un mínimo de 2.",
       "pending": []
     },
     {
@@ -12843,6 +14450,56 @@
         }
       ],
       "summary": "Una fuerza espectral que espera hasta que se cumple una condición, tan concreta como se quiera, a 5 yardas por nivel; no distingue lo invisible ni el alineamiento, nivel o clase salvo por el aspecto. Al activarse dura un asalto por nivel; descreerla funciona como en ilusión perpetua.",
+      "pending": []
+    },
+    {
+      "slug": "injerto-oscuro-de-aliron-aliron-s-dark-graft",
+      "name": "Injerto oscuro de Aliron (Aliron's Dark Graft)",
+      "searchName": "injerto oscuro de aliron (aliron's dark graft)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Permanente (ver el texto)",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "89"
+        }
+      ],
+      "summary": "Injerta en una criatura un miembro recién cortado de otra, uno por lanzamiento, para reponer uno perdido o tener más. Hasta una semana de unión da -2 a lo que lo use, y el miembro tiene voluntad propia. Pasada la semana, una tirada de shock del sistema fallida lo gangrena, se cae y contagia una enfermedad.",
+      "pending": []
+    },
+    {
+      "slug": "invulnerabilidad-a-las-armas-magicas-invulnerability-to-magical-weapons",
+      "name": "Invulnerabilidad a las armas mágicas (Invulnerability to Magical Weapons)",
+      "searchName": "invulnerabilidad a las armas magicas (invulnerability to magical weapons)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 5'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "105"
+        }
+      ],
+      "summary": "Una esfera inmóvil alrededor del mago desvía todas las armas mágicas aplastantes, cortantes y perforantes. No protege contra criaturas mágicas (gólems), ataques de base mágica (la mirada de una medusa) ni conjuros como proyectil mágico. Desde dentro se puede atacar con armas mágicas.",
       "pending": []
     },
     {
@@ -12998,6 +14655,56 @@
       "pending": []
     },
     {
+      "slug": "muro-de-espinas",
+      "name": "Muro de espinas",
+      "searchName": "muro de espinas",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "80 yardas",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Un cubo de 10' por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "123"
+        }
+      ],
+      "summary": "Versión de mago del conjuro de druida de nivel 6 muro de espinas (MJ 290), igual salvo los datos de la cabecera. Solo para especialistas en conjuración y practicantes únicos conjuradores. El componente material es un tallo de rosa.",
+      "pending": []
+    },
+    {
+      "slug": "muro-de-sangre-wall-of-blood",
+      "name": "Muro de sangre (Wall of Blood)",
+      "searchName": "muro de sangre (wall of blood)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "123"
+        }
+      ],
+      "summary": "Conjuro de venganza. Levanta un muro vertical de sangre de medio pie de grosor y 25 pies cuadrados por nivel, que dura mientras el mago se concentra o dos asaltos por nivel. Las criaturas de 2 DG o menos que reconozcan la sangre huyen aterradas.",
+      "pending": []
+    },
+    {
       "slug": "niebla-de-muerte",
       "name": "Niebla de muerte",
       "searchName": "niebla de muerte",
@@ -13021,6 +14728,106 @@
         }
       ],
       "summary": "Una bruma sólida y ácida que mata la vegetación y daña a los seres vivos 1, 2, 4 y después 8 puntos por asalto seguido dentro. Como la nube de bruma, solo un viento muy fuerte la mueve, se avanza en ella a 1' por asalto y la ráfaga de viento no la afecta; bola de fuego, golpe de llamas o muro de fuego la queman en un asalto.",
+      "pending": []
+    },
+    {
+      "slug": "ojos-de-muerto-dead-man-s-eyes",
+      "name": "Ojos de muerto (Dead Man's Eyes)",
+      "searchName": "ojos de muerto (dead man's eyes)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Especial",
+      "components": "S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Especial",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "95"
+        }
+      ],
+      "summary": "Los ojos del mago se vuelven negros con pupilas en forma de calavera. Cada asalto afecta a una víctima a 3' que le mire: con 2 DG o menos muere sin salvación; con más de 2 y hasta 5, muere salvo que salve contra muerte con -2 (si salva, 2d6); con más de 5, sufre 2d6 si no salva.",
+      "pending": []
+    },
+    {
+      "slug": "orbe-de-contencion-de-haarpang-haarpang-s-orb-of-containment",
+      "name": "Orbe de contención de Haarpang (Haarpang's Orb of Containment)",
+      "searchName": "orbe de contencion de haarpang (haarpang's orb of containment)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Esfera de 6 pulgadas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "103"
+        }
+      ],
+      "summary": "Crea alrededor de un objeto o sustancia peligrosa una esfera de cristal de 6 pulgadas, de interior inerte y con el tiempo detenido, que la guarda sin que se degrade. No se rompe con la fuerza ni con casi ninguna magia, aunque disipar magia o desintegrar pueden con ella.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-olvidar-power-word-forget",
+      "name": "Palabra poderosa: olvidar (Power Word: Forget)",
+      "searchName": "palabra poderosa: olvidar (power word: forget)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas cada 2 niveles",
+      "components": "V",
+      "duration": "Permanente",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "114"
+        }
+      ],
+      "summary": "Hasta 150 pg de criaturas (inmunes las de más de 42) olvidan un minuto, el más reciente, por cada tres niveles del mago; los lanzadores deben superar una tirada de shock del sistema o pierden uno de sus conjuros memorizados de mayor nivel. Puede anular hechizar, sugestión o geis, pero no elegir qué se olvida.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-silencio-power-word-silence",
+      "name": "Palabra poderosa: silencio (Power Word: Silence)",
+      "searchName": "palabra poderosa: silencio (power word: silence)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "120 yardas",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "114"
+        }
+      ],
+      "summary": "La criatura señalada, y todo lo que esté a un pie de ella, no puede hacer ningún ruido el resto del asalto y 2d12 asaltos más: no lanza conjuros, no activa objetos por la voz y queda a salvo de ataques sónicos. Solo lo disipan deseo limitado, palabra poderosa: disipar o magia más poderosa.",
       "pending": []
     },
     {
@@ -13050,6 +14857,31 @@
       "pending": []
     },
     {
+      "slug": "proyectil-de-asedio-de-bradley-bradley-s-besieging-bolt",
+      "name": "Proyectil de asedio de Bradley (Bradley's Besieging Bolt)",
+      "searchName": "proyectil de asedio de bradley (bradley's besieging bolt)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "Especial",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "92"
+        }
+      ],
+      "summary": "Como un proyectil mágico pensado para derribar muros: un proyectil de asedio por cada dos niveles, lanzados uno cada dos asaltos sin poder hacer otra cosa. El alcance y el daño, mucho mayor contra estructuras que contra criaturas, crecen con el nivel del mago según una tabla. Contra criaturas solo sirve si son de tamaño enorme o mayor.",
+      "pending": []
+    },
+    {
       "slug": "repulsion",
       "name": "Repulsión",
       "searchName": "repulsion",
@@ -13072,6 +14904,31 @@
         }
       ],
       "summary": "Las criaturas de la franja elegida se alejan del mago a la misma velocidad a la que intentan acercarse, durante un asalto completo. Cambiar de dirección cada asalto es la acción principal del mago.",
+      "pending": []
+    },
+    {
+      "slug": "revelacion-revelation",
+      "name": "Revelación (Revelation)",
+      "searchName": "revelacion (revelation)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "Vista",
+      "components": "V, S",
+      "duration": "1 asalto",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "1 presagio",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "117"
+        }
+      ],
+      "summary": "Mientras ve un presagio, el mago comprende su significado completo, aunque no quién lo envía. Si lo que ve no es un presagio, el conjuro falla y sabe que no tiene importancia. Los poderes de semidiós o mayores pueden bloquearlo.",
       "pending": []
     },
     {
@@ -13125,6 +14982,31 @@
       "pending": []
     },
     {
+      "slug": "sangre-llameante-blazing-blood",
+      "name": "Sangre llameante (Blazing Blood)",
+      "searchName": "sangre llameante (blazing blood)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "5 asaltos",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "Radio de 10'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "91"
+        }
+      ],
+      "summary": "Conjuro de venganza. La sangre de las heridas abiertas del área arde: 4d4 por asalto a cada víctima, salvo las heridas curadas con magia, vendadas o cosidas. Además nadie del área puede regenerarse ni usar poderes de sangre. No hace falta ver a las víctimas.",
+      "pending": []
+    },
+    {
       "slug": "sombras",
       "name": "Sombras",
       "searchName": "sombras",
@@ -13172,6 +15054,32 @@
         }
       ],
       "summary": "Como sugestión, pero una misma sugestión afecta a una criatura por nivel del mago a 30 yardas o menos, que salvan con -1 (con -4 si es solo una). No afecta a muertos vivientes.",
+      "pending": []
+    },
+    {
+      "slug": "tentaculos-tentacles",
+      "name": "Tentáculos (Tentacles)",
+      "searchName": "tentaculos (tentacles)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Conjuración",
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "121"
+        }
+      ],
+      "summary": "Al mago le crecen dos tentáculos verdosos de 10' en los costados que usa como miembros: agarran, trepan o empuñan armas con su habilidad, y le dan dos ataques más por asalto de 1d6 cada uno. Desarmados, pueden atrapar a una criatura de tamaño humano o menor.",
       "pending": []
     },
     {
@@ -13223,6 +15131,31 @@
         }
       ],
       "summary": "Convierte el agua del área en polvo fino (el área se dobla con agua barrosa y se cuadruplica con lodo) e inutiliza las pociones con agua. A las criaturas del plano elemental del agua, una por conjuro, les hace d6 por nivel (la mitad si salvan). La versión inversa es un crear agua muy potente.",
+      "pending": []
+    },
+    {
+      "slug": "transmutar-metal-en-agua-transmute-metal-to-water",
+      "name": "Transmutar metal en agua (Transmute Metal to Water)",
+      "searchName": "transmutar metal en agua (transmute metal to water)",
+      "class": "Mage",
+      "level": 6,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": true,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "5' de diámetro por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "121"
+        }
+      ],
+      "summary": "Convierte en agua (líquida, vapor o hielo según su temperatura) el metal del área; el metal encantado salva contra ácido. La versión inversa convierte agua en el metal que elija el mago, con la forma del agua. Disipar magia lo devuelve a su estado.",
       "pending": []
     },
     {
@@ -13298,6 +15231,56 @@
         }
       ],
       "summary": "El receptor ve las cosas como son hasta 60': atraviesa la oscuridad normal y mágica, ve las puertas secretas, lo invisible y lo desplazado, a través de las ilusiones y las formas cambiadas, y puede mirar al plano etéreo; no ve el alineamiento ni atraviesa sólidos. Requiere un ungüento de al menos 300 po.",
+      "pending": []
+    },
+    {
+      "slug": "aliento-de-dragon-dragon-breath",
+      "name": "Aliento de dragón (Dragon Breath)",
+      "searchName": "aliento de dragon (dragon breath)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "Variable",
+      "components": "V, S, M",
+      "duration": "3 asaltos",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Variable",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "98"
+        }
+      ],
+      "summary": "Hay un conjuro distinto para cada tipo de dragón, y cada uno necesita un diente de un dragón adulto de ese tipo. El mago puede usar hasta tres veces, una por asalto y sin más acción que moverse, el aliento de ese dragón.",
+      "pending": []
+    },
+    {
+      "slug": "anticipacion-anticipation",
+      "name": "Anticipación (Anticipation)",
+      "searchName": "anticipacion (anticipation)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "S",
+      "duration": "1 asalto",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Radio de 60'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "90"
+        }
+      ],
+      "summary": "El mago sabe qué ataques y acciones intentarán en el asalto siguiente todos los seres a 60': el arma, si es mágica, el blanco, el objetivo o área de un conjuro (no cuál) y los objetos que usarán, lo que a veces revela objetos ocultos. No funciona con muertos vivientes ni criaturas de otros planos.",
       "pending": []
     },
     {
@@ -13481,6 +15464,106 @@
       "pending": []
     },
     {
+      "slug": "creacion-de-vida-life-creation",
+      "name": "Creación de vida (Life Creation)",
+      "searchName": "creacion de vida (life creation)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "4 turnos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "106"
+        }
+      ],
+      "summary": "Cuesta al mago el 5 % de sus PX (sin perder nivel). Crea un caldo primordial con el que da forma a una criatura única de 1 DG: reparte tres puntos de atributo por nivel (ninguno mayor que su nivel), que también pagan su tamaño y le dan conjuros como aptitudes especiales.",
+      "pending": []
+    },
+    {
+      "slug": "crear-golem-de-sangre-create-blood-golem",
+      "name": "Crear gólem de sangre (Create Blood Golem)",
+      "searchName": "crear golem de sangre (create blood golem)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10 yardas",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "1 turno",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "94"
+        }
+      ],
+      "summary": "Conjuro de venganza. Crea un gólem de sangre (Hacklopedia de las bestias, vol. III, p. 84). Necesita dos galones de sangre fresca, conservada con magia o de menos de 24 horas.",
+      "pending": []
+    },
+    {
+      "slug": "crear-sombra-create-shade",
+      "name": "Crear sombra (Create Shade)",
+      "searchName": "crear sombra (create shade)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S",
+      "duration": "1 turno por nivel + 2d4 turnos",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "Cubo de 10' por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "94"
+        }
+      ],
+      "summary": "Crea una zona de sombra fresca e inmóvil en un desierto o lugar soleado: quienes están en ella necesitan menos agua, aunque la temperatura no cambia. No requiere concentración y debe lanzarse sobre arena o tierra natural; en un tejado o una cubierta de barco falla.",
+      "pending": []
+    },
+    {
+      "slug": "danar",
+      "name": "Dañar",
+      "searchName": "danar",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "Instantáneo",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "103"
+        }
+      ],
+      "summary": "Con un toque (+4 al ataque; la armadura no cuenta), la víctima pierde todos sus pg menos 1d4, que solo se recuperan de forma natural o con magia. No afecta a criaturas incorpóreas, no vivas ni de otros planos. Usarlo da puntos de alineamiento incorrecto a los buenos (3) y a los neutrales (1).",
+      "pending": []
+    },
+    {
       "slug": "dedo-de-muerte",
       "name": "Dedo de muerte",
       "searchName": "dedo de muerte",
@@ -13582,6 +15665,106 @@
       "pending": []
     },
     {
+      "slug": "doble-zombi-zombie-double",
+      "name": "Doble zombi (Zombie Double)",
+      "searchName": "doble zombi (zombie double)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "1 turno",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "126"
+        }
+      ],
+      "summary": "Crea un zombi juju duplicado del mago, con sus recuerdos, conciencia y alineamiento: el mago existe en dos cuerpos a la vez. No lanza conjuros, pero usa las armas del mago y trepa como un ladrón; si se aleja más de 30 yardas del mago, cae inerte hasta que vuelve a estar cerca.",
+      "pending": []
+    },
+    {
+      "slug": "dominacion-mayor-major-domination",
+      "name": "Dominación mayor (Major Domination)",
+      "searchName": "dominacion mayor (major domination)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "108"
+        }
+      ],
+      "summary": "Como dominación, con un vínculo más fuerte: la víctima salva con -2 (ajuste de Sabiduría, pero no la resistencia natural a hechizos); si salva, queda ralentizada 1d4 asaltos. Cada asalto el mago puede intentar dominar a otra criatura, pero solo controla una a la vez.",
+      "pending": []
+    },
+    {
+      "slug": "dominar-elemento-command-element",
+      "name": "Dominar elemento (Command Element)",
+      "searchName": "dominar elemento (command element)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S",
+      "duration": "1 asalto por nivel",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "1000 pies cúbicos por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "94"
+        }
+      ],
+      "summary": "Hay una versión para cada elemento, que se memoriza aparte. El mago mueve, separa o modela el elemento (abrir la roca, apagar llamas, dirigir el viento, sacar la sal del agua), pero no puede atacar directamente con él.",
+      "pending": []
+    },
+    {
+      "slug": "drenar-sangre-blood-drain",
+      "name": "Drenar sangre (Blood Drain)",
+      "searchName": "drenar sangre (blood drain)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "1 yarda por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "91"
+        }
+      ],
+      "summary": "Conjuro de venganza. Extrae toda la sangre de una criatura de tamaño grande o menor (a las enormes les hace 14d4 y a las gigantescas 9d4; no afecta a criaturas sin sangre), que flota hasta unos recipientes junto al mago; la víctima muere al empezar el asalto siguiente. La salvación se ajusta por la Constitución; el texto dice que quien falla «aún» recibe 6d12, probablemente por quien salva. El mago puede usar esa sangre fresca durante una semana para otros conjuros o investigaciones.",
+      "pending": []
+    },
+    {
       "slug": "duodimensionalizacion",
       "name": "Duodimensionalización",
       "searchName": "duodimensionalizacion",
@@ -13629,6 +15812,31 @@
         }
       ],
       "summary": "La criatura tocada, con su equipo, se convierte en una estatua de piedra que ve, oye y huele; muere si d100 más su Constitución da 18 o menos. Mientras dura puede volver a su forma, actuar y petrificarse de nuevo a voluntad. Los daños a la estatua son heridas.",
+      "pending": []
+    },
+    {
+      "slug": "encontrar-el-camino",
+      "name": "Encontrar el camino",
+      "searchName": "encontrar el camino",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "El lanzador + 1-2 más",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "100"
+        }
+      ],
+      "summary": "Versión de mago del conjuro de clérigo de nivel 6 encontrar el camino (MJ 271), igual salvo los datos de la cabecera. Solo para especialistas en adivinación y practicantes únicos detectives.",
       "pending": []
     },
     {
@@ -13682,6 +15890,31 @@
       "pending": []
     },
     {
+      "slug": "gato-de-sombra-shadowcat",
+      "name": "Gato de sombra (Shadowcat)",
+      "searchName": "gato de sombra (shadowcat)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Ilusión"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "119"
+        }
+      ],
+      "summary": "Crea un gato de sombra, gris o negro, que el mago controla por telepatía y por el que ve, oye y habla mientras esté al alcance. Es incorpóreo y solo lo dañan los ataques mágicos o especiales y las armas +1 o mejores (CA 5, movimiento 18).",
+      "pending": []
+    },
+    {
       "slug": "hechizar-plantas",
       "name": "Hechizar plantas",
       "searchName": "hechizar plantas",
@@ -13704,6 +15937,32 @@
         }
       ],
       "summary": "Las plantas de un área de 10 × 30' obedecen al mago y usan lo que tengan, incluso aptitudes especiales; puede imitar el enmarañar de clérigo. Solo las plantas inteligentes salvan, con -4.",
+      "pending": []
+    },
+    {
+      "slug": "hipnosis-de-masas-mass-hypnosis",
+      "name": "Hipnosis de masas (Mass Hypnosis)",
+      "searchName": "hipnosis de masas (mass hypnosis)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Encantamiento/Hechizo",
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "1 turno por nivel",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "5 yardas + 5 yardas por nivel",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "109"
+        }
+      ],
+      "summary": "Como hipnotismo, pero afecta a 3d6 criaturas más una por nivel que vean y oigan al mago; las que le miran a los ojos salvan con -2. Las hipnotizadas no se dan cuenta, aunque no harán nada totalmente contrario a su naturaleza.",
       "pending": []
     },
     {
@@ -13782,6 +16041,32 @@
       "pending": []
     },
     {
+      "slug": "jabalina-de-hueso-bone-javelin",
+      "name": "Jabalina de hueso (Bone Javelin)",
+      "searchName": "jabalina de hueso (bone javelin)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Alteración",
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "Crea 1 jabalina",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "92"
+        }
+      ],
+      "summary": "Aparece sobre la mano del mago una jabalina de hueso que sale disparada (movimiento 30) hacia donde señala, esquivando obstáculos, y vuelve sola. Ataca una vez por asalto con la tirada del mago: 1d4 + 1 por nivel (CA -4; se rompe con 14 de daño). El mago puede lanzar conjuros entre un lanzamiento y otro.",
+      "pending": []
+    },
+    {
       "slug": "jaula-de-fuerza",
       "name": "Jaula de fuerza",
       "searchName": "jaula de fuerza",
@@ -13829,6 +16114,56 @@
         }
       ],
       "summary": "Como mano empujadora de Zarba, pero la mano agarra a la criatura elegida: inmoviliza hasta 1000 libras, frena a 10 por asalto hasta 4000 y a la mitad hasta 16 000. No hace daño, tiene CA 0 y tantos PG como el mago sano.",
+      "pending": []
+    },
+    {
+      "slug": "moldear-conjuro-spell-shape",
+      "name": "Moldear conjuro (Spell Shape)",
+      "searchName": "moldear conjuro (spell shape)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1d4+1 asaltos",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "120"
+        }
+      ],
+      "summary": "Magia salvaje. Cuando el mago es objetivo de un conjuro o de un objeto mágico (no de efectos de área), puede salvar contra conjuros; si lo logra, absorbe la energía y la disipa o la usa para devolver un conjuro de igual o menor nivel.",
+      "pending": []
+    },
+    {
+      "slug": "muerte-dramatica-de-merrywether-merrywether-s-dramatic-death",
+      "name": "Muerte dramática de Merrywether (Merrywether's Dramatic Death)",
+      "searchName": "muerte dramatica de merrywether (merrywether's dramatic death)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S",
+      "duration": "3 asaltos por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "109"
+        }
+      ],
+      "summary": "Crea la ilusión de que el mago muere de forma horrible (asfixiado, petrificado, en llamas…, según la palabra que susurre) mientras queda bajo invisibilidad mejorada, para despistar a sus enemigos. También puede lanzarse sobre otros.",
       "pending": []
     },
     {
@@ -13882,6 +16217,32 @@
       "pending": []
     },
     {
+      "slug": "pacificador-planar-de-tybalt-tybalt-s-planar-pacifier",
+      "name": "Pacificador planar de Tybalt (Tybalt's Planar Pacifier)",
+      "searchName": "pacificador planar de tybalt (tybalt's planar pacifier)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Alteración",
+        "Encantamiento"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "1 día por nivel",
+      "castingTime": "1 asalto por objeto",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "122"
+        }
+      ],
+      "summary": "Hace que los objetos mágicos con bonificación (espadas, escudos, armaduras, anillos y capas de protección…) funcionen con normalidad en otros planos: desde nivel 14 en los planos Etéreo, Interiores y Astral; desde nivel 18 también en los Exteriores, y a nivel 30 con todo su bonificador en cualquier sitio.",
+      "pending": []
+    },
+    {
       "slug": "palabra-poderosa-aturdir",
       "name": "Palabra poderosa: aturdir",
       "searchName": "palabra poderosa: aturdir",
@@ -13907,6 +16268,106 @@
       "pending": []
     },
     {
+      "slug": "palabra-poderosa-curar-power-word-heal",
+      "name": "Palabra poderosa: curar (Power Word: Heal)",
+      "searchName": "palabra poderosa: curar (power word: heal)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas cada 2 niveles",
+      "components": "V",
+      "duration": "Instantáneo",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "114"
+        }
+      ],
+      "summary": "El objetivo recupera 1 pg por nivel del mago. Puede cambiar 10 pg de curación por 1 punto de atributo perdido, salvo las pérdidas permanentes.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-disipar-power-word-dispel",
+      "name": "Palabra poderosa: disipar (Power Word: Dispel)",
+      "searchName": "palabra poderosa: disipar (power word: dispel)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas cada 2 niveles",
+      "components": "V",
+      "duration": "Instantáneo",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "114"
+        }
+      ],
+      "summary": "Como disipar magia, pero mejor: disipa la magia y suprime los objetos mágicos sin salvación ni tirada de probabilidad. No funciona contra lo que disipar magia no puede anular, y contra los artefactos solo afecta a poderes concretos.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-ensordecer-power-word-deafen",
+      "name": "Palabra poderosa: ensordecer (Power Word: Deafen)",
+      "searchName": "palabra poderosa: ensordecer (power word: deafen)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Radio de 15'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "113"
+        }
+      ],
+      "summary": "Deja sordas a criaturas alrededor de una elegida, empezando por las de menos pg, hasta 110 pg en total; las de más de 100 pg son inmunes. Con menos de 25 pg es permanente, con 26 a 50 dura 1d4+1 turnos y con más de 51, 1d4+1 asaltos.",
+      "pending": []
+    },
+    {
+      "slug": "persecucion-de-llamas-flame-chase",
+      "name": "Persecución de llamas (Flame Chase)",
+      "searchName": "persecucion de llamas (flame chase)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "30 yardas + 10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "2 asaltos + 1 asalto por nivel",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "100"
+        }
+      ],
+      "summary": "Crea un reguero de fuego de 3' de ancho por cada dos niveles (máximo seis) que persigue por el suelo a las criaturas que elija el mago y las envuelve en una columna (3d6 y luego 1d6 por asalto) o un estallido de llamas (6d6, salvación con -2). Deja pequeños fuegos normales que pueden propagarse.",
+      "pending": []
+    },
+    {
       "slug": "puerta-de-fasaje",
       "name": "Puerta de fasaje",
       "searchName": "puerta de fasaje",
@@ -13929,6 +16390,31 @@
         }
       ],
       "summary": "Crea en un muro un pasaje invisible que solo el mago puede usar (con un acompañante cuenta doble), desapareciendo mientras lo cruza; no deja pasar luz, sonido ni conjuros. Dura un uso por cada dos niveles y solo lo disipa un mago de más nivel, o varios a la vez que sumen más del doble del suyo.",
+      "pending": []
+    },
+    {
+      "slug": "puno-gelido-de-merrywether-merrywether-s-frost-fist",
+      "name": "Puño gélido de Merrywether (Merrywether's Frost Fist)",
+      "searchName": "puno gelido de merrywether (merrywether's frost fist)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una criatura u objeto",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "109"
+        }
+      ],
+      "summary": "Una mano del mago se cubre de escarcha. A quien toque (con tirada de ataque) y salve le hace 1d4+2 de frío, y la escarcha sigue en la mano; si no salva, la escarcha pasa a su cuerpo y le hace 1d4 por nivel del mago en un asalto.",
       "pending": []
     },
     {
@@ -13979,6 +16465,56 @@
         }
       ],
       "summary": "Una espada de fuerza que el mago maneja con la mente, sin hacer otra cosa que moverse, y que ataca como un guerrero de la mitad de su nivel. Alcanza a casi todo, incluso a lo que solo dañan armas +3 o lo etéreo; impacta siempre con 19 o 20 y hace 5d4 (5d6 a criaturas mayores que humanas). Requiere una espada en miniatura de 500 po.",
+      "pending": []
+    },
+    {
+      "slug": "robar-encantamiento-steal-enchantment",
+      "name": "Robar encantamiento (Steal Enchantment)",
+      "searchName": "robar encantamiento (steal enchantment)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "1 hora",
+      "areaOfEffect": "1 objeto",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "120"
+        }
+      ],
+      "summary": "Pasa el encantamiento de un objeto mágico a otro no mágico de la misma categoría (arma contundente, anillo, escudo…), con todas sus propiedades y cargas; el receptor debe valer al menos lo mismo. El objeto original salva contra desintegración: si lo logra, el conjuro falla; si no, el encantamiento pasa al nuevo o se pierde (100 % - 5 % por nivel del mago), y entonces ambos quedan sin magia.",
+      "pending": []
+    },
+    {
+      "slug": "selector-de-estallidos-de-sanboreg-sanboreg-s-surge-selector",
+      "name": "Selector de estallidos de Sanboreg (Sanboreg's Surge Selector)",
+      "searchName": "selector de estallidos de sanboreg (sanboreg's surge selector)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "118"
+        }
+      ],
+      "summary": "Magia salvaje. Cuando el mago provoca un estallido salvaje, se tiran dos resultados en la tabla y él elige cuál ocurre. Sirve para un estallido por cada cinco niveles, o 12 horas, lo que llegue antes, y puede combinarse con sortilegio temerario de Deirdra.",
       "pending": []
     },
     {
@@ -14107,6 +16643,31 @@
       "pending": []
     },
     {
+      "slug": "vision-de-la-mente-de-manor-manor-s-mind-vision",
+      "name": "Visión de la mente de Manor (Manor's Mind Vision)",
+      "searchName": "vision de la mente de manor (manor's mind vision)",
+      "class": "Mage",
+      "level": 7,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "2 asaltos por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Radio de 90'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "108"
+        }
+      ],
+      "summary": "Versión más potente de visión mental de Manor: el mago ve todo como si estuviera bien iluminado, puede combinarla con adivinaciones de nivel 4 o menos y reconoce las ilusiones y transformaciones de nivel 4 o menos.",
+      "pending": []
+    },
+    {
       "slug": "volea",
       "name": "Volea",
       "searchName": "volea",
@@ -14208,6 +16769,31 @@
       "pending": []
     },
     {
+      "slug": "avispero-hornet-s-nest",
+      "name": "Avispero (Hornet's Nest)",
+      "searchName": "avispero (hornet's nest)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Invocación/Evocación"
+      ],
+      "reversible": false,
+      "range": "100 yardas + 10 yardas por nivel",
+      "components": "V, S",
+      "duration": "5 asaltos",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Radio de 80'",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "103"
+        }
+      ],
+      "summary": "Una nube de cuentas de fuerza zumbantes golpea a todas las criaturas del área: 1d2 cada asalto (la mitad si salvan; solo la resistencia a la magia lo evita del todo), y no pueden concentrarse para lanzar conjuros, mantenerlos ni hacer ataques apuntados.",
+      "pending": []
+    },
+    {
       "slug": "bola-de-fuego-maximus",
       "name": "Bola de fuego maximus",
       "searchName": "bola de fuego maximus",
@@ -14258,6 +16844,56 @@
       "pending": []
     },
     {
+      "slug": "buscar-teletransportador-seek-teleporter",
+      "name": "Buscar teletransportador (Seek Teleporter)",
+      "searchName": "buscar teletransportador (seek teleporter)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "Instantáneo",
+      "castingTime": "3 segmentos",
+      "areaOfEffect": "Radio de 150'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "118"
+        }
+      ],
+      "summary": "Revela el destino exacto de alguien que en la última hora usó teletransporte, puerta dimensional, caminar por las sombras o similar desde un punto a menos de 150' del mago. Si lo declara antes de lanzarlo, el mago puede seguirlo de inmediato.",
+      "pending": []
+    },
+    {
+      "slug": "cadena-de-muerte-death-chain",
+      "name": "Cadena de muerte (Death Chain)",
+      "searchName": "cadena de muerte (death chain)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "10 minutos por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Esfera de 20' de radio",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "95"
+        }
+      ],
+      "summary": "Cada vez que muere una criatura en el área, todas las de su tamaño o menores deben salvar o morir también, lo que puede provocar un efecto dominó.",
+      "pending": []
+    },
+    {
       "slug": "clonar",
       "name": "Clonar",
       "searchName": "clonar",
@@ -14280,6 +16916,31 @@
         }
       ],
       "summary": "Con un trozo de carne crea en 2d4 meses un duplicado exacto de un humano, semihumano o humanoide tal como era cuando se tomó la muestra, con 1 punto menos de Constitución. Original y clon no soportan coexistir: si ninguno elimina al otro, en una semana uno enloquece y se destruye (el clon un 90 % de las veces) o ambos (2 %).",
+      "pending": []
+    },
+    {
+      "slug": "congelar-freeze",
+      "name": "Congelar (Freeze)",
+      "searchName": "congelar (freeze)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Invocación"
+      ],
+      "reversible": false,
+      "range": "Variable",
+      "components": "V, M",
+      "duration": "Instantáneo",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "10^10 julios por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "101"
+        }
+      ],
+      "summary": "Extrae una enorme cantidad de calor de una masa continua de líquido (magma, hierro fundido o agua) para solidificarla, aunque una masa muy grande puede no llegar a congelarse. El libro da una tabla de propiedades físicas para calcularlo.",
       "pending": []
     },
     {
@@ -14333,6 +16994,81 @@
       "pending": []
     },
     {
+      "slug": "defoliar-defoliate",
+      "name": "Defoliar (Defoliate)",
+      "searchName": "defoliar (defoliate)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "S, M",
+      "duration": "Especial",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Cuadrado de 50' por nivel",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "95"
+        }
+      ],
+      "summary": "Toda la vegetación del área, incluidas las plantas inteligentes como los ents, se marchita y se convierte en ceniza negra. Solo un deseo la restaura, y durante un año no crece nada allí.",
+      "pending": []
+    },
+    {
+      "slug": "disipar-encantamiento-dispel-enchantment",
+      "name": "Disipar encantamiento (Dispel Enchantment)",
+      "searchName": "disipar encantamiento (dispel enchantment)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0 o toque",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel o 1 turno por nivel",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Radio de 20' u objeto tocado",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "97"
+        }
+      ],
+      "summary": "Versión más potente de disipar magia, en dos modos: un campo que disipa los conjuros activos del área y anula los que se lancen en ella durante un asalto por nivel, o neutralizar temporalmente objetos mágicos. No afecta a lo que disipar magia no puede anular.",
+      "pending": []
+    },
+    {
+      "slug": "drenar-vida-life-drain",
+      "name": "Drenar vida (Life Drain)",
+      "searchName": "drenar vida (life drain)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "107"
+        }
+      ],
+      "summary": "Conjuro de venganza. Como drenaje de energía, pero quita 3 DG o 3 niveles con todo lo que conllevan, y la víctima no se convierte en muerto viviente: su cuerpo se pudre hasta quedar en un esqueleto antiguo en un día.",
+      "pending": []
+    },
+    {
       "slug": "emular-lanzador",
       "name": "Emular lanzador",
       "searchName": "emular lanzador",
@@ -14355,6 +17091,107 @@
         }
       ],
       "summary": "El receptor, con Inteligencia 9 o más, si lanza conjuros puede lanzar a la vez que el mago, viéndole, los conjuros que este lance, con la mitad de su nivel. Quien no lance conjuros solo hace la mímica, sin efecto. Requiere una marioneta del mago.",
+      "pending": []
+    },
+    {
+      "slug": "envejecer-age",
+      "name": "Envejecer (Age)",
+      "searchName": "envejecer (age)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "89"
+        }
+      ],
+      "summary": "Conjuro de venganza. La víctima envejece de golpe, de forma permanente, en 1d4 asaltos: 45 años un humano, 175 un elfo, 125 un enano, etc. Sufre los penalizadores físicos de la edad sin ganar las bonificaciones mentales.",
+      "pending": []
+    },
+    {
+      "slug": "estrellas-fugaces-shooting-stars",
+      "name": "Estrellas fugaces (Shooting Stars)",
+      "searchName": "estrellas fugaces (shooting stars)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Invocación/Evocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "119"
+        }
+      ],
+      "summary": "Lanza tres proyectiles brillantes con cola de fuego que no necesitan tirada de ataque; cada objetivo salva para esquivarlos (con -2 a menos de 20 yardas y -1 a menos de 40). Al impactar hacen 12 de daño sin salvación y después estallan con 24 de fuego en 10' de radio (la mitad si salvan).",
+      "pending": []
+    },
+    {
+      "slug": "expedidor-aleatorio-de-sanboreg-sanboreg-s-random-dispatcher",
+      "name": "Expedidor aleatorio de Sanboreg (Sanboreg's Random Dispatcher)",
+      "searchName": "expedidor aleatorio de sanboreg (sanboreg's random dispatcher)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V",
+      "duration": "Instantáneo",
+      "castingTime": "2 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "118"
+        }
+      ],
+      "summary": "Magia salvaje. Si la víctima falla la salvación, ella y todo lo que lleva van a un plano al azar (d100 en una tabla: el Abismo, el Astral, Arcadia…), sin billete de vuelta.",
+      "pending": []
+    },
+    {
+      "slug": "forma-de-sombra-shadow-form",
+      "name": "Forma de sombra (Shadow Form)",
+      "searchName": "forma de sombra (shadow form)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Nigromancia",
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "119"
+        }
+      ],
+      "summary": "El mago se convierte en una sombra, con su movimiento, CA, DG y aptitudes: su toque helado (con tirada de ataque) hace 1d4+1 y quita 1 punto de Fuerza, que vuelve a los 2d4 turnos. Un humano o semihumano que llega a 0 pg o 0 de Fuerza pasa al Plano Material Negativo como sombra para siempre. En esa forma no lanza conjuros ni usa su equipo, y al acabar hay un 5 % de que el mago quede como sombra para siempre (solo un deseo lo revierte).",
       "pending": []
     },
     {
@@ -14459,6 +17296,32 @@
       "pending": []
     },
     {
+      "slug": "joya-de-jonid-jonid-s-jewel",
+      "name": "Joya de Jonid (Jonid's Jewel)",
+      "searchName": "joya de jonid (jonid's jewel)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Adivinación",
+        "Conjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "S, M",
+      "duration": "24 horas",
+      "castingTime": "7 segmentos",
+      "areaOfEffect": "1 gema",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "105"
+        }
+      ],
+      "summary": "Encanta una gema de al menos 400 mo que, una vez cada una en 24 horas, permite conocer el alineamiento, servir de flecha de dirección, detectar mentiras y predecir con acierto algo que pasará en los próximos 10 minutos si no se actúa. Se destruye al gastar todo o al acabar el plazo.",
+      "pending": []
+    },
+    {
       "slug": "laberinto",
       "name": "Laberinto",
       "searchName": "laberinto",
@@ -14481,6 +17344,31 @@
         }
       ],
       "summary": "Encierra a la víctima en un laberinto extradimensional de planos de fuerza durante un tiempo que depende de su Inteligencia: de 2d4 turnos si es menor de 3 a d4 asaltos si es de 18 o más. No sirven teletransporte ni puerta dimensional, pero sí cambiar de plano. No afecta a los minotauros.",
+      "pending": []
+    },
+    {
+      "slug": "laberinto-mental-mind-maze",
+      "name": "Laberinto mental (Mind Maze)",
+      "searchName": "laberinto mental (mind maze)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "5 segmentos",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "109"
+        }
+      ],
+      "summary": "Como laberinto, pero solo en la mente de la víctima, que se queda inmóvil mirando al vacío. El tiempo atrapada depende de su Inteligencia, de 2d4 días (menos de 3) a 1d2 asaltos (22 o más). No afecta a los minotauros, y teletransportarse no sirve para salir.",
       "pending": []
     },
     {
@@ -14586,6 +17474,31 @@
       "pending": []
     },
     {
+      "slug": "palabra-poderosa-aterrorizar-power-word-terrify",
+      "name": "Palabra poderosa: aterrorizar (Power Word: Terrify)",
+      "searchName": "palabra poderosa: aterrorizar (power word: terrify)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "115"
+        }
+      ],
+      "summary": "Afecta a una criatura de hasta 75 pg o a varias hasta 160 pg (no a las de más de 45 pg ni a las de 16 DG o más). Las de 6 DG o menos deben superar una tirada de shock del sistema o mueren de terror; las de 7 a 15 DG huyen por cualquier medio, gastando objetos y conjuros.",
+      "pending": []
+    },
+    {
       "slug": "palabra-poderosa-cegar",
       "name": "Palabra poderosa: cegar",
       "searchName": "palabra poderosa: cegar",
@@ -14608,6 +17521,31 @@
         }
       ],
       "summary": "Ciega a criaturas alrededor de la elegida, empezando por las de menos PG, hasta sumar 100 PG (las de 100 o más no se ven afectadas); también puede dirigirse a una sola. Con 25 PG o menos afectados la ceguera es permanente; con 26–50 dura d4 + 1 turnos y con 51–100, d4 + 1 asaltos. Se cura con curar ceguera o disipar magia.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-desterrar-power-word-banish",
+      "name": "Palabra poderosa: desterrar (Power Word: Banish)",
+      "searchName": "palabra poderosa: desterrar (power word: banish)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas por nivel",
+      "components": "V",
+      "duration": "Instantáneo",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "112"
+        }
+      ],
+      "summary": "Expulsa del plano del mago a criaturas de otros planos, sin salvación aunque hay que superar su resistencia mágica: una de hasta 80 pg o varias hasta 120 pg (no afecta a las de más de 40).",
       "pending": []
     },
     {
@@ -14659,6 +17597,31 @@
         }
       ],
       "summary": "Hace permanente otro conjuro: sobre el propio mago (comprensión lingüística, detectar magia, infravisión, protección contra el mal y otros de una lista), a costa de 1 punto de Constitución cada vez; o sobre objetos, criaturas o áreas con otra lista (agrandar, muro de fuego, telaraña, alarma, teletransporte…). Se usa también para crear objetos mágicos. Puede disiparse y, al cabo de al menos 1000 años, volverse inestable.",
+      "pending": []
+    },
+    {
+      "slug": "perspicacia-del-adivino-diviner-s-insight",
+      "name": "Perspicacia del adivino (Diviner's Insight)",
+      "searchName": "perspicacia del adivino (diviner's insight)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "2 turnos por nivel",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Un personaje",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "97"
+        }
+      ],
+      "summary": "El receptor procesa la información con mucha más eficacia: +60 % a las habilidades basadas en Inteligencia, +30 % si se basan en Inteligencia y otro atributo y +20 % si en tres. Además, el mago domina una habilidad de Inteligencia por cada cinco niveles.",
       "pending": []
     },
     {
@@ -14763,6 +17726,132 @@
       "pending": []
     },
     {
+      "slug": "ventisca-blizzard",
+      "name": "Ventisca (Blizzard)",
+      "searchName": "ventisca (blizzard)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Invocación/Evocación"
+      ],
+      "reversible": false,
+      "range": "30 yardas",
+      "components": "V, S, M",
+      "duration": "4 asaltos + 1d6 asaltos",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "91"
+        }
+      ],
+      "summary": "Crea una ventisca que crece: dos asaltos reduciendo la visibilidad a la mitad, luego 1d4-2 por nivel del mago, 1d4 por nivel el cuarto asalto y 1d4-2 por nivel el quinto; después ya no daña, pero apenas se ve a un pie.",
+      "pending": []
+    },
+    {
+      "slug": "zona-salvaje-wildzone",
+      "name": "Zona salvaje (Wildzone)",
+      "searchName": "zona salvaje (wildzone)",
+      "class": "Mage",
+      "level": 8,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "2d6 turnos",
+      "castingTime": "1d6 asaltos",
+      "areaOfEffect": "Cuadrado de 300' de lado",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "125"
+        }
+      ],
+      "summary": "Magia salvaje. Crea temporalmente, centrada en el mago y alineada con su orientación, una zona de magia salvaje de 300' de lado: toda magia usada dentro provoca un estallido salvaje (salvo los objetos sin cargas). Sus efectos podrían hacerse permanentes.",
+      "pending": []
+    },
+    {
+      "slug": "alterar-la-realidad-alter-reality",
+      "name": "Alterar la realidad (Alter Reality)",
+      "searchName": "alterar la realidad (alter reality)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Ilusión/Fantasma",
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "Ilimitado",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "Especial",
+      "areaOfEffect": "Especial",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "90"
+        }
+      ],
+      "summary": "El ilusionista representa su deseo con fuerza fantasmal y lo dice en voz alta, y la realidad se ajusta a él, con un alcance parecido al de deseo limitado; solo cambia lo que existe, no crea realidades nuevas, y no devuelve el alma a los muertos. Envejece al mago tres años. Solo para ilusionistas, especialistas en conjuración e hipnotizadores.",
+      "pending": []
+    },
+    {
+      "slug": "amnesia-programada-programmed-amnesia",
+      "name": "Amnesia programada (Programmed Amnesia)",
+      "searchName": "amnesia programada (programmed amnesia)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "20 yardas",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "Especial",
+      "areaOfEffect": "Una criatura",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "115"
+        }
+      ],
+      "summary": "El mago borra, altera o implanta recuerdos a su gusto, y puede reprogramar por completo a un personaje con otra personalidad, alineamiento y clase. Solo afecta a seres conscientes; los que no son humanos, humanoides o semihumanos salvan con +4.",
+      "pending": []
+    },
+    {
+      "slug": "anillo-de-espadas-ring-of-swords",
+      "name": "Anillo de espadas (Ring of Swords)",
+      "searchName": "anillo de espadas (ring of swords)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Alteración"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Especial",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "117"
+        }
+      ],
+      "summary": "Una custodia, cara y que exige preparar el lugar, en la que cuatro o más espadas animadas flotan en un anillo de hasta 10' de radio por nivel y defienden un santuario o un dormitorio. El número de armas depende de lo que el mago gaste en componentes.",
+      "pending": []
+    },
+    {
       "slug": "atropos",
       "name": "Átropos",
       "searchName": "atropos",
@@ -14785,6 +17874,57 @@
         }
       ],
       "summary": "Tras anunciarles su perdición, el mago enfrenta a las criaturas del área a sus enemigos más temidos. Quien salva queda paralizado de miedo un asalto y pierde d4 de Fuerza durante un turno; quien falla lucha de verdad contra su némesis, sin escape mágico, y muere si pierde, o sale ileso y gana la experiencia si vence. Cada asalto de esa lucha dura una décima de asalto real; el mago debe concentrarse y, si le molestan, acaba.",
+      "pending": []
+    },
+    {
+      "slug": "aura-elemental-elemental-aura",
+      "name": "Aura elemental (Elemental Aura)",
+      "searchName": "aura elemental (elemental aura)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Abjuración",
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V",
+      "duration": "1 hora por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "98"
+        }
+      ],
+      "summary": "Cubre al mago con un aura de aire, tierra, fuego o agua (solo una a la vez), cada una con efectos distintos: por ejemplo, la de aire da inmunidad a los gases y ataques de aire, protección total contra los ataques físicos de las criaturas del Plano Elemental del Aire y la capacidad de lanzar volar.",
+      "pending": []
+    },
+    {
+      "slug": "avance-de-las-sombras-shadow-creep",
+      "name": "Avance de las sombras (Shadow Creep)",
+      "searchName": "avance de las sombras (shadow creep)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Ilusión/Fantasma"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Permanente",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "119"
+        }
+      ],
+      "summary": "Abre al Plano de las Sombras una zona de 100 yardas de radio que crece cuanto más se usa: quien entra sufre -4 a salvar contra el miedo durante tantos días como el nivel del mago, y quien muere dentro se convierte en una sombra ligada al lugar.",
       "pending": []
     },
     {
@@ -14889,6 +18029,56 @@
       "pending": []
     },
     {
+      "slug": "circulo-definitivo-de-jebidiah-jebidiah-s-ultimate-circle",
+      "name": "Círculo definitivo de Jebidiah (Jebidiah's Ultimate Circle)",
+      "searchName": "circulo definitivo de jebidiah (jebidiah's ultimate circle)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "9 asaltos",
+      "areaOfEffect": "Círculo de hasta 40' de diámetro",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "106"
+        }
+      ],
+      "summary": "Un círculo de polvo de oro totalmente invulnerable, que el mago orienta hacia dentro (nada puede salir ni atacar a través) o hacia fuera (nada de fuera puede dañar a los de dentro). No sirve para proteger a quien ataca desde él.",
+      "pending": []
+    },
+    {
+      "slug": "coloso-de-hielo-ice-juggernaut",
+      "name": "Coloso de hielo (Ice Juggernaut)",
+      "searchName": "coloso de hielo (ice juggernaut)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "10' por nivel",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "104"
+        }
+      ],
+      "summary": "El mago lanza al suelo una figurilla tallada que crece hasta ser una enorme escultura humanoide de hielo móvil, de hasta 100' de alto y 80' de alcance, que puede rugir una frase de hasta seis palabras elegida al lanzarlo. Atrae los conjuros dirigidos al mago si está a 60' y ataca con dos puños de 8d8; también puede agarrar (6d8 y luego 5d8 por asalto).",
+      "pending": []
+    },
+    {
       "slug": "conjuro-astral",
       "name": "Conjuro astral",
       "searchName": "conjuro astral",
@@ -14911,6 +18101,32 @@
         }
       ],
       "summary": "El mago proyecta su cuerpo astral, y el de hasta siete acompañantes en círculo, al plano astral, unido al cuerpo por un cordón plateado que solo rompe un viento psíquico; desde allí puede ir a los planos exteriores y formar un cuerpo nuevo. Solo lleva objetos mágicos, que allí suelen dejar de funcionar. Dura hasta que lo termine, se disipe o se destruya su cuerpo.",
+      "pending": []
+    },
+    {
+      "slug": "cono-tempestuoso-tempestcone",
+      "name": "Cono tempestuoso (Tempestcone)",
+      "searchName": "cono tempestuoso (tempestcone)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Alteración",
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S",
+      "duration": "1 asalto por nivel",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Criatura tocada",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "120"
+        }
+      ],
+      "summary": "Un cono de fuerza oscuro, de vientos y nubes que giran, rodea al mago o a quien toque y se mueve con él. Se «bebe» toda la magia que lo toca, incluida la del protegido, y la convierte en dos proyectiles mágicos (1d4+1) por nivel de conjuro absorbido, que el protegido lanza a 40' en lugar de atacar. Si en un asalto absorbe tantos niveles como el nivel del mago, estalla: 2 por nivel almacenado (la mitad si salva) y aturdimiento 1d4 asaltos.",
       "pending": []
     },
     {
@@ -14964,6 +18180,31 @@
       "pending": []
     },
     {
+      "slug": "detectarlo-todo-detect-all",
+      "name": "Detectarlo todo (Detect All)",
+      "searchName": "detectarlo todo (detect all)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 turno por nivel",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Franja de 10' × 90'",
+      "savingThrow": "1/2",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "96"
+        }
+      ],
+      "summary": "Detecta a la vez, en una franja de 10' por 90', el equilibrio, los hechizos, el mal, el bien, la invisibilidad, las mentiras, la magia, el veneno, las trampas, las segundas intenciones y los muertos vivientes, con su intensidad, y el escudriñamiento esté donde esté. Tiene un 90 % de saber la escuela de los objetos mágicos.",
+      "pending": []
+    },
+    {
       "slug": "detener-el-tiempo",
       "name": "Detener el tiempo",
       "searchName": "detener el tiempo",
@@ -15012,6 +18253,56 @@
         }
       ],
       "summary": "Deshace los conjuros activos y los objetos mágicos a 30' (salvo los de quien toque el mago), que salvan o se vuelven normales; los artefactos y caparazones antimagia solo con un 1 % por nivel. Destruir un artefacto atrae casi siempre a un ser poderoso, y el mago debe salvar con -4 o pierde para siempre su capacidad de lanzar conjuros.",
+      "pending": []
+    },
+    {
+      "slug": "dominacion-de-masas-mass-domination",
+      "name": "Dominación de masas (Mass Domination)",
+      "searchName": "dominacion de masas (mass domination)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Encantamiento/Hechizo"
+      ],
+      "reversible": false,
+      "range": "60 yardas",
+      "components": "V, S",
+      "duration": "Especial",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Cubo de 30' de lado",
+      "savingThrow": "Especial",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "108"
+        }
+      ],
+      "summary": "Domina hasta 2 DG o niveles de criaturas con mente por nivel del mago, que salvan con -4; ni el idioma ni la especie importan. Sobre cualquiera de ellas puede ejercer a voluntad un vínculo empático o una dominación, siempre que estén en el mismo plano.",
+      "pending": []
+    },
+    {
+      "slug": "dominar-muertos-vivientes-master-undead",
+      "name": "Dominar muertos vivientes (Master Undead)",
+      "searchName": "dominar muertos vivientes (master undead)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "10 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "5 asaltos por nivel",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Cubo de 50' de lado",
+      "savingThrow": "Niega",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "109"
+        }
+      ],
+      "summary": "Controla un muerto viviente por nivel del mago, empezando por los más débiles, como si estuvieran bajo hechizar persona. Los de más de 3 DG pueden salvar; los liches y los de 10 DG o más, con +4.",
       "pending": []
     },
     {
@@ -15067,6 +18358,31 @@
       "pending": []
     },
     {
+      "slug": "estabilizar-stabilize",
+      "name": "Estabilizar (Stabilize)",
+      "searchName": "estabilizar (stabilize)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Abjuración"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "1d4+1 turnos",
+      "castingTime": "1 turno",
+      "areaOfEffect": "Círculo de 30' de radio",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "120"
+        }
+      ],
+      "summary": "Magia salvaje. Anula los efectos de una zona de magia salvaje en 30' alrededor del mago, que se mueve con él: allí se lanzan conjuros y se usan objetos con normalidad, no hay estallidos salvajes y el mago salvaje lanza a su nivel real, sin la tabla de variación.",
+      "pending": []
+    },
+    {
       "slug": "estasis-temporal",
       "name": "Estasis temporal",
       "searchName": "estasis temporal",
@@ -15115,6 +18431,107 @@
         }
       ],
       "summary": "Convierte un objeto de metal, incluso de adamantita o un gólem de hierro, en un material frágil como el cristal que se rompe con un golpe moderado; solo un deseo lo deshace. Contra un enemigo hay que acertar un ataque. Los objetos mágicos salvan con un 5 % por punto de bonificador.",
+      "pending": []
+    },
+    {
+      "slug": "fuego-salvaje-wildfire",
+      "name": "Fuego salvaje (Wildfire)",
+      "searchName": "fuego salvaje (wildfire)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Invocación/Evocación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V",
+      "duration": "Variable",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Variable",
+      "savingThrow": "Variable",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "124"
+        }
+      ],
+      "summary": "Magia salvaje. Parecido a deseo, pero de magia salvaje: reproduce el efecto de cualquier conjuro de mago de nivel 8 o menos que el mago conozca en general, aunque no lo tenga en su libro, con -2 a las salvaciones. También sirve para crear objetos mágicos.",
+      "pending": []
+    },
+    {
+      "slug": "glifo-de-adivinacion-glyph-of-divination",
+      "name": "Glifo de adivinación (Glyph of Divination)",
+      "searchName": "glifo de adivinacion (glyph of divination)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "Toque",
+      "components": "V, S, M",
+      "duration": "Hasta que se descarga",
+      "castingTime": "Especial",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "102"
+        }
+      ],
+      "summary": "Un glifo que da un poder de adivinación concreto a quien lo activa en las condiciones que fije el mago (pasar, abrir una puerta, leerlo…), sin salvación aunque cuenta la resistencia mágica. Se traza como glifo de custodia, un asalto por cada 5 pies de área.",
+      "pending": []
+    },
+    {
+      "slug": "inmunidad-a-la-no-muerte-immunity-to-undeath",
+      "name": "Inmunidad a la no muerte (Immunity to Undeath)",
+      "searchName": "inmunidad a la no muerte (immunity to undeath)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Abjuración",
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S, M",
+      "duration": "1 asalto por nivel",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Radio de 40'",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "105"
+        }
+      ],
+      "summary": "Un globo que se mueve con el mago hace inmunes a quienes están dentro al drenaje de energía y de Fuerza de los muertos vivientes, a su control mental y a sus poderes de miedo, parálisis, envejecimiento o muerte. Todos pueden entrar y salir, y se puede expulsar muertos vivientes con normalidad.",
+      "pending": []
+    },
+    {
+      "slug": "lanza-blanca-de-kachirut-kachirut-s-white-lance",
+      "name": "Lanza blanca de Kachirut (Kachirut's White Lance)",
+      "searchName": "lanza blanca de kachirut (kachirut's white lance)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Evocación"
+      ],
+      "reversible": false,
+      "range": "70 yardas + 20 yardas por nivel",
+      "components": "V, S, M",
+      "duration": "Instantáneo",
+      "castingTime": "10 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "1/2 (no)",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "106"
+        }
+      ],
+      "summary": "Un chorro de energía al rojo blanco de 20' de ancho y más de 70' de largo: 4d12 sin salvación. Un asalto después, una onda expansiva de 50' de ancho hace 2d8 (la mitad si salva), y quien esté a 500' debe salvar contra parálisis o queda inconsciente 1d4 asaltos. Necesita un diamante de al menos 10000 mo.",
       "pending": []
     },
     {
@@ -15168,6 +18585,31 @@
       "pending": []
     },
     {
+      "slug": "maldicion-de-sangre-blood-curse",
+      "name": "Maldición de sangre (Blood Curse)",
+      "searchName": "maldicion de sangre (blood curse)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "Especial",
+      "components": "V",
+      "duration": "Especial",
+      "castingTime": "1 asalto",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "91"
+        }
+      ],
+      "summary": "Conjuro de venganza. Una maldición que solo hay que pronunciar, sin salvación e ignorando la resistencia a la magia, casi siempre cuando el mago espera morir pronto. Tiene que ser mala sin remedio para quien la recibe, se ajusta a la intención y no a la letra, y puede alcanzar a ejércitos enteros o durar generaciones.",
+      "pending": []
+    },
+    {
       "slug": "mano-aplastante-de-zarba",
       "name": "Mano aplastante de Zarba",
       "searchName": "mano aplastante de zarba",
@@ -15218,6 +18660,81 @@
       "pending": []
     },
     {
+      "slug": "ola-de-muerte-wave-of-death",
+      "name": "Ola de muerte (Wave of Death)",
+      "searchName": "ola de muerte (wave of death)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Nigromancia"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "1 asalto por nivel",
+      "castingTime": "9 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "124"
+        }
+      ],
+      "summary": "Conjuro de venganza. Una ola de energía oscura en un arco de 30 grados, de 10' de alto, avanza 10 yardas por asalto desde el mago y atraviesa criaturas y construcciones, pero no 6 pulgadas de piedra ni media de plomo, y afecta a toda criatura que toca según sus DG: con 5 o menos muere; de 5+1 a 7+2 queda a 0 pg; de 7+3 a 11 recibe 10d10, y con más, 5d10.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-aniquilar-power-word-annihilate",
+      "name": "Palabra poderosa: aniquilar (Power Word: Annihilate)",
+      "searchName": "palabra poderosa: aniquilar (power word: annihilate)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas cada 2 niveles",
+      "components": "V",
+      "duration": "Instantáneo",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "Una criatura o un cubo de 15' de lado",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "112"
+        }
+      ],
+      "summary": "Hace desaparecer para siempre un volumen de materia o energía, como desintegrar; funciona contra mano aferrante de Zarba y globo de invulnerabilidad, pero no atraviesa un caparazón antimagia. Lo que destruye solo lo recupera un deseo.",
+      "pending": []
+    },
+    {
+      "slug": "palabra-poderosa-bailar-power-word-dance",
+      "name": "Palabra poderosa: bailar (Power Word: Dance)",
+      "searchName": "palabra poderosa: bailar (power word: dance)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "5 yardas cada 2 niveles",
+      "components": "V",
+      "duration": "1d4+1 asaltos",
+      "castingTime": "1 segmento",
+      "areaOfEffect": "1 o más criaturas",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "113"
+        }
+      ],
+      "summary": "Hasta 180 pg de criaturas (ninguna de más de 60) o una sola de hasta 90 bailan frenéticamente y mal 1d4+1 asaltos: no pueden hacer otra cosa, tienen -4 a la CA, solo salvan con un 20 natural y cuenta como esfuerzo para la fatiga.",
+      "pending": []
+    },
+    {
       "slug": "palabra-poderosa-matar",
       "name": "Palabra poderosa: matar",
       "searchName": "palabra poderosa: matar",
@@ -15240,6 +18757,31 @@
         }
       ],
       "summary": "Mata a una criatura de hasta 60 PG actuales o a varias de 10 PG o menos cada una, hasta 120 PG en total, según declare el mago.",
+      "pending": []
+    },
+    {
+      "slug": "potenciar-adivinacion-mayor-greater-divination-enhancement",
+      "name": "Potenciar adivinación mayor (Greater Divination Enhancement)",
+      "searchName": "potenciar adivinacion mayor (greater divination enhancement)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Adivinación"
+      ],
+      "reversible": false,
+      "range": "0",
+      "components": "V, S",
+      "duration": "2 turnos + 3 asaltos por nivel",
+      "castingTime": "6 segmentos",
+      "areaOfEffect": "El lanzador",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "103"
+        }
+      ],
+      "summary": "Mientras dura, los conjuros de adivinación que lance el mago duplican todos sus efectos cuantificables (alcance, duración, área, probabilidades de obtener más información). Al acabar, terminan todas esas adivinaciones.",
       "pending": []
     },
     {
@@ -15391,6 +18933,31 @@
         }
       ],
       "summary": "Como teletransporte entre campañas, pero lleva a otro género del sistema HackMáster, como CattlePunk, HackNoia o SpaceHack.",
+      "pending": []
+    },
+    {
+      "slug": "viento-salvaje-wildwind",
+      "name": "Viento salvaje (Wildwind)",
+      "searchName": "viento salvaje (wildwind)",
+      "class": "Mage",
+      "level": 9,
+      "schools": [
+        "Conjuración/Convocación"
+      ],
+      "reversible": false,
+      "range": "100 yardas",
+      "components": "V, S",
+      "duration": "1d3 turnos",
+      "castingTime": "8 segmentos",
+      "areaOfEffect": "Especial",
+      "savingThrow": "No",
+      "books": [
+        {
+          "acronym": "SSG",
+          "page": "125"
+        }
+      ],
+      "summary": "Magia salvaje. Crea un muro de luces de colores de 150' de largo que, desde el segundo asalto, el mago mueve en línea recta hasta 60' por asalto; una vez en marcha solo se detiene si se cancela o disipa. Hace 2d6 sin salvación a quien alcanza, además de otros efectos salvajes.",
       "pending": []
     },
     {

@@ -256,8 +256,17 @@
   resistir el frío, resistir el fuego, detectar hechizo, encontrar trampas) llevan el nombre del
   MJ. «Exterminate» se traduce «exterminar plagas» para no confundirlo con el truco. Las dos
   decisiones van a la pestaña «Dudas». La etiqueta del libro ([Vengeance], [Wild]) se cuenta en el
-  resumen («Conjuro de venganza», «Magia salvaje»). Pendiente en la tanda 2: el OCR juntó las
-  cabeceras de «Wizard's Oracle» y «Zombie Double» (p. 126), que se separarán a mano.
+  resumen («Conjuro de venganza», «Magia salvaje»). Revisión de la tanda 1: sin errores de cabecera;
+  cuatro resúmenes y varios matices corregidos. Fusionada (pull request #25). **SSG, tanda 2
+  (2026-11-24)**: niveles 4 a 9 (28, 27, 22, 25, 18 y 22), con lo que acaba T014: 235 conjuros de la
+  SSG y 892 en total. El OCR juntó las cabeceras de «Wizard's Oracle» y «Zombie Double» (p. 126),
+  separadas a mano y cotejadas con la imagen. Versiones de mago con nombre del MJ: detectar
+  mentiras, detectar segundas, encontrar el camino, dañar (Harm, la inversa de panacea), y las de
+  druida caparazón antianimal y muro de espinas (Apéndice D del MJ). Dos revisiones independientes en
+  paralelo (niveles 4–6 y 7–9): sin errores de cabecera; doce resúmenes corregidos (daños que
+  faltaban, la salvación de robar encantamiento, la ola de muerte) y matices. El Apéndice C de la
+  SSG pone buscar teletransportador en el nivel 9; se sigue la cabecera del Apéndice A (nivel 8).
+  Queda de F009 solo T015 (opcional).
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
