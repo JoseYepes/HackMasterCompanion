@@ -9,7 +9,7 @@
 ## Phase 1: Preparación
 
 - [X] T001 Crear `src/HackMaster.Api` (Functions aislado, `net10.0`) y `tests/HackMaster.Api.Tests`; añadirlos a la solución y fijar versiones en `Directory.Packages.props` (paquetes de plan.md).
-- [X] T002 Añadir `src/HackMaster.Api/staticwebapp.config.json` con `"platform": { "apiRuntime": "dotnet-isolated:10.0" }`.
+- [X] T002 Añadir `infra/swa-placeholder/staticwebapp.config.json` (va con el contenido estático de la Static Web App) con `"platform": { "apiRuntime": "dotnet-isolated:10.0" }`.
 - [X] T003 Escribir `docs/adr/0001-sincronizacion.md`: por qué `IAccountSync`, un documento por elemento y que gane el más reciente.
 
 ## Phase 2: Base (bloquea todo lo demás)
@@ -106,24 +106,24 @@
 
 ## Phase 8: Infraestructura y CI (FR-013, FR-014)
 
-- [ ] T034 Crear `infra/budget.bicep` a nivel de suscripción:
+- [X] T034 Crear `infra/budget.bicep` a nivel de suscripción:
   - presupuesto de 1 € al mes;
   - avisos al 10 % real y al 100 % previsto;
   - el correo como parámetro, no en el repositorio.
-- [ ] T035 Crear `infra/main.bicep` e `infra/README.md`:
+- [X] T035 Crear `infra/main.bicep` e `infra/README.md`:
   - Static Web App `Free`;
   - Cosmos con `enableFreeTier: true`;
   - base de datos con 1000 RU/s manuales compartidos;
   - contenedores `userdata` e `invitations`;
   - ajustes de la API con `listKeys()`;
   - la etiqueta `proyecto=hackmaster` en todo.
-- [ ] T036 En las PR, compilar el Bicep y ejecutar `what-if` en CI, sin desplegar. Añadir un test que falle si algún recurso de `infra/` no lleva la etiqueta `proyecto=hackmaster` o si la cuenta de Cosmos no tiene el nivel gratuito.
-- [ ] T037 Crear `.github/workflows/azure.yml`, sin secretos en el repositorio. En `main`, por este orden:
+- [X] T036 En las PR, compilar el Bicep en CI, sin desplegar (el `what-if` necesita entrar en Azure; lo hace el despliegue). Añadir un test que falle si algún recurso de `infra/` no lleva la etiqueta `proyecto=hackmaster` o si la cuenta de Cosmos no tiene el nivel gratuito.
+- [X] T037 Crear `.github/workflows/azure.yml`, sin secretos en el repositorio. En `main`, por este orden:
   1. entrar en Azure con OIDC;
   2. desplegar `budget.bicep`;
   3. desplegar `main.bicep`;
   4. desplegar la API, con el token de despliegue obtenido en la ejecución.
-- [ ] T038 Añadir el emulador de Cosmos como contenedor de servicio en `.github/workflows/ci.yml`, para `HackMaster.Api.Tests`.
+- [X] T038 Añadir el emulador de Cosmos como contenedor de servicio en `.github/workflows/ci.yml`, para `HackMaster.Api.Tests`.
 
 ## Phase 9: Pulido y entrega
 

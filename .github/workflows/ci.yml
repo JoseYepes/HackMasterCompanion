@@ -18,7 +18,15 @@ jobs:
   verify:
     name: Construir, probar y comprobar formato
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    # Emulador de Cosmos DB para los tests de integración de la API (F006, tests/README.md).
+    services:
+      cosmos:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-preview
+        ports:
+          - 8081:8081
+    env:
+      COSMOS_EMULATOR_ENDPOINT: http://localhost:8081
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -33,6 +41,15 @@ jobs:
       - name: Construir sin avisos
         run: dotnet build -warnaserror --no-restore
 
+      - name: Esperar al emulador de Cosmos DB
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8081/ > /dev/null; then exit 0; fi
+            sleep 2
+          done
+          echo "El emulador de Cosmos DB no arrancó."
+          exit 1
+
       - name: Probar
         run: dotnet test --no-build
 
@@ -41,6 +58,20 @@ jobs:
 
       - name: Comprobar que la aplicación se puede publicar
         run: dotnet publish src/HackMaster.Web -c Release -o publish
+
+  infra:
+    name: Comprobar la infraestructura (Bicep)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Solo compila: el despliegue lo hace azure.yml en main, con la cuenta de Azure.
+      - name: Compilar los archivos Bicep
+        run: |
+          az bicep install
+          az bicep build --file infra/budget.bicep --stdout > /dev/null
+          az bicep build --file infra/main.bicep --stdout > /dev/null
 
   e2e:
     name: Pruebas de navegador (Playwright)

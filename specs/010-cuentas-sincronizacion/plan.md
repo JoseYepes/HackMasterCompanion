@@ -88,13 +88,13 @@ src/HackMaster.Api/                                              # nuevo
   Functions/ MeFunction.cs, DataFunctions.cs, ExportFunction.cs, AccountFunction.cs, InvitationFunctions.cs
   Auth/      TokenValidator.cs, Cors.cs
   Storage/   CosmosStore.cs
-  staticwebapp.config.json (apiRuntime dotnet-isolated:10.0)
 tests/HackMaster.Domain.Tests/Sync/
 tests/HackMaster.Web.Tests/Account/
 tests/HackMaster.Api.Tests/                                      # nuevo, integración con emulador
 infra/
   budget.bicep        # suscripción: presupuesto 1 €, avisos
   main.bicep          # grupo de recursos: Static Web App Free, Cosmos (free tier), contenedores
+  swa-placeholder/    # página mínima y staticwebapp.config.json (apiRuntime dotnet-isolated:10.0)
   README.md
 .github/workflows/azure.yml                                      # infraestructura + API
 docs/adr/0001-sincronizacion.md
