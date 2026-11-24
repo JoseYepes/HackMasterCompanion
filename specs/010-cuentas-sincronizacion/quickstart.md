@@ -10,10 +10,17 @@
    - «HackMaster Web», una SPA con las direcciones de redirección de Pages y de `localhost`.
 4. Crear un cliente OAuth de Google (consola de Google Cloud, sin facturación). Añadir Google y
    «cuenta de Microsoft» como proveedores del flujo de registro e inicio de sesión.
-5. Crear la credencial federada de GitHub Actions y las variables del repositorio
-   `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID` y `AZURE_CLIENT_ID`. Ningún secreto.
-6. Lanzar el flujo `azure.yml`: despliega `infra/main.bicep` y la API.
-7. Poner el correo del administrador en `ADMIN_EMAILS` y la primera invitación.
+5. Crear la credencial federada de GitHub Actions para el entorno `azure`, con el sujeto
+   `repo:JoseYepes/HackMasterCompanion:environment:azure`. Se le da el rol de colaborador en la
+   suscripción. Las variables y los secretos del repositorio están en `infra/README.md`; los
+   correos van como secretos, porque los registros de este repositorio son públicos.
+6. Lanzar el flujo `azure.yml`. Despliega el presupuesto, `infra/main.bicep` y la API.
+7. Rellenar `src/HackMaster.Web/wwwroot/appsettings.json` con la autoridad, el cliente, el ámbito y
+   la dirección de la API (`apiUrl` en la salida del despliegue). Son valores públicos. La
+   aplicación «HackMaster Web» necesita la redirección `https://joseyepes.github.io/HackMasterCompanion/authentication/login-callback`
+   y la de `http://localhost:5238/`. En la aplicación «HackMaster API», el token de acceso tiene
+   que incluir la notificación opcional `email`.
+8. Entrar con la cuenta de administrador e invitar a las demás desde «Mi cuenta» → «Invitaciones».
 
 ## Comprobaciones automáticas
 

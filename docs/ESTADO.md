@@ -267,6 +267,34 @@
   faltaban, la salvación de robar encantamiento, la ola de muerte) y matices. El Apéndice C de la
   SSG pone buscar teletransportador en el nivel 9; se sigue la cabecera del Apéndice A (nivel 8).
   Queda de F009 solo T015 (opcional).
+- **F006, cuentas y datos en la nube (2026-11-24)**: rama `010-cuentas-sincronizacion`, spec en
+  `specs/010-cuentas-sincronizacion/`. El usuario decidió:
+  - se entra con cuenta de Microsoft o de Google;
+  - solo pueden entrar las personas que invite el administrador;
+  - aprobó las dependencias nuevas: MSAL, Azure Functions, Cosmos DB e IdentityModel.
+
+  Plan, con las condiciones gratuitas comprobadas ese día en la documentación oficial:
+  - inicio de sesión con Entra External ID (50000 personas activas al mes gratis);
+  - API en funciones gestionadas de Static Web Apps Free;
+  - datos en Cosmos DB con el nivel gratuito (1000 RU/s y 25 GB);
+  - la interfaz sigue en GitHub Pages, para no perder los datos del dispositivo al cambiar de origen.
+
+  Hecho el código entero:
+  - dominio `Sync/` (fusión por documento; gana el más reciente y, en empate, la nube);
+  - proyecto `HackMaster.Api` con tests de integración contra el emulador de Cosmos DB en Docker;
+  - claves del dispositivo por cuenta (el modo de pantalla sigue siendo del dispositivo);
+  - `AccountSync`, con cola de pendientes, conflictos y primera sesión;
+  - pantallas «Mi cuenta» e «Invitaciones»;
+  - Bicep en `infra/` y `azure.yml`, que no hace nada hasta que exista la cuenta de Azure.
+
+  Sin la configuración de `wwwroot/appsettings.json` la aplicación es la de siempre.
+
+  **Falta, con el usuario**:
+  - T004: probar en una Static Web App real que pasan la cabecera `Authorization` y CORS;
+  - T040: la preparación única de quickstart.md, con el presupuesto primero;
+  - T041: la comprobación a mano.
+
+  No se ha creado nada en Azure.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
