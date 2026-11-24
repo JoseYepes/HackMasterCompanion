@@ -245,7 +245,19 @@
   un conjuro que no existe). La página Dudas las muestra en su sección «Conjuros» con enlace a cada
   ficha, y la ficha del conjuro avisa. `docs/dudas.md` remite al nuevo listado. Van cargadas las 24
   dudas de las tandas 2 a 8 y de los trucos. Se hizo aparte del modelo de dudas de habilidades
-  (`SpellDoubt`, sin tocar `ElementKind`) para no mezclar las dos importaciones.
+  (`SpellDoubt`, sin tocar `ElementKind`) para no mezclar las dos importaciones. **SSG, tanda 1
+  (2026-11-24)**: el PDF de la Spellslinger's Guide es un escaneo sin texto; con permiso del usuario
+  se instaló Tesseract (OCR, fuera del repositorio) y se leyó el Apéndice A (SSG p. 89–127): 235
+  conjuros de mago, todos nuevos. Esta tanda carga los niveles 1 a 3 (31, 33 y 29; 750 conjuros en
+  total). Las cabeceras salen del OCR; la tipografía dibuja el «1» como una «I», error que se
+  corrige solo, y las cabeceras dudosas se cotejaron con recortes de la imagen de la página. Nombres
+  traducidos por el agente con el original inglés entre paréntesis (como las habilidades de libros
+  en inglés); las versiones de mago de conjuros de clérigo del MJ (piedra mágica, quitar el miedo,
+  resistir el frío, resistir el fuego, detectar hechizo, encontrar trampas) llevan el nombre del
+  MJ. «Exterminate» se traduce «exterminar plagas» para no confundirlo con el truco. Las dos
+  decisiones van a la pestaña «Dudas». La etiqueta del libro ([Vengeance], [Wild]) se cuenta en el
+  resumen («Conjuro de venganza», «Magia salvaje»). Pendiente en la tanda 2: el OCR juntó las
+  cabeceras de «Wizard's Oracle» y «Zombie Double» (p. 126), que se separarán a mano.
 - **Ideas nuevas del usuario (2026-11-20)**, apuntadas sin orden en `PRODUCTO.md`: F011, conjuntos de
   habilidades en la ficha como una habilidad más y manejar fichas con muchas habilidades (dijo que
   «deberían poder compararse»; queda por aclarar qué quiere decir); F012, descargar la ficha en sus
