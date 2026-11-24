@@ -83,6 +83,9 @@ actualización de cada página entre paréntesis). Se vuelven a comprobar antes 
 - **Decisión**: con sesión, las claves del dispositivo llevan el identificador de la cuenta
   (`hackmaster.u.{oid}.characters`, etc.). Sin sesión se usan las de siempre. Al cerrar sesión no
   se borra nada, pero solo se ven las claves sin sesión.
+- **Excepción**: el modo de pantalla sigue en la clave del dispositivo (`hackmaster.theme`), porque
+  el script de `index.html` lo aplica antes de que arranque la aplicación y de saber la cuenta. Se
+  guarda en la cuenta y, al iniciar sesión, el de la cuenta pasa al dispositivo.
 - **Por qué**: cumple US3 sin borrar datos y sin depender de la red.
 
 ## R6. Infraestructura, despliegue y secretos

@@ -1,3 +1,4 @@
+using HackMaster.Web.Account;
 using Microsoft.JSInterop;
 
 namespace HackMaster.Web;
@@ -10,7 +11,7 @@ public sealed record StoredText(string? Value, bool Failed);
 /// <see cref="BrowserStore"/>: si el navegador no deja guardar, no falla, conserva los valores en
 /// memoria mientras la página siga abierta y avisa con <see cref="AvailabilityChanged"/>.
 /// </summary>
-public sealed class IndexedStore(IJSRuntime js)
+public sealed class IndexedStore(IJSRuntime js, AccountSession? session = null)
 {
     /// <summary>Ruta del módulo, relativa a la base del sitio.</summary>
     public const string ModulePath = "./js/characters.js";
@@ -24,6 +25,9 @@ public sealed class IndexedStore(IJSRuntime js)
     /// <summary>Se lanza cuando <see cref="IsAvailable"/> cambia.</summary>
     public event Action? AvailabilityChanged;
 
+    /// <summary>Se lanza tras guardar, con sesión, una clave que se lleva a la cuenta (clave base y valor; F006).</summary>
+    public event Func<string, string, Task>? Written;
+
     /// <summary>
     /// Valor guardado con esa clave; mientras el navegador deje, se lee de él (otra pestaña puede
     /// haber guardado). Si el navegador no deja leer y en memoria no hay nada de esa clave, el
@@ -31,6 +35,7 @@ public sealed class IndexedStore(IJSRuntime js)
     /// </summary>
     public async Task<StoredText> GetAsync(string key)
     {
+        key = session?.Key(key) ?? key;
         if (IsAvailable)
         {
             try
@@ -50,6 +55,17 @@ public sealed class IndexedStore(IJSRuntime js)
     /// <summary>Guarda el valor; si el navegador no deja, lo conserva en memoria y avisa.</summary>
     public async Task SetAsync(string key, string value)
     {
+        await SetLocalAsync(key, value);
+        if (session?.IsSynced(key) == true && Written is { } written)
+        {
+            await written(key, value);
+        }
+    }
+
+    /// <summary>Guarda el valor sin anunciarlo: para lo que llega de la cuenta.</summary>
+    public async Task SetLocalAsync(string key, string value)
+    {
+        key = session?.Key(key) ?? key;
         _memory[key] = value;
         if (!IsAvailable)
         {

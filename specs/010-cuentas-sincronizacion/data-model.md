@@ -12,7 +12,7 @@
 | `schemaVersion` | entero | el de `StoredData` para ese tipo (`CharactersVersion`, `SuitesVersion`, `RollsVersion`; `theme` = 1) |
 | `updatedAt` | fecha (ISO 8601, UTC) | hora del cambio en el dispositivo; decide quién gana un conflicto |
 | `deleted` | booleano | marca de borrado; `payload` vacío |
-| `payload` | texto (JSON) | la ficha, el conjunto, el `RollHistoryFile` o `{ "mode": "normal" \| "noche" }` |
+| `payload` | texto (JSON) | la ficha, el conjunto, el `RollHistoryFile` o `{ "schemaVersion": 1, "mode": "light" \| "dark" }` |
 | `_etag` | texto | versión de Cosmos; se usa en `If-Match` |
 
 Límite: 2 MB por documento (el del historial ya está acotado en el dispositivo).
@@ -33,7 +33,7 @@ repositorio.
 | Clave | Contenido |
 |---|---|
 | `hackmaster.characters`, `hackmaster.suites`, `hackmaster.rolls`, `hackmaster.theme` | sin sesión, como hasta ahora |
-| `hackmaster.u.{oid}.characters`, `.suites`, `.rolls`, `.theme` | copia local de la cuenta |
+| `hackmaster.u.{oid}.characters`, `.suites`, `.rolls` | copia local de la cuenta (el modo de pantalla sigue en `hackmaster.theme`, research.md R5) |
 | `hackmaster.u.{oid}.sync` | `SyncState`: `schemaVersion` 1, etiquetas conocidas por documento, cambios pendientes |
 
 ### `SyncState` (nuevo, en `HackMaster.Domain`)
