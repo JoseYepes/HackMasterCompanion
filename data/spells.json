@@ -2715,7 +2715,7 @@
           "page": "105"
         }
       ],
-      "summary": "Crea un interlocutor ilusorio que solo percibe el mago: +4 a las salvaciones de Sabiduría o mentales y a descreer ilusiones, y dos tiradas para evitar la locura. Cada criatura que lo ve hablar solo le cuesta 1 punto de Honor temporal si es adulto joven o mayor.",
+      "summary": "Crea un interlocutor ilusorio que solo percibe el mago: +4 a las salvaciones de Sabiduría o mentales y a descreer ilusiones, y dos tiradas para evitar la locura. Pierde 1 punto de Honor temporal por cada criatura que lo vea hablando solo (si es adulto joven o mayor).",
       "pending": []
     },
     {
@@ -2766,7 +2766,7 @@
           "page": "90"
         }
       ],
-      "summary": "Versión menor de animar a los muertos para aprendices: anima animales muertos de menos de 1 DG, con un total de puntos de golpe que no supere los del nigromante. Quedan esqueléticos, sin venenos ni capacidades mentales, y obedecen mal.",
+      "summary": "Versión menor de animar a los muertos para aprendices: anima animales muertos de menos de 1 DG, con un total de puntos de golpe que no supere los del nigromante. Quedan esqueléticos, sin venenos ni capacidades mentales; la probabilidad de controlarlos es del 10 % + 1 % por nivel (más por Inteligencia, Sabiduría y Carisma altos), y si falla, a menudo atacan al mago.",
       "pending": []
     },
     {
@@ -3594,7 +3594,7 @@
           "page": "104"
         }
       ],
-      "summary": "Magia salvaje. Da al instante una estimación fiable de cuántos objetos o criaturas de un tipo hay en un grupo visible, redondeada a la mayor potencia de diez (1289 monedas de oro dan 1000).",
+      "summary": "Magia salvaje. Da al instante una estimación fiable de cuántos objetos o criaturas de un tipo hay en un grupo visible, redondeada a su cifra más significativa (432 soldados dan 400; 28 caballos, 30; 1289 mo, 1000).",
       "pending": []
     },
     {
@@ -4221,7 +4221,7 @@
           "page": "115"
         }
       ],
-      "summary": "Una criatura de hasta 42 pg (o varias que sumen hasta 80) da una voltereta hacia delante, unos 10' si es de tamaño humano, con +2 a la iniciativa de sus demás acciones del asalto. Una prueba de Destreza evita rodar hacia un peligro evidente; las de más nivel que el mago eligen la dirección con una prueba de Sabiduría.",
+      "summary": "Una criatura de hasta 42 pg (o varias que sumen hasta 80) da una voltereta hacia delante, unos 10' si es de tamaño humano, con un penalizador de +2 a la iniciativa de sus demás acciones del asalto. Una prueba de Destreza evita rodar hacia un peligro evidente; las de más nivel que el mago eligen la dirección con una prueba de Sabiduría.",
       "pending": []
     },
     {
@@ -4830,7 +4830,7 @@
           "page": "95"
         }
       ],
-      "summary": "Magia salvaje de último recurso: el mago anuncia un conjuro de su libro (no hace falta tenerlo memorizado) y libera energía en bruto para intentar darle forma. Suma su nivel real a la tirada de variación de nivel del mago salvaje (tabla 4J); lo normal es que pase algo inesperado.",
+      "summary": "Magia salvaje. Último recurso: el mago anuncia un conjuro de su libro (no hace falta tenerlo memorizado) y libera energía en bruto para intentar darle forma. Suma su nivel real a la tirada de variación de nivel del mago salvaje (tabla 4J); lo normal es que pase algo inesperado.",
       "pending": []
     },
     {
@@ -5031,7 +5031,7 @@
           "page": "95"
         }
       ],
-      "summary": "Oscurece poco a poco y sin llamar la atención la sala donde está el mago, en cinco asaltos; quien salve con -4 nota que oscurece, pero no por qué. Dentro, todos ganan +2 % por nivel del mago a esconderse en las sombras.",
+      "summary": "Oscurece poco a poco y sin llamar la atención la sala donde está el mago, en cinco asaltos; quien salve con -4 nota que oscurece, pero no por qué. Dentro, todos ganan +2 % por nivel del mago a esconderse en las sombras, y el mago +5 % por nivel; falla si el mago no tiene nivel para cubrir toda la sala.",
       "pending": []
     },
     {
@@ -7597,7 +7597,7 @@
           "page": "104"
         }
       ],
-      "summary": "Crea la imagen de una calavera brillante con colmillos que flota sobre el hombro del mago. Concentrándose, puede enviarla hasta 30', ver por sus ojos y hacer que muerda; tiene las mismas características que el mago. Si pierde la concentración, cae al suelo.",
+      "summary": "Crea la imagen de una calavera brillante con colmillos que flota sobre el hombro del mago. Concentrándose, puede enviarla hasta 30', ver por sus ojos y hacer que muerda; tiene el movimiento y la CA del mago, 3 pg y un mordisco de 1d6. Si pierde la concentración, cae al suelo.",
       "pending": []
     },
     {
@@ -8000,7 +8000,7 @@
           "page": "100"
         }
       ],
-      "summary": "Mientras se concentra, el mago mueve un fuego natural a su antojo dentro del alcance, siempre por una superficie sólida y aunque no haya nada que arda, extendiéndolo hasta 50 pies cuadrados. No puede levantarlo por el aire.",
+      "summary": "Mientras se concentra, el mago mueve un fuego natural a su antojo dentro del alcance, siempre por una superficie sólida y aunque no haya nada que arda, extendiéndolo hasta 50 pies cuadrados por turno; quien quede en las llamas sufre el daño de la fuente original. No puede levantarlo por el aire.",
       "pending": []
     },
     {
@@ -8836,7 +8836,7 @@
           "page": "112"
         }
       ],
-      "summary": "Como polimorfar en anfibio, pero convierte a la víctima en un insecto al azar (d100: hormiga, mosca, mantis, avispa…), si supera una tirada de shock del sistema. Dura hasta que lo deshace disipar magia, quitar maldición o similar.",
+      "summary": "Como polimorfar en anfibio, pero convierte a la víctima en un insecto al azar (d100: hormiga, mosca, mantis, avispa…); si falla una tirada de shock del sistema, muere. Dura hasta que lo deshace disipar magia, quitar maldición o similar.",
       "pending": []
     },
     {
@@ -9414,7 +9414,7 @@
           "page": "98"
         }
       ],
-      "summary": "Concentrándose, el mago percibe por los sentidos de una criatura (ve por sus ojos, oye por sus oídos) y, una vez por asalto, puede intentar controlar sus actos. Los animales no salvan; las demás criaturas involuntarias con algo de inteligencia sí. No afecta a quien está protegido contra el mal; los elfos no son inmunes.",
+      "summary": "Concentrándose, el mago percibe por los sentidos de una criatura (ve por sus ojos, oye por sus oídos) y, una vez por asalto, puede intentar controlar sus actos. Mientras dura, no lanza conjuros ni ataca y sufre el 25 % del daño que reciba la criatura; tres intentos de control fallidos rompen el vínculo. Los animales no salvan, las involuntarias con algo de inteligencia sí, y las no inteligentes o protegidas contra el mal son inmunes.",
       "pending": []
     },
     {
