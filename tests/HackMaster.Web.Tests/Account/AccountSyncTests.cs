@@ -240,6 +240,60 @@ public class AccountSyncTests
     }
 
     [Fact]
+    public async Task A_Save_During_A_Pull_Does_Not_Delete_What_The_Pull_Brings__F006_FR007()
+    {
+        var sync = NewSync();
+        await sync.InitializeAsync();
+        _api.Seed("suite:del-movil", SyncKinds.Suite, StoredData.SuitesVersion, At,
+            System.Text.Json.JsonSerializer.Serialize(new PlayerSuite { Slug = "del-movil", Name = "Del movil", CreatedAt = At, UpdatedAt = At }, GameDataJson.Options));
+        Task<SuiteSaveResult>? save = null;
+        _api.DuringPull = () => save = _suites.SaveAsync("Del ordenador", [new SuiteComponentRef(ElementKind.Skill, "botanica"), new SuiteComponentRef(ElementKind.Skill, "zoologia")], [Ability.INT], null, At);
+
+        await sync.SyncNowAsync();
+        Assert.Null((await save!).Problem);
+        await sync.WhenIdleAsync();
+        await _suites.LoadAsync();
+
+        Assert.False(_api.Docs["suite:del-movil"]["deleted"]!.GetValue<bool>());
+        Assert.True(_api.Docs.ContainsKey("suite:del-ordenador"));
+        Assert.Equal(["Del movil", "Del ordenador"], _suites.Suites.Select(s => s.Name).Order());
+    }
+
+    [Fact]
+    public async Task Unreadable_Sync_State_Keeps_Local_Edits_And_Backs_Up_The_Old_One__F006_Edge_Unreadable()
+    {
+        var sync = NewSync();
+        await sync.InitializeAsync();
+        _api.Offline = true;
+        await _characters.SaveAsync(Pj("c1", "Editada sin conexión", At.AddMinutes(10)));
+        await sync.WhenIdleAsync();
+        _api.Offline = false;
+        _api.Seed("character:c1", SyncKinds.Character, StoredData.CharactersVersion, At,
+            System.Text.Json.JsonSerializer.Serialize(Pj("c1", "Vieja de la nube"), GameDataJson.Options));
+        _js.Local["hackmaster.u.cuenta-a.sync"] = "estropeado";
+
+        var again = NewSync();
+        await again.InitializeAsync();
+        await again.WhenIdleAsync();
+        await _characters.LoadAsync();
+
+        Assert.Equal(["Editada sin conexión"], _characters.Characters.Select(c => c.Name));
+        Assert.Contains("Editada sin conexión", _api.Docs["character:c1"]["payload"]!.GetValue<string>());
+        Assert.Equal("estropeado", _js.Local["hackmaster.u.cuenta-a.sync.roto"]);
+    }
+
+    [Fact]
+    public async Task Not_Invited_Shows_The_Account_Id_For_The_Admin__F006_FR003()
+    {
+        _api.Invited = false;
+        var sync = NewSync();
+
+        await sync.InitializeAsync();
+
+        Assert.Equal("cuenta-a", sync.AccountId);
+    }
+
+    [Fact]
     public async Task Signing_Out_Goes_Back_To_The_Device_Data__F006_US1()
     {
         var sync = NewSync();

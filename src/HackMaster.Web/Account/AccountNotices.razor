@@ -8,7 +8,13 @@
     @if (_sync.State == AccountState.NotInvited)
     {
         <div class="storage-warning account-notice" role="alert" data-testid="not-invited">
-            <p>Esta cuenta no está invitada. Pide acceso a quien administra la aplicación.</p>
+            <p>
+                Esta cuenta no está invitada. Pide acceso a quien administra la aplicación.
+                @if (_sync.AccountId is not null)
+                {
+                    <br /><small>Identificador de tu cuenta: <code>@_sync.AccountId</code></small>
+                }
+            </p>
             <button type="button" class="account-button" @onclick="_sync.SignOutAsync">Cerrar sesión</button>
         </div>
     }

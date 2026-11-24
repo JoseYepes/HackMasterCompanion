@@ -10,12 +10,13 @@ public class CorsTests
     [InlineData("https://joseyepes.github.io", true)]
     [InlineData("https://JoseYepes.github.io/", true)]
     [InlineData("http://localhost:5238", true)]
+    [InlineData("http://localhost:9999", false)]
     [InlineData("https://localhost:5238", false)]
     [InlineData("https://evil.example", false)]
     [InlineData("https://joseyepes.github.io.evil.example", false)]
     [InlineData(null, false)]
     [InlineData("no-es-una-direccion", false)]
-    public void Only_Pages_And_Localhost_Are_Allowed__F006_ResearchR2(string? origin, bool allowed)
+    public void Only_Pages_And_The_Dev_Server_Are_Allowed__F006_ResearchR2(string? origin, bool allowed)
     {
         Assert.Equal(allowed, cors.IsAllowed(origin));
     }

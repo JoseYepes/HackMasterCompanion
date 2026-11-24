@@ -13,7 +13,9 @@ public sealed class TestTokens
     public const string Issuer = "https://pruebas.example/tenant/v2.0";
     public const string Audience = "api://hackmaster-pruebas";
 
-    private readonly RsaSecurityKey key = new(RSA.Create(2048)) { KeyId = "clave-de-prueba" };
+    private readonly RsaSecurityKey key;
+
+    public TestTokens(string keyId = "clave-de-prueba") => key = new(RSA.Create(2048)) { KeyId = keyId };
 
     public OpenIdConnectConfiguration Configuration
     {
@@ -24,6 +26,8 @@ public sealed class TestTokens
             return config;
         }
     }
+
+    public SigningCredentials SigningCredentials => new(key, SecurityAlgorithms.RsaSha256);
 
     public TokenValidator Validator() => new(_ => Task.FromResult(Configuration), Audience);
 

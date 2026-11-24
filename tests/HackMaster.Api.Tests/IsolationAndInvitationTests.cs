@@ -105,7 +105,7 @@ public class IsolationAndInvitationTests(EmulatorFixture fixture)
     public async Task Only_Admins_Manage_Invitations__F006_FR003()
     {
         var player = await fixture.InvitedAccountAsync();
-        var admin = fixture.Tokens.Bearer(Guid.NewGuid().ToString(), EmulatorFixture.AdminEmail);
+        var admin = fixture.AdminBearer();
         var api = fixture.Api();
         var email = $"{Guid.NewGuid()}@pruebas.example";
 
@@ -122,7 +122,7 @@ public class IsolationAndInvitationTests(EmulatorFixture fixture)
     [EmulatorFact]
     public async Task Invalid_Invitation_Email_Is_Rejected__F006_FR003()
     {
-        var admin = fixture.Tokens.Bearer(Guid.NewGuid().ToString(), EmulatorFixture.AdminEmail);
+        var admin = fixture.AdminBearer();
 
         Assert.Equal(400, (await fixture.Api().InviteAsync(admin, "no-es-un-correo")).Status);
     }
@@ -132,7 +132,7 @@ public class IsolationAndInvitationTests(EmulatorFixture fixture)
     {
         var email = $"{Guid.NewGuid()}@pruebas.example";
         var player = await fixture.InvitedAccountAsync(email);
-        var admin = fixture.Tokens.Bearer(Guid.NewGuid().ToString(), EmulatorFixture.AdminEmail);
+        var admin = fixture.AdminBearer();
         var api = fixture.Api();
         Assert.Equal(200, (await api.GetDataAsync(player, null)).Status);
 

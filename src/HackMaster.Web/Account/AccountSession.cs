@@ -11,6 +11,13 @@ public sealed class AccountSession
     /// <summary>Identificador (<c>oid</c>) de la cuenta, o null sin sesión.</summary>
     public string? AccountId { get; private set; }
 
+    /// <summary>
+    /// Turno para leer, cambiar y guardar las fichas o los conjuntos. Lo toman los almacenes del
+    /// jugador y la sincronización al aplicar lo que llega de la nube, para que un guardado no se
+    /// cruce con lo que llega y lo borre sin querer.
+    /// </summary>
+    public SemaphoreSlim DataGate { get; } = new(1, 1);
+
     /// <summary>Se lanza al iniciar o cerrar sesión, o al cambiar de cuenta.</summary>
     public event Action? Changed;
 

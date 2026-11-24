@@ -67,7 +67,7 @@ jobs:
 
       - name: Recursos
         env:
-          ADMIN_EMAILS: ${{ secrets.ADMIN_EMAILS }}
+          ADMIN_ACCOUNT_IDS: ${{ secrets.ADMIN_ACCOUNT_IDS }}
           AUTH_AUTHORITY: ${{ vars.AUTH_AUTHORITY }}
           AUTH_AUDIENCE: ${{ vars.AUTH_AUDIENCE }}
           ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS }}
@@ -75,7 +75,7 @@ jobs:
           site=$(az deployment group create --name hackmaster --resource-group "$RESOURCE_GROUP" \
             --template-file infra/main.bicep \
             --parameters authAuthority="$AUTH_AUTHORITY" authAudience="$AUTH_AUDIENCE" \
-              allowedOrigins="$ALLOWED_ORIGINS" adminEmails="$ADMIN_EMAILS" \
+              allowedOrigins="$ALLOWED_ORIGINS" adminAccountIds="$ADMIN_ACCOUNT_IDS" \
             --query properties.outputs.siteName.value --output tsv)
           echo "SITE_NAME=$site" >> "$GITHUB_ENV"
 

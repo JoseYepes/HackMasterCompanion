@@ -23,10 +23,11 @@ Límite: 2 MB por documento (el del historial ya está acotado en el dispositivo
 |---|---|---|
 | `id`, `email` | texto | correo en minúsculas y sin espacios |
 | `invitedAt` | fecha | |
-| `invitedBy` | texto | correo del administrador |
+| `invitedBy` | texto | `oid` del administrador |
 
-Los administradores son los correos del ajuste `ADMIN_EMAILS` de la API, que no se guarda en el
-repositorio.
+Los administradores son las cuentas (`oid`) del ajuste `ADMIN_ACCOUNT_IDS` de la API, que no se
+guarda en el repositorio. Se usa el identificador y no el correo, porque el correo de un token no
+siempre está verificado. `invitedBy` guarda el `oid` de quien invita.
 
 ## En el dispositivo
 

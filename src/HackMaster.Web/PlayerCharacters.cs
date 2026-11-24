@@ -144,6 +144,23 @@ public sealed class PlayerCharacters(IndexedStore store, AccountSession? session
 
     private async Task<string?> ChangeAsync(Func<IReadOnlyList<Character>, (IReadOnlyList<Character>? Changed, string? Problem)> change)
     {
+        if (session is not null)
+        {
+            await session.DataGate.WaitAsync();
+        }
+
+        try
+        {
+            return await ChangeLockedAsync(change);
+        }
+        finally
+        {
+            session?.DataGate.Release();
+        }
+    }
+
+    private async Task<string?> ChangeLockedAsync(Func<IReadOnlyList<Character>, (IReadOnlyList<Character>? Changed, string? Problem)> change)
+    {
         await _gate.WaitAsync();
         try
         {

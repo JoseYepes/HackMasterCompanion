@@ -34,10 +34,46 @@ public class DataApiTests(EmulatorFixture fixture)
     [EmulatorFact]
     public async Task Admin_Is_Allowed_Without_Invitation__F006_FR003()
     {
-        var result = await fixture.Api().MeAsync(fixture.Tokens.Bearer(Guid.NewGuid().ToString(), EmulatorFixture.AdminEmail));
+        var result = await fixture.Api().MeAsync(fixture.AdminBearer());
 
         Assert.Equal(200, result.Status);
         Assert.True(Body(result).GetProperty("isAdmin").GetBoolean());
+    }
+
+    [EmulatorFact]
+    public async Task Admin_Is_Recognised_By_Account_Not_By_Email__F006_FR003()
+    {
+        var impostor = fixture.Tokens.Bearer(Guid.NewGuid().ToString(), EmulatorFixture.AdminEmail);
+
+        var result = await fixture.Api().MeAsync(impostor);
+
+        Assert.Equal(403, result.Status);
+        Assert.Equal(403, (await fixture.Api().InviteAsync(impostor, "otra@pruebas.example")).Status);
+    }
+
+    [EmulatorFact]
+    public async Task Server_Time_Comes_From_The_Database__F006_FR006()
+    {
+        var auth = await fixture.InvitedAccountAsync();
+        var api = fixture.Api();
+        Assert.Equal(0, Body(await api.GetDataAsync(auth, null)).GetProperty("serverTime").GetInt64());
+
+        var saved = await api.PutAsync(auth, "character:c1", null, "*", Doc("character:c1"));
+        var get = Body(await api.GetDataAsync(auth, null));
+
+        Assert.Equal(200, saved.Status);
+        Assert.True(get.GetProperty("serverTime").GetInt64() > 0);
+        Assert.Single(Body(await api.GetDataAsync(auth, get.GetProperty("serverTime").GetInt64())).GetProperty("items").EnumerateArray());
+    }
+
+    [EmulatorFact]
+    public async Task Size_Limit_Counts_The_Stored_Bytes__F006_DataModel()
+    {
+        var auth = await fixture.InvitedAccountAsync();
+        // Menos caracteres que el límite, pero con comillas y acentos ocupa más de 2 MB al guardarse.
+        var payload = JsonSerializer.Serialize(new string('"', DataApi.MaxPayloadChars / 2 + 1000));
+
+        Assert.Equal(413, (await fixture.Api().PutAsync(auth, "character:c1", null, "*", Doc("character:c1", payload: payload))).Status);
     }
 
     [EmulatorFact]

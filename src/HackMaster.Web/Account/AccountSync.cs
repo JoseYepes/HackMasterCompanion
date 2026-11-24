@@ -64,6 +64,9 @@ public interface IAccountSync
 
     string? Name { get; }
 
+    /// <summary>Identificador de la cuenta con la que se ha entrado (también sin invitación, para dárselo al administrador).</summary>
+    string? AccountId { get; }
+
     bool IsAdmin { get; }
 
     /// <summary>Primera sesión en este dispositivo con datos sin sesión: hay que preguntar qué hacer (US4).</summary>
@@ -161,6 +164,8 @@ public sealed class AccountSync : IAccountSync, IDisposable
 
     public string? Name { get; private set; }
 
+    public string? AccountId { get; private set; }
+
     public bool IsAdmin { get; private set; }
 
     public bool NeedsDeviceChoice { get; private set; }
@@ -186,14 +191,18 @@ public sealed class AccountSync : IAccountSync, IDisposable
         {
             State = AccountState.SignedOut;
             Name = null;
+            AccountId = null;
             IsAdmin = false;
             _session.SetAccount(null);
             RaiseChanged();
             return;
         }
 
+        // La cuenta se fija antes de preguntar a la nube: así no se ven un instante los datos sin sesión.
         State = AccountState.Connecting;
         Name = user.Name;
+        AccountId = user.AccountId;
+        _session.SetAccount(user.AccountId);
         RaiseChanged();
 
         var me = await SendAsync(HttpMethod.Get, "api/me");
@@ -211,7 +220,6 @@ public sealed class AccountSync : IAccountSync, IDisposable
             IsAdmin = info.TryGetProperty("isAdmin", out var admin) && admin.GetBoolean();
         }
 
-        _session.SetAccount(user.AccountId);
         State = AccountState.SignedIn;
         await Enqueue(LoadLocalAsync);
         _online = me.Status == HttpStatusCode.OK;
@@ -264,6 +272,7 @@ public sealed class AccountSync : IAccountSync, IDisposable
         _session.SetAccount(null);
         State = AccountState.SignedOut;
         Name = null;
+        AccountId = null;
         IsAdmin = false;
         NeedsDeviceChoice = false;
         _snapshot.Clear();
@@ -302,23 +311,33 @@ public sealed class AccountSync : IAccountSync, IDisposable
         await WhenIdleAsync();
         foreach (var key in new[] { LocalDocs.CharactersKey, LocalDocs.SuitesKey })
         {
-            var now = _now();
-            var device = LocalDocs.Split(key, await ReadDeviceAsync(key), now);
-            var accountJson = await ReadLocalAsync(key);
-            var account = LocalDocs.Split(key, accountJson, now);
-            if (device is null || account is null)
+            await _session.DataGate.WaitAsync();
+            try
             {
-                RaiseWarning("Algunos datos no se han podido leer y no se han subido.");
-                continue;
-            }
+                var now = _now();
+                var device = LocalDocs.Split(key, await ReadDeviceAsync(key), now);
+                var accountJson = await ReadLocalAsync(key);
+                var account = LocalDocs.Split(key, accountJson, now);
+                if (device is null || account is null)
+                {
+                    RaiseWarning("Algunos datos no se han podido leer y no se han subido.");
+                    continue;
+                }
 
-            var existing = account.ToDictionary(d => d.Id, StringComparer.Ordinal);
-            var include = device.Where(d => !existing.TryGetValue(d.Id, out var mine) || d.UpdatedAt > mine.UpdatedAt).ToList();
-            if (include.Count > 0)
+                var existing = account.ToDictionary(d => d.Id, StringComparer.Ordinal);
+                var include = device.Where(d => !existing.TryGetValue(d.Id, out var mine) || d.UpdatedAt > mine.UpdatedAt).ToList();
+                if (include.Count > 0)
+                {
+                    await WriteSyncedAsync(key, LocalDocs.Apply(key, accountJson, include)!);
+                }
+            }
+            finally
             {
-                await WriteSyncedAsync(key, LocalDocs.Apply(key, accountJson, include)!);
+                _session.DataGate.Release();
             }
         }
+
+        _suites.Invalidate();
 
         if (await ReadLocalAsync(LocalDocs.RollsKey) is null && await ReadDeviceAsync(LocalDocs.RollsKey) is { } rolls)
         {
@@ -404,39 +423,54 @@ public sealed class AccountSync : IAccountSync, IDisposable
     }
 
     /// <summary>Un archivo del dispositivo ha cambiado: sus cambios quedan pendientes y se suben.</summary>
-    private async Task OnWrittenAsync(string key, string json)
+    /// <remarks>
+    /// Los cambios se calculan en el momento, sin esperar a la cola: así no se comparan con lo que
+    /// haya llegado de la nube entretanto, y guardar nunca espera a la red.
+    /// </remarks>
+    private Task OnWrittenAsync(string key, string json)
     {
         if (State != AccountState.SignedIn)
         {
-            return;
+            return Task.CompletedTask;
         }
 
-        await Enqueue(async () =>
+        foreach (var change in LocalDocs.Changes(key, _snapshot.GetValueOrDefault(key), json, _now()))
         {
-            foreach (var change in LocalDocs.Changes(key, _snapshot.GetValueOrDefault(key), json, _now()))
-            {
-                _state = _state.WithPending(change);
-            }
+            _state = _state.WithPending(change);
+        }
 
-            _snapshot[key] = json;
-            await SaveStateAsync();
-        });
+        _snapshot[key] = json;
+        _ = Enqueue(SaveStateAsync);
         _ = Enqueue(PushAsync);
+        return Task.CompletedTask;
     }
 
     private async Task LoadLocalAsync()
     {
-        var read = SyncState.Read(await _browser.GetAsync(SyncKey));
-        if (read.Error is not null)
-        {
-            RaiseWarning("No se ha podido leer el estado de la sincronización; se empieza de nuevo sin borrar nada.");
-        }
-
-        _state = read.Value ?? SyncState.Empty;
+        var raw = await _browser.GetAsync(SyncKey);
+        var read = SyncState.Read(raw);
+        _state = read.Value ?? SyncState.Empty with { DeviceChoiceMade = true };
         _snapshot.Clear();
         foreach (var key in LocalDocs.SyncedKeys)
         {
             _snapshot[key] = await ReadLocalAsync(key);
+        }
+
+        if (read.Error is not null)
+        {
+            // Se guarda una copia del estado estropeado y todo lo del dispositivo pasa a pendiente:
+            // al leer la nube, cada elemento se resuelve como un conflicto (gana el más reciente) en
+            // vez de sustituir sin más lo que se cambió aquí.
+            await _browser.SetLocalAsync(SyncKey + ".roto", raw!);
+            foreach (var key in new[] { LocalDocs.CharactersKey, LocalDocs.SuitesKey, LocalDocs.RollsKey })
+            {
+                foreach (var doc in LocalDocs.Split(key, _snapshot[key], _now()) ?? [])
+                {
+                    _state = _state.WithPending(doc);
+                }
+            }
+
+            RaiseWarning("No se ha podido leer el estado de la sincronización; se ha guardado una copia y no se ha borrado nada.");
         }
     }
 
@@ -537,11 +571,36 @@ public sealed class AccountSync : IAccountSync, IDisposable
                 continue;
             }
 
+            var gated = key is LocalDocs.CharactersKey or LocalDocs.SuitesKey;
+            if (gated)
+            {
+                await _session.DataGate.WaitAsync();
+            }
+
+            try
+            {
+                await ApplyKeyAsync(key, group);
+            }
+            finally
+            {
+                if (gated)
+                {
+                    _session.DataGate.Release();
+                }
+            }
+        }
+
+        _suites.Invalidate();
+    }
+
+    private async Task ApplyKeyAsync(string key, IEnumerable<SyncDoc> docs)
+    {
+        {
             var current = await ReadLocalAsync(key);
-            var updated = LocalDocs.Apply(key, current, group);
+            var updated = LocalDocs.Apply(key, current, docs);
             if (updated is null || updated == current)
             {
-                continue;
+                return;
             }
 
             if (key == LocalDocs.ThemeKey)
@@ -567,8 +626,6 @@ public sealed class AccountSync : IAccountSync, IDisposable
 
             _snapshot[key] = updated;
         }
-
-        _suites.Invalidate();
     }
 
     private Task WriteSyncedAsync(string key, string json) =>

@@ -18,7 +18,7 @@ var host = new HostBuilder()
     {
         var settings = new ApiSettings
         {
-            AdminEmails = ApiSettings.SplitList(Environment.GetEnvironmentVariable("ADMIN_EMAILS")),
+            AdminAccountIds = ApiSettings.SplitList(Environment.GetEnvironmentVariable("ADMIN_ACCOUNT_IDS")),
             AllowedOrigins = ApiSettings.SplitList(Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")),
         };
         services.AddSingleton(settings);
@@ -31,7 +31,7 @@ var host = new HostBuilder()
                 authority + "/.well-known/openid-configuration",
                 new OpenIdConnectConfigurationRetriever(),
                 new HttpDocumentRetriever { RequireHttps = true });
-            return new TokenValidator(metadata.GetConfigurationAsync, Setting("AUTH_AUDIENCE"));
+            return new TokenValidator(metadata.GetConfigurationAsync, Setting("AUTH_AUDIENCE"), metadata.RequestRefresh);
         });
 
         services.AddSingleton(_ => CosmosStore.CreateClient(Setting("COSMOS_ENDPOINT"), Setting("COSMOS_KEY")));

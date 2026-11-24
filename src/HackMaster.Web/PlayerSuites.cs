@@ -198,6 +198,28 @@ public sealed class PlayerSuites(GameData data, BrowserStore store, AccountSessi
         string? originalSlug,
         DateTimeOffset now)
     {
+        if (session is not null)
+        {
+            await session.DataGate.WaitAsync();
+        }
+
+        try
+        {
+            return await SaveLockedAsync(name, components, abilities, originalSlug, now);
+        }
+        finally
+        {
+            session?.DataGate.Release();
+        }
+    }
+
+    private async Task<SuiteSaveResult> SaveLockedAsync(
+        string name,
+        IReadOnlyList<SuiteComponentRef> components,
+        IReadOnlyList<Ability> abilities,
+        string? originalSlug,
+        DateTimeOffset now)
+    {
         await RefreshAsync();
         if (LoadError is not null)
         {
@@ -239,14 +261,26 @@ public sealed class PlayerSuites(GameData data, BrowserStore store, AccountSessi
 
     public async Task DeleteAsync(string slug)
     {
-        await RefreshAsync();
-        if (LoadError is not null)
+        if (session is not null)
         {
-            return;
+            await session.DataGate.WaitAsync();
         }
 
-        _file = _file with { Suites = [.. _file.Suites.Where(suite => suite.Slug != slug)] };
-        await store.SetAsync(StorageKey, StoredData.Write(_file));
+        try
+        {
+            await RefreshAsync();
+            if (LoadError is not null)
+            {
+                return;
+            }
+
+            _file = _file with { Suites = [.. _file.Suites.Where(suite => suite.Slug != slug)] };
+            await store.SetAsync(StorageKey, StoredData.Write(_file));
+        }
+        finally
+        {
+            session?.DataGate.Release();
+        }
     }
 
     /// <summary>Un conjunto del jugador con la forma de un conjunto de la hoja y sus valores calculados.</summary>

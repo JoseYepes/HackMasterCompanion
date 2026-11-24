@@ -20,7 +20,8 @@ claves). Necesita:
   `BUDGET_START_DATE` (primer día del mes en que empieza el presupuesto, AAAA-MM-01; no se cambia
   después).
 - Secretos del repositorio, para que los correos no salgan en los registros públicos:
-  `BUDGET_EMAIL` y `ADMIN_EMAILS`.
+  `BUDGET_EMAIL` y `ADMIN_ACCOUNT_IDS` (los identificadores de las cuentas de administración; la
+  aplicación muestra el de cada cuenta en el aviso de «no invitada»).
 
 Mientras falte `AZURE_CLIENT_ID`, el flujo no hace nada.
 

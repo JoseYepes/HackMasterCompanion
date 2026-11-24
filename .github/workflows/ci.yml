@@ -22,7 +22,8 @@ jobs:
     # Emulador de Cosmos DB para los tests de integración de la API (F006, tests/README.md).
     services:
       cosmos:
-        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-preview
+        # vnext-preview fijado por su resumen (2026-11-24).
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator@sha256:c274ac17c19a5f74dbadbc99f259bc49a8640a03f6789f54d7f76cbfc33ff6b6
         ports:
           - 8081:8081
     env:

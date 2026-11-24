@@ -31,6 +31,9 @@ public sealed class FakeApi : HttpMessageHandler
 
     public string? LastAuthorization { get; private set; }
 
+    /// <summary>Se ejecuta mientras se responde a una lectura de datos, para simular algo que pasa a la vez.</summary>
+    public Action? DuringPull { get; set; }
+
     public HttpClient Client() => new(this) { BaseAddress = new Uri("https://api.pruebas.example/") };
 
     public string NextETag() => $"e{++_etag}";
@@ -81,6 +84,8 @@ public sealed class FakeApi : HttpMessageHandler
             case ("GET", "/api/me"):
                 return Json(HttpStatusCode.OK, new JsonObject { ["name"] = "Ana", ["email"] = "ana@pruebas.example", ["isAdmin"] = IsAdmin });
             case ("GET", "/api/data"):
+                DuringPull?.Invoke();
+                DuringPull = null;
                 var since = long.TryParse(query["since"], out var s) ? s : 0;
                 var items = new JsonArray([.. Docs.Values.Where(d => (long)d["ts"]! >= since).Select(Public)]);
                 return Json(HttpStatusCode.OK, new JsonObject { ["items"] = items, ["serverTime"] = ++ServerTime });

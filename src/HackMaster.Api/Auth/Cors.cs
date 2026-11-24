@@ -4,10 +4,13 @@ namespace HackMaster.Api.Auth;
 
 /// <summary>
 /// CORS de la API (research.md R2): la interfaz vive en GitHub Pages, otro origen. Solo se admiten
-/// los orígenes de <c>ALLOWED_ORIGINS</c> y <c>http://localhost</c> con cualquier puerto.
+/// los orígenes de <c>ALLOWED_ORIGINS</c> y el servidor de desarrollo, <c>http://localhost:5238</c>.
 /// </summary>
 public sealed class Cors(IReadOnlyList<string> allowedOrigins)
 {
+    /// <summary>Puerto del servidor de desarrollo (perfil http de Properties/launchSettings.json).</summary>
+    public const int DevPort = 5238;
+
     public bool IsAllowed(string? origin)
     {
         if (string.IsNullOrEmpty(origin) || !Uri.TryCreate(origin, UriKind.Absolute, out var uri))
@@ -15,7 +18,7 @@ public sealed class Cors(IReadOnlyList<string> allowedOrigins)
             return false;
         }
 
-        if (uri.Scheme == Uri.UriSchemeHttp && uri.Host == "localhost")
+        if (uri.Scheme == Uri.UriSchemeHttp && uri.Host == "localhost" && uri.Port == DevPort)
         {
             return true;
         }

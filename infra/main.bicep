@@ -19,8 +19,9 @@ param authAudience string
 @description('Orígenes que pueden llamar a la API, separados por comas (la dirección de GitHub Pages).')
 param allowedOrigins string
 
-@description('Correos de los administradores, separados por comas. Se pasa al desplegar.')
-param adminEmails string
+@description('Identificadores (oid) de las cuentas de administración, separados por comas. Se pasa al desplegar.')
+@secure()
+param adminAccountIds string
 
 var tags = {
   proyecto: 'hackmaster'
@@ -123,7 +124,7 @@ resource siteSettings 'Microsoft.Web/staticSites/config@2024-04-01' = {
     AUTH_AUTHORITY: authAuthority
     AUTH_AUDIENCE: authAudience
     ALLOWED_ORIGINS: allowedOrigins
-    ADMIN_EMAILS: adminEmails
+    ADMIN_ACCOUNT_IDS: adminAccountIds
     COSMOS_ENDPOINT: cosmos.properties.documentEndpoint
     COSMOS_KEY: cosmos.listKeys().primaryMasterKey
     COSMOS_DATABASE: database.name

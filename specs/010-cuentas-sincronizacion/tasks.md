@@ -14,7 +14,7 @@
 
 ## Phase 2: Base (bloquea todo lo demás)
 
-- [ ] T004 Prueba de viabilidad (research.md R2):
+- [ ] T004 Prueba de viabilidad (research.md R2). **Se hizo el código con el plan A antes de esta prueba**, porque necesita Azure; si falla, se cambia la forma de enviar el token o el alojamiento de la API antes del despliegue real (T040):
   - una función `GET /api/ping` que devuelve la cabecera `Authorization` recibida y responde a `OPTIONS` con CORS;
   - desplegarla en una Static Web App Free de prueba **solo tras confirmarlo con el usuario**, y llamarla desde `http://localhost`;
   - anotar el resultado en research.md; si falla, aplicar el plan B o C antes de seguir.
@@ -42,19 +42,19 @@
 
 **Independent Test**: iniciar sesión, crear una ficha, borrar los datos del sitio y volver a iniciar sesión: la ficha sigue ahí. Con otra cuenta no se ve.
 
-- [X] T012 [P] [US1] Tests de integración en `tests/HackMaster.Api.Tests/DataFunctionsTests.cs`:
+- [X] T012 [P] [US1] Tests de integración en `tests/HackMaster.Api.Tests/DataApiTests.cs`:
   - `GET /api/me`;
   - `PUT` y `GET /api/data`: crear con `If-None-Match: *` y actualizar con `If-Match`;
   - 409 con la versión de la nube;
   - 413 por encima de 2 MB;
   - 401 sin token.
-- [X] T013 [P] [US3] Tests de aislamiento en `tests/HackMaster.Api.Tests/IsolationTests.cs` (SC-003, FR-008):
+- [X] T013 [P] [US3] Tests de aislamiento en `tests/HackMaster.Api.Tests/IsolationAndInvitationTests.cs` (SC-003, FR-008):
   - la cuenta A no lee ni cambia los documentos de B, aunque mande su `id`;
   - el `userId` del cuerpo se ignora.
-- [X] T014 [P] [US1] Tests de invitación en `tests/HackMaster.Api.Tests/InvitationTests.cs`:
+- [X] T014 [P] [US1] Tests de invitación en `tests/HackMaster.Api.Tests/IsolationAndInvitationTests.cs`:
   - un correo no invitado recibe 403 `not-invited` en todas las rutas de datos;
   - el correo se compara en minúsculas.
-- [X] T015 [US1] Implementar `MeFunction` y `DataFunctions` en `src/HackMaster.Api/Functions/`, hasta que pasen T012–T014. Si Cosmos falla, responder 503 `unavailable`.
+- [X] T015 [US1] Implementar `DataApi` y sus rutas en `src/HackMaster.Api/Functions/HttpFunctions.cs`, hasta que pasen T012–T014. Si Cosmos falla, responder 503 `unavailable`.
 - [X] T016 [US1] Configurar MSAL en `src/HackMaster.Web/Program.cs` y `wwwroot/appsettings.json`: autoridad, cliente, ámbito y dirección de la API, todos públicos. Sin configuración, la aplicación funciona sin el botón de sesión.
 - [X] T017 [P] [US1] Tests bUnit en `tests/HackMaster.Web.Tests/Account/LoginDisplayTests.cs`, con un `AuthenticationStateProvider` falso: los botones y el nombre (FR-001) y el aviso de no invitado (contracts/ui.md).
 - [X] T018 [US1] Poner `src/HackMaster.Web/Account/LoginDisplay.razor` en el menú, hasta que pase T017.
@@ -87,20 +87,20 @@
 ## Phase 6: US5, mis datos son míos (P3)
 
 - [X] T026 [P] [US5] Tests de integración de `GET /api/export` y `DELETE /api/account`: solo se borran los datos de la cuenta y el resto sigue.
-- [X] T027 [US5] Implementar `ExportFunction` y `AccountFunction`, hasta que pase T026.
-- [X] T028 [P] [US5] Tests bUnit de `Pages/Account.razor`:
+- [X] T027 [US5] Añadir exportar y borrar a `DataApi` y `HttpFunctions`, hasta que pase T026.
+- [X] T028 [P] [US5] Tests bUnit de `Pages/AccountPage.razor`:
   - descargar los datos;
   - borrar solo tras escribir «BORRAR»;
   - los datos del dispositivo se quedan.
-- [X] T029 [US5] Implementar `src/HackMaster.Web/Pages/Account.razor` (`/cuenta`), hasta que pase T028.
+- [X] T029 [US5] Implementar `src/HackMaster.Web/Pages/AccountPage.razor` (`/cuenta`), hasta que pase T028.
 
 ## Phase 7: Invitaciones (FR-003)
 
 - [X] T030 [P] Tests de integración de `/api/invitations`:
-  - solo para los correos de `ADMIN_EMAILS`;
+  - solo para las cuentas de `ADMIN_ACCOUNT_IDS`;
   - invitar, listar y quitar;
   - quien pierde la invitación recibe 403 en la siguiente petición.
-- [X] T031 Implementar `InvitationFunctions`, hasta que pase T030.
+- [X] T031 Añadir las invitaciones a `DataApi` y `HttpFunctions`, hasta que pase T030.
 - [X] T032 [P] Tests bUnit de `Pages/Invitations.razor`; el enlace del menú solo aparece para administradores.
 - [X] T033 Implementar `src/HackMaster.Web/Pages/Invitations.razor` (`/invitaciones`), hasta que pase T032.
 

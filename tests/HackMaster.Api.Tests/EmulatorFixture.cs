@@ -32,6 +32,9 @@ public sealed class EmulatorFixture : IAsyncLifetime
 
     public const string AdminEmail = "admin@pruebas.example";
 
+    /// <summary>Identificador (oid) de la cuenta de administración de las pruebas.</summary>
+    public const string AdminOid = "00000000-0000-0000-0000-00000000ad31";
+
     public static string? Endpoint => Environment.GetEnvironmentVariable("COSMOS_EMULATOR_ENDPOINT");
 
     private CosmosClient? client;
@@ -40,7 +43,10 @@ public sealed class EmulatorFixture : IAsyncLifetime
 
     public TestTokens Tokens { get; } = new();
 
-    public DataApi Api() => new(Tokens.Validator(), Store, new ApiSettings { AdminEmails = [AdminEmail] });
+    public DataApi Api() => new(Tokens.Validator(), Store, new ApiSettings { AdminAccountIds = [AdminOid] });
+
+    /// <summary>Token de la cuenta de administración.</summary>
+    public string AdminBearer() => Tokens.Bearer(AdminOid, AdminEmail);
 
     public async Task InitializeAsync()
     {

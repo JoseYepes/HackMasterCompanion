@@ -40,10 +40,11 @@ public sealed class DataApi(TokenValidator tokens, CosmosStore store, ApiSetting
     public Task<ApiResult> GetDataAsync(string? authorization, long? since, CancellationToken ct = default) =>
         WithAccountAsync(authorization, ct, async (account, _) =>
         {
-            var serverTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            // La hora se saca de la base de datos (el _ts más reciente) y no del reloj de la función,
+            // que puede ir adelantado: así ningún cambio se queda sin traer. Repetir el último es inocuo.
             var items = await store.ListAsync(account.AccountId, since, ct);
-            var latest = items.Select(i => i.Timestamp ?? 0).DefaultIfEmpty(0).Max();
-            return Ok(new { items = items.Select(ToDto), serverTime = Math.Max(serverTime, latest) });
+            var serverTime = items.Select(i => i.Timestamp ?? 0).DefaultIfEmpty(since ?? 0).Max();
+            return Ok(new { items = items.Select(ToDto), serverTime });
         });
 
     public Task<ApiResult> PutAsync(string? authorization, string id, string? ifMatch, string? ifNoneMatch, string? body, CancellationToken ct = default) =>
@@ -85,6 +86,11 @@ public sealed class DataApi(TokenValidator tokens, CosmosStore store, ApiSetting
                 Deleted = doc.Deleted,
                 Payload = doc.Deleted ? null : doc.Payload,
             };
+            if (System.Text.Encoding.UTF8.GetByteCount(JsonSerializer.Serialize(cloud, JsonOptions)) > MaxPayloadChars)
+            {
+                return Error(413, "too-large");
+            }
+
             var (outcome, saved) = await store.SaveAsync(cloud, create ? null : ifMatch, ct);
             return outcome == SaveOutcome.Saved
                 ? Ok(ToDto(saved!))
@@ -118,7 +124,7 @@ public sealed class DataApi(TokenValidator tokens, CosmosStore store, ApiSetting
                 return Error(400, "invalid-email");
             }
 
-            await store.InviteAsync(email, admin.Email, ct);
+            await store.InviteAsync(email, admin.AccountId, ct);
             return new ApiResult(204);
         });
 
@@ -130,7 +136,7 @@ public sealed class DataApi(TokenValidator tokens, CosmosStore store, ApiSetting
         });
 
     private bool IsAdmin(AccountIdentity account) =>
-        settings.AdminEmails.Any(a => TokenValidator.NormalizeEmail(a) == account.Email);
+        settings.AdminAccountIds.Contains(account.AccountId, StringComparer.OrdinalIgnoreCase);
 
     private async Task<ApiResult> WithAccountAsync(string? authorization, CancellationToken ct, Func<AccountIdentity, bool, Task<ApiResult>> action)
     {
@@ -150,7 +156,11 @@ public sealed class DataApi(TokenValidator tokens, CosmosStore store, ApiSetting
 
             return await action(account, isAdmin);
         }
-        catch (Exception ex) when (ex is CosmosException or HttpRequestException or TaskCanceledException)
+        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.RequestEntityTooLarge)
+        {
+            return Error(413, "too-large");
+        }
+        catch (Exception ex) when (ex is CosmosException or HttpRequestException or TaskCanceledException or AuthUnavailableException)
         {
             return Error(503, "unavailable");
         }

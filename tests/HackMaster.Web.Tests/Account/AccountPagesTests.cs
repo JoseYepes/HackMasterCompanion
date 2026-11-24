@@ -65,10 +65,12 @@ public class AccountPagesTests : BunitContext
     public void Not_Invited_Shows_The_Notice__F006_FR003()
     {
         _sync.State = AccountState.NotInvited;
+        _sync.AccountId = "oid-de-prueba";
 
         var cut = Render<AccountNotices>();
 
         Assert.Contains("no está invitada", cut.Find("[data-testid=not-invited]").TextContent);
+        Assert.Contains("oid-de-prueba", cut.Find("[data-testid=not-invited]").TextContent);
         Assert.Equal(1, _sync.Initializations);
     }
 
@@ -226,6 +228,8 @@ public sealed class FakeAccountSync : IAccountSync
     public SyncStatus Status { get; set; } = SyncStatus.Synced;
 
     public string? Name { get; set; }
+
+    public string? AccountId { get; set; }
 
     public bool IsAdmin { get; set; }
 
