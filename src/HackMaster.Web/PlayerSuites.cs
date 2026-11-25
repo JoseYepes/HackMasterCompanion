@@ -1,4 +1,5 @@
 using HackMaster.Domain;
+using HackMaster.Web.Account;
 
 namespace HackMaster.Web;
 
@@ -10,7 +11,7 @@ public sealed record SuiteSaveResult(PlayerSuite? Saved, string? Problem);
 /// <c>hackmaster.suites</c>). Se muestran junto a los 36 de la hoja, sin distinguirse (aclaración
 /// de la spec); sus valores se calculan al mostrarlos con los datos vigentes (research §8).
 /// </summary>
-public sealed class PlayerSuites(GameData data, BrowserStore store)
+public sealed class PlayerSuites(GameData data, BrowserStore store, AccountSession? session = null)
 {
     private const string StorageKey = "hackmaster.suites";
 
@@ -23,6 +24,7 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
     private readonly SemaphoreSlim _loadGate = new(1, 1);
     private PlayerSuitesFile _file = PlayerSuitesFile.Empty;
     private bool _loaded;
+    private bool _subscribed;
 
     /// <summary>Motivo por el que no se pudieron leer los conjuntos guardados; mientras exista no se guarda nada, para no perderlos.</summary>
     public string? LoadError { get; private set; }
@@ -39,6 +41,7 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
     /// <summary>Lee los conjuntos guardados la primera vez; las siguientes no hace nada.</summary>
     public async Task LoadAsync()
     {
+        Subscribe();
         await _loadGate.WaitAsync();
         try
         {
@@ -59,12 +62,35 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
     }
 
     /// <summary>
+    /// Olvida lo leído para volver a leerlo la próxima vez: al cambiar de cuenta (lo de la anterior no
+    /// se ve, F006 FR-009) o cuando llega algo de la cuenta.
+    /// </summary>
+    public void Invalidate()
+    {
+        _file = PlayerSuitesFile.Empty;
+        LoadError = null;
+        _loaded = false;
+    }
+
+    private void Subscribe()
+    {
+        if (_subscribed || session is null)
+        {
+            return;
+        }
+
+        _subscribed = true;
+        session.Changed += Invalidate;
+    }
+
+    /// <summary>
     /// Vuelve a leer lo guardado justo antes de escribir, para no borrar lo que haya guardado otra
     /// pestaña mientras tanto (SC-005). Si no hay nada guardado (datos del sitio borrados), se
     /// conserva lo que hay en memoria y se vuelve a escribir.
     /// </summary>
     private async Task RefreshAsync()
     {
+        Subscribe();
         await _loadGate.WaitAsync();
         try
         {
@@ -172,6 +198,28 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
         string? originalSlug,
         DateTimeOffset now)
     {
+        if (session is not null)
+        {
+            await session.DataGate.WaitAsync();
+        }
+
+        try
+        {
+            return await SaveLockedAsync(name, components, abilities, originalSlug, now);
+        }
+        finally
+        {
+            session?.DataGate.Release();
+        }
+    }
+
+    private async Task<SuiteSaveResult> SaveLockedAsync(
+        string name,
+        IReadOnlyList<SuiteComponentRef> components,
+        IReadOnlyList<Ability> abilities,
+        string? originalSlug,
+        DateTimeOffset now)
+    {
         await RefreshAsync();
         if (LoadError is not null)
         {
@@ -213,14 +261,26 @@ public sealed class PlayerSuites(GameData data, BrowserStore store)
 
     public async Task DeleteAsync(string slug)
     {
-        await RefreshAsync();
-        if (LoadError is not null)
+        if (session is not null)
         {
-            return;
+            await session.DataGate.WaitAsync();
         }
 
-        _file = _file with { Suites = [.. _file.Suites.Where(suite => suite.Slug != slug)] };
-        await store.SetAsync(StorageKey, StoredData.Write(_file));
+        try
+        {
+            await RefreshAsync();
+            if (LoadError is not null)
+            {
+                return;
+            }
+
+            _file = _file with { Suites = [.. _file.Suites.Where(suite => suite.Slug != slug)] };
+            await store.SetAsync(StorageKey, StoredData.Write(_file));
+        }
+        finally
+        {
+            session?.DataGate.Release();
+        }
     }
 
     /// <summary>Un conjunto del jugador con la forma de un conjunto de la hoja y sus valores calculados.</summary>

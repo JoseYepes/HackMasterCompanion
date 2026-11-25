@@ -1,0 +1,99 @@
+name: Desplegar en Azure
+
+# Despliega la infraestructura de F006 y la API (infra/README.md). Entra en Azure con OIDC: no hay
+# contraseñas ni claves en el repositorio. Mientras no esté preparada la cuenta de Azure
+# (variable AZURE_CLIENT_ID), no hace nada.
+on:
+  push:
+    branches: [main]
+    paths:
+      - infra/**
+      - src/HackMaster.Api/**
+      - src/HackMaster.Domain/**
+      - .github/workflows/azure.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: azure
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    name: Presupuesto, recursos y API
+    needs: verify
+    if: vars.AZURE_CLIENT_ID != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: azure
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Instalar el SDK de .NET fijado en global.json
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: Entrar en Azure (OIDC)
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      # Constitución VII: el presupuesto con sus avisos va antes que cualquier recurso.
+      - name: Presupuesto
+        env:
+          BUDGET_EMAIL: ${{ secrets.BUDGET_EMAIL }}
+          BUDGET_START_DATE: ${{ vars.BUDGET_START_DATE }}
+        run: |
+          az deployment sub create --name hackmaster-presupuesto --location westeurope \
+            --template-file infra/budget.bicep \
+            --parameters contactEmail="$BUDGET_EMAIL" startDate="$BUDGET_START_DATE" \
+            --output none
+
+      - name: Grupo de recursos
+        run: az group create --name "$RESOURCE_GROUP" --location westeurope --tags proyecto=hackmaster --output none
+
+      - name: Recursos
+        env:
+          ADMIN_ACCOUNT_IDS: ${{ secrets.ADMIN_ACCOUNT_IDS }}
+          AUTH_AUTHORITY: ${{ vars.AUTH_AUTHORITY }}
+          AUTH_AUDIENCE: ${{ vars.AUTH_AUDIENCE }}
+          ALLOWED_ORIGINS: ${{ vars.ALLOWED_ORIGINS }}
+        run: |
+          site=$(az deployment group create --name hackmaster --resource-group "$RESOURCE_GROUP" \
+            --template-file infra/main.bicep \
+            --parameters authAuthority="$AUTH_AUTHORITY" authAudience="$AUTH_AUDIENCE" \
+              allowedOrigins="$ALLOWED_ORIGINS" adminAccountIds="$ADMIN_ACCOUNT_IDS" \
+            --query properties.outputs.siteName.value --output tsv)
+          echo "SITE_NAME=$site" >> "$GITHUB_ENV"
+
+      - name: Publicar la API
+        run: dotnet publish src/HackMaster.Api -c Release -o api-publish
+
+      - name: Obtener el token de despliegue
+        run: |
+          token=$(az staticwebapp secrets list --name "$SITE_NAME" --resource-group "$RESOURCE_GROUP" --query properties.apiKey --output tsv)
+          echo "::add-mask::$token"
+          echo "SWA_TOKEN=$token" >> "$GITHUB_ENV"
+
+      - name: Desplegar la API
+        uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9 # v1
+        with:
+          azure_static_web_apps_api_token: ${{ env.SWA_TOKEN }}
+          action: upload
+          app_location: infra/swa-placeholder
+          api_location: api-publish
+          skip_app_build: true
+          skip_api_build: true

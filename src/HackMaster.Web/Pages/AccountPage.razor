@@ -1,0 +1,99 @@
+@page "/cuenta"
+@implements IDisposable
+@inject IServiceProvider Services
+
+<PageTitle>Mi cuenta · @AppInfo.Name</PageTitle>
+
+<h1>Mi cuenta</h1>
+
+@if (_sync is null || _sync.State != AccountState.SignedIn)
+{
+    <p data-testid="account-signed-out">Inicia sesión para guardar tus datos en tu cuenta y verlos en tus otros dispositivos.</p>
+}
+else
+{
+    <p data-testid="account-summary">Has iniciado sesión como <strong>@_sync.Name</strong>. @StatusText</p>
+
+    <section aria-labelledby="account-data">
+        <h2 id="account-data">Tus datos</h2>
+        <p>Descarga un archivo con todo lo que hay guardado en tu cuenta.</p>
+        <div class="suite-actions">
+            <button type="button" data-testid="account-download" disabled="@_busy" @onclick="DownloadAsync">Descargar mis datos</button>
+            @if (_sync.IsAdmin)
+            {
+                <a class="button-link" href="invitaciones" data-testid="account-invitations">Invitaciones</a>
+            }
+        </div>
+    </section>
+
+    <section aria-labelledby="account-delete">
+        <h2 id="account-delete">Borrar la cuenta</h2>
+        <p>
+            Borra de la nube todo lo guardado en tu cuenta. La copia de este dispositivo se queda. Para
+            confirmarlo, escribe BORRAR.
+        </p>
+        <label for="delete-confirm">Confirmación</label>
+        <input id="delete-confirm" data-testid="account-delete-confirm" autocomplete="off" @bind="_confirm" @bind:event="oninput" />
+        <div class="suite-actions">
+            <button type="button" class="primary" data-testid="account-delete" disabled="@(_busy || _confirm.Trim() != "BORRAR")" @onclick="DeleteAsync">Borrar mi cuenta</button>
+        </div>
+    </section>
+}
+
+@if (_message is not null)
+{
+    <p role="status" data-testid="account-message">@_message</p>
+}
+
+@code {
+    private IAccountSync? _sync;
+    private string _confirm = "";
+    private string? _message;
+    private bool _busy;
+
+    private string StatusText => _sync?.Status switch
+    {
+        SyncStatus.Pending => "Hay cambios pendientes de subir.",
+        SyncStatus.Failed => "Ahora no se puede sincronizar; tus cambios se guardan en este dispositivo.",
+        _ => "Todo está sincronizado.",
+    };
+
+    protected override void OnInitialized()
+    {
+        _sync = Services.GetService(typeof(IAccountSync)) as IAccountSync;
+        if (_sync is not null)
+        {
+            _sync.Changed += OnChanged;
+        }
+    }
+
+    private async Task DownloadAsync()
+    {
+        _busy = true;
+        _message = await _sync!.DownloadAccountDataAsync() ?? "Descargado.";
+        _busy = false;
+    }
+
+    private async Task DeleteAsync()
+    {
+        if (_confirm.Trim() != "BORRAR")
+        {
+            return;
+        }
+
+        _busy = true;
+        _message = await _sync!.DeleteAccountAsync() ?? "Cuenta borrada. Los datos de este dispositivo se quedan.";
+        _confirm = "";
+        _busy = false;
+    }
+
+    private void OnChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        if (_sync is not null)
+        {
+            _sync.Changed -= OnChanged;
+        }
+    }
+}

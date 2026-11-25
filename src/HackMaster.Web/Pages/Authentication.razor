@@ -1,0 +1,27 @@
+@page "/authentication/{action}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IServiceProvider Services
+
+@* Vuelta del inicio y cierre de sesión (F006). Sin inicio de sesión configurado no hay nada que hacer. *@
+@if ((Services.GetService(typeof(IAccountSync)) as IAccountSync)?.State is null or AccountState.NotConfigured)
+{
+    <h1>Sesión</h1>
+    <p>El inicio de sesión no está disponible en esta versión de la aplicación.</p>
+}
+else
+{
+    <RemoteAuthenticatorView Action="@Action">
+        <LoggingIn><p role="status">Iniciando sesión…</p></LoggingIn>
+        <CompletingLoggingIn><p role="status">Terminando de iniciar sesión…</p></CompletingLoggingIn>
+        <LogInFailed><h1>Sesión</h1><p role="alert">No se ha podido iniciar sesión. Inténtalo de nuevo.</p></LogInFailed>
+        <LogOut><p role="status">Cerrando sesión…</p></LogOut>
+        <CompletingLogOut><p role="status">Terminando de cerrar sesión…</p></CompletingLogOut>
+        <LogOutFailed><h1>Sesión</h1><p role="alert">No se ha podido cerrar la sesión.</p></LogOutFailed>
+        <LogOutSucceeded><h1>Sesión</h1><p>Has cerrado la sesión. Ves los datos de este dispositivo.</p></LogOutSucceeded>
+    </RemoteAuthenticatorView>
+}
+
+@code {
+    [Parameter]
+    public string? Action { get; set; }
+}

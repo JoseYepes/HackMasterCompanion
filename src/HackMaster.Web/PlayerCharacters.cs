@@ -1,4 +1,5 @@
 using HackMaster.Domain;
+using HackMaster.Web.Account;
 using Microsoft.JSInterop;
 
 namespace HackMaster.Web;
@@ -24,7 +25,7 @@ public enum SaveMode
 /// Lo guardado se vuelve a leer al abrir cada página y justo antes de escribir, para ver y no borrar
 /// lo que haya cambiado otra pestaña; si lo guardado no se pudo leer no se escribe nada (FR-010).
 /// </summary>
-public sealed class PlayerCharacters(IndexedStore store)
+public sealed class PlayerCharacters(IndexedStore store, AccountSession? session = null)
 {
     /// <summary>Motivo que devuelve guardar una ficha nueva cuyo identificador ya existe.</summary>
     public const string AlreadyExists = "Ya hay una ficha con el mismo identificador en este dispositivo.";
@@ -33,6 +34,7 @@ public sealed class PlayerCharacters(IndexedStore store)
 
     private readonly SemaphoreSlim _gate = new(1, 1);
     private CharactersFile _file = CharactersFile.Empty;
+    private string? _account;
 
     /// <summary>Motivo por el que no se pudieron leer las fichas guardadas; mientras exista no se guarda nada.</summary>
     public string? LoadError { get; private set; }
@@ -142,6 +144,23 @@ public sealed class PlayerCharacters(IndexedStore store)
 
     private async Task<string?> ChangeAsync(Func<IReadOnlyList<Character>, (IReadOnlyList<Character>? Changed, string? Problem)> change)
     {
+        if (session is not null)
+        {
+            await session.DataGate.WaitAsync();
+        }
+
+        try
+        {
+            return await ChangeLockedAsync(change);
+        }
+        finally
+        {
+            session?.DataGate.Release();
+        }
+    }
+
+    private async Task<string?> ChangeLockedAsync(Func<IReadOnlyList<Character>, (IReadOnlyList<Character>? Changed, string? Problem)> change)
+    {
         await _gate.WaitAsync();
         try
         {
@@ -173,6 +192,13 @@ public sealed class PlayerCharacters(IndexedStore store)
     /// </summary>
     private async Task ReadAsync()
     {
+        if (session?.AccountId != _account)
+        {
+            // Otra cuenta, o sin sesión: lo que había en memoria era de la anterior (F006 FR-009).
+            _account = session?.AccountId;
+            _file = CharactersFile.Empty;
+        }
+
         var stored = await store.GetAsync(StorageKey);
         if (stored.Failed)
         {

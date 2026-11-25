@@ -1,3 +1,4 @@
+using HackMaster.Web.Account;
 using Microsoft.JSInterop;
 
 namespace HackMaster.Web;
@@ -5,9 +6,10 @@ namespace HackMaster.Web;
 /// <summary>
 /// Guarda texto en el <c>localStorage</c> del navegador. Si el navegador no deja guardar (modo
 /// privado, espacio lleno), no falla: conserva los valores en memoria mientras la página siga
-/// abierta y avisa con <see cref="AvailabilityChanged"/> (FR-019).
+/// abierta y avisa con <see cref="AvailabilityChanged"/> (FR-019). Con sesión, cada cuenta usa sus
+/// propias claves y los cambios se anuncian con <see cref="Written"/> para subirlos (F006).
 /// </summary>
-public sealed class BrowserStore(IJSRuntime js)
+public sealed class BrowserStore(IJSRuntime js, AccountSession? session = null)
 {
     private readonly Dictionary<string, string> _memory = new(StringComparer.Ordinal);
 
@@ -17,11 +19,19 @@ public sealed class BrowserStore(IJSRuntime js)
     /// <summary>Se lanza cuando <see cref="IsAvailable"/> cambia.</summary>
     public event Action? AvailabilityChanged;
 
+    /// <summary>Se lanza tras guardar, con sesión, una clave que se lleva a la cuenta (clave base y valor).</summary>
+    public event Func<string, string, Task>? Written;
+
     /// <summary>
     /// Valor guardado con esa clave, o nulo si no hay ninguno. Mientras el navegador deje guardar se
     /// lee siempre de él, para ver lo que haya guardado otra pestaña; si no, de la memoria.
     /// </summary>
-    public async Task<string?> GetAsync(string key)
+    public Task<string?> GetAsync(string key) => GetRawAsync(session?.Key(key) ?? key);
+
+    /// <summary>Lo guardado sin sesión con esa clave, aunque haya una sesión iniciada (para subirlo a la cuenta, F006 US4).</summary>
+    public Task<string?> GetDeviceAsync(string key) => GetRawAsync(key);
+
+    private async Task<string?> GetRawAsync(string key)
     {
         if (!IsAvailable)
         {
@@ -42,6 +52,17 @@ public sealed class BrowserStore(IJSRuntime js)
     /// <summary>Guarda el valor; si el navegador no deja, lo conserva en memoria y avisa.</summary>
     public async Task SetAsync(string key, string value)
     {
+        await SetLocalAsync(key, value);
+        if (session?.IsSynced(key) == true && Written is { } written)
+        {
+            await written(key, value);
+        }
+    }
+
+    /// <summary>Guarda el valor sin anunciarlo: para lo que llega de la cuenta.</summary>
+    public async Task SetLocalAsync(string key, string value)
+    {
+        key = session?.Key(key) ?? key;
         _memory[key] = value;
         try
         {

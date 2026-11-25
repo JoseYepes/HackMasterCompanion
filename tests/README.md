@@ -106,3 +106,17 @@ Grimorio (F009):
   la orden `DataImport conjuros`.
 - `GrimoirePagesTests` (bUnit) y `E2E/GrimoireTests`: lista, filtros en la dirección, ficha, reglas
   y desbordamiento.
+
+Cuentas y sincronización (F006):
+
+- `Sync/*Tests` (dominio): claves por cuenta, cola de cambios pendientes y reglas de fusión (gana el
+  cambio más reciente; en empate, la nube).
+- `HackMaster.Api.Tests`: validación del token con una clave de prueba, CORS y, contra el emulador de
+  Cosmos DB, datos, aislamiento entre cuentas, invitaciones, exportar y borrar. Las pruebas del
+  emulador se saltan si no está. Para ejecutarlas:
+
+  ```
+  docker run -d --name hm-cosmos -p 8081:8081 mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-preview
+  $env:COSMOS_EMULATOR_ENDPOINT = "http://localhost:8081"
+  dotnet test tests/HackMaster.Api.Tests
+  ```

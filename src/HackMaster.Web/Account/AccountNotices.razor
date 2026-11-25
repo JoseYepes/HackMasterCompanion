@@ -1,0 +1,111 @@
+@implements IDisposable
+@inject IServiceProvider Services
+
+@* Avisos de la cuenta bajo la cabecera (F006; contracts/ui.md): sin invitación, estado de la
+   sincronización, conflictos y la pregunta de la primera sesión (US4). También arranca la sesión. *@
+@if (_sync is not null)
+{
+    @if (_sync.State == AccountState.NotInvited)
+    {
+        <div class="storage-warning account-notice" role="alert" data-testid="not-invited">
+            <p>
+                Esta cuenta no está invitada. Pide acceso a quien administra la aplicación.
+                @if (_sync.AccountId is not null)
+                {
+                    <br /><small>Identificador de tu cuenta: <code>@_sync.AccountId</code></small>
+                }
+            </p>
+            <button type="button" class="account-button" @onclick="_sync.SignOutAsync">Cerrar sesión</button>
+        </div>
+    }
+    else if (_sync.State == AccountState.SignedIn)
+    {
+        @if (_sync.NeedsDeviceChoice)
+        {
+            <div class="storage-warning account-notice" role="dialog" aria-labelledby="device-choice-title" data-testid="device-choice">
+                <p id="device-choice-title">
+                    @if (_sync.AccountHasData)
+                    {
+                        <text>Tu cuenta ya tiene datos. ¿Añades también las fichas y conjuntos que tienes en este dispositivo? Si hay uno igual en los dos sitios, se queda el más reciente; no se borra nada.</text>
+                    }
+                    else
+                    {
+                        <text>Tienes fichas o conjuntos en este dispositivo. ¿Los subes a tu cuenta para verlos en tus otros dispositivos?</text>
+                    }
+                </p>
+                <div class="suite-actions">
+                    <button type="button" class="primary" data-testid="device-upload" @onclick="_sync.UploadDeviceDataAsync">Subir a mi cuenta</button>
+                    <button type="button" data-testid="device-keep" @onclick="_sync.KeepDeviceDataAsync">Dejarlos solo en este dispositivo</button>
+                </div>
+            </div>
+        }
+
+        @if (_sync.Status == SyncStatus.Failed)
+        {
+            <p class="storage-warning" role="status" data-testid="sync-failed">
+                No se puede sincronizar con tu cuenta. Tus cambios se guardan en este dispositivo y se subirán más tarde.
+            </p>
+        }
+        else if (_sync.Status == SyncStatus.Pending)
+        {
+            <p class="storage-warning" role="status" data-testid="sync-pending">
+                Cambios pendientes: se subirán a tu cuenta cuando vuelva la conexión.
+            </p>
+        }
+    }
+
+    @foreach (var warning in _warnings)
+    {
+        <div class="storage-warning account-notice" role="status" data-testid="sync-warning">
+            <p>@warning</p>
+            <button type="button" class="account-button" aria-label="Cerrar el aviso" @onclick="() => _warnings.Remove(warning)">Cerrar</button>
+        </div>
+    }
+}
+
+@code {
+    private readonly List<string> _warnings = [];
+    private IAccountSync? _sync;
+
+    protected override void OnInitialized()
+    {
+        _sync = Services.GetService(typeof(IAccountSync)) as IAccountSync;
+        if (_sync is null)
+        {
+            return;
+        }
+
+        _sync.Changed += OnChanged;
+        _sync.Warning += OnWarning;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && _sync is not null)
+        {
+            await _sync.InitializeAsync();
+            _sync.StartRetries();
+        }
+    }
+
+    private void OnChanged() => InvokeAsync(StateHasChanged);
+
+    private void OnWarning(string text) => InvokeAsync(() =>
+    {
+        if (!_warnings.Contains(text))
+        {
+            _warnings.Add(text);
+        }
+
+        StateHasChanged();
+    });
+
+    public void Dispose()
+    {
+        if (_sync is not null)
+        {
+            _sync.Changed -= OnChanged;
+            _sync.Warning -= OnWarning;
+        }
+    }
+}
