@@ -22,10 +22,12 @@
 - `isIos`: iPhone, iPad o iPod (también iPad que se presenta como Mac con pantalla táctil).
 - `isStandalone`: abierta como aplicación instalada.
 
-Registro: en el evento `load`, `navigator.serviceWorker.register('service-worker.js',
+Registro: con la primera suscripción (la aplicación ya se ve, FR-013; la revisión vio que tras `load`
+la copia competía con la descarga de Blazor), `navigator.serviceWorker.register('service-worker.js',
 { updateViaCache: 'none' })`; sin `serviceWorker` no hace nada. Al volver a la pestaña
 (`visibilitychange`) llama a `registration.update()`. En `controllerchange`, si la página ya estaba
-bajo un trabajador, recarga.
+bajo un trabajador, recarga. `applyUpdate()` sin trabajador esperando (otra pestaña ya actualizó) recarga
+la página.
 
 ## Trabajador publicado (`service-worker.published.js`)
 
@@ -33,6 +35,6 @@ bajo un trabajador, recarga.
   `service-worker.js`, `*.br` y `*.gz`, con su resumen de integridad.
 - En `activate` borra las cachés `hackmaster-offline-*` de otras versiones.
 - En `message` con `SKIP_WAITING` llama a `skipWaiting()`.
-- En `fetch` solo responde si: método GET, mismo origen, dentro del ámbito y sin empezar por
-  `{ámbito}authentication/`. Navegación que no es un archivo → `index.html` de la caché; resto →
+- En `fetch` solo responde si: método GET, mismo origen y dentro del ámbito.
+  Navegación que no es un archivo (también `authentication/…`) → `index.html` de la caché; resto →
   caché o, si no está, la red.

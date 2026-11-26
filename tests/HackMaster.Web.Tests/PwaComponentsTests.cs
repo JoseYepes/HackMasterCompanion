@@ -86,6 +86,26 @@ public class PwaComponentsTests : BunitContext
     }
 
     [Fact]
+    public async Task Removed_Before_The_Script_Answers_Still_Stops_Listening__ContractsPwa()
+    {
+        // Revisión independiente: si el componente se quita antes de que llegue el número de
+        // suscripción, el script se quedaba avisando a un componente que ya no existe.
+        var answer = JSInterop.Setup<int>("hackmasterPwa.subscribe", _ => true);
+        Render<InstallPrompt>();
+
+        await DisposeComponentsAsync();
+        answer.SetResult(9);
+
+        // La respuesta del script se procesa después; se espera hasta 2 s.
+        for (var i = 0; i < 40 && JSInterop.Invocations["hackmasterPwa.unsubscribe"].Count == 0; i++)
+        {
+            await Task.Delay(50);
+        }
+
+        Assert.Equal(9, JSInterop.Invocations["hackmasterPwa.unsubscribe"].Single().Arguments[0]);
+    }
+
+    [Fact]
     public void Update_Notice_Is_Hidden_Without_A_New_Version__FR008()
     {
         var cut = Render<UpdateNotice>();
@@ -129,6 +149,20 @@ public class PwaComponentsTests : BunitContext
 
         Assert.Equal(0, sync.SignIns);
         Assert.Contains("hace falta conexión", cut.Find("[data-testid=sign-in-offline]").TextContent, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Sign_In_Without_The_Script_Goes_On_As_Before__FR006_F006_FR001()
+    {
+        var sync = new FakeAccountSync { State = AccountState.SignedOut };
+        Services.AddSingleton<IAccountSync>(sync);
+        JSInterop.Setup<bool>("hackmasterPwa.isOffline").SetException(new Microsoft.JSInterop.JSException("hackmasterPwa is not defined"));
+        var cut = Render<LoginDisplay>();
+
+        cut.Find("[data-testid=sign-in]").Click();
+
+        Assert.Equal(1, sync.SignIns);
+        Assert.Empty(cut.FindAll("[data-testid=sign-in-offline]"));
     }
 
     [Fact]

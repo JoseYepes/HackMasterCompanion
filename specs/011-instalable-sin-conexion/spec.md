@@ -109,8 +109,8 @@ siguen ahí.
   no se abre (como hoy).
 - Iniciar sesión sin conexión: no se puede; la aplicación lo dice con un mensaje claro en lugar de
   llevar a un error del navegador.
-- Las direcciones de inicio y cierre de sesión (`authentication/…`) y las peticiones a la cuenta en la
-  nube nunca se responden con una copia guardada.
+- Volver de iniciar sesión cuando ya hay una versión nueva publicada: la dirección `authentication/…`
+  carga la aplicación guardada (la misma versión que la página), no una mezcla de las dos.
 - Dos pestañas abiertas cuando llega una versión nueva: ninguna se rompe por mezclar archivos de dos
   versiones; la nueva se usa cuando se pulsa «Actualizar» o se cierran todas.
 - Desarrollo local: la copia sin conexión no se activa al probar en el equipo, para que los cambios
@@ -132,9 +132,11 @@ siguen ahí.
   sonidos.
 - **FR-004**: Sin conexión, DEBEN funcionar todas las páginas que no necesitan la cuenta, también al
   recargar o al abrir directamente una dirección interna.
-- **FR-005**: La copia NO DEBE incluir ni responder las direcciones de inicio y cierre de sesión
-  (`authentication/…`), las peticiones a la cuenta en la nube ni nada de otros sitios; esas siempre
-  van a la red.
+- **FR-005**: La copia NO DEBE guardar nada del inicio y cierre de sesión ni de la cuenta en la nube:
+  las peticiones a la cuenta, a Entra y a cualquier otro sitio van siempre a la red. Las direcciones
+  `authentication/…` cargan la aplicación guardada, que termina el inicio de sesión en el propio
+  dispositivo; así nunca se mezclan archivos de dos versiones al volver de iniciar sesión
+  (revisión independiente, 2026-11-26).
 - **FR-006**: Sin conexión, el botón «Iniciar sesión» DEBE avisar de que hace falta conexión en lugar
   de llevar a una página de error.
 - **FR-007**: Cuando se publique una versión nueva, la aplicación DEBE descargarla en segundo plano al
@@ -150,8 +152,8 @@ siguen ahí.
 - **FR-011**: En desarrollo local la copia sin conexión NO DEBE activarse.
 - **FR-012**: Lo que se añada a la interfaz DEBE estar en castellano, verse en los dos modos (F007) y
   no desbordar en horizontal a 390 px ni a 820 px.
-- **FR-013**: Preparar la copia NO DEBE retrasar la primera carga: se hace cuando la página ya está
-  abierta (F003 FR-016).
+- **FR-013**: Preparar la copia NO DEBE retrasar la primera carga: se empieza cuando la aplicación ya
+  se ve (F003 FR-016).
 
 ### Key Entities
 
@@ -173,8 +175,8 @@ siguen ahí.
 - **SC-003**: La aplicación cumple lo que el navegador pide para instalar (descripción con nombre,
   icono de 192 y 512 px, página de inicio, ventana propia y trabajo sin conexión), comprobado por una
   prueba automática.
-- **SC-004**: Ninguna petición a `authentication/…`, a la cuenta en la nube o a otros sitios queda en
-  la copia (prueba automática).
+- **SC-004**: La copia solo tiene archivos propios de la aplicación: nada de `authentication/…`, de la
+  cuenta en la nube ni de otros sitios (prueba automática).
 - **SC-005**: Tras publicar una versión nueva, el 100 % de lo guardado en el dispositivo sigue igual,
   sale el aviso y «Actualizar» muestra la versión nueva (prueba automática con dos versiones).
 - **SC-006**: Lo que se descarga antes de que la aplicación se vea no crece más de un 1 % (como F008

@@ -72,15 +72,29 @@ public sealed class PublishedSite : IDisposable
             File.Copy(file, target);
         }
 
-        var port = FreePort();
-        Origin = new Uri($"http://localhost:{port}/");
-        _listener.Prefixes.Add(Origin.ToString());
-        _listener.Start();
+        // El puerto libre se elige antes de abrirlo; si otro proceso lo toma entre medias, se prueba otro
+        // (revisión independiente).
+        for (var attempt = 1; ; attempt++)
+        {
+            Origin = new Uri($"http://localhost:{FreePort()}/");
+            _listener.Prefixes.Clear();
+            _listener.Prefixes.Add(Origin.ToString());
+            try
+            {
+                _listener.Start();
+                break;
+            }
+            catch (HttpListenerException) when (attempt < 5)
+            {
+                // Puerto ocupado: otro intento.
+            }
+        }
+
         _loop = Task.Run(ServeAsync);
     }
 
     /// <summary>Origen del sitio, terminado en «/».</summary>
-    public Uri Origin { get; }
+    public Uri Origin { get; private set; } = default!;
 
     /// <summary>Dirección de la aplicación (con la ruta base).</summary>
     public Uri AppUri => new(Origin, BasePath);

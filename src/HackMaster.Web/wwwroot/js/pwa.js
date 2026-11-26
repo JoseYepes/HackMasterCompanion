@@ -76,21 +76,25 @@
       hadController = true;
     });
 
-    // Tras la carga, para no retrasar la primera vista (FR-013).
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).then(function (reg) {
-        registration = reg;
-        watch(reg.waiting);
-        // La comprobación al abrir la página pudo empezar antes de este punto.
-        watch(reg.installing);
-        reg.addEventListener('updatefound', function () { watch(reg.installing); });
-      }).catch(function () {
-        // Sin trabajador (modo privado, navegador sin soporte): la aplicación funciona con conexión.
-      });
-    });
-
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'visible' && registration) registration.update().catch(function () { });
+    });
+  }
+
+  // Se registra con la primera suscripción, cuando la aplicación ya se ve: tras `load`, la copia
+  // competía con la descarga de Blazor (FR-013, revisión independiente).
+  var registering = false;
+  function register() {
+    if (registering || !('serviceWorker' in navigator)) return;
+    registering = true;
+    navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).then(function (reg) {
+      registration = reg;
+      watch(reg.waiting);
+      // La comprobación al abrir la página pudo empezar antes de este punto.
+      watch(reg.installing);
+      reg.addEventListener('updatefound', function () { watch(reg.installing); });
+    }).catch(function () {
+      // Sin trabajador (modo privado, navegador sin soporte): la aplicación funciona con conexión.
     });
   }
 
@@ -98,6 +102,7 @@
     subscribe: function (dotnetRef) {
       var id = nextId++;
       subscribers[id] = dotnetRef;
+      register();
       dotnetRef.invokeMethodAsync('OnPwaState', snapshot()).catch(function () { });
       return id;
     },
@@ -114,7 +119,12 @@
       });
     },
     applyUpdate: function () {
-      if (registration && registration.waiting) registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      if (registration && registration.waiting) {
+        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+      } else {
+        // Otra pestaña ya la aplicó: basta con recargar.
+        window.location.reload();
+      }
     },
     isOffline: function () {
       return navigator.onLine === false;

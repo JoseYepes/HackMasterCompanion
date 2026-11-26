@@ -60,10 +60,10 @@ public sealed class OfflineTests(PublishedBrowserFixture fixture) : IClassFixtur
         await page.GotoAsync(site.AppUri.ToString());
         await page.Locator("h1").First.WaitForAsync();
         // Con tope: si no hay trabajador de servicio, la prueba falla en lugar de esperar para siempre.
-        await page.WaitForFunctionAsync(
-            "async () => (await navigator.serviceWorker.getRegistration())?.active?.state === 'activated'",
-            null,
-            new PageWaitForFunctionOptions { Timeout = 60_000, PollingInterval = 250 });
+        // (WaitForFunction no sirve: una promesa cuenta como «cierto» al instante.)
+        var ready = await page.EvaluateAsync<bool>(
+            "() => Promise.race([navigator.serviceWorker.ready.then(() => true), new Promise(resolve => setTimeout(() => resolve(false), 60000))])");
+        Assert.True(ready, "El trabajador de servicio no llegó a activarse en 60 s.");
         await page.ReloadAsync();
         await page.Locator("h1").First.WaitForAsync();
         await page.WaitForFunctionAsync("() => navigator.serviceWorker.controller !== null", null, new PageWaitForFunctionOptions { Timeout = 30_000 });
@@ -106,7 +106,7 @@ public sealed class OfflineTests(PublishedBrowserFixture fixture) : IClassFixtur
             Assert.False(string.IsNullOrEmpty(spell));
 
             // Cada dirección se abre escribiéndola (recarga completa), no navegando dentro de la aplicación.
-            foreach (var uri in new[] { string.Empty, "habilidades", skill!, "conjuntos", "conjuntos/nuevo", "estilos", "grimorio", spell!, "grimorio/reglas", "dudas", "dados", "fichas", "fichas/nueva" })
+            foreach (var uri in new[] { string.Empty, "habilidades", "habilidades?q=" + Uri.EscapeDataString("espada"), skill!, "conjuntos", "conjuntos/nuevo", "estilos", "grimorio", spell!, "grimorio/reglas", "dudas", "dados", "fichas", "fichas/nueva" })
             {
                 await GoAsync(page, site, uri);
                 await AssertNoOverflowAsync(page, $"/{uri} sin conexión a {viewport.Width} px");
@@ -155,9 +155,11 @@ public sealed class OfflineTests(PublishedBrowserFixture fixture) : IClassFixtur
         await GoAsync(page, site, "estilos");
         Assert.DoesNotContain(PublishedSite.BasePath + "estilos", site.Requests);
 
-        // …pero el inicio de sesión siempre va a la red (F006).
-        await GoAsync(page, site, "authentication/login");
-        Assert.Contains(PublishedSite.BasePath + "authentication/login", site.Requests);
+        // La vuelta del inicio de sesión carga la aplicación guardada, de la misma versión que la página,
+        // en lugar de traer de la red un index.html quizá más nuevo (FR-005, revisión independiente).
+        await GoAsync(page, site, "authentication/login-callback");
+        Assert.DoesNotContain(site.Requests, path => path.Contains("/authentication/", StringComparison.Ordinal));
+        Assert.DoesNotContain(await CachedUrlsAsync(page), url => url.Contains("/authentication/", StringComparison.Ordinal));
         await page.Context.CloseAsync();
     }
 
@@ -221,9 +223,20 @@ public sealed class OfflineTests(PublishedBrowserFixture fixture) : IClassFixtur
         await page.Locator("[data-testid=update-apply]").ClickAsync();
         await reloaded.Task.WaitAsync(TimeSpan.FromSeconds(30));
         await page.Locator("h1").First.WaitForAsync();
-        await page.WaitForFunctionAsync(
-            "async name => { const keys = await caches.keys(); return keys.length === 1 && keys[0] === name; }",
-            "hackmaster-offline-" + newVersion);
+        // Queda solo la copia nueva: la vieja se borra al activarse (FR-007).
+        string[] keys = [];
+        for (var i = 0; i < 120; i++)
+        {
+            keys = await page.EvaluateAsync<string[]>("() => caches.keys()");
+            if (keys.SequenceEqual(["hackmaster-offline-" + newVersion]))
+            {
+                break;
+            }
+
+            await Task.Delay(250);
+        }
+
+        Assert.Equal(["hackmaster-offline-" + newVersion], keys);
 
         Assert.NotEqual(oldVersion, newVersion);
         Assert.Empty(await page.Locator("[data-testid=update-ready]").AllAsync());

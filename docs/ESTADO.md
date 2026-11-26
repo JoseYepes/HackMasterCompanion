@@ -4,7 +4,7 @@
 > las specs: decisiones tomadas de palabra, hallazgos y lo que queda por decidir. Actualízala al
 > terminar cada sesión.
 
-Última actualización: 2026-11-19
+Última actualización: 2026-11-26
 
 ## Dónde estamos
 
@@ -48,8 +48,38 @@
   prueba de colores sueltos a todas las funciones y nombres de color de CSS. **Sin corregir**
   (menor): las pestañas no se avisan del cambio de modo; las demás lo toman al recargar.
   Pruebas: 556 unitarias y 27 de navegador.
-- **Pendiente sin funcionalidad asignada**: hacer la aplicación instalable y que funcione sin
-  conexión (PWA: trabajador de servicio y manifiesto), que pide `PRODUCTO.md` A1 y A2.
+- **F013 (Aplicación instalable y sin conexión)**: antes «pendiente sin funcionalidad asignada»
+  (hallazgo de F007; lo piden `PRODUCTO.md` A1 y A2). Numerada F013 y puesta antes de F010, F011 y
+  F012 por el usuario el 2026-11-26. Rama `011-instalable-sin-conexion`,
+  `specs/011-instalable-sin-conexion/`. **Aclarado con el usuario**: aviso «Hay una versión nueva» con
+  botón «Actualizar» (sin pulsarlo, la versión nueva entra al cerrar y volver a abrir); botón
+  «Instalar» propio en el inicio y nota de iPhone («Compartir → Añadir a pantalla de inicio»); la
+  copia sin conexión guarda todo, también los dados 3D y los sonidos (unos 15 MB en el dispositivo,
+  unos 5 MB de descarga comprimida, en segundo plano); icono propio dibujado con código (d20 dorado
+  sobre granate, `tools/Icons/New-AppIcons.ps1`). **Implementado (2026-11-26)**, sin paquetes nuevos:
+  trabajador de servicio de la plantilla de Blazor (`ServiceWorkerAssetsManifest`) con la ruta base
+  sacada del ámbito, solo GET del propio sitio (la API de F006 y Entra, de otro origen, no pasan por
+  él) y una copia por versión; `js/pwa.js` registra el trabajador cuando la aplicación ya se ve,
+  avisa de versiones nuevas y guarda el aviso de instalar; componentes `UpdateNotice` (en la barra) e
+  `InstallPrompt` (en el inicio); «Iniciar sesión» sin conexión avisa en lugar de ir a una página de
+  error. La reescritura de la ruta base pasó de `pages.yml` a `tools/pages/apply-base-path.sh`, que
+  además recalcula el resumen de `index.html` (si no, el trabajador rechazaría la copia). **Pruebas**:
+  archivos de la PWA (xUnit), avisos (bUnit) y 5 de navegador contra el **sitio publicado** con su
+  ruta base, sin conexión, en un servidor de prueba propio (`HttpListener`); trabajo nuevo de CI
+  `published`. Las 5 se vieron fallar con la versión de `main` y pasar con esta. Lo que se descarga
+  antes de verse la aplicación crece un 0,04 % (`pwa.js`, 1,6 KB comprimido). **Revisión
+  independiente**: sin hallazgos graves; corregido, con prueba: la vuelta del inicio de sesión traía de
+  la red el `index.html` de una versión nueva bajo el trabajador viejo y mezclaba versiones (ahora
+  `authentication/…` carga la aplicación guardada y nada de la sesión se guarda; se cambió FR-005); el
+  registro tras `load` competía con la descarga de Blazor; una suscripción se quedaba viva si el
+  componente se quitaba pronto; «Actualizar» sin versión esperando no hacía nada (ahora recarga); el
+  puerto del servidor de prueba podía estar ocupado; dos esperas de las pruebas de navegador no
+  esperaban (una promesa cuenta como «cierto» al instante). **Sin corregir** (menor): la nota de
+  iPhone no se puede cerrar; el aviso «sin conexión» de la cabecera no se ha visto a 390 px (en el
+  sitio de prueba no hay cuenta configurada); en Android, si la aplicación instalada se queda abierta
+  en segundo plano, la versión nueva tarda en entrar hasta que se pulsa «Actualizar» o se cierra.
+  **Falta**: la prueba del usuario en su móvil (T016, SC-002: abrir en modo avión en menos de 3 s).
+
 - **F008 (Dados personalizables y sonido)**, pedida por el usuario el 2026-11-18. Rama
   `006-dados-personalizables`, `specs/006-dados-personalizables/`. Aclarado con el usuario sobre un
   prototipo 3D: 11 materiales (los 8 del prototipo más madera, piedra y cristal), un aspecto para

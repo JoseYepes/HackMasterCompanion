@@ -15,8 +15,12 @@ serían una dependencia nueva sin necesidad.
 - Qué se guarda: todos los archivos del manifiesto de recursos (FR-003, aclaración: 3D y sonidos
   incluidos) salvo el propio `service-worker.js` y las copias comprimidas (`.br`, `.gz`). La lista de
   extensiones de la plantilla dejaba fuera `.woff2` y `.ogg`.
-- Qué se responde: solo GET del mismo origen y dentro del ámbito; `authentication/…` va siempre a la
-  red (FR-005). Las peticiones a la API de F006 y a Entra son de otro origen: el trabajador no las toca.
+- Qué se responde: solo GET del mismo origen y dentro del ámbito. Las peticiones a la API de F006 y a
+  Entra son de otro origen: el trabajador no las toca. `authentication/…` es una navegación más y
+  recibe el `index.html` guardado, como en la plantilla: la vuelta del inicio de sesión la procesa la
+  aplicación en el dispositivo y no se guarda nada. Al principio iba a la red, pero la revisión
+  independiente vio que, con una versión nueva publicada, traía el `index.html` nuevo bajo el
+  trabajador viejo y mezclaba versiones (FR-005, FR-007).
 - Navegación: cualquier dirección interna que no sea un archivo se responde con `index.html` de la
   caché (FR-004), igual que hace `404.html` en GitHub Pages.
 - Instalación atómica: `cache.addAll` falla entero si falla un archivo; una caché a medias se borra y

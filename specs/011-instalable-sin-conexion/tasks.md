@@ -31,7 +31,7 @@ Las pruebas van **antes** del código y se ven fallar.
 
 - [x] T012 Trabajo de CI `published` en `.github/workflows/ci.yml`: publicar, `apply-base-path.sh`, instalar Chromium y `--filter Category=Published`.
 - [x] T013 Comprobar SC-006 (lo descargado antes de verse crece < 1 %) y anotarlo; actualizar `tests/README.md`.
-- [ ] T014 Revisión independiente con un subagente; corregir con prueba cada hallazgo.
+- [x] T014 Revisión independiente con un subagente; corregir con prueba cada hallazgo.
 - [ ] T015 `docs/ESTADO.md`, pull request y CI en verde.
 - [ ] T016 Prueba del usuario en su móvil (SC-002), tras publicar.
 

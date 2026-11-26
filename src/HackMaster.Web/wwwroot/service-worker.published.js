@@ -1,7 +1,7 @@
 // Trabajador de servicio publicado (F013, specs/011-instalable-sin-conexion/contracts/pwa.md).
 // Parte de la plantilla de Blazor WebAssembly (https://aka.ms/blazor-offline-considerations) con tres
 // cambios: la ruta base sale del ámbito (GitHub Pages sirve en /HackMasterCompanion/), solo responde a
-// GET del propio sitio y deja pasar a la red el inicio y cierre de sesión (F006).
+// GET del propio sitio (la API de F006 y Entra van directas a la red) y guarda todos los archivos.
 
 self.importScripts('./service-worker-assets.js');
 self.addEventListener('install', event => event.waitUntil(onInstall()));
@@ -15,7 +15,6 @@ const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
 // el propio trabajador y las copias comprimidas, que el navegador nunca pide por su nombre.
 const offlineAssetsExclude = [/^service-worker\.js$/, /\.br$/, /\.gz$/];
 const scope = self.registration.scope;
-const authenticationPrefix = `${scope}authentication/`;
 const assets = self.assetsManifest.assets
     .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)));
 const assetUrls = new Set(assets.map(asset => new URL(asset.url, scope).href));
@@ -50,8 +49,8 @@ function onMessage(event) {
 function onFetch(event) {
     const request = event.request;
     // Solo GET del propio sitio y dentro del ámbito. La API de F006, Entra y cualquier otro sitio son de
-    // otro origen y van a la red sin pasar por aquí; el inicio y cierre de sesión, también (FR-005).
-    if (request.method !== 'GET' || !request.url.startsWith(scope) || request.url.startsWith(authenticationPrefix)) {
+    // otro origen y van a la red sin pasar por aquí (FR-005).
+    if (request.method !== 'GET' || !request.url.startsWith(scope)) {
         return;
     }
 
@@ -60,7 +59,9 @@ function onFetch(event) {
 
 async function fromCache(request) {
     // Una dirección interna (/habilidades/…, /fichas/…) no es un archivo: se responde con index.html,
-    // como hace 404.html en GitHub Pages (FR-004).
+    // como hace 404.html en GitHub Pages (FR-004). También authentication/…: la vuelta del inicio de
+    // sesión la procesa la aplicación en el dispositivo y no se guarda nada; con el index.html guardado
+    // es la misma versión que el resto de archivos (FR-005, FR-007).
     const url = new URL(request.url);
     url.hash = '';
     const isPage = request.mode === 'navigate' && !assetUrls.has(url.href);
