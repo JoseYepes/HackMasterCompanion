@@ -106,6 +106,8 @@ public sealed partial class PwaFilesTests
         var worker = File.ReadAllText(WebFile("service-worker.js"));
         Assert.DoesNotContain("caches", worker, StringComparison.Ordinal);
         Assert.DoesNotContain("respondWith", worker, StringComparison.Ordinal);
+        // Un «fetch» vacío retrasa cada recarga sin hacer nada (CI de F013).
+        Assert.DoesNotContain("addEventListener", worker, StringComparison.Ordinal);
     }
 
     private static string Purpose(JsonElement icon) =>
