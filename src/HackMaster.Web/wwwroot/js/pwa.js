@@ -81,6 +81,8 @@
       navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' }).then(function (reg) {
         registration = reg;
         watch(reg.waiting);
+        // La comprobación al abrir la página pudo empezar antes de este punto.
+        watch(reg.installing);
         reg.addEventListener('updatefound', function () { watch(reg.installing); });
       }).catch(function () {
         // Sin trabajador (modo privado, navegador sin soporte): la aplicación funciona con conexión.

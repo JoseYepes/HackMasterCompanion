@@ -95,8 +95,8 @@ tests/HackMaster.Web.Tests/
 ├── PwaFilesTests.cs                 # descripción, iconos, index.html (sin navegador)
 ├── PwaComponentsTests.cs            # bUnit: UpdateNotice, InstallPrompt, LoginDisplay
 └── Published/                       # Playwright contra el sitio publicado
-    ├── PublishedSiteServer.cs       # HttpListener con la ruta base y 404.html como Pages
-    ├── PublishedFactAttribute.cs    # se omite sin HACKMASTER_PUBLISHED_DIR
+    ├── PublishedSite.cs             # HttpListener con la ruta base y 404.html como Pages;
+    │                                # PublishedFact se omite sin HACKMASTER_PUBLISHED_DIR
     └── OfflineTests.cs              # sin conexión, versiones, instalabilidad, caché
 ```
 
