@@ -9,7 +9,7 @@
 | `unsubscribe(id)` | Deja de avisar. |
 | `install()` → `bool` | Abre el aviso de instalar del navegador; `true` si se aceptó. |
 | `applyUpdate()` | Manda `{ type: 'SKIP_WAITING' }` al trabajador que espera; la página se recarga al cambiar. |
-| `isOnline()` → `bool` | `navigator.onLine`. |
+| `isOffline()` → `bool` | `true` si el navegador dice que no hay conexión (`navigator.onLine === false`). |
 
 `estado` (se lee en C# como `PwaState`):
 

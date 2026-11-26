@@ -50,6 +50,11 @@
   <link rel="preload" href="fonts/eb-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="css/app.css" />
   <link rel="icon" type="image/png" href="favicon.png" />
+  <!-- Aplicación instalable (F013, specs/011-instalable-sin-conexion). -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-title" content="HackMaster" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <script type="importmap"></script>
 </head>
 
@@ -67,6 +72,9 @@
     <a href="." class="reload">Recargar</a>
     <span class="dismiss">🗙</span>
   </div>
+  <!-- Sin conexión, versiones nuevas e instalar (F013, contracts/pwa.md); antes de Blazor para no
+       perder el aviso de instalar del navegador. -->
+  <script src="js/pwa.js"></script>
   <!-- Inicio de sesión (F006); sin configuración en appsettings.json no hace nada. -->
   <script src="_content/Microsoft.Authentication.WebAssembly.Msal/AuthenticationService.js"></script>
   <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>

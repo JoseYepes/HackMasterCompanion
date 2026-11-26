@@ -24,6 +24,11 @@
     <None Include="..\..\src\HackMaster.Web\wwwroot\sounds\*" Link="sounds\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- Archivos que hacen instalable la aplicación, que comprueba PwaFilesTests (F013). -->
+  <ItemGroup>
+    <None Include="..\..\src\HackMaster.Web\wwwroot\*.webmanifest;..\..\src\HackMaster.Web\wwwroot\icon-*.png;..\..\src\HackMaster.Web\wwwroot\index.html;..\..\src\HackMaster.Web\wwwroot\service-worker*.js;..\..\src\HackMaster.Web\HackMaster.Web.csproj" Link="pwa\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\HackMaster.Web\HackMaster.Web.csproj" />
   </ItemGroup>

@@ -71,6 +71,6 @@ copia el sitio a una carpeta temporal y cambia la versión de `service-worker-as
 
 ## R7. Iniciar sesión sin conexión (FR-006)
 
-`LoginDisplay` pregunta a `pwa.js` si hay conexión (`navigator.onLine`) antes de ir a
+`LoginDisplay` pregunta a `pwa.js` si no hay conexión (`isOffline`, `navigator.onLine`) antes de ir a
 `authentication/login`; sin conexión muestra «Sin conexión: para iniciar sesión hace falta conexión.»
 Si el script no está (pruebas), se considera que hay conexión y se sigue como hasta ahora.

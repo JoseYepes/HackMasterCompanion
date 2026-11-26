@@ -1,0 +1,18 @@
+{
+  "name": "HackMaster Companion",
+  "short_name": "HackMaster",
+  "description": "Habilidades, conjuros, fichas de PJ y dados de HackMaster 4.ª edición en castellano.",
+  "lang": "es",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3e7cc",
+  "theme_color": "#5a1f1b",
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ]
+}

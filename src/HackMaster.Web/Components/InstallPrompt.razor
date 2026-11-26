@@ -1,0 +1,36 @@
+@using Microsoft.JSInterop
+@inherits PwaComponent
+
+@* Botón «Instalar» y nota de iPhone en la página de inicio (F013 FR-010). Abierta como aplicación
+   instalada no se ve nada. *@
+@if (!Pwa.IsStandalone)
+{
+    @if (Pwa.CanInstall)
+    {
+        <p class="install-prompt">
+            <button type="button" class="primary" data-testid="install" @onclick="InstallAsync">Instalar</button>
+            Instala la aplicación para abrirla con un toque y usarla sin conexión.
+        </p>
+    }
+    else if (Pwa.IsIos)
+    {
+        <p class="install-prompt" data-testid="install-ios">
+            Para instalar la aplicación y usarla sin conexión, pulsa <strong>Compartir</strong> y después
+            <strong>Añadir a pantalla de inicio</strong>.
+        </p>
+    }
+}
+
+@code {
+    private async Task InstallAsync()
+    {
+        try
+        {
+            await JS.InvokeAsync<bool>("hackmasterPwa.install");
+        }
+        catch (JSException)
+        {
+            // El navegador ya no ofrece instalar; el botón se quitará con el siguiente aviso.
+        }
+    }
+}

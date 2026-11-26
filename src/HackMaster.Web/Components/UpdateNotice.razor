@@ -1,0 +1,26 @@
+@using Microsoft.JSInterop
+@inherits PwaComponent
+
+@* Aviso de versión nueva bajo la cabecera (F013 FR-008). «Actualizar» recarga con ella; sin pulsarlo,
+   se usa la próxima vez que se abra la aplicación. *@
+@if (Pwa.UpdateReady)
+{
+    <div class="storage-warning account-notice" role="status" data-testid="update-ready">
+        <p>Hay una versión nueva de la aplicación.</p>
+        <button type="button" class="account-button" data-testid="update-apply" @onclick="ApplyAsync">Actualizar</button>
+    </div>
+}
+
+@code {
+    private async Task ApplyAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("hackmasterPwa.applyUpdate");
+        }
+        catch (JSException)
+        {
+            // Sin script no hay versión que aplicar.
+        }
+    }
+}
