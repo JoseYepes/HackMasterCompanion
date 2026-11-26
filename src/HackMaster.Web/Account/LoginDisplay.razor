@@ -1,5 +1,7 @@
+@using Microsoft.JSInterop
 @implements IDisposable
 @inject IServiceProvider Services
+@inject IJSRuntime JS
 
 @* Sesión en la cabecera (F006 FR-001; contracts/ui.md). Sin inicio de sesión configurado no se ve. *@
 @if (_sync is { State: not AccountState.NotConfigured })
@@ -18,13 +20,37 @@
         }
         else if (_sync.State == AccountState.SignedOut)
         {
-            <button type="button" class="account-button" data-testid="sign-in" @onclick="_sync.SignInAsync">Iniciar sesión</button>
+            <button type="button" class="account-button" data-testid="sign-in" @onclick="SignInAsync">Iniciar sesión</button>
+            @if (_offline)
+            {
+                <span class="account-offline" role="alert" data-testid="sign-in-offline">Sin conexión: para iniciar sesión hace falta conexión.</span>
+            }
         }
     </div>
 }
 
 @code {
     private IAccountSync? _sync;
+    private bool _offline;
+
+    // Sin conexión no se va a la página de inicio de sesión, que no se guarda para usarla sin conexión
+    // (F013 FR-005 y FR-006): se avisa. Sin js/pwa.js se sigue como antes.
+    private async Task SignInAsync()
+    {
+        try
+        {
+            _offline = await JS.InvokeAsync<bool>("hackmasterPwa.isOffline");
+        }
+        catch (JSException)
+        {
+            _offline = false;
+        }
+
+        if (!_offline && _sync is not null)
+        {
+            await _sync.SignInAsync();
+        }
+    }
 
     private string StatusText => _sync?.Status switch
     {

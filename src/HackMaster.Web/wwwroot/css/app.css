@@ -1605,3 +1605,23 @@ html[data-theme="dark"] .dice-board {
 .invitation-email {
   overflow-wrap: anywhere;
 }
+
+/* Aplicación instalable (F013): botón «Instalar», nota de iPhone y aviso sin conexión */
+
+.install-prompt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  background: var(--card);
+}
+
+.account-offline {
+  max-width: 12rem;
+  color: var(--nav-ink);
+  font-size: 0.875rem;
+  line-height: 1.2;
+}

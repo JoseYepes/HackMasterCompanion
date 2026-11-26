@@ -79,6 +79,8 @@ public class BrowserStoreTests : BunitContext
         JSInterop.SetupVoid("localStorage.setItem", _ => true).SetException(new JSException("SecurityError"));
         // F007: la barra lleva el botón de modo, que pregunta el modo actual al arrancar.
         JSInterop.Setup<string>("hackmasterTheme.current").SetResult("light");
+        // F013: la barra lleva el aviso de versión nueva, que escucha a js/pwa.js.
+        JSInterop.Setup<int>("hackmasterPwa.subscribe", _ => true).SetResult(1);
         var store = NewStore();
         Services.AddSingleton(store);
         var cut = Render<MainLayout>();

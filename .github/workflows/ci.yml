@@ -108,3 +108,33 @@ jobs:
         env:
           HACKMASTER_E2E_URL: http://localhost:5238/
         run: dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=E2E"
+
+  published:
+    name: Pruebas del sitio publicado (sin conexión)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Instalar el SDK de .NET fijado en global.json
+        uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          global-json-file: global.json
+
+      - name: Construir
+        run: dotnet build -warnaserror
+
+      - name: Instalar Chromium para Playwright
+        run: pwsh tests/HackMaster.Web.Tests/bin/Debug/net10.0/playwright.ps1 install --with-deps chromium
+
+      # F013: la aplicación como se publica en GitHub Pages, con su ruta base y su trabajador de
+      # servicio (specs/011-instalable-sin-conexion/quickstart.md).
+      - name: Publicar con la ruta base
+        run: |
+          dotnet publish src/HackMaster.Web -c Release -o publish
+          bash tools/pages/apply-base-path.sh publish/wwwroot /HackMasterCompanion/
+
+      - name: Ejecutar las pruebas del sitio publicado
+        env:
+          HACKMASTER_PUBLISHED_DIR: ${{ github.workspace }}/publish/wwwroot
+        run: dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=Published"

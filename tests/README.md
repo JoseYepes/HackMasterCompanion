@@ -107,6 +107,29 @@ Grimorio (F009):
 - `GrimoirePagesTests` (bUnit) y `E2E/GrimoireTests`: lista, filtros en la dirección, ficha, reglas
   y desbordamiento.
 
+Aplicación instalable y sin conexión (F013):
+
+- `PwaFilesTests` (sin navegador): la descripción de la aplicación (`manifest.webmanifest`), sus iconos
+  de 192 y 512 px, los enlaces de `index.html` y que el trabajador de servicio de desarrollo no guarda
+  nada.
+- `PwaComponentsTests` (bUnit): botón «Instalar», nota de iPhone, aviso «Hay una versión nueva» e
+  «Iniciar sesión» sin conexión, con `js/pwa.js` simulado.
+- `Published/OfflineTests` (`Category=Published`): el **sitio publicado** con su ruta base, servido por
+  un servidor de prueba incluido en las pruebas (como GitHub Pages, con `404.html`). Comprueba, sin
+  conexión, todas las pantallas a 390 y 820 px; qué guarda el trabajador de servicio (nada de
+  `authentication/` ni de otros sitios); que Chromium no ve errores de instalabilidad; y que una versión
+  nueva muestra el aviso y «Actualizar» la carga sin perder lo guardado. Se omite sin
+  `HACKMASTER_PUBLISHED_DIR`:
+
+  ```
+  dotnet publish src/HackMaster.Web -c Release -o publish
+  bash tools/pages/apply-base-path.sh publish/wwwroot /HackMasterCompanion/
+  $env:HACKMASTER_PUBLISHED_DIR = "$PWD/publish/wwwroot"
+  dotnet test tests/HackMaster.Web.Tests --no-build --filter "Category=Published"
+  ```
+
+  En GitHub lo hace el trabajo `published` de `.github/workflows/ci.yml`.
+
 Cuentas y sincronización (F006):
 
 - `Sync/*Tests` (dominio): claves por cuenta, cola de cambios pendientes y reglas de fusión (gana el

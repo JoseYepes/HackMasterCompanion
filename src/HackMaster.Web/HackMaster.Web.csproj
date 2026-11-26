@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
+    <!-- Aplicación sin conexión (F013): el SDK genera la lista de archivos con sus resúmenes. -->
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +16,11 @@
   <ItemGroup>
     <!-- Datos de juego generados por tools/DataImport; viajan incrustados en la aplicación. -->
     <EmbeddedResource Include="..\..\data\*.json" LogicalName="HackMaster.Data.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- En desarrollo no guarda nada; al publicar se usa el que guarda la aplicación (F013). -->
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
   <ItemGroup>

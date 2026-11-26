@@ -37,15 +37,10 @@ jobs:
       - name: Publicar la aplicación
         run: dotnet publish src/HackMaster.Web -c Release -o publish
 
+      # Ruta base, resumen de index.html para el trabajador de servicio (F013) y 404.html para que
+      # las direcciones internas carguen la aplicación.
       - name: Aplicar la ruta base
-        run: |
-          sed -i "s|<base href=\"/\" />|<base href=\"${PAGES_BASE_PATH}\" />|" publish/wwwroot/index.html
-          grep -q "<base href=\"${PAGES_BASE_PATH}\" />" publish/wwwroot/index.html
-          # Las copias comprimidas se generaron antes del cambio y quedarían obsoletas.
-          rm -f publish/wwwroot/index.html.br publish/wwwroot/index.html.gz
-
-      - name: Hacer que las direcciones internas carguen la aplicación
-        run: cp publish/wwwroot/index.html publish/wwwroot/404.html
+        run: bash tools/pages/apply-base-path.sh publish/wwwroot "${PAGES_BASE_PATH}"
 
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
