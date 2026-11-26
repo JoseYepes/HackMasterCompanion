@@ -47,6 +47,10 @@ Como jugador, quiero crear, editar, duplicar, borrar, exportar e importar fichas
 Como jugador, quiero que la ficha calcule la maestría de mis habilidades y me deje tirarlas.
 **Aceptación:** un test por regla, con casos de los manuales referenciados por libro y página en el nombre del test. Cambiada por el usuario el 2026-11-20: los PC (puntos de construcción) solo sirven al crear el personaje y van en la futura creación de PJ (F010), no en la ficha.
 
+### F013 — Aplicación instalable y sin conexión (antes de F010, F011 y F012)
+Como jugador, quiero instalar la aplicación en el móvil o el ordenador y usarla en la mesa aunque no haya conexión, como piden A1 y A2.
+**Aceptación:** se puede instalar desde el navegador y se abre como una aplicación propia, con su nombre e icono; tras la primera visita con conexión, todo lo que no necesita la cuenta funciona sin conexión, incluso al recargar o abrir una dirección interna; el inicio de sesión y la sincronización (F006) no se guardan para usarlos sin conexión; las versiones nuevas llegan sin tener que borrar nada; funciona con la ruta base de GitHub Pages; sin desbordamiento a 390 px y 820 px. Hallazgo de F007; numerada F013 y ordenada por el usuario el 2026-11-26.
+
 ### F011 — Conjuntos y muchas habilidades en la ficha (sin orden todavía)
 Como jugador, quiero añadir a la ficha conjuntos de habilidades como si fueran una habilidad más (ese es el objetivo de un conjunto) y manejar con comodidad fichas con muchas habilidades. Pedida por el usuario el 2026-11-20; se especificará más adelante.
 
